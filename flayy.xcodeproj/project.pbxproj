@@ -56,6 +56,9 @@
 		41B719711F069C9C00A42014 /* flayyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B719701F069C9C00A42014 /* flayyTests.swift */; };
 		41B7197C1F069C9C00A42014 /* flayyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7197B1F069C9C00A42014 /* flayyUITests.swift */; };
 		41B7198A1F06A07D00A42014 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41B719891F06A07D00A42014 /* GoogleService-Info.plist */; };
+		41C51F5D1F1E6DDD003B53D1 /* GroupSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F5C1F1E6DDD003B53D1 /* GroupSelectorViewController.swift */; };
+		41C51F5F1F1E8586003B53D1 /* GroupSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */; };
+		41C51F611F1E8FA3003B53D1 /* MemberDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F601F1E8FA3003B53D1 /* MemberDataTableViewCell.swift */; };
 		41CCFCFB1F0BC5A500F4AC89 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CCFCFA1F0BC5A500F4AC89 /* MapViewController.swift */; };
 		41CCFD011F0C0D8200F4AC89 /* userSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CCFD001F0C0D8200F4AC89 /* userSettings.swift */; };
 		981AFA0237D0A84C99B0521A /* Pods_flayyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4915D23C685FA92623D3F299 /* Pods_flayyUITests.framework */; };
@@ -139,6 +142,9 @@
 		41B7197B1F069C9C00A42014 /* flayyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flayyUITests.swift; sourceTree = "<group>"; };
 		41B7197D1F069C9C00A42014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		41B719891F06A07D00A42014 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		41C51F5C1F1E6DDD003B53D1 /* GroupSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSelectorViewController.swift; sourceTree = "<group>"; };
+		41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSettingsViewController.swift; sourceTree = "<group>"; };
+		41C51F601F1E8FA3003B53D1 /* MemberDataTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberDataTableViewCell.swift; sourceTree = "<group>"; };
 		41CCFCF51F0AB55D00F4AC89 /* flayy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = flayy.entitlements; sourceTree = "<group>"; };
 		41CCFCFA1F0BC5A500F4AC89 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		41CCFD001F0C0D8200F4AC89 /* userSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userSettings.swift; sourceTree = "<group>"; };
@@ -192,7 +198,12 @@
 		417F78261F0D4AA600844794 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4101DCD01F13BEC90096FC84 /* One.swift */,
+				4101DCD21F13C4890096FC84 /* Two.swift */,
+				4101DCDB1F13D56C0096FC84 /* Three.swift */,
+				4101DCD61F13C51B0096FC84 /* Four.swift */,
 				417F78241F0D1A8500844794 /* userData.swift */,
+				41C51F601F1E8FA3003B53D1 /* MemberDataTableViewCell.swift */,
 				417E64881F193D4C00DDA8F8 /* orderModel.swift */,
 				417E648A1F193D9400DDA8F8 /* menuItems.swift */,
 				417E64861F193C6E00DDA8F8 /* controlTabla.swift */,
@@ -215,6 +226,7 @@
 		4183E4D31F0D5CF700ECBED4 /* Hdlrs */ = {
 			isa = PBXGroup;
 			children = (
+				4101DCD81F13CB760096FC84 /* Gif.swift */,
 				4183E4D41F0D5D0F00ECBED4 /* getData.swift */,
 				417E64751F19180A00DDA8F8 /* userDataObj.swift */,
 			);
@@ -261,12 +273,9 @@
 				41CCFCFA1F0BC5A500F4AC89 /* MapViewController.swift */,
 				41CCFD001F0C0D8200F4AC89 /* userSettings.swift */,
 				4194EA991F1044F0002A4F21 /* HelpController.swift */,
-				4101DCD01F13BEC90096FC84 /* One.swift */,
-				4101DCD21F13C4890096FC84 /* Two.swift */,
-				4101DCDB1F13D56C0096FC84 /* Three.swift */,
-				4101DCD61F13C51B0096FC84 /* Four.swift */,
-				4101DCD81F13CB760096FC84 /* Gif.swift */,
 				417E646F1F16703200DDA8F8 /* MapController.swift */,
+				41C51F5C1F1E6DDD003B53D1 /* GroupSelectorViewController.swift */,
+				41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */,
 			);
 			path = flayy;
 			sourceTree = "<group>";
@@ -427,6 +436,9 @@
 						DevelopmentTeam = QXZXSCK29J;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -663,6 +675,7 @@
 			files = (
 				4101DCD71F13C51B0096FC84 /* Four.swift in Sources */,
 				410836FF1F1CFEB500F929F4 /* menuDesignViewController.swift in Sources */,
+				41C51F5F1F1E8586003B53D1 /* GroupSettingsViewController.swift in Sources */,
 				41B7195E1F069C9C00A42014 /* LoginViewController.swift in Sources */,
 				417F78251F0D1A8500844794 /* userData.swift in Sources */,
 				41CCFCFB1F0BC5A500F4AC89 /* MapViewController.swift in Sources */,
@@ -672,12 +685,14 @@
 				4101DCD31F13C4890096FC84 /* Two.swift in Sources */,
 				410837051F1D141800F929F4 /* helpViewController.swift in Sources */,
 				4101DCDC1F13D56C0096FC84 /* Three.swift in Sources */,
+				41C51F5D1F1E6DDD003B53D1 /* GroupSelectorViewController.swift in Sources */,
 				417E64891F193D4C00DDA8F8 /* orderModel.swift in Sources */,
 				417E64761F19180A00DDA8F8 /* userDataObj.swift in Sources */,
 				410837011F1CFED800F929F4 /* gruposSelectViewController.swift in Sources */,
 				41CCFD011F0C0D8200F4AC89 /* userSettings.swift in Sources */,
 				4194EA9A1F1044F0002A4F21 /* HelpController.swift in Sources */,
 				41B7195C1F069C9C00A42014 /* AppDelegate.swift in Sources */,
+				41C51F611F1E8FA3003B53D1 /* MemberDataTableViewCell.swift in Sources */,
 				417E64701F16703200DDA8F8 /* MapController.swift in Sources */,
 				4101DCD91F13CB760096FC84 /* Gif.swift in Sources */,
 				417E64871F193C6E00DDA8F8 /* controlTabla.swift in Sources */,

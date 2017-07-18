@@ -15,13 +15,35 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
     
     @IBOutlet weak var userPhoto: UIImageView!
     
+    @IBOutlet weak var mailText: UITextField!
+    @IBOutlet weak var nameText: UITextField!
+    @IBOutlet weak var editaguarda: UIBarButtonItem!
+    
     var media: Bool?
     
+    @IBAction func guarda(_ sender: Any) {
+        if (inicioCam.isEnabled == false)
+        {
+            self.editaguarda.title = "Guarda"
+            self.editaguarda.tintColor = UIColor.red
+            self.mailText.isEnabled = true
+            self.nameText.isEnabled = true
+            self.inicioCam.isEnabled = true
+        }
+        else{
+            self.editaguarda.title = "Edita"
+            self.editaguarda.tintColor = UIColor.white
+            self.mailText.isEnabled = false
+            self.nameText.isEnabled = false
+            self.inicioCam.isEnabled = false
+        }
+    }
     override func viewDidLoad() {
-        
-        userPhoto.isHidden = true
-        inicioCam.isHidden = false
-        
+        self.title = "Cuenta"
+        self.inicioCam.isEnabled = false
+        self.editaguarda.title = "Edita"
+        self.mailText.isEnabled = false
+        self.nameText.isEnabled = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -42,9 +64,6 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
             self.present(imagePicker, animated: true,completion: nil)
             media = true
         }
-        
-        inicioCam.isHidden = true
-        userPhoto.isHidden = false
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {

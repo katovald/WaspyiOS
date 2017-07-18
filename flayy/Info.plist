@@ -47,6 +47,8 @@
 	<string>Main service</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Store user picture</string>
+	<key>UIBackgroundModes</key>
+	<array/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
