@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "56428D0CA3DFBC623A442236D136A93B98389D64",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "56428D0CA3DFBC623A442236D136A93B98389D64" : 9223372036854775807,
+    "CBF0B0EDB0FB675A1287178CBD498FFF694C9F5A" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "844B4CF8-0F67-419F-B6D2-B2185D9412C4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "56428D0CA3DFBC623A442236D136A93B98389D64" : "flayy\/",
+    "CBF0B0EDB0FB675A1287178CBD498FFF694C9F5A" : "..\/CAMSA\/CamsaContigo"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "flayy",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "flayy.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/katovald\/camsa",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "56428D0CA3DFBC623A442236D136A93B98389D64"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/camsacode.visualstudio.com\/DefaultCollection\/_git\/CamsaContigo",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CBF0B0EDB0FB675A1287178CBD498FFF694C9F5A"
+    }
+  ]
+}

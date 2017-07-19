@@ -1,0 +1,6 @@
+framework module Pods_flayyUITests {
+  umbrella header "Pods-flayyUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
