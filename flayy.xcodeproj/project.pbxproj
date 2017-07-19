@@ -16,6 +16,10 @@
 		4101DCD71F13C51B0096FC84 /* Four.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4101DCD61F13C51B0096FC84 /* Four.swift */; };
 		4101DCD91F13CB760096FC84 /* Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4101DCD81F13CB760096FC84 /* Gif.swift */; };
 		4101DCDC1F13D56C0096FC84 /* Three.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4101DCDB1F13D56C0096FC84 /* Three.swift */; };
+		4104F4041F1FBC6D00F222B9 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4104F4031F1FBC6D00F222B9 /* PlacesViewController.swift */; };
+		4104F4061F1FD6BB00F222B9 /* ic28_casita.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4104F4051F1FD6BB00F222B9 /* ic28_casita.jpg */; };
+		4104F40A1F1FE66D00F222B9 /* PlacesMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4104F4091F1FE66D00F222B9 /* PlacesMapViewController.swift */; };
+		4104F40C1F200BC800F222B9 /* PlacesConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4104F40B1F200BC800F222B9 /* PlacesConfigViewController.swift */; };
 		410836FF1F1CFEB500F929F4 /* menuDesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410836FE1F1CFEB500F929F4 /* menuDesignViewController.swift */; };
 		410837011F1CFED800F929F4 /* gruposSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410837001F1CFED800F929F4 /* gruposSelectViewController.swift */; };
 		410837031F1CFEF800F929F4 /* membersSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410837021F1CFEF800F929F4 /* membersSelectViewController.swift */; };
@@ -96,6 +100,10 @@
 		4101DCD61F13C51B0096FC84 /* Four.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Four.swift; sourceTree = "<group>"; };
 		4101DCD81F13CB760096FC84 /* Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gif.swift; sourceTree = "<group>"; };
 		4101DCDB1F13D56C0096FC84 /* Three.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Three.swift; sourceTree = "<group>"; };
+		4104F4031F1FBC6D00F222B9 /* PlacesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
+		4104F4051F1FD6BB00F222B9 /* ic28_casita.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = ic28_casita.jpg; path = ../../../Downloads/ic28_casita.jpg; sourceTree = "<group>"; };
+		4104F4091F1FE66D00F222B9 /* PlacesMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesMapViewController.swift; sourceTree = "<group>"; };
+		4104F40B1F200BC800F222B9 /* PlacesConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesConfigViewController.swift; sourceTree = "<group>"; };
 		410836FE1F1CFEB500F929F4 /* menuDesignViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = menuDesignViewController.swift; sourceTree = "<group>"; };
 		410837001F1CFED800F929F4 /* gruposSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gruposSelectViewController.swift; sourceTree = "<group>"; };
 		410837021F1CFEF800F929F4 /* membersSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = membersSelectViewController.swift; sourceTree = "<group>"; };
@@ -217,6 +225,7 @@
 		4181C5B71F15378D0099A83E /* pruebas */ = {
 			isa = PBXGroup;
 			children = (
+				4104F4051F1FD6BB00F222B9 /* ic28_casita.jpg */,
 				4181C5C01F1562040099A83E /* circlo.png */,
 				4181C5BA1F1538C90099A83E /* foto.png */,
 			);
@@ -266,11 +275,14 @@
 				41B7195B1F069C9C00A42014 /* AppDelegate.swift */,
 				41B7195D1F069C9C00A42014 /* LoginViewController.swift */,
 				41B7195F1F069C9C00A42014 /* Main.storyboard */,
+				4104F40B1F200BC800F222B9 /* PlacesConfigViewController.swift */,
+				4104F4031F1FBC6D00F222B9 /* PlacesViewController.swift */,
 				410837041F1D141800F929F4 /* helpViewController.swift */,
 				41B719621F069C9C00A42014 /* Assets.xcassets */,
 				41B719641F069C9C00A42014 /* LaunchScreen.storyboard */,
 				41B719671F069C9C00A42014 /* Info.plist */,
 				41CCFCFA1F0BC5A500F4AC89 /* MapViewController.swift */,
+				4104F4091F1FE66D00F222B9 /* PlacesMapViewController.swift */,
 				41CCFD001F0C0D8200F4AC89 /* userSettings.swift */,
 				4194EA991F1044F0002A4F21 /* HelpController.swift */,
 				417E646F1F16703200DDA8F8 /* MapController.swift */,
@@ -490,6 +502,7 @@
 				4101DCCD1F13B5D20096FC84 /* slide4b.gif in Resources */,
 				4183E4DE1F0DA21300ECBED4 /* grops_small.png in Resources */,
 				4181C5C11F1562040099A83E /* circlo.png in Resources */,
+				4104F4061F1FD6BB00F222B9 /* ic28_casita.jpg in Resources */,
 				4183E4E81F0EA42B00ECBED4 /* local_small.png in Resources */,
 				4183E4E11F0E9C6900ECBED4 /* arrow_up_small.ico in Resources */,
 				4181C5BF1F154CDE0099A83E /* marker_layout.png in Resources */,
@@ -674,13 +687,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				4101DCD71F13C51B0096FC84 /* Four.swift in Sources */,
+				4104F40A1F1FE66D00F222B9 /* PlacesMapViewController.swift in Sources */,
 				410836FF1F1CFEB500F929F4 /* menuDesignViewController.swift in Sources */,
 				41C51F5F1F1E8586003B53D1 /* GroupSettingsViewController.swift in Sources */,
 				41B7195E1F069C9C00A42014 /* LoginViewController.swift in Sources */,
 				417F78251F0D1A8500844794 /* userData.swift in Sources */,
 				41CCFCFB1F0BC5A500F4AC89 /* MapViewController.swift in Sources */,
 				4183E4D51F0D5D0F00ECBED4 /* getData.swift in Sources */,
+				4104F4041F1FBC6D00F222B9 /* PlacesViewController.swift in Sources */,
 				410837031F1CFEF800F929F4 /* membersSelectViewController.swift in Sources */,
+				4104F40C1F200BC800F222B9 /* PlacesConfigViewController.swift in Sources */,
 				4101DCD11F13BEC90096FC84 /* One.swift in Sources */,
 				4101DCD31F13C4890096FC84 /* Two.swift in Sources */,
 				410837051F1D141800F929F4 /* helpViewController.swift in Sources */,

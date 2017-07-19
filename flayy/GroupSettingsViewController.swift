@@ -10,9 +10,12 @@ import UIKit
 
 class GroupSettingsViewController: UIViewController {
 
+    @IBAction func dissmisConfig(_ sender: Any) {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
     @IBOutlet weak var miembros: UITableView!
     
-    var membersArray = ["Juan", "Pepe", "Toño"]
+    var membersArray = ["Juan", "Pepe", "Kato", "Kinich", "Rodrigo", "Haza"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +29,7 @@ class GroupSettingsViewController: UIViewController {
     }
     
 
-    /*
+   
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -34,7 +37,6 @@ class GroupSettingsViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
 
 }
 
