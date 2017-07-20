@@ -9,7 +9,8 @@
 import UIKit
 
 class gruposSelectViewController: UIViewController {
-
+    
+    var grupos = ["Grupo 1","Grupo 2","Grupo 3","Grupo 1","Grupo 1"]
     override func viewDidLoad() {
         super.viewDidLoad()
 
