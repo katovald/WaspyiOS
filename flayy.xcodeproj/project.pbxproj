@@ -18,7 +18,6 @@
 		4101DCDC1F13D56C0096FC84 /* Three.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4101DCDB1F13D56C0096FC84 /* Three.swift */; };
 		4104F4041F1FBC6D00F222B9 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4104F4031F1FBC6D00F222B9 /* PlacesViewController.swift */; };
 		4104F4061F1FD6BB00F222B9 /* ic28_casita.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4104F4051F1FD6BB00F222B9 /* ic28_casita.jpg */; };
-		4104F40A1F1FE66D00F222B9 /* PlacesMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4104F4091F1FE66D00F222B9 /* PlacesMapViewController.swift */; };
 		4104F40C1F200BC800F222B9 /* PlacesConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4104F40B1F200BC800F222B9 /* PlacesConfigViewController.swift */; };
 		410836FF1F1CFEB500F929F4 /* menuDesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410836FE1F1CFEB500F929F4 /* menuDesignViewController.swift */; };
 		410837011F1CFED800F929F4 /* gruposSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410837001F1CFED800F929F4 /* gruposSelectViewController.swift */; };
@@ -60,6 +59,7 @@
 		41B719711F069C9C00A42014 /* flayyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B719701F069C9C00A42014 /* flayyTests.swift */; };
 		41B7197C1F069C9C00A42014 /* flayyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7197B1F069C9C00A42014 /* flayyUITests.swift */; };
 		41B7198A1F06A07D00A42014 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41B719891F06A07D00A42014 /* GoogleService-Info.plist */; };
+		41C2CF331F20F128008F8370 /* PlacesMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4104F4091F1FE66D00F222B9 /* PlacesMapViewController.swift */; };
 		41C51F5D1F1E6DDD003B53D1 /* GroupSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F5C1F1E6DDD003B53D1 /* GroupSelectorViewController.swift */; };
 		41C51F5F1F1E8586003B53D1 /* GroupSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */; };
 		41C51F611F1E8FA3003B53D1 /* MemberDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F601F1E8FA3003B53D1 /* MemberDataTableViewCell.swift */; };
@@ -687,7 +687,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4101DCD71F13C51B0096FC84 /* Four.swift in Sources */,
-				4104F40A1F1FE66D00F222B9 /* PlacesMapViewController.swift in Sources */,
 				410836FF1F1CFEB500F929F4 /* menuDesignViewController.swift in Sources */,
 				41C51F5F1F1E8586003B53D1 /* GroupSettingsViewController.swift in Sources */,
 				41B7195E1F069C9C00A42014 /* LoginViewController.swift in Sources */,
@@ -705,6 +704,7 @@
 				417E64891F193D4C00DDA8F8 /* orderModel.swift in Sources */,
 				417E64761F19180A00DDA8F8 /* userDataObj.swift in Sources */,
 				410837011F1CFED800F929F4 /* gruposSelectViewController.swift in Sources */,
+				41C2CF331F20F128008F8370 /* PlacesMapViewController.swift in Sources */,
 				41CCFD011F0C0D8200F4AC89 /* userSettings.swift in Sources */,
 				4194EA9A1F1044F0002A4F21 /* HelpController.swift in Sources */,
 				41B7195C1F069C9C00A42014 /* AppDelegate.swift in Sources */,
