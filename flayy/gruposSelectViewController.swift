@@ -9,7 +9,16 @@
 import UIKit
 
 class gruposSelectViewController: UIViewController {
-
+    
+    var grupos = ["Grupo 1","Grupo 2","Grupo 3","Grupo 1","Grupo 1"]
+    
+    @IBAction func closeMenu(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    var interactor: Interactor? = nil
+    
+    var menuActionDelegate: MenuActionDelegate? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,17 +30,35 @@ class gruposSelectViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func delay(segundos: Double, completion:@escaping()->()){
+        let tiempoVista = DispatchTime.now() + Double(Int64(Double(NSEC_PER_SEC) * segundos)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: tiempoVista, execute: {completion()
+        })
     }
-    */
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        dismiss(animated: true, completion: {
+            self.delay(segundos: 0.5, completion: {
+                self.menuActionDelegate?.reopenMenu()
+            })
+        })
+    }
 
+}
+
+extension gruposSelectViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return grupos.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+        cell.textLabel?.text = grupos[indexPath.row]
+        return cell
+    }
+}
+
+extension gruposSelectViewController: UITableViewDelegate{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
 }

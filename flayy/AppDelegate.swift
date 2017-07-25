@@ -40,6 +40,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSServices.provideAPIKey("AIzaSyCsKticH0eEpIsY-iB07Py0RFQt8nRQ1Gk")
         GMSPlacesClient.provideAPIKey("AIzaSyDRB6xIV_O1rX_bvc_3BzWfUp0yooLwSD0")
         
+        if (Auth.auth().currentUser == nil){
+            let aux = UIStoryboard(name: "Main", bundle: nil)
+            let view = aux.instantiateViewController(withIdentifier: "inicioWOLogin") as UIViewController
+            window?.rootViewController = view
+        }else{
+            let aux = UIStoryboard(name: "Main", bundle: nil)
+            let view = aux.instantiateViewController(withIdentifier: "inicioWLogin") as UIViewController
+            window?.rootViewController = view
+        }
         return true
     }
     

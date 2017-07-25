@@ -62,10 +62,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-    }
         
     @IBAction func resendCode(_ sender: UIButton) {
     }
@@ -102,6 +98,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         // [START_EXCLUDE]
                         // Merge prevUser and currentUser accounts and data
                         // ...
+                    self.performSegue(withIdentifier: "datosListos", sender: nil)
                         // [END_EXCLUDE]
                     }
                 }
