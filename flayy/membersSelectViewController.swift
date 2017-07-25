@@ -10,11 +10,19 @@ import UIKit
 
 class membersSelectViewController: UIViewController{
 
+    @IBAction func closeMenu(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     var pruebas = ["kato":["bateria":70, "direccion":"Lejos", "picture":UIImage()],
                    "haza":["bateria":70, "direccion":"Lejos", "picture":UIImage()],
                    "Otros":["bateria":70, "direccion":"Lejos", "picture":UIImage()]]
     
     var keys = ["kato","haza","Otros"]
+    
+    let interactor: Interactor? = nil
+    
+    var menuActionDelegate: MenuActionDelegate? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,15 +36,19 @@ class membersSelectViewController: UIViewController{
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func delay(segundos: Double, completion:@escaping()->()){
+        let tiempoVista = DispatchTime.now() + Double(Int64(Double(NSEC_PER_SEC) * segundos)) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: tiempoVista, execute: {completion()
+        })
     }
-    */
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        dismiss(animated: true, completion: {
+            self.delay(segundos: 0.5, completion: {
+                self.menuActionDelegate?.reopenMenu()
+            })
+        })
+    }
 
 }
 

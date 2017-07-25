@@ -9,8 +9,6 @@
 import UIKit
 
 class One: UIViewController{
-    
-    
     @IBOutlet weak var animado: UIImageView!
     
     override func viewDidLoad() {
