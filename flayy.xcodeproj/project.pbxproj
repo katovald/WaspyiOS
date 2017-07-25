@@ -47,6 +47,7 @@
 		4183E4F11F0EE1BD00ECBED4 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4F01F0EE1BD00ECBED4 /* logo.png */; };
 		4183E4F31F0EE2C000ECBED4 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4F21F0EE2C000ECBED4 /* camera.png */; };
 		4183E4F51F0EE2EF00ECBED4 /* camera_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4F41F0EE2EF00ECBED4 /* camera_big.png */; };
+		418A2D9A1F27FA2700A6B049 /* CloudedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418A2D991F27FA2700A6B049 /* CloudedData.swift */; };
 		4194EA9A1F1044F0002A4F21 /* HelpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194EA991F1044F0002A4F21 /* HelpController.swift */; };
 		41B7195C1F069C9C00A42014 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7195B1F069C9C00A42014 /* AppDelegate.swift */; };
 		41B7195E1F069C9C00A42014 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7195D1F069C9C00A42014 /* LoginViewController.swift */; };
@@ -134,6 +135,7 @@
 		4183E4F01F0EE1BD00ECBED4 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../../../Desktop/logo.png; sourceTree = "<group>"; };
 		4183E4F21F0EE2C000ECBED4 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = camera.png; path = ../../../Desktop/camera.png; sourceTree = "<group>"; };
 		4183E4F41F0EE2EF00ECBED4 /* camera_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = camera_big.png; path = ../../../Downloads/camera_big.png; sourceTree = "<group>"; };
+		418A2D991F27FA2700A6B049 /* CloudedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudedData.swift; sourceTree = "<group>"; };
 		4194EA991F1044F0002A4F21 /* HelpController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpController.swift; sourceTree = "<group>"; };
 		41B719581F069C9C00A42014 /* flayy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flayy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41B7195B1F069C9C00A42014 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				41BD62721F265948000EFB05 /* AnimacionPresentar.swift */,
 				41BD62741F266293000EFB05 /* MenuHelper.swift */,
 				41BD62761F266806000EFB05 /* AnimacionOcultar.swift */,
+				418A2D991F27FA2700A6B049 /* CloudedData.swift */,
 			);
 			path = flayy;
 			sourceTree = "<group>";
@@ -714,6 +717,7 @@
 				41BD62731F265948000EFB05 /* AnimacionPresentar.swift in Sources */,
 				41C2CF331F20F128008F8370 /* PlacesMapViewController.swift in Sources */,
 				41CCFD011F0C0D8200F4AC89 /* userSettings.swift in Sources */,
+				418A2D9A1F27FA2700A6B049 /* CloudedData.swift in Sources */,
 				4194EA9A1F1044F0002A4F21 /* HelpController.swift in Sources */,
 				41B7195C1F069C9C00A42014 /* AppDelegate.swift in Sources */,
 				41C51F611F1E8FA3003B53D1 /* MemberDataTableViewCell.swift in Sources */,

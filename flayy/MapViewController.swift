@@ -25,6 +25,7 @@ class MapViewController: UIViewController {
     @IBOutlet weak var gmapView: UIView!                //muestra el mapa en el fondo de la vista
     
     @IBAction func localiza(_ sender: Any) {        //envia coordenadas y las centra en el mapa
+        
     }
     
     @IBAction func dronInicio(_ sender: Any) {      //modo dron

@@ -12,6 +12,7 @@ import GoogleMaps
 class MapController: UIViewController,  GMSMapViewDelegate{
     
     let locationManager = CLLocationManager()
+    var camera = GMSCameraPosition()
     
     override func viewDidLoad() {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -41,14 +42,14 @@ class MapController: UIViewController,  GMSMapViewDelegate{
         marker.title = "Kato"
         marker.iconView = markerView
         
-        let camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.0, bearing: -15, viewingAngle: 45)
+        camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.0, bearing: -15, viewingAngle: 45)
         let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         
         marker.map = mapView
         
         self.view = mapView
     }
-    
+        
     func resizeImage(image: UIImage, newSize: CGSize) -> UIImage {
         
         let newRect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height).integral

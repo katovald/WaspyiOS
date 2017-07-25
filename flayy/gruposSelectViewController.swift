@@ -59,6 +59,6 @@ extension gruposSelectViewController: UITableViewDataSource {
 
 extension gruposSelectViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        menuActionDelegate?.openSegue("configuracionGrupo", sender: nil)
     }
 }
