@@ -51,11 +51,7 @@ class MapViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        if let usuario = Auth.auth().currentUser {
-            super.viewDidLoad()
-        }else{
-            performSegue(withIdentifier: "sesion", sender: nil)
-        }
+        super.viewDidLoad()
     }
     
     override func didReceiveMemoryWarning() {

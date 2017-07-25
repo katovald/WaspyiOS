@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class menuDesignViewController: UIViewController {
     
@@ -62,6 +63,16 @@ extension menuDesignViewController : UITableViewDelegate {
             menuActionDelegate?.openSegue("configLugares", sender: nil)
         case 2:
             menuActionDelegate?.openSegue("datosUsuario", sender: nil)
+        case 3:
+            menuActionDelegate?.openSegue("datosUsuario", sender: nil)
+        case 4:
+            let authApp = Auth.auth()
+            do {
+                try authApp.signOut()
+                menuActionDelegate?.openSegue("helper", sender: nil)
+            }catch let singOutError as NSError{
+                print(singOutError)
+            }
         default:
             break
         }
