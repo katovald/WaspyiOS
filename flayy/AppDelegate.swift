@@ -50,9 +50,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = view
         }
         return true
+        
+        
     }
     
     //[INICIO DE SERVICIO]
+    
+    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
@@ -165,6 +169,7 @@ extension AppDelegate : MessagingDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

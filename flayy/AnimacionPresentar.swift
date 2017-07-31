@@ -17,8 +17,9 @@ extension AnimacionPresentar: UIViewControllerAnimatedTransitioning{
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
-        let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
+        guard
+            let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
+            let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
         else
         {
             return

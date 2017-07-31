@@ -24,6 +24,25 @@ class menuDesignViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    var context = CIContext(options: nil)
+    
+    func blurEffect(foto: UIImage) -> UIImage{
+        
+        let currentFilter = CIFilter(name: "CIGaussianBlur")
+        let beginImage = CIImage(image: foto)
+        currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
+        currentFilter!.setValue(10, forKey: kCIInputRadiusKey)
+        
+        let cropFilter = CIFilter(name: "CICrop")
+        cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
+        cropFilter!.setValue(CIVector(cgRect: beginImage!.extent), forKey: "inputRectangle")
+        
+        let output = cropFilter!.outputImage
+        let cgimg = context.createCGImage(output!, from: output!.extent)
+        let processedImage = UIImage(cgImage: cgimg!)
+        return processedImage
+    }
+    
     func delay(segundos: Double, completion:@escaping()->()){
         let tiempoVista = DispatchTime.now() + Double(Int64(Double(NSEC_PER_SEC) * segundos)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: tiempoVista, execute: {completion()
@@ -37,6 +56,12 @@ class menuDesignViewController: UIViewController {
             })
         })
     }
+    
+    override func viewDidLoad() {
+        self.round.image = UIImage(named: "kato.jpg")
+        self.blur.image = blurEffect(foto: UIImage(named: "kato.jpg")!)
+    }
+    
     
 
 }
@@ -58,7 +83,7 @@ extension menuDesignViewController : UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 0:
-            menuActionDelegate?.openSegue("listaGrupos", sender: nil)
+            menuActionDelegate?.openSegue("listagrupos", sender: nil)
         case 1:
             menuActionDelegate?.openSegue("configLugares", sender: nil)
         case 2:
@@ -69,7 +94,6 @@ extension menuDesignViewController : UITableViewDelegate {
             let authApp = Auth.auth()
             do {
                 try authApp.signOut()
-                menuActionDelegate?.openSegue("helper", sender: nil)
             }catch let singOutError as NSError{
                 print(singOutError)
             }

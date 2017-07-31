@@ -10,6 +10,8 @@ import UIKit
 
 class gruposSelectViewController: UIViewController {
     
+    @IBAction func config(_ sender: Any) {
+    }
     var grupos = ["Grupo 1","Grupo 2","Grupo 3","Grupo 1","Grupo 1"]
     
     @IBAction func closeMenu(_ sender: Any) {

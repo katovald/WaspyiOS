@@ -9,18 +9,24 @@
 import UIKit
 import GoogleMaps
 
-class MapController: UIViewController,  GMSMapViewDelegate{
+class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDelegate{
     
     let locationManager = CLLocationManager()
     var camera = GMSCameraPosition()
+    var locValue = CLLocationCoordinate2D()
+    var marker = GMSMarker()
     
     override func viewDidLoad() {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
-        
-        let locValue: CLLocationCoordinate2D = locationManager.location!.coordinate
-        let marker = GMSMarker()
+        locValue = locationManager.location!.coordinate
+        self.locationManager.delegate = self
+        setParameters()
+    }
+    
+    func setParameters()
+    {
         let marcador = UIImage(named: "marker_layout")!
         let markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 35, height: 38)))
         
@@ -49,7 +55,7 @@ class MapController: UIViewController,  GMSMapViewDelegate{
         
         self.view = mapView
     }
-        
+    
     func resizeImage(image: UIImage, newSize: CGSize) -> UIImage {
         
         let newRect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height).integral
@@ -71,6 +77,10 @@ class MapController: UIViewController,  GMSMapViewDelegate{
         UIGraphicsEndImageContext()
         
         return newImage
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        marker.position = CLLocationCoordinate2D(latitude: locValue.latitude, longitude: locValue.longitude)
     }
     
     override func didReceiveMemoryWarning() {

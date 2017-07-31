@@ -10,8 +10,11 @@ import UIKit
 
 class GroupSettingsViewController: UIViewController {
 
+    @IBAction func inicioReturn(_ sender: Any) {
+        
+    }
     @IBAction func dissmisConfig(_ sender: Any) {
-        self.navigationController?.popToRootViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     @IBOutlet weak var miembros: UITableView!
     
