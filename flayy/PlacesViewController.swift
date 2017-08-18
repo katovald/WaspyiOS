@@ -10,6 +10,13 @@ import UIKit
 
 class PlacesViewController: UIViewController {
     
+    @IBAction func newGeofence(_ sender: Any) {
+    }
+    @IBAction func dismissView(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
     @IBOutlet weak var lugaresUsuario: UITableView!
 
     var places = ["Casa","Escuela","Trabajo","Gimnasio"]

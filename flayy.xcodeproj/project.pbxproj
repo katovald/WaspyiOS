@@ -24,6 +24,7 @@
 		410837011F1CFED800F929F4 /* gruposSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410837001F1CFED800F929F4 /* gruposSelectViewController.swift */; };
 		410837031F1CFEF800F929F4 /* membersSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410837021F1CFEF800F929F4 /* membersSelectViewController.swift */; };
 		410837051F1D141800F929F4 /* helpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410837041F1D141800F929F4 /* helpViewController.swift */; };
+		4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4111D0D41F3273C10045AEF4 /* CustomMenu.swift */; };
 		4149906C1F2A617500A87B34 /* cicleBorderpic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149906B1F2A617500A87B34 /* cicleBorderpic.swift */; };
 		417E64701F16703200DDA8F8 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417E646F1F16703200DDA8F8 /* MapController.swift */; };
 		417E64761F19180A00DDA8F8 /* userDataObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417E64751F19180A00DDA8F8 /* userDataObj.swift */; };
@@ -39,6 +40,7 @@
 		4181C5C11F1562040099A83E /* circlo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4181C5C01F1562040099A83E /* circlo.png */; };
 		4181C5C31F15789F0099A83E /* marker_70x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4181C5C21F15789F0099A83E /* marker_70x.png */; };
 		4181C5C51F157B9F0099A83E /* Icon-App-72x72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4181C5C41F157B9F0099A83E /* Icon-App-72x72@2x.png */; };
+		4183CF101F3B6658008DFC76 /* prueba12.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4183CF0F1F3B6658008DFC76 /* prueba12.mp4 */; };
 		4183E4D51F0D5D0F00ECBED4 /* getData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4183E4D41F0D5D0F00ECBED4 /* getData.swift */; };
 		4183E4D71F0D98CC00ECBED4 /* menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4D61F0D98CC00ECBED4 /* menu_icon.png */; };
 		4183E4DB1F0D9BDD00ECBED4 /* menu_icon_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4DA1F0D9BDD00ECBED4 /* menu_icon_small.png */; };
@@ -53,6 +55,8 @@
 		4183E4F51F0EE2EF00ECBED4 /* camera_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4F41F0EE2EF00ECBED4 /* camera_big.png */; };
 		418A2D9A1F27FA2700A6B049 /* CloudedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418A2D991F27FA2700A6B049 /* CloudedData.swift */; };
 		4194EA9A1F1044F0002A4F21 /* HelpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194EA991F1044F0002A4F21 /* HelpController.swift */; };
+		41ACBADE1F44ABD700C8DFB9 /* photos.png in Resources */ = {isa = PBXBuildFile; fileRef = 41ACBADD1F44ABD700C8DFB9 /* photos.png */; };
+		41ACBAE31F460C9E00C8DFB9 /* keyboardDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41ACBAE21F460C9E00C8DFB9 /* keyboardDesign.swift */; };
 		41B7195C1F069C9C00A42014 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7195B1F069C9C00A42014 /* AppDelegate.swift */; };
 		41B7195E1F069C9C00A42014 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7195D1F069C9C00A42014 /* LoginViewController.swift */; };
 		41B719611F069C9C00A42014 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41B7195F1F069C9C00A42014 /* Main.storyboard */; };
@@ -61,12 +65,7 @@
 		41B719711F069C9C00A42014 /* flayyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B719701F069C9C00A42014 /* flayyTests.swift */; };
 		41B7197C1F069C9C00A42014 /* flayyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7197B1F069C9C00A42014 /* flayyUITests.swift */; };
 		41B7198A1F06A07D00A42014 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41B719891F06A07D00A42014 /* GoogleService-Info.plist */; };
-		41BD62711F265739000EFB05 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BD62701F265739000EFB05 /* Interactor.swift */; };
-		41BD62731F265948000EFB05 /* AnimacionPresentar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BD62721F265948000EFB05 /* AnimacionPresentar.swift */; };
-		41BD62751F266293000EFB05 /* MenuHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BD62741F266293000EFB05 /* MenuHelper.swift */; };
-		41BD62771F266806000EFB05 /* AnimacionOcultar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BD62761F266806000EFB05 /* AnimacionOcultar.swift */; };
 		41C2CF331F20F128008F8370 /* PlacesMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4104F4091F1FE66D00F222B9 /* PlacesMapViewController.swift */; };
-		41C51F5D1F1E6DDD003B53D1 /* GroupSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F5C1F1E6DDD003B53D1 /* GroupSelectorViewController.swift */; };
 		41C51F5F1F1E8586003B53D1 /* GroupSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */; };
 		41C51F611F1E8FA3003B53D1 /* MemberDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F601F1E8FA3003B53D1 /* MemberDataTableViewCell.swift */; };
 		41CCFCFB1F0BC5A500F4AC89 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CCFCFA1F0BC5A500F4AC89 /* MapViewController.swift */; };
@@ -116,6 +115,7 @@
 		410837001F1CFED800F929F4 /* gruposSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gruposSelectViewController.swift; sourceTree = "<group>"; };
 		410837021F1CFEF800F929F4 /* membersSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = membersSelectViewController.swift; sourceTree = "<group>"; };
 		410837041F1D141800F929F4 /* helpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helpViewController.swift; sourceTree = "<group>"; };
+		4111D0D41F3273C10045AEF4 /* CustomMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
 		4149906B1F2A617500A87B34 /* cicleBorderpic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cicleBorderpic.swift; sourceTree = "<group>"; };
 		417E646F1F16703200DDA8F8 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		417E64751F19180A00DDA8F8 /* userDataObj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userDataObj.swift; sourceTree = "<group>"; };
@@ -131,6 +131,7 @@
 		4181C5C01F1562040099A83E /* circlo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circlo.png; path = ../../../Desktop/circlo.png; sourceTree = "<group>"; };
 		4181C5C21F15789F0099A83E /* marker_70x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = marker_70x.png; path = flayy/imagenes/marker_70x.png; sourceTree = "<group>"; };
 		4181C5C41F157B9F0099A83E /* Icon-App-72x72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-App-72x72@2x.png"; path = "../../../Downloads/marker_layout/ios/AppIcon.appiconset/Icon-App-72x72@2x.png"; sourceTree = "<group>"; };
+		4183CF0F1F3B6658008DFC76 /* prueba12.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = prueba12.mp4; path = ../../../Desktop/prueba12.mp4; sourceTree = "<group>"; };
 		4183E4D41F0D5D0F00ECBED4 /* getData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = getData.swift; sourceTree = "<group>"; };
 		4183E4D61F0D98CC00ECBED4 /* menu_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menu_icon.png; path = ../../../Downloads/menu_icon.png; sourceTree = "<group>"; };
 		4183E4DA1F0D9BDD00ECBED4 /* menu_icon_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menu_icon_small.png; path = ../../../Downloads/menu_icon_small.png; sourceTree = "<group>"; };
@@ -145,6 +146,8 @@
 		4183E4F41F0EE2EF00ECBED4 /* camera_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = camera_big.png; path = ../../../Downloads/camera_big.png; sourceTree = "<group>"; };
 		418A2D991F27FA2700A6B049 /* CloudedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudedData.swift; sourceTree = "<group>"; };
 		4194EA991F1044F0002A4F21 /* HelpController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpController.swift; sourceTree = "<group>"; };
+		41ACBADD1F44ABD700C8DFB9 /* photos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = photos.png; path = ../../../Desktop/photos.png; sourceTree = "<group>"; };
+		41ACBAE21F460C9E00C8DFB9 /* keyboardDesign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = keyboardDesign.swift; sourceTree = "<group>"; };
 		41B719581F069C9C00A42014 /* flayy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flayy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41B7195B1F069C9C00A42014 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		41B7195D1F069C9C00A42014 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -158,12 +161,7 @@
 		41B719771F069C9C00A42014 /* flayyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = flayyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		41B7197B1F069C9C00A42014 /* flayyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flayyUITests.swift; sourceTree = "<group>"; };
 		41B7197D1F069C9C00A42014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		41B719891F06A07D00A42014 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		41BD62701F265739000EFB05 /* Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
-		41BD62721F265948000EFB05 /* AnimacionPresentar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimacionPresentar.swift; sourceTree = "<group>"; };
-		41BD62741F266293000EFB05 /* MenuHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuHelper.swift; sourceTree = "<group>"; };
-		41BD62761F266806000EFB05 /* AnimacionOcultar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimacionOcultar.swift; sourceTree = "<group>"; };
-		41C51F5C1F1E6DDD003B53D1 /* GroupSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSelectorViewController.swift; sourceTree = "<group>"; };
+		41B719891F06A07D00A42014 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSettingsViewController.swift; sourceTree = "<group>"; };
 		41C51F601F1E8FA3003B53D1 /* MemberDataTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberDataTableViewCell.swift; sourceTree = "<group>"; };
 		41CCFCF51F0AB55D00F4AC89 /* flayy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = flayy.entitlements; sourceTree = "<group>"; };
@@ -237,8 +235,10 @@
 		417F8A181F28EC4E00C4AE58 /* Design */ = {
 			isa = PBXGroup;
 			children = (
+				4111D0D41F3273C10045AEF4 /* CustomMenu.swift */,
 				417F8A161F28DA7E00C4AE58 /* Rounded.swift */,
 				4149906B1F2A617500A87B34 /* cicleBorderpic.swift */,
+				41ACBAE21F460C9E00C8DFB9 /* keyboardDesign.swift */,
 			);
 			name = Design;
 			sourceTree = "<group>";
@@ -246,6 +246,8 @@
 		4181C5B71F15378D0099A83E /* pruebas */ = {
 			isa = PBXGroup;
 			children = (
+				41ACBADD1F44ABD700C8DFB9 /* photos.png */,
+				4183CF0F1F3B6658008DFC76 /* prueba12.mp4 */,
 				4107704C1F2B89AA004474BD /* kato.jpg */,
 				4104F4051F1FD6BB00F222B9 /* ic28_casita.jpg */,
 				4181C5C01F1562040099A83E /* circlo.png */,
@@ -263,6 +265,13 @@
 				417E64751F19180A00DDA8F8 /* userDataObj.swift */,
 			);
 			name = Hdlrs;
+			sourceTree = "<group>";
+		};
+		41ACBADF1F45CE7800C8DFB9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Services;
 			sourceTree = "<group>";
 		};
 		41B7194F1F069C9C00A42014 = {
@@ -291,6 +300,7 @@
 		41B7195A1F069C9C00A42014 /* flayy */ = {
 			isa = PBXGroup;
 			children = (
+				41ACBADF1F45CE7800C8DFB9 /* Services */,
 				417F8A181F28EC4E00C4AE58 /* Design */,
 				4183E4D31F0D5CF700ECBED4 /* Hdlrs */,
 				417F78261F0D4AA600844794 /* Models */,
@@ -310,12 +320,7 @@
 				41CCFD001F0C0D8200F4AC89 /* userSettings.swift */,
 				4194EA991F1044F0002A4F21 /* HelpController.swift */,
 				417E646F1F16703200DDA8F8 /* MapController.swift */,
-				41C51F5C1F1E6DDD003B53D1 /* GroupSelectorViewController.swift */,
 				41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */,
-				41BD62701F265739000EFB05 /* Interactor.swift */,
-				41BD62721F265948000EFB05 /* AnimacionPresentar.swift */,
-				41BD62741F266293000EFB05 /* MenuHelper.swift */,
-				41BD62761F266806000EFB05 /* AnimacionOcultar.swift */,
 				418A2D991F27FA2700A6B049 /* CloudedData.swift */,
 			);
 			path = flayy;
@@ -474,7 +479,8 @@
 				TargetAttributes = {
 					41B719571F069C9C00A42014 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = QXZXSCK29J;
+						DevelopmentTeam = 48N454AR6Q;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -488,12 +494,14 @@
 					41B7196B1F069C9C00A42014 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = QXZXSCK29J;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 41B719571F069C9C00A42014;
 					};
 					41B719761F069C9C00A42014 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = QXZXSCK29J;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 41B719571F069C9C00A42014;
 					};
@@ -527,6 +535,7 @@
 				4101DCC71F13B5930096FC84 /* slide1.gif in Resources */,
 				417E647D1F191E8900DDA8F8 /* ic_help_outline_black_24dp.png in Resources */,
 				4183E4E41F0EA41400ECBED4 /* dron_small.png in Resources */,
+				4183CF101F3B6658008DFC76 /* prueba12.mp4 in Resources */,
 				41B719661F069C9C00A42014 /* LaunchScreen.storyboard in Resources */,
 				4101DCCD1F13B5D20096FC84 /* slide4b.gif in Resources */,
 				4183E4DE1F0DA21300ECBED4 /* grops_small.png in Resources */,
@@ -549,6 +558,7 @@
 				4183E4D71F0D98CC00ECBED4 /* menu_icon.png in Resources */,
 				4183E4F51F0EE2EF00ECBED4 /* camera_big.png in Resources */,
 				4101DCCB1F13B5D20096FC84 /* slide2.gif in Resources */,
+				41ACBADE1F44ABD700C8DFB9 /* photos.png in Resources */,
 				417E64791F191AB200DDA8F8 /* ic_group_black_24dp.png in Resources */,
 				4183E4E91F0EA42B00ECBED4 /* local.png in Resources */,
 				41B719611F069C9C00A42014 /* Main.storyboard in Resources */,
@@ -723,9 +733,10 @@
 				41C51F5F1F1E8586003B53D1 /* GroupSettingsViewController.swift in Sources */,
 				41B7195E1F069C9C00A42014 /* LoginViewController.swift in Sources */,
 				417F78251F0D1A8500844794 /* userData.swift in Sources */,
+				41ACBAE31F460C9E00C8DFB9 /* keyboardDesign.swift in Sources */,
 				41CCFCFB1F0BC5A500F4AC89 /* MapViewController.swift in Sources */,
 				417F8A171F28DA7E00C4AE58 /* Rounded.swift in Sources */,
-				41BD62711F265739000EFB05 /* Interactor.swift in Sources */,
+				4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */,
 				41D416621F214E7E00BC7BDC /* PicMemberTableViewCell.swift in Sources */,
 				4183E4D51F0D5D0F00ECBED4 /* getData.swift in Sources */,
 				4104F4041F1FBC6D00F222B9 /* PlacesViewController.swift in Sources */,
@@ -735,18 +746,14 @@
 				4101DCD31F13C4890096FC84 /* Two.swift in Sources */,
 				410837051F1D141800F929F4 /* helpViewController.swift in Sources */,
 				4101DCDC1F13D56C0096FC84 /* Three.swift in Sources */,
-				41C51F5D1F1E6DDD003B53D1 /* GroupSelectorViewController.swift in Sources */,
 				417E64761F19180A00DDA8F8 /* userDataObj.swift in Sources */,
 				410837011F1CFED800F929F4 /* gruposSelectViewController.swift in Sources */,
-				41BD62731F265948000EFB05 /* AnimacionPresentar.swift in Sources */,
 				41C2CF331F20F128008F8370 /* PlacesMapViewController.swift in Sources */,
 				41CCFD011F0C0D8200F4AC89 /* userSettings.swift in Sources */,
 				418A2D9A1F27FA2700A6B049 /* CloudedData.swift in Sources */,
 				4194EA9A1F1044F0002A4F21 /* HelpController.swift in Sources */,
 				41B7195C1F069C9C00A42014 /* AppDelegate.swift in Sources */,
 				41C51F611F1E8FA3003B53D1 /* MemberDataTableViewCell.swift in Sources */,
-				41BD62771F266806000EFB05 /* AnimacionOcultar.swift in Sources */,
-				41BD62751F266293000EFB05 /* MenuHelper.swift in Sources */,
 				417E64701F16703200DDA8F8 /* MapController.swift in Sources */,
 				4101DCD91F13CB760096FC84 /* Gif.swift in Sources */,
 			);
@@ -904,11 +911,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = flayy/flayy.entitlements;
-				DEVELOPMENT_TEAM = QXZXSCK29J;
+				DEVELOPMENT_TEAM = 48N454AR6Q;
 				INFOPLIST_FILE = flayy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.flayy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.waspy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -920,11 +927,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = flayy/flayy.entitlements;
-				DEVELOPMENT_TEAM = QXZXSCK29J;
+				DEVELOPMENT_TEAM = 48N454AR6Q;
 				INFOPLIST_FILE = flayy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.flayy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.waspy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

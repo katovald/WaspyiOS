@@ -8,17 +8,20 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 
 protocol MenuActionDelegate {
     func openSegue(_ segueName: String, sender: AnyObject?)
     func reopenMenu()
+    func exitAuth()
 }
 
 class MapViewController: UIViewController {
-    
-    var interactor = Interactor()
     var handle:AuthStateDidChangeListenerHandle?
     
+    var ref: DatabaseReference!
+    
+    @IBOutlet weak var memberList: UIButton!
     // los elementos usados
     @IBOutlet weak var center: UIButton!                //boton para centrar el mapa en tu posicion original
     @IBOutlet weak var dron: UIButton!                  //modalidad de dron
@@ -45,37 +48,33 @@ class MapViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationViewController = segue.destination as? menuDesignViewController {
-            destinationViewController.transitioningDelegate = self
-            destinationViewController.interactor = interactor
+            destinationViewController.menuActionDelegate = self
+        }
+        if let destinationViewController = segue.destination as? gruposSelectViewController {
+            destinationViewController.menuActionDelegate = self
+        }
+        if let destinationViewController = segue.destination as? membersSelectViewController {
             destinationViewController.menuActionDelegate = self
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let userPhone = Auth.auth().currentUser?.providerData
+        var username = ""
+        self.ref = Database.database().reference()
+        ref.child("accounts").child("+525530127033").observeSingleEvent(of: .value, with: { (snapshot) in
+            let value = snapshot.value as? NSDictionary
+            username = value?["name"] as? String ?? ""
+            self.title = username
+        })
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-}
-
-extension MapViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return AnimacionPresentar()
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return AnimacionOcultar()
-    }
-    
-    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactor.triggerInicio ? interactor: nil
-    }
-    
-    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactor.triggerInicio ? interactor: nil
     }
 }
 
@@ -88,6 +87,12 @@ extension MapViewController: MenuActionDelegate {
     
     func reopenMenu() {
         performSegue(withIdentifier: "menu", sender: nil)
+    }
+    
+    func exitAuth(){
+        dismiss(animated: true, completion: {
+            exit(0)
+        })
     }
 }
 

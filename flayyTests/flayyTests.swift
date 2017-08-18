@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import flayy
+@testable import Pods_flayy
 
 class flayyTests: XCTestCase {
     

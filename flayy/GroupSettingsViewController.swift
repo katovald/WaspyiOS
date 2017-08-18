@@ -14,7 +14,7 @@ class GroupSettingsViewController: UIViewController {
         
     }
     @IBAction func dissmisConfig(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
     }
     @IBOutlet weak var miembros: UITableView!
     

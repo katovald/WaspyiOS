@@ -9,17 +9,22 @@
 import UIKit
 
 class gruposSelectViewController: UIViewController {
-    
-    @IBAction func config(_ sender: Any) {
-    }
     var grupos = ["Grupo 1","Grupo 2","Grupo 3","Grupo 1","Grupo 1"]
+    
+     var menuActionDelegate: MenuActionDelegate? = nil
+    
+    @IBAction func sendSettings(_ sender: Any) {
+        menuActionDelegate?.openSegue("confiGrupos", sender: nil)
+    }
+    
+    @IBOutlet weak var settingsGroup: UIButton!
+    
     
     @IBAction func closeMenu(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    var interactor: Interactor? = nil
     
-    var menuActionDelegate: MenuActionDelegate? = nil
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +66,6 @@ extension gruposSelectViewController: UITableViewDataSource {
 
 extension gruposSelectViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        menuActionDelegate?.openSegue("configuracionGrupo", sender: nil)
+        menuActionDelegate?.openSegue("miembros", sender: nil)
     }
 }

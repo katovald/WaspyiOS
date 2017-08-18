@@ -10,6 +10,7 @@ pod 'Firebase'
 pod 'Firebase/Auth'
 pod 'Firebase/Messaging'
 pod 'Firebase/Database’
+pod 'Firebase/Storage’
 pod ‘GoogleMaps’
 pod ‘GooglePlaces’
 

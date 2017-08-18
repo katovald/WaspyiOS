@@ -10,6 +10,9 @@ import UIKit
 
 class GroupSelectorViewController: UIViewController {
 
+    @IBAction func dismissSelector(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     @IBOutlet weak var tableView: UITableView!
     var gruposLista: [String] = ["Grupo 1", "Grupo 2", "Grupo 3", "Grupo 4"]
     

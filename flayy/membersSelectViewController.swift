@@ -20,8 +20,6 @@ class membersSelectViewController: UIViewController{
     
     var keys = ["kato","haza","Otros"]
     
-    let interactor: Interactor? = nil
-    
     var menuActionDelegate: MenuActionDelegate? = nil
     
     override func viewDidLoad() {

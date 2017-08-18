@@ -9,19 +9,18 @@
 import AVKit
 
 class userDATA: NSObject {
-    
     private var photo:String
     private var nombre:String
     private var grupo:NSDictionary
     private var ultimog:String
-    private var userID: String
+    private var userPhone:String
     
     init(photo: String, nombre: String, grupo: NSDictionary, ultimog: String, userID:String) {
         self.photo = photo
         self.nombre =  nombre
         self.grupo = grupo
         self.ultimog = ultimog
-        self.userID = userID
+        self.userPhone = userID
     }
     
     public func getUltimog() -> String {
