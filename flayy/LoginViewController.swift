@@ -102,7 +102,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         deregisterFromKeyboardNotifications()
     }
     
-    func termino(notification: Notification){
+    @objc func termino(notification: Notification){
         let p: AVPlayerItem = notification.object as! AVPlayerItem
         p.seek(to: kCMTimeZero)
     }
@@ -119,14 +119,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func keyboardWasShown(notification: NSNotification){
+    @objc func keyboardWasShown(notification: NSNotification){
         //Need to calculate keyboard exact size due to Apple suggestions
         var info = notification.userInfo!
         let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
         self.activeField?.frame.origin.y -= keyboardSize!.height
     }
     
-    func keyboardWillBeHidden(notification: NSNotification){
+    @objc func keyboardWillBeHidden(notification: NSNotification){
         //Once keyboard disappears, restore original positions
         var info = notification.userInfo!
         let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size

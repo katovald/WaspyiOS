@@ -22,7 +22,6 @@ class MapViewController: UIViewController {
     var ref: DatabaseReference!
     
     @IBOutlet weak var memberList: UIButton!
-    // los elementos usados
     @IBOutlet weak var center: UIButton!                //boton para centrar el mapa en tu posicion original
     @IBOutlet weak var dron: UIButton!                  //modalidad de dron
     @IBOutlet weak var gmapView: UIView!                //muestra el mapa en el fondo de la vista

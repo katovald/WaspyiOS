@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMaps
+import CoreFoundation
 
 class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDelegate{
     
@@ -81,6 +82,15 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         marker.position = CLLocationCoordinate2D(latitude: locValue.latitude, longitude: locValue.longitude)
+        print("update")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        //geocerca
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        //geocerca
     }
     
     override func didReceiveMemoryWarning() {

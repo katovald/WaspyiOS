@@ -13,10 +13,9 @@ import GoogleMaps
 import GooglePlaces
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
-    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -35,8 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         application.registerForRemoteNotifications()
-        
-        
+
         GMSServices.provideAPIKey("AIzaSyCsKticH0eEpIsY-iB07Py0RFQt8nRQ1Gk")
         GMSPlacesClient.provideAPIKey("AIzaSyDRB6xIV_O1rX_bvc_3BzWfUp0yooLwSD0")
         
@@ -64,12 +62,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
+        //if let messageID = userInfo[gcmMessageIDKey] {
+          //  print("Message ID: \(messageID)")
+        //}
         
         // Print full message.
-        print(userInfo)
+        //print(userInfo)
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
@@ -80,14 +78,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
+        //if let messageID = userInfo[gcmMessageIDKey] {
+          //  print("Message ID: \(messageID)")
+        //}
         
         // Print full message.
-        print(userInfo)
+        //print(userInfo)
         
-        completionHandler(UIBackgroundFetchResult.newData)
+        if Auth.auth().canHandleNotification(userInfo) {
+            completionHandler(UIBackgroundFetchResult.noData)
+            return
+        }
     }
     // [END receive_message]
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -98,10 +99,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
     // the FCM registration token.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("APNs token retrieved: \(deviceToken)")
-        
+        //print("APNs token retrieved: \(deviceToken)")
+        Auth.auth().setAPNSToken(deviceToken, type: .prod)
         // With swizzling disabled you must set the APNs token here.
         // Messaging.messaging().apnsToken = deviceToken
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("updated")
     }
 }
 

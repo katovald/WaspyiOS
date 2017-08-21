@@ -65,6 +65,7 @@
 		41B719711F069C9C00A42014 /* flayyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B719701F069C9C00A42014 /* flayyTests.swift */; };
 		41B7197C1F069C9C00A42014 /* flayyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7197B1F069C9C00A42014 /* flayyUITests.swift */; };
 		41B7198A1F06A07D00A42014 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41B719891F06A07D00A42014 /* GoogleService-Info.plist */; };
+		41BAE5071F4B24C7000978F8 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41BAE5061F4B24C7000978F8 /* GameKit.framework */; };
 		41C2CF331F20F128008F8370 /* PlacesMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4104F4091F1FE66D00F222B9 /* PlacesMapViewController.swift */; };
 		41C51F5F1F1E8586003B53D1 /* GroupSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */; };
 		41C51F611F1E8FA3003B53D1 /* MemberDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F601F1E8FA3003B53D1 /* MemberDataTableViewCell.swift */; };
@@ -162,6 +163,7 @@
 		41B7197B1F069C9C00A42014 /* flayyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flayyUITests.swift; sourceTree = "<group>"; };
 		41B7197D1F069C9C00A42014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		41B719891F06A07D00A42014 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		41BAE5061F4B24C7000978F8 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSettingsViewController.swift; sourceTree = "<group>"; };
 		41C51F601F1E8FA3003B53D1 /* MemberDataTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberDataTableViewCell.swift; sourceTree = "<group>"; };
 		41CCFCF51F0AB55D00F4AC89 /* flayy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = flayy.entitlements; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE253C0327B82400176CCA14 /* Pods_flayy.framework in Frameworks */,
+				41BAE5071F4B24C7000978F8 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +398,7 @@
 		CA07F69ADD343FD4F2B5624C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				41BAE5061F4B24C7000978F8 /* GameKit.framework */,
 				403FCD8653054AF62695F8FA /* Pods_flayy.framework */,
 				D0096F65E670F05D130E4033 /* Pods_flayyTests.framework */,
 				4915D23C685FA92623D3F299 /* Pods_flayyUITests.framework */,
@@ -474,16 +478,22 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = CAMSA;
 				TargetAttributes = {
 					41B719571F069C9C00A42014 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 48N454AR6Q;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
 								enabled = 1;
 							};
 							com.apple.Push = {
@@ -493,15 +503,15 @@
 					};
 					41B7196B1F069C9C00A42014 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = QXZXSCK29J;
-						LastSwiftMigration = 0830;
+						DevelopmentTeam = 48N454AR6Q;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 41B719571F069C9C00A42014;
 					};
 					41B719761F069C9C00A42014 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = QXZXSCK29J;
-						LastSwiftMigration = 0830;
+						DevelopmentTeam = 48N454AR6Q;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 41B719571F069C9C00A42014;
 					};
@@ -820,7 +830,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -828,7 +840,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -871,7 +887,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -879,7 +897,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -917,6 +939,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.waspy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -933,6 +956,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.waspy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -943,11 +967,12 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = QXZXSCK29J;
+				DEVELOPMENT_TEAM = 48N454AR6Q;
 				INFOPLIST_FILE = flayyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.flayyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/flayy.app/flayy";
 			};
@@ -959,11 +984,12 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = QXZXSCK29J;
+				DEVELOPMENT_TEAM = 48N454AR6Q;
 				INFOPLIST_FILE = flayyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.flayyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/flayy.app/flayy";
 			};
@@ -974,11 +1000,12 @@
 			baseConfigurationReference = 89CD4D9456E4AF8C9211EC7B /* Pods-flayyUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = QXZXSCK29J;
+				DEVELOPMENT_TEAM = 48N454AR6Q;
 				INFOPLIST_FILE = flayyUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.flayyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = flayy;
 			};
@@ -989,11 +1016,12 @@
 			baseConfigurationReference = F45C31752EB8C0AEBA929AB9 /* Pods-flayyUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = QXZXSCK29J;
+				DEVELOPMENT_TEAM = 48N454AR6Q;
 				INFOPLIST_FILE = flayyUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.flayyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = flayy;
 			};

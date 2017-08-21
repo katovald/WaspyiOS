@@ -571,7 +571,7 @@
                         <outlet property="memberList" destination="LOk-xA-jTA" id="hbD-rC-ApJ"/>
                         <segue destination="gdj-nw-yI9" kind="show" identifier="datosUsuario" id="VWM-hv-SeD"/>
                         <segue destination="TEZ-CE-atD" kind="presentation" identifier="menu" modalPresentationStyle="overCurrentContext" modalTransitionStyle="flipHorizontal" id="FWx-N6-FK5"/>
-                        <segue destination="kmu-BP-PYz" kind="presentation" identifier="grupos" modalPresentationStyle="overFullScreen" modalTransitionStyle="coverVertical" id="dIb-wS-Kgu"/>
+                        <segue destination="kmu-BP-PYz" kind="presentation" identifier="grupos" modalPresentationStyle="overFullScreen" modalTransitionStyle="flipHorizontal" id="dIb-wS-Kgu"/>
                         <segue destination="8vX-FJ-vdG" kind="presentation" identifier="miembros" modalPresentationStyle="overCurrentContext" modalTransitionStyle="coverVertical" id="e3P-gt-gM5"/>
                         <segue destination="zON-MU-Gji" kind="show" identifier="configLugares" id="4XX-Op-jFn"/>
                         <segue destination="GEI-nU-dXL" kind="show" identifier="confiGrupos" id="Vzs-8R-Moe"/>
@@ -663,7 +663,7 @@
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="gW1-iF-RUO" detailTextLabel="qd7-Kp-dG8" style="IBUITableViewCellStyleValue2" id="Qcp-5q-hTH">
-                                        <rect key="frame" x="0.0" y="56" width="240" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="240" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qcp-5q-hTH" id="JOW-rv-ItN">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="44"/>
@@ -719,7 +719,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Nombre" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gsq-jB-vbG">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Nombre" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gsq-jB-vbG">
                                 <rect key="frame" x="70" y="153" width="100" height="21"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -762,7 +762,7 @@
                                 <color key="backgroundColor" white="0.25" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="Q01-l8-bMe">
-                                        <rect key="frame" x="0.0" y="55" width="220" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="220" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Q01-l8-bMe" id="cbs-XY-T6p">
                                             <rect key="frame" x="0.0" y="0.0" width="220" height="44"/>
@@ -861,7 +861,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="lKS-w1-Tvi" customClass="PicMemberTableViewCell" customModule="flayy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lKS-w1-Tvi" id="47S-Mr-bhc">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>

@@ -38,7 +38,7 @@ class helpViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func didChangePageControlValue() {
+    @objc func didChangePageControlValue() {
         controladorAyuda?.scrollToViewController(index: puntitos.currentPage)
     }
 
