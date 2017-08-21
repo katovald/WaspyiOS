@@ -17,7 +17,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var Code: UITextField!
     @IBOutlet weak var getCode: UIButton!
     @IBOutlet weak var Telefono: UITextField!
-    @IBOutlet weak var resendBtn: UIButton!
     
     //variables necesarias
     var activeField:UITextField? = nil
@@ -43,7 +42,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 self.verID = verificationID!
                 self.getCode.isHidden = true
                 self.sendCode.isHidden = false
-                self.resendBtn.isHidden = false
                 self.Code.isHidden = false
                 self.Telefono.isEnabled = false
                 UIView.animate(withDuration: 1, animations: {
@@ -70,7 +68,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.Code.isHidden = true
-        self.resendBtn.isHidden = true
         self.sendCode.isHidden = true
         self.Telefono.delegate = self
         self.Code.delegate = self
@@ -168,20 +165,29 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
             } else {
                 // [START signin_credential]
                 Auth.auth().signIn(with: credential) { (user, error) in
-                    // [START_EXCLUDE silent]
-                        // [END_EXCLUDE]
-                        if let error = error {
+                        if let error = error as NSError? {
                             // [START_EXCLUDE]
-                            print(error.localizedDescription)
+                            guard let code = AuthErrorCode(rawValue: error.code)
+                                else {
+                                    return
+                            }
+                            switch code{
+                            case .invalidVerificationCode:
+                                self.alert(message: "El codigo es invalido, por favor revisalo e intenta de nuevo" , title: "Ups...")
+                            default:
+                                self.alert(message: "Algo salio mal", title: "Ups...")
+                            }
+                            //print(error.localizedDescription)
                             // [END_EXCLUDE]
                             return
                         }
+                    UserDefaults.standard.set( self.tel, forKey: "userPhoneNumber")
                         // User is signed in
                         // [START_EXCLUDE]
                         // Merge prevUser and currentUser accounts and data
                         // ...
-                    UserDefaults.standard.set(user, forKey: "authVerificationID")
-                    self.ref.child("accounts").child(self.tel).observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                        self.ref.child("accounts").child(self.tel).observeSingleEvent(of: .value, with: { (snapshot) in
                         // Get user value
                         let value = snapshot.value as? NSDictionary
                         let username = value?["name"] as? String ?? ""
@@ -196,7 +202,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                         
                         // ...
                     }) { (error) in
-                        print(error.localizedDescription)
+                        //print(error.localizedDescription)
                     }
                         // [END_EXCLUDE]
                     }
@@ -216,4 +222,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         self.view.endEditing(true) //This will hide the keyboard
     }
 
+}
+extension UIViewController {
+    func alert(message: String, title: String = "") {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
