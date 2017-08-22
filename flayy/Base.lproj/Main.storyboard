@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ybg-h6-Nj1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.19" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ybg-h6-Nj1">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.16"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -286,6 +286,7 @@
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="Salir" destination="mfw-4j-CNb" id="G2Q-lK-yl4"/>
                         <outlet property="editaguarda" destination="For-Bi-wCh" id="3Mc-S6-ptP"/>
                         <outlet property="inicioCam" destination="wxi-4u-bZ6" id="XQm-VI-qaD"/>
                         <outlet property="mailText" destination="GZM-j0-Te9" id="QEZ-PM-QsV"/>
@@ -1013,7 +1014,7 @@
                                 <color key="backgroundColor" white="0.34999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="members" id="jMw-Vn-Fh8" customClass="MemberDataTableViewCell" customModule="flayy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55" width="320" height="70"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="320" height="70"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jMw-Vn-Fh8" id="h04-UP-uev">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>

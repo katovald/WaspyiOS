@@ -18,6 +18,7 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
     
     let almacen = Storage.storage()
     
+    @IBOutlet weak var Salir: UIBarButtonItem!
     @IBOutlet weak var userPhoto: UIImageView!
     @IBOutlet weak var mailText: UITextField!
     @IBOutlet weak var nameText: UITextField!
@@ -45,6 +46,9 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
         }
     }
     override func viewDidLoad() {
+        if (UserDefaults.standard.string(forKey: "Nombre") == nil){
+            self.Salir.isEnabled = false
+        }
         var datosPic:Data? = nil
         let userPictureLocation = almacen.reference(forURL: "gs://camasacontigo.appspot.com")
         let userPicture = userPictureLocation.child("/CAMUserPhotos/" + "+525530127033")

@@ -13,10 +13,18 @@ import GoogleMaps
 import GooglePlaces
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
+    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+        //npi que va aqui
+    }
+    
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        print(remoteMessage.appData)
+    }
+    
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
@@ -24,10 +32,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         if #available(iOS 10.0, *)
         {
-            UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
+            UNUserNotificationCenter.current().delegate = self
             
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: {_,_ in})
+            UNUserNotificationCenter.current().requestAuthorization(options: authOptions,
+                                                                    completionHandler: {_,_ in})
+            Messaging.messaging().delegate = self
         }else {
             let settings = UIUserNotificationSettings(types:[.alert,.badge,.sound], categories: nil)
             application.registerUserNotificationSettings(settings)
@@ -48,8 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             window?.rootViewController = view
         }
         return true
-        
-        
     }
     
     //[INICIO DE SERVICIO]
@@ -100,7 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     // the FCM registration token.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         //print("APNs token retrieved: \(deviceToken)")
-        Auth.auth().setAPNSToken(deviceToken, type: .prod)
+        Auth.auth().setAPNSToken(deviceToken, type: .sandbox)
         // With swizzling disabled you must set the APNs token here.
         // Messaging.messaging().apnsToken = deviceToken
     }
@@ -109,85 +117,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         print("updated")
     }
 }
-
-// [START ios_10_message_handling]
-@available(iOS 10, *)
-extension AppDelegate : UNUserNotificationCenterDelegate {
-    
-    // Receive displayed notifications for iOS 10 devices.
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let userInfo = notification.request.content.userInfo
-        
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
-        // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
-        
-        // Print full message.
-        print(userInfo)
-        
-        // Change this to your preferred presentation option
-        completionHandler([])
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-        // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
-        
-        // Print full message.
-        print(userInfo)
-        
-        completionHandler()
-    }
-}
-// [END ios_10_message_handling]
-
-extension AppDelegate : MessagingDelegate {
-    // [START refresh_token]
-    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
-        print("Firebase registration token: \(fcmToken)")
-    }
-    // [END refresh_token]
-    // [START ios_10_data_message]
-    // Receive data messages on iOS 10+ directly from FCM (bypassing APNs) when the app is in the foreground.
-    // To enable direct data messages, you can set Messaging.messaging().shouldEstablishDirectChannel to true.
-    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print("Received data message: \(remoteMessage.appData)")
-    }
-    // [END ios_10_data_message]
-    
-    
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
-    func x(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-}
-
