@@ -26,31 +26,37 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     let ref = Database.database().reference()
     var verID = ""
     var tel = ""
+    var animated:Bool = false
     
     //acciones de los componentes
     @IBAction func Clicked(_ sender: Any) {
+        self.alert(message: "En un mometo recibiras un SMS con un token, introducelo")
         tel = "+52" + Telefono.text!
         PhoneAuthProvider.provider().verifyPhoneNumber(tel, completion: { (verificationID, error) in
             if let error = error {
-                print(error.localizedDescription)
+                self.alert(message: "Ocurrio un error:" + error.localizedDescription)
                 return
             }
             
-            if (verificationID == ""){
-                return
-            }else{
+            if (verificationID != "" && !self.animated){
                 self.verID = verificationID!
-                self.getCode.isHidden = true
                 self.sendCode.isHidden = false
                 self.Code.isHidden = false
                 self.Telefono.isEnabled = false
                 UIView.animate(withDuration: 1, animations: {
+                    self.getCode.frame.size = CGSize(width: (self.getCode.frame.width * 0.7), height: self.getCode.frame.height)
+                    self.getCode.frame.origin.x = 20
+                    self.sendCode.transform = CGAffineTransform(scaleX: 0.85, y: 1)
+                    self.sendCode.frame.origin.x = (self.view.frame.width - 20 - self.sendCode.frame.width)
                     self.Telefono.frame.origin.y -= 50
                     self.Code.frame.origin.y += 50
+                    self.animated = true
+                    self.getCode.setTitle("Reenviar", for: .normal)
                 })
+            }else{
+                return
             }
         })
-        
     }
     
     @IBAction func checkCode(_ sender: Any) {
@@ -223,11 +229,4 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     }
 
 }
-extension UIViewController {
-    func alert(message: String, title: String = "") {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(OKAction)
-        self.present(alertController, animated: true, completion: nil)
-    }
-}
+

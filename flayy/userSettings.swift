@@ -18,37 +18,23 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
     
     let almacen = Storage.storage()
     
+    @IBOutlet weak var phoneText: UITextField!
     @IBOutlet weak var Salir: UIBarButtonItem!
     @IBOutlet weak var userPhoto: UIImageView!
-    @IBOutlet weak var mailText: UITextField!
     @IBOutlet weak var nameText: UITextField!
     @IBOutlet weak var editaguarda: UIBarButtonItem!
     
     var media: Bool?
     
     @IBAction func guarda(_ sender: Any) {
-        if (inicioCam.isEnabled == false)
-        {
-            self.editaguarda.title = "Guarda"
-            self.editaguarda.tintColor = UIColor.red
-            self.mailText.isEnabled = true
-            self.nameText.isEnabled = true
-            self.inicioCam.isEnabled = true
-        }
-        else{
-            self.editaguarda.title = "Editar"
-            self.editaguarda.tintColor = UIColor(colorLiteralRed: 244, green: 203, blue: 28, alpha: 100)
-            self.mailText.isEnabled = false
-            self.nameText.isEnabled = false
-            self.inicioCam.isEnabled = false
-            enviaDatosFB()
-            
-        }
+        self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func Salir(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    @IBOutlet weak var exit: UIBarButtonItem!
     override func viewDidLoad() {
-        if (UserDefaults.standard.string(forKey: "Nombre") == nil){
-            self.Salir.isEnabled = false
-        }
         var datosPic:Data? = nil
         let userPictureLocation = almacen.reference(forURL: "gs://camasacontigo.appspot.com")
         let userPicture = userPictureLocation.child("/CAMUserPhotos/" + "+525530127033")
@@ -67,13 +53,9 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
             let imageURL = docDir.appendingPathComponent("waspyUser.png")
             try! variable?.write(to: imageURL)
         }
-        
-        self.inicioCam.isEnabled = false
-        self.editaguarda.title = "Editar"
-        self.mailText.isEnabled = false
-        self.mailText.setBottomBorder(color: .white)
-        self.nameText.isEnabled = false
+
         self.nameText.setBottomBorder(color: .white)
+        self.phoneText.setBottomBorder(color: .white)
     }
     
     override func didReceiveMemoryWarning() {
@@ -144,7 +126,7 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
         metadata.contentType = "image/png"
         
         reference.child("+525547666122" + ".png").putData(imageData, metadata: metadata) { (metadata, error) in
-            guard let metadata = metadata else {
+            guard metadata != nil else {
                 print(error ?? "")
                 self.stopActivityIndicator()
                 return
@@ -174,7 +156,7 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
         for view in self.view.subviews {
             if (view.accessibilityIdentifier == "actInd")
             {
-                view as! UIActivityIndicatorView
+                //view as! UIActivityIndicatorView
                 //view.stopAnimating()
             }
         }

@@ -6,13 +6,16 @@ target 'flayy' do
   use_frameworks!
 
   # Pods for flayy
-pod 'Firebase'
-pod 'Firebase/Core'
+pod 'Firebase/AdMob'
+pod 'Firebase/Analytics'
 pod 'Firebase/Auth'
-pod 'Firebase/Messaging'
+pod 'Firebase/Crash'
 pod 'Firebase/Database'
+pod 'Firebase/DynamicLinks'
+pod 'Firebase/Messaging'
+pod 'Firebase/Performance'
+pod 'Firebase/RemoteConfig'
 pod 'Firebase/Storage'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
-
 end

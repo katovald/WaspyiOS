@@ -75,9 +75,10 @@ extension membersSelectViewController: UITableViewDataSource{
         return newImage
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         return pruebas.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! PicMemberTableViewCell
         let aux = pruebas[keys[indexPath.row]]

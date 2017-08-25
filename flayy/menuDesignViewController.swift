@@ -11,7 +11,7 @@ import FirebaseAuth
 
 class menuDesignViewController: UIViewController {
     
-    let menu = ["Mis lugares", "Configuraion", "CAMSA FAQ", "Salir"]
+    let menu = [["Mis lugares","lugares.png"],["Configuracion","config.png"],["CAMSA FAQ", "faq.png"],["Salir","exit.png"]]
     
     var menuActionDelegate: MenuActionDelegate? = nil
     
@@ -19,7 +19,7 @@ class menuDesignViewController: UIViewController {
     @IBOutlet weak var blur: UIImageView!
     
     @IBAction func closeMenu(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     var context = CIContext(options: nil)
@@ -65,14 +65,18 @@ class menuDesignViewController: UIViewController {
 }
 
 extension menuDesignViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menu.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.text = menu[indexPath.row]
-        cell.textLabel?.textColor = UIColor.white
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")! as! menuTableViewCell
+        
+        let aux = menu[indexPath.row]
+        var imagenR = UIImage()
+        imagenR = UIImage(named: aux[1])!
+        cell.menuInit(pic: imagenR, nombre: aux[0])
         return cell
     }
 }

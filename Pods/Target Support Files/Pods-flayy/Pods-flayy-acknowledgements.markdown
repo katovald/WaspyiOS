@@ -17,7 +17,15 @@ Copyright 2017 Google
 
 Copyright 2017 Google
 
+## FirebaseCrash
+
+Copyright 2017 Google
+
 ## FirebaseDatabase
+
+Copyright 2017 Google
+
+## FirebaseDynamicLinks
 
 Copyright 2017 Google
 
@@ -26,6 +34,14 @@ Copyright 2017 Google
 Copyright 2017 Google
 
 ## FirebaseMessaging
+
+Copyright 2017 Google
+
+## FirebasePerformance
+
+Copyright 2017 Google
+
+## FirebaseRemoteConfig
 
 Copyright 2017 Google
 
@@ -238,6 +254,10 @@ Copyright 2017 Google
    See the License for the specific language governing permissions and
    limitations under the License.
 
+
+## Google-Mobile-Ads-SDK
+
+Copyright 2017 Google
 
 ## GoogleMaps
 

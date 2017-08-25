@@ -59,7 +59,7 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let userPhone = Auth.auth().currentUser?.providerData
+        _ = Auth.auth().currentUser?.providerData
         var username = ""
         self.ref = Database.database().reference()
         ref.child("accounts").child("+525530127033").observeSingleEvent(of: .value, with: { (snapshot) in

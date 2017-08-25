@@ -108,7 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     // the FCM registration token.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         //print("APNs token retrieved: \(deviceToken)")
-        Auth.auth().setAPNSToken(deviceToken, type: .sandbox)
+        Auth.auth().setAPNSToken(deviceToken, type: .unknown)
         // With swizzling disabled you must set the APNs token here.
         // Messaging.messaging().apnsToken = deviceToken
     }
