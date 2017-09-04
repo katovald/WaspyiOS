@@ -72,7 +72,6 @@
 		41CCFCFB1F0BC5A500F4AC89 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CCFCFA1F0BC5A500F4AC89 /* MapViewController.swift */; };
 		41CCFD011F0C0D8200F4AC89 /* userSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CCFD001F0C0D8200F4AC89 /* userSettings.swift */; };
 		41D416621F214E7E00BC7BDC /* PicMemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D416611F214E7E00BC7BDC /* PicMemberTableViewCell.swift */; };
-		41F8BD4B1F50931D0042B885 /* menuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F8BD4A1F50931D0042B885 /* menuTableViewCell.swift */; };
 		41F8BD4D1F5099710042B885 /* exit.png in Resources */ = {isa = PBXBuildFile; fileRef = 41F8BD4C1F5099710042B885 /* exit.png */; };
 		41F8BD511F50A6310042B885 /* GroupsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F8BD501F50A6310042B885 /* GroupsMenu.swift */; };
 		DE253C0327B82400176CCA14 /* Pods_flayy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403FCD8653054AF62695F8FA /* Pods_flayy.framework */; };
@@ -170,7 +169,6 @@
 		41CCFCFA1F0BC5A500F4AC89 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		41CCFD001F0C0D8200F4AC89 /* userSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userSettings.swift; sourceTree = "<group>"; };
 		41D416611F214E7E00BC7BDC /* PicMemberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicMemberTableViewCell.swift; sourceTree = "<group>"; };
-		41F8BD4A1F50931D0042B885 /* menuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = menuTableViewCell.swift; sourceTree = "<group>"; };
 		41F8BD4C1F5099710042B885 /* exit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = exit.png; path = ../../../Desktop/exit.png; sourceTree = "<group>"; };
 		41F8BD4E1F509BF00042B885 /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleToolboxForMac.framework; path = "../../../Library/Developer/Xcode/DerivedData/flayy-bhimggnokqdphpdccbjsyxbflcvi/Build/Products/Debug-iphoneos/GoogleToolboxForMac/GoogleToolboxForMac.framework"; sourceTree = "<group>"; };
 		41F8BD501F50A6310042B885 /* GroupsMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsMenu.swift; sourceTree = "<group>"; };
@@ -234,7 +232,6 @@
 				4101DCD21F13C4890096FC84 /* Two.swift */,
 				4101DCDB1F13D56C0096FC84 /* Three.swift */,
 				4101DCD61F13C51B0096FC84 /* Four.swift */,
-				41F8BD4A1F50931D0042B885 /* menuTableViewCell.swift */,
 				4111D0D41F3273C10045AEF4 /* CustomMenu.swift */,
 				417F8A161F28DA7E00C4AE58 /* Rounded.swift */,
 				4149906B1F2A617500A87B34 /* cicleBorderpic.swift */,
@@ -670,7 +667,6 @@
 				414524691F575DD60095C8F2 /* utils.swift in Sources */,
 				41CCFCFB1F0BC5A500F4AC89 /* MapViewController.swift in Sources */,
 				417F8A171F28DA7E00C4AE58 /* Rounded.swift in Sources */,
-				41F8BD4B1F50931D0042B885 /* menuTableViewCell.swift in Sources */,
 				4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */,
 				41D416621F214E7E00BC7BDC /* PicMemberTableViewCell.swift in Sources */,
 				4104F4041F1FBC6D00F222B9 /* PlacesViewController.swift in Sources */,
