@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import CoreLocation
 
 protocol MenuActionDelegate {
     func openSegue(_ segueName: String, sender: AnyObject?)
@@ -16,10 +17,12 @@ protocol MenuActionDelegate {
     func exitAuth()
 }
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, CLLocationManagerDelegate {
     var handle:AuthStateDidChangeListenerHandle?
-    
     var ref: DatabaseReference!
+    var phone: String!
+    let change = UserDefaults.standard
+    let user = Auth.auth().currentUser
     
     @IBOutlet weak var memberList: UIButton!
     @IBOutlet weak var center: UIButton!                //boton para centrar el mapa en tu posicion original
@@ -59,16 +62,30 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        _ = Auth.auth().currentUser?.providerData
-        var username = ""
-        self.ref = Database.database().reference()
-        ref.child("accounts").child("+525530127033").observeSingleEvent(of: .value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary
-            username = value?["name"] as? String ?? ""
-            self.title = username
-        })
-        
-        
+        self.phone = (user?.phoneNumber)!
+        if(self.change.string(forKey: "name") != "")
+        {
+            self.ref = Database.database().reference()
+            ref.child("accounts").child(self.phone).observeSingleEvent(of: .value, with: { (snapshot) in
+                let value = snapshot.value as? NSDictionary
+                let username = value?["name"] as? String ?? ""
+                let mail = value?["mail"] as? String ?? ""
+            
+                if (username != "")
+                {
+                    self.title = username
+                    self.change.set(self.phone, forKey: "Phone")
+                    self.change.set(username, forKey: "Name")
+                    self.change.set(mail, forKey: "Mail")
+                }else{
+                    self.change.set(self.phone, forKey: "Phone")
+                    self.performSegue(withIdentifier: "datosUsuario", sender: nil)
+                
+                }
+            }){ (error) in
+            print(error.localizedDescription)
+        }
+    }
     }
     
     override func didReceiveMemoryWarning() {

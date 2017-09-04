@@ -8,31 +8,42 @@
 
 import UIKit
 import GoogleMaps
-import CoreFoundation
+import FirebaseDatabase
 
 class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDelegate{
     
+    var ref: DatabaseReference!
     let locationManager = CLLocationManager()
     var camera = GMSCameraPosition()
     var locValue = CLLocationCoordinate2D()
     var marker = GMSMarker()
+    let userD = UserDefaults.standard
+    let fileMan = FileManager.default
     
     override func viewDidLoad() {
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
-        locValue = locationManager.location!.coordinate
-        self.locationManager.delegate = self
-        setParameters()
+        let status = CLLocationManager.authorizationStatus()
+        if(status == CLAuthorizationStatus.notDetermined || status == CLAuthorizationStatus.denied)
+        {
+            locationManager.requestAlwaysAuthorization()
+        }else{
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+            locValue = locationManager.location!.coordinate
+            self.locationManager.delegate = self
+        }
+        camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.0, bearing: -15, viewingAngle: 45)
+        self.view = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        locationManager.delegate = self
     }
     
-    func setParameters()
+    func setmarker(image: UIImage, map: GMSMapView)
     {
+        
         let marcador = UIImage(named: "marker_layout")!
         let markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 35, height: 38)))
         
-        let foto = UIImage(named: "logo")
-        let fotoview = UIImageView(image: resizeImage(image: foto!, newSize: CGSize(width: 24, height: 24)))
+        let foto = image
+        let fotoview = UIImageView(image: resizeImage(image: foto, newSize: CGSize(width: 24, height: 24)))
         fotoview.layer.borderWidth = 1
         fotoview.layer.masksToBounds = false
         fotoview.backgroundColor = UIColor.blue
@@ -49,40 +60,20 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         marker.title = "Kato"
         marker.iconView = markerView
         
-        camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.0, bearing: -15, viewingAngle: 45)
-        let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-        
-        marker.map = mapView
-        
-        self.view = mapView
-    }
-    
-    func resizeImage(image: UIImage, newSize: CGSize) -> UIImage {
-        
-        let newRect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height).integral
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
-        let context = UIGraphicsGetCurrentContext()
-        
-        // Set the quality level to use when rescaling
-        context!.interpolationQuality = CGInterpolationQuality.default
-        let flipVertical = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: newSize.height)
-        
-        context!.concatenate(flipVertical)
-        // Draw into the context; this scales the image
-        context?.draw(image.cgImage!, in: CGRect(x: 0.0,y: 0.0, width: newRect.width, height: newRect.height))
-        
-        let newImageRef = context!.makeImage()! as CGImage
-        let newImage = UIImage(cgImage: newImageRef)
-        
-        // Get the resized image from the context and a UIImage
-        UIGraphicsEndImageContext()
-        
-        return newImage
+        marker.map = map
+
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        marker.position = CLLocationCoordinate2D(latitude: locValue.latitude, longitude: locValue.longitude)
-        print("update")
+        let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        let photoURl = docUrl.appendingPathComponent(userD.string(forKey: "Phone")! + ".png")
+        
+        if (fileMan.fileExists(atPath: photoURl.path)){
+            setmarker(image: UIImage(contentsOfFile: photoURl.path)!, map: self.view as! GMSMapView)
+            //self.ref.child("accounts/" + userD.string(forKey: "Phone")! + "/location/").setValue()
+        }
+        
+        print(locations)
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
@@ -91,6 +82,12 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         //geocerca
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status != CLAuthorizationStatus.denied{
+            locationManager.startUpdatingLocation()
+        }
     }
     
     override func didReceiveMemoryWarning() {

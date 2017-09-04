@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "camasacontigo",
+  "private_key_id": "cfb28f7007ca6f3880f9ff36c217dbf0d1a8c107",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC5zxWtHfm87zoS\nAQWIJ1dyNmUfw6E9sCd3xMefvQiQB0X371USSMs7c0ZoYpP9Imrvi82kMlt48Y0i\nv4c74W0F/G9RCBu25PUjec9Yy75g1ATZ5kDlmJkmeTwAnE8e/vTrujdSSt4nFFKK\naPSOGVqsUM4I7Ccrkfmu43N7ioeMmwwmVKb3kxMDT4q4dHfewhmdnCRkY0z263Ni\nsJUIv4nkwJU4FsG9EP3q6SYS6AGMi7d+QiLUX3twweh7A3+H0upbJwEvFpoQN7n9\nq26ZIFakU8kgTOf3HQnP2bOtYg0JfhZtnvNKuI1r/7cOD78m2Xs4eF3ZRuPfnNv5\nfgCeoTDFAgMBAAECggEAW9DVTMDZtf9eqiPgGGocX386lCom5KVFs3zFCg2ujAFU\nFVKqLolTB/MMESvZJgZaYjmqqd8KbWarT8bl6/SWW5Vkal2/2C4mZlvcVmwDjLRo\nG0aYvfucfjL9L+4NeOsSmuNfT+ZYBWaY7PU1F3y23hxl22naZ0DQaRfS6nLHTXY8\nMtO1qInwezR3nFDPQN0kxRY3y/G3PITRtCoU+AtHJ9sGYpz0VLBUmbwhk86kluuI\ncl5LadbldSFc+K1cxMCFPyxRPBJwVBoXu5nJ6BMMsadvbTMJcOovre2ia5m5Jdlf\ntCLeqr4neHpIiq7OqQVgssnT5ulql1MbDcEKVoGgZwKBgQD+tKcMQUn+Uol8O9Ax\noOVR5+1YdyaRX+SA84dkBmb4hM/zqxULzNJRcDQsU5OheuP+nk2bBsrFMUKqgX0x\niVd5vWlUFNotTXXvlqfIHlFYJu5TzrgasONZ6mkPLa4v/BcNgALklh/qNiUt/13c\nIpLHa1eV2eT8BKXkUR+tzSD/awKBgQC6wM3bX4Ts82vXkIYAZ0YO3WjYlNPS6W66\n7uhcgWnHivctr5akQv9I+3lPW/QyHNb8wITcq5U7Nc+UeJhaLL96d98WY+jPcVYA\nypTrtX/tDsK5l952sOkSLKlm24zCZWSelfpbodnVHRrgy6JEiMqntI4bKhQxAqmC\n1aLCrYyMjwKBgQCjLhPzuwRvxmtEx4FLulwQzHj3+2YfLwNTRjJQd/WSdGxSHSJf\nq/p2qF8UovrrMrNNFhh8IK7aBQRD/q+5g9ciLKKFdtKMwZq0Q538jMfqpQ59bOvw\nVbFiktZ6HfcB0Qzn3kJ8Nl3+DHBndrqoZRIKZw/29mFIwKWTkBGupMPmPwKBgQCM\nOC2YlCyjGNYVAZ+Ld/9DM/z/+SbeioSoeK8gnc6Fk5Kpy9fot6Ej9CUOb/V3Fu5Y\n0lgvs+kVjv6v9Kg3tLeERbLMBfIMp4UyjOip3hoSLO4KGbxgE8675aq/3wLeBvE4\nnVVgLbL376V5uYu5t5epucilHsAQWHZcFPnjABmygwKBgQC8ilHVjg8NNYWJ+yq3\nDNOdDF3lZr1fkjr8mYND/4YE9YvOqhLZOo/FFTw52bOGk3cRdGbS9+2YM8O1773E\njsZZKm+PHXGdr6eS2AAbAgaOrStIcbDYhk5aEjgIGcClM2BYgoSUdkHTWcfG/hOL\ndZMTxHM5iGMivqIbkquxfeiHgQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-crashreporting-a83oi@camasacontigo.iam.gserviceaccount.com",
+  "client_id": "105971007945002040928",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-crashreporting-a83oi%40camasacontigo.iam.gserviceaccount.com"
+}

@@ -23,10 +23,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     var player: AVPlayer!
     var playerLayer: AVPlayerLayer!
     var pausa: Bool = false
-    let ref = Database.database().reference()
     var verID = ""
     var tel = ""
     var animated:Bool = false
+    let userInfo:UserDefaults = UserDefaults.standard
     
     //acciones de los componentes
     @IBAction func Clicked(_ sender: Any) {
@@ -78,9 +78,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         self.Telefono.delegate = self
         self.Code.delegate = self
         self.Telefono.keyboardType = .phonePad
-        self.Telefono.setBottomBorder(color: .black)
         self.Code.keyboardType = .numberPad
-        self.Code.setBottomBorder(color: .black)
         
         let url = Bundle.main.url(forResource: "prueba12", withExtension: "mp4")
         
@@ -98,6 +96,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                                selector: #selector(termino(notification:)),
                                                name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                object: player.currentItem)
+
         
         registerForKeyboardNotifications()
         // Do any additional setup after loading the view, typically from a nib.
@@ -187,29 +186,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             // [END_EXCLUDE]
                             return
                         }
-                    UserDefaults.standard.set( self.tel, forKey: "userPhoneNumber")
                         // User is signed in
                         // [START_EXCLUDE]
                         // Merge prevUser and currentUser accounts and data
                         // ...
                     
-                        self.ref.child("accounts").child(self.tel).observeSingleEvent(of: .value, with: { (snapshot) in
-                        // Get user value
-                        let value = snapshot.value as? NSDictionary
-                        let username = value?["name"] as? String ?? ""
-                        
-                        if (username == "")
-                        {
-                            self.performSegue(withIdentifier: "faltanDatos", sender: nil)
-                        }
-                        else{
-                            self.performSegue(withIdentifier: "datosListos", sender: nil)
-                        }
-                        
-                        // ...
-                    }) { (error) in
-                        //print(error.localizedDescription)
-                    }
+                    self.performSegue(withIdentifier: "InicioApp", sender: nil)
                         // [END_EXCLUDE]
                     }
                 }
@@ -229,4 +211,3 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     }
 
 }
-

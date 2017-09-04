@@ -9,21 +9,22 @@
 import UIKit
 import Firebase
 import UserNotifications
+import CoreLocation
 import GoogleMaps
-import GooglePlaces
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
         //npi que va aqui
     }
     
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print(remoteMessage.appData)
+        
     }
     
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
+    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -46,7 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         application.registerForRemoteNotifications()
 
         GMSServices.provideAPIKey("AIzaSyCsKticH0eEpIsY-iB07Py0RFQt8nRQ1Gk")
-        GMSPlacesClient.provideAPIKey("AIzaSyDRB6xIV_O1rX_bvc_3BzWfUp0yooLwSD0")
         
         if (Auth.auth().currentUser == nil){
             let aux = UIStoryboard(name: "Main", bundle: nil)
@@ -57,6 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             let view = aux.instantiateViewController(withIdentifier: "inicioWLogin") as UIViewController
             window?.rootViewController = view
         }
+        
         return true
     }
     
@@ -100,20 +101,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     // [END receive_message]
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Unable to register for remote notifications: \(error.localizedDescription)")
+        //print("Unable to register for remote notifications: \(error.localizedDescription)")
     }
     
     // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
     // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
     // the FCM registration token.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        //print("APNs token retrieved: \(deviceToken)")
         Auth.auth().setAPNSToken(deviceToken, type: .unknown)
         // With swizzling disabled you must set the APNs token here.
         // Messaging.messaging().apnsToken = deviceToken
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("updated")
+        //print("updated")
     }
 }

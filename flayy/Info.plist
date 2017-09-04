@@ -44,7 +44,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Used to get the user picture</string>
+	<string>User experience, save its picture</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Main service</string>
 	<key>NSPhotoLibraryUsageDescription</key>

@@ -12,7 +12,8 @@ import FirebaseAuth
 class menuDesignViewController: UIViewController {
     
     let menu = [["Mis lugares","lugares.png"],["Configuracion","config.png"],["CAMSA FAQ", "faq.png"],["Salir","exit.png"]]
-    
+    let fileMan = FileManager()
+    let userD = UserDefaults.standard
     var menuActionDelegate: MenuActionDelegate? = nil
     
     @IBOutlet weak var round: UIImageView!
@@ -23,23 +24,6 @@ class menuDesignViewController: UIViewController {
     }
     
     var context = CIContext(options: nil)
-    
-    func blurEffect(foto: UIImage) -> UIImage{
-        
-        let currentFilter = CIFilter(name: "CIGaussianBlur")
-        let beginImage = CIImage(image: foto)
-        currentFilter!.setValue(beginImage, forKey: kCIInputImageKey)
-        currentFilter!.setValue(10, forKey: kCIInputRadiusKey)
-        
-        let cropFilter = CIFilter(name: "CICrop")
-        cropFilter!.setValue(currentFilter!.outputImage, forKey: kCIInputImageKey)
-        cropFilter!.setValue(CIVector(cgRect: beginImage!.extent), forKey: "inputRectangle")
-        
-        let output = cropFilter!.outputImage
-        let cgimg = context.createCGImage(output!, from: output!.extent)
-        let processedImage = UIImage(cgImage: cgimg!)
-        return processedImage
-    }
     
     func delay(segundos: Double, completion:@escaping()->()){
         let tiempoVista = DispatchTime.now() + Double(Int64(Double(NSEC_PER_SEC) * segundos)) / Double(NSEC_PER_SEC)
@@ -56,8 +40,16 @@ class menuDesignViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        self.round.image = UIImage(named: "kato.jpg")
-        self.blur.image = blurEffect(foto: UIImage(named: "kato.jpg")!)
+        let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        let photoURl = docUrl.appendingPathComponent(userD.string(forKey: "Phone")! + ".png")
+        
+        if (fileMan.fileExists(atPath: photoURl.path)){
+            self.round.image = UIImage(contentsOfFile: photoURl.path)
+            self.blur.image = blurEffect(foto: UIImage(contentsOfFile: photoURl.path)!, contexto: context)
+        }else{
+            self.round.image = UIImage(named: "kato.jpg")
+            self.blur.image = blurEffect(foto: UIImage(named: "kato.jpg")!, contexto: context)
+        }
     }
     
     
