@@ -11,16 +11,28 @@ import GoogleMaps
 import FirebaseDatabase
 
 class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDelegate{
-    
-    var ref: DatabaseReference!
+
     let locationManager = CLLocationManager()
     var camera = GMSCameraPosition()
     var locValue = CLLocationCoordinate2D()
     var marker = GMSMarker()
     let userD = UserDefaults.standard
-    let fileMan = FileManager.default
+    var getMembersData:Timer!
+    
+    var mapa:GMSMapView!
+    var longitudes:[Double]!
+    var latitudes:[Double]!
+    var architectNames:[String]!
+    var completedYear:[String]!
+    var miembros:[String:AnyObject]!
     
     override func viewDidLoad() {
+        self.mapa = GMSMapView(frame: self.view.frame)
+        self.mapa.delegate = self
+        self.view = mapa
+        
+        getMembersData =  Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateMarkers), userInfo: nil, repeats: true)
+        
         let status = CLLocationManager.authorizationStatus()
         if(status == CLAuthorizationStatus.notDetermined || status == CLAuthorizationStatus.denied)
         {
@@ -31,49 +43,37 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             locValue = locationManager.location!.coordinate
             self.locationManager.delegate = self
         }
+        
         camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.0, bearing: -15, viewingAngle: 45)
         self.view = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         locationManager.delegate = self
+        
+        
+        
+        //public let DataChangueNotification = NSNotification.Name("UserDataChanged")
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMarkers), name: NSNotification.Name("UserPhotoChanged"), object: nil)
+    }
+
+    func updateMarkers()
+    {
+    //        for i in 0...2 {
+    //            let coordinates = CLLocationCoordinate2D(latitude: latitudes[i], longitude: longitudes[i])
+    //            let marker = GMSMarker(position: coordinates)
+    //            marker.map = self.mapa
+    //            marker.icon = UIImage(named: "\(i)")
+    //            marker.infoWindowAnchor = CGPoint(x: 0.5, y: 0.2)
+    //            marker.accessibilityLabel = "\(i)"
+    //        }
     }
     
-    func setmarker(image: UIImage, map: GMSMapView)
+    func drawMarker(telefono: String, map: GMSMapView)
     {
         
-        let marcador = UIImage(named: "marker_layout")!
-        let markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 35, height: 38)))
-        
-        let foto = image
-        let fotoview = UIImageView(image: resizeImage(image: foto, newSize: CGSize(width: 24, height: 24)))
-        fotoview.layer.borderWidth = 1
-        fotoview.layer.masksToBounds = false
-        fotoview.backgroundColor = UIColor.blue
-        fotoview.layer.cornerRadius = fotoview.frame.height/2
-        fotoview.clipsToBounds = true
-        fotoview.center.x = markerView.center.x
-        fotoview.center.y = markerView.center.y - 7
-        
-        fotoview.backgroundColor = UIColor.clear
-        
-        markerView.addSubview(fotoview)
-        
-        marker.position = CLLocationCoordinate2D(latitude: locValue.latitude, longitude: locValue.longitude)
-        marker.title = "Kato"
-        marker.iconView = markerView
-        
-        marker.map = map
-
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        let photoURl = docUrl.appendingPathComponent(userD.string(forKey: "Phone")! + ".png")
-        
-        if (fileMan.fileExists(atPath: photoURl.path)){
-            setmarker(image: UIImage(contentsOfFile: photoURl.path)!, map: self.view as! GMSMapView)
-            //self.ref.child("accounts/" + userD.string(forKey: "Phone")! + "/location/").setValue()
-        }
-        
-        print(locations)
+        self.marker.updateMarker(coordinates: (locations.last?.coordinate)!, degrees: .init(0), duration: 0.5)
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
@@ -85,12 +85,9 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status != CLAuthorizationStatus.denied{
+        /*if status != CLAuthorizationStatus.denied{
             locationManager.startUpdatingLocation()
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        
+        }*/
     }
 }
+

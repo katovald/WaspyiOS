@@ -27,6 +27,10 @@
 		4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4111D0D41F3273C10045AEF4 /* CustomMenu.swift */; };
 		412BC81E1F4DD7A20066E9B2 /* Login2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412BC81D1F4DD7A20066E9B2 /* Login2ViewController.swift */; };
 		414524691F575DD60095C8F2 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414524681F575DD60095C8F2 /* utils.swift */; };
+		4145246D1F5DA51D0095C8F2 /* menuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4145246C1F5DA51D0095C8F2 /* menuTableViewCell.swift */; };
+		414524731F5EF1A20095C8F2 /* firebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414524721F5EF1A20095C8F2 /* firebaseManager.swift */; };
+		414524751F5EF4900095C8F2 /* reachNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414524741F5EF4900095C8F2 /* reachNet.swift */; };
+		414524771F634B7D0095C8F2 /* waspyMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414524761F634B7D0095C8F2 /* waspyMarker.swift */; };
 		4149906C1F2A617500A87B34 /* cicleBorderpic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149906B1F2A617500A87B34 /* cicleBorderpic.swift */; };
 		417E64701F16703200DDA8F8 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417E646F1F16703200DDA8F8 /* MapController.swift */; };
 		417E64791F191AB200DDA8F8 /* ic_group_black_24dp.png in Resources */ = {isa = PBXBuildFile; fileRef = 417E64771F191AB200DDA8F8 /* ic_group_black_24dp.png */; };
@@ -51,7 +55,7 @@
 		4183E4E51F0EA41400ECBED4 /* dron.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4E31F0EA41400ECBED4 /* dron.png */; };
 		4183E4E81F0EA42B00ECBED4 /* local_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4E61F0EA42B00ECBED4 /* local_small.png */; };
 		4183E4E91F0EA42B00ECBED4 /* local.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4E71F0EA42B00ECBED4 /* local.png */; };
-		4183E4F11F0EE1BD00ECBED4 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4F01F0EE1BD00ECBED4 /* logo.png */; };
+		4183E4F11F0EE1BD00ECBED4 /* defaultIMG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4F01F0EE1BD00ECBED4 /* defaultIMG.png */; };
 		4183E4F31F0EE2C000ECBED4 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4F21F0EE2C000ECBED4 /* camera.png */; };
 		4183E4F51F0EE2EF00ECBED4 /* camera_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4F41F0EE2EF00ECBED4 /* camera_big.png */; };
 		418A2D9A1F27FA2700A6B049 /* CloudedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418A2D991F27FA2700A6B049 /* CloudedData.swift */; };
@@ -119,6 +123,10 @@
 		411BC24F1F546E2800E5560D /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		412BC81D1F4DD7A20066E9B2 /* Login2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login2ViewController.swift; sourceTree = "<group>"; };
 		414524681F575DD60095C8F2 /* utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
+		4145246C1F5DA51D0095C8F2 /* menuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = menuTableViewCell.swift; sourceTree = "<group>"; };
+		414524721F5EF1A20095C8F2 /* firebaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = firebaseManager.swift; sourceTree = "<group>"; };
+		414524741F5EF4900095C8F2 /* reachNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = reachNet.swift; sourceTree = "<group>"; };
+		414524761F634B7D0095C8F2 /* waspyMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = waspyMarker.swift; sourceTree = "<group>"; };
 		4149906B1F2A617500A87B34 /* cicleBorderpic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cicleBorderpic.swift; sourceTree = "<group>"; };
 		417E646F1F16703200DDA8F8 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		417E64771F191AB200DDA8F8 /* ic_group_black_24dp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_group_black_24dp.png; path = "../../CAMSA/CamsaContigo/app/src/release/res/drawable-hdpi/ic_group_black_24dp.png"; sourceTree = "<group>"; };
@@ -142,7 +150,7 @@
 		4183E4E31F0EA41400ECBED4 /* dron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dron.png; path = ../../../Desktop/dron.png; sourceTree = "<group>"; };
 		4183E4E61F0EA42B00ECBED4 /* local_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = local_small.png; path = ../../../Desktop/local_small.png; sourceTree = "<group>"; };
 		4183E4E71F0EA42B00ECBED4 /* local.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = local.png; path = ../../../Desktop/local.png; sourceTree = "<group>"; };
-		4183E4F01F0EE1BD00ECBED4 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../../../Desktop/logo.png; sourceTree = "<group>"; };
+		4183E4F01F0EE1BD00ECBED4 /* defaultIMG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = defaultIMG.png; path = ../../../Desktop/defaultIMG.png; sourceTree = "<group>"; };
 		4183E4F21F0EE2C000ECBED4 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = camera.png; path = ../../../Desktop/camera.png; sourceTree = "<group>"; };
 		4183E4F41F0EE2EF00ECBED4 /* camera_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = camera_big.png; path = ../../../Downloads/camera_big.png; sourceTree = "<group>"; };
 		418A2D991F27FA2700A6B049 /* CloudedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudedData.swift; sourceTree = "<group>"; };
@@ -228,6 +236,7 @@
 		417F8A181F28EC4E00C4AE58 /* Design */ = {
 			isa = PBXGroup;
 			children = (
+				414524761F634B7D0095C8F2 /* waspyMarker.swift */,
 				4101DCD01F13BEC90096FC84 /* One.swift */,
 				4101DCD21F13C4890096FC84 /* Two.swift */,
 				4101DCDB1F13D56C0096FC84 /* Three.swift */,
@@ -259,6 +268,9 @@
 		4183E4D31F0D5CF700ECBED4 /* Hdlrs */ = {
 			isa = PBXGroup;
 			children = (
+				414524741F5EF4900095C8F2 /* reachNet.swift */,
+				414524721F5EF1A20095C8F2 /* firebaseManager.swift */,
+				4145246C1F5DA51D0095C8F2 /* menuTableViewCell.swift */,
 				417F8A191F29210600C4AE58 /* asyncData.swift */,
 				414524681F575DD60095C8F2 /* utils.swift */,
 				4101DCD81F13CB760096FC84 /* Gif.swift */,
@@ -367,7 +379,7 @@
 				4181C5C21F15789F0099A83E /* marker_70x.png */,
 				4181C5BE1F154CDE0099A83E /* marker_layout.png */,
 				4183E4F21F0EE2C000ECBED4 /* camera.png */,
-				4183E4F01F0EE1BD00ECBED4 /* logo.png */,
+				4183E4F01F0EE1BD00ECBED4 /* defaultIMG.png */,
 				4183E4E61F0EA42B00ECBED4 /* local_small.png */,
 				4183E4E71F0EA42B00ECBED4 /* local.png */,
 				4183E4F41F0EE2EF00ECBED4 /* camera_big.png */,
@@ -564,7 +576,7 @@
 				417E64791F191AB200DDA8F8 /* ic_group_black_24dp.png in Resources */,
 				4183E4E91F0EA42B00ECBED4 /* local.png in Resources */,
 				41B719611F069C9C00A42014 /* Main.storyboard in Resources */,
-				4183E4F11F0EE1BD00ECBED4 /* logo.png in Resources */,
+				4183E4F11F0EE1BD00ECBED4 /* defaultIMG.png in Resources */,
 				4183E4E51F0EA41400ECBED4 /* dron.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -666,7 +678,11 @@
 				41ACBAE31F460C9E00C8DFB9 /* keyboardDesign.swift in Sources */,
 				414524691F575DD60095C8F2 /* utils.swift in Sources */,
 				41CCFCFB1F0BC5A500F4AC89 /* MapViewController.swift in Sources */,
+				4145246D1F5DA51D0095C8F2 /* menuTableViewCell.swift in Sources */,
 				417F8A171F28DA7E00C4AE58 /* Rounded.swift in Sources */,
+				414524731F5EF1A20095C8F2 /* firebaseManager.swift in Sources */,
+				414524751F5EF4900095C8F2 /* reachNet.swift in Sources */,
+				414524771F634B7D0095C8F2 /* waspyMarker.swift in Sources */,
 				4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */,
 				41D416621F214E7E00BC7BDC /* PicMemberTableViewCell.swift in Sources */,
 				4104F4041F1FBC6D00F222B9 /* PlacesViewController.swift in Sources */,

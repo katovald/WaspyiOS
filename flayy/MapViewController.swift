@@ -21,8 +21,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     var handle:AuthStateDidChangeListenerHandle?
     var ref: DatabaseReference!
     var phone: String!
-    let change = UserDefaults.standard
+    let userD = UserDefaults.standard
     let user = Auth.auth().currentUser
+    let notificationObserver = NotificationCenter.default
     
     @IBOutlet weak var memberList: UIButton!
     @IBOutlet weak var center: UIButton!                //boton para centrar el mapa en tu posicion original
@@ -62,30 +63,28 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print((user?.phoneNumber)!)
         self.phone = (user?.phoneNumber)!
-        if(self.change.string(forKey: "name") != "")
+        if self.phone != ""
         {
-            self.ref = Database.database().reference()
-            ref.child("accounts").child(self.phone).observeSingleEvent(of: .value, with: { (snapshot) in
-                let value = snapshot.value as? NSDictionary
-                let username = value?["name"] as? String ?? ""
-                let mail = value?["mail"] as? String ?? ""
-            
-                if (username != "")
-                {
-                    self.title = username
-                    self.change.set(self.phone, forKey: "Phone")
-                    self.change.set(username, forKey: "Name")
-                    self.change.set(mail, forKey: "Mail")
-                }else{
-                    self.change.set(self.phone, forKey: "Phone")
-                    self.performSegue(withIdentifier: "datosUsuario", sender: nil)
-                
-                }
-            }){ (error) in
-            print(error.localizedDescription)
+            userD.set(self.phone, forKey: "Phone")
         }
+        if(self.userD.string(forKey: "Name") != "")
+        {
+            self.performSegue(withIdentifier: "datosUsuario", sender: nil)
+        }else{
+            if self.userD.string(forKey: "NombreGrupoActual") != ""
+            {
+                self.title = self.userD.string(forKey: "NombreGrupoActual")
+            }
+        }
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(changedGroup), name: NSNotification.Name("UserGroupsChanged"), object: nil)
     }
+    
+    func changedGroup(){
+        self.title = self.userD.string(forKey: "NombreGrupoActual")
     }
     
     override func didReceiveMemoryWarning() {

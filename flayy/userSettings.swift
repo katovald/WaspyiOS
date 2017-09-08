@@ -16,13 +16,9 @@ import FirebaseAuth
 
 class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate{
     
-    var databaseref: DatabaseReference!
-    let almacen = Storage.storage()
-    var nombre:String!
+    let modelManager = firebaseManager()
     var phone:String!
-    var mail:String!
     let userD = UserDefaults.standard
-    let fileMan = FileManager.default
     let imagePicker = UIImagePickerController()
     
     @IBOutlet weak var phoneText: UITextField!
@@ -42,7 +38,7 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
             return
         }
         else{
-            enviaDatosFB()
+            modelManager.setUserSetting(phone: self.phone, name: self.nameText.text!, mail: self.userMail.text!)
         }
         self.dismiss(animated: true, completion: nil)
     }
@@ -65,40 +61,19 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
     override func viewDidLoad() {
         
         imagePicker.delegate = self
-        var datosPic:Data? = nil
-        self.nombre = self.userD.string(forKey: "Name")
-        self.nameText.text = nombre
+        self.nameText.text = self.userD.string(forKey: "Name") ?? ""
         self.phone = self.userD.string(forKey: "Phone")
-        self.mail = self.userD.string(forKey: "Mail")
-        self.userMail.text = self.mail
+        self.userMail.text = self.userD.string(forKey: "Mail") ?? ""
         
-        let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        let photoURl = docUrl.appendingPathComponent(self.phone + ".png")
+        self.userPhoto.image = modelManager.getMemberPhoto(phone: self.phone)
         
-        if (fileMan.fileExists(atPath: photoURl.path)){
-            self.userPhoto.image = UIImage(contentsOfFile: photoURl.path)
-        }else{
-            let userPictureLocation = almacen.reference(forURL: "gs://camasacontigo.appspot.com")
-            let userPicture = userPictureLocation.child("/CAMUserPhotos/" + self.phone)
-            userPicture.getData(maxSize: 1 * 1024 * 1024) { (data, error) -> Void in
-                if (error == nil) {
-                    datosPic = data
-                    let imageData = UIImage(data: datosPic!)
-                    self.userPhoto.image = imageData
-                    let variable = UIImagePNGRepresentation(imageData!)
-                    try! variable?.write(to: photoURl)
-                } 
-            }
-        }
-        
-        if (self.nombre == ""){
+        if (self.nameText.text == ""){
             self.Salir.isEnabled = false
         }
     }
     
     @IBAction func inicioGaleria(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
-            let imagePicker = UIImagePickerController()
             imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
             imagePicker.mediaTypes = [kUTTypeImage as String]
             imagePicker.allowsEditing = false
@@ -121,13 +96,19 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
         
         if mediaType.isEqual(to: kUTTypeImage as String) {
             let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-            if(image.size.width < image.size.height){
+            if(image.size.width > image.size.height){
                 let imagenRec:UIImage =  cropToBounds(image: image, width: Double(image.size.width), height: Double(image.size.width))
                 self.userPhoto.image = resizeImage(image: imagenRec, newSize: CGSize(width: 130, height: 130))
+                self.modelManager.setUserPhoto(photo: self.userPhoto.image!, phone: self.phone)
             }
-            if(image.size.width > image.size.height){
+            if(image.size.width < image.size.height){
                 let imagenRec:UIImage =  cropToBounds(image: image, width: Double(image.size.height), height: Double(image.size.height))
-                self.userPhoto.image = resizeImage(image: imagenRec, newSize: CGSize(width: 130, height: 130))
+                self.userPhoto.image =  imageRotatedByDegrees(oldImage: resizeImage(image: imagenRec, newSize: CGSize(width: 130, height: 130)), deg: 90.0)
+                self.modelManager.setUserPhoto(photo: self.userPhoto.image!, phone: self.phone)
+            }
+            else{
+                self.userPhoto.image = resizeImage(image: image, newSize: CGSize(width: 130, height: 130))
+                self.modelManager.setUserPhoto(photo: self.userPhoto.image!, phone: self.phone)
             }
         }
     }
@@ -153,39 +134,4 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true) //This will hide the keyboard
     }
-    
-    func enviaDatosFB()
-    {
-        self.databaseref = Database.database().reference()
-        let reference = almacen.reference(forURL: "gs://camasacontigo.appspot.com/CAMUserPhotos/")
-        let imageData: Data = UIImagePNGRepresentation(userPhoto.image!)!
-        
-        var urlDownload = ""
-        
-        let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        
-        let imageUrl = docUrl.appendingPathComponent(self.phone + ".png")
-        
-        try! imageData.write(to: imageUrl)
-        
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/png"                                 
-        
-        reference.child(self.phone + ".png").putData(imageData, metadata: metadata) { (metadata, error) in
-            guard metadata != nil else {
-                print(error ?? "")
-                return
-            }
-            urlDownload = (metadata?.downloadURL()?.path)!
-            self.databaseref.child("accounts/" + self.phone + "/photo_url").setValue(urlDownload)
-        }
-        
-        self.databaseref.child("accounts/" + phone + "/name").setValue(self.nameText.text)
-        self.databaseref.child("accounts/" + phone + "/phone").setValue(self.phone)
-        self.databaseref.child("accounts/" + phone + "/mail").setValue(self.userMail.text)
-    }
-    
-    
 }
-
-
