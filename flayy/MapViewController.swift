@@ -24,6 +24,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     let userD = UserDefaults.standard
     let user = Auth.auth().currentUser
     let notificationObserver = NotificationCenter.default
+    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
     @IBOutlet weak var memberList: UIButton!
     @IBOutlet weak var center: UIButton!                //boton para centrar el mapa en tu posicion original
@@ -63,11 +64,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print((user?.phoneNumber)!)
+        
         self.phone = (user?.phoneNumber)!
         if self.phone != ""
         {
             userD.set(self.phone, forKey: "Phone")
+            firebaseManager.init().getPhoneOwnerGroups()
         }
         if(self.userD.string(forKey: "Name") != "")
         {
@@ -91,6 +93,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+
 }
 
 extension MapViewController: MenuActionDelegate {

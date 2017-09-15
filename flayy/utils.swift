@@ -126,3 +126,14 @@ func imageRotatedByDegrees(oldImage: UIImage, deg degrees: CGFloat) -> UIImage {
     UIGraphicsEndImageContext()
     return newImage
 }
+
+func checkCodeRepeat(array: [String], code: String) -> String {
+    var codeWr = ""
+    if array.contains(code)
+    {
+        codeWr = checkCodeRepeat(array: array, code: randomAlphaNumericString(length: 6))
+    }else{
+        codeWr = code
+    }
+    return codeWr
+}

@@ -99,16 +99,16 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
             if(image.size.width > image.size.height){
                 let imagenRec:UIImage =  cropToBounds(image: image, width: Double(image.size.width), height: Double(image.size.width))
                 self.userPhoto.image = resizeImage(image: imagenRec, newSize: CGSize(width: 130, height: 130))
-                self.modelManager.setUserPhoto(photo: self.userPhoto.image!, phone: self.phone)
+                self.modelManager.saveUserPhotoFB(photo: self.userPhoto.image!, phone: self.phone)
             }
             if(image.size.width < image.size.height){
                 let imagenRec:UIImage =  cropToBounds(image: image, width: Double(image.size.height), height: Double(image.size.height))
                 self.userPhoto.image =  imageRotatedByDegrees(oldImage: resizeImage(image: imagenRec, newSize: CGSize(width: 130, height: 130)), deg: 90.0)
-                self.modelManager.setUserPhoto(photo: self.userPhoto.image!, phone: self.phone)
+                self.modelManager.saveUserPhotoFB(photo: self.userPhoto.image!, phone: self.phone)
             }
             else{
                 self.userPhoto.image = resizeImage(image: image, newSize: CGSize(width: 130, height: 130))
-                self.modelManager.setUserPhoto(photo: self.userPhoto.image!, phone: self.phone)
+                self.modelManager.saveUserPhotoFB(photo: self.userPhoto.image!, phone: self.phone)
             }
         }
     }

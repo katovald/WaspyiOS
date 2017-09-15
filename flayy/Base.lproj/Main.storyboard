@@ -754,7 +754,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="60" id="cTe-z6-bj2" customClass="menuTableViewCell" customModule="flayy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="240" height="60"/>
+                                        <rect key="frame" x="0.0" y="56" width="240" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cTe-z6-bj2" id="2rV-ag-HSC">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="60"/>
@@ -821,6 +821,7 @@
                     </view>
                     <connections>
                         <outlet property="blur" destination="GHK-zw-OA3" id="wja-8e-MiZ"/>
+                        <outlet property="nombre" destination="Gsq-jB-vbG" id="s6d-od-igd"/>
                         <outlet property="round" destination="s74-cd-ga3" id="fNc-GC-tB9"/>
                     </connections>
                 </viewController>
@@ -861,7 +862,7 @@
                                 <color key="backgroundColor" white="0.25" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="Q01-l8-bMe">
-                                        <rect key="frame" x="0.0" y="55.5" width="220" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="220" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Q01-l8-bMe" id="cbs-XY-T6p">
                                             <rect key="frame" x="0.0" y="0.0" width="220" height="44"/>
@@ -968,7 +969,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="65" id="lKS-w1-Tvi" customClass="PicMemberTableViewCell" customModule="flayy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="320" height="65"/>
+                                        <rect key="frame" x="0.0" y="55" width="320" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lKS-w1-Tvi" id="47S-Mr-bhc">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>

@@ -10,23 +10,25 @@ import UIKit
 import AVKit
 import GoogleMaps
 
-class waspyMarker: GMSMarker {
+class waspyMemberMarker: GMSMarker {
     let fileMan = FileManager.default
     var foto:UIImage!
     var userD:UserDefaults = UserDefaults.standard
+    var markerView:UIImageView!
     
     init(phone: String) {
         let marcador = UIImage(named: "marker_layout")!
-        let markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 35, height: 38)))
+        markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 35, height: 38)))
         
         let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        let photoURl = docUrl.appendingPathComponent(userD.string(forKey: "Phone")! + ".png")
+        let photoURl = docUrl.appendingPathComponent(userD.string(forKey: "OwnerPhone")! + ".png")
         
         if (fileMan.fileExists(atPath: photoURl.path)){
             foto = UIImage(contentsOfFile: photoURl.path)
         }else{
             foto = UIImage(named: "defaultIMG.png")
         }
+        
         let fotoview = UIImageView(image: resizeImage(image: foto, newSize: CGSize(width: 24, height: 24)))
         fotoview.layer.borderWidth = 1
         fotoview.layer.masksToBounds = false
@@ -35,12 +37,18 @@ class waspyMarker: GMSMarker {
         fotoview.clipsToBounds = true
         fotoview.center.x = markerView.center.x
         fotoview.center.y = markerView.center.y - 7
-        
         fotoview.backgroundColor = UIColor.clear
         
-        self.addSubview(fotoview)
+        markerView.addSubview(fotoview)
     }
     
+    func setIconView() {
+        self.iconView = markerView
+    }
+    
+    func setLocation(location: CLLocationCoordinate2D) {
+        self.position = location
+    }
 }
 
 extension waspyMarker{

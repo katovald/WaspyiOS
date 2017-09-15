@@ -25,59 +25,43 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/userSettings.swift"
-            timestampString = "526589645.303183"
+            filePath = "flayy/firebaseManager.swift"
+            timestampString = "527094346.821413"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/userSettings.swift"
-            timestampString = "526589645.685547"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "createUserGroups(name:)"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "flayy.userSettings.viewDidLoad () -&gt; ()"
+                  symbolName = "flayy.firebaseManager.createUserGroups (name : Swift.String) -&gt; ()"
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kato/Documents/projects/flayy/flayy/userSettings.swift"
-                  timestampString = "526590168.265405"
+                  urlString = "file:///Users/kato/Documents/projects/flayy/flayy/firebaseManager.swift"
+                  timestampString = "527094347.931595"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
-                  offsetFromSymbolStart = "148">
+                  startingLineNumber = "115"
+                  endingLineNumber = "115"
+                  offsetFromSymbolStart = "6128">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "flayy.userSettings.(viewDidLoad () -&gt; ()).(implicit closure #1)"
+                  symbolName = "flayy.firebaseManager.(createUserGroups (name : Swift.String) -&gt; ()).(implicit closure #2)"
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kato/Documents/projects/flayy/flayy/userSettings.swift"
-                  timestampString = "526590168.267241"
+                  urlString = "file:///Users/kato/Documents/projects/flayy/flayy/firebaseManager.swift"
+                  timestampString = "527094347.933636"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
+                  startingLineNumber = "115"
+                  endingLineNumber = "115"
                   offsetFromSymbolStart = "16">
                </Location>
             </Locations>
@@ -89,13 +73,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/userSettings.swift"
-            timestampString = "526589646.090717"
+            filePath = "flayy/firebaseManager.swift"
+            timestampString = "527094346.821413"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "createUserGroups(name:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -105,61 +89,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/userSettings.swift"
-            timestampString = "526589646.540668"
+            filePath = "flayy/firebaseManager.swift"
+            timestampString = "527094346.821413"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/userSettings.swift"
-            timestampString = "526589647.001949"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/userSettings.swift"
-            timestampString = "526589647.4519"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/userSettings.swift"
-            timestampString = "526589647.868224"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "createUserGroups(name:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

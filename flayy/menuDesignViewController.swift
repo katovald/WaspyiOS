@@ -19,6 +19,7 @@ class menuDesignViewController: UIViewController {
     @IBOutlet weak var round: UIImageView!
     @IBOutlet weak var blur: UIImageView!
     
+    @IBOutlet weak var nombre: UILabel!
     @IBAction func closeMenu(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -41,14 +42,16 @@ class menuDesignViewController: UIViewController {
     
     override func viewDidLoad() {
         let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        let photoURl = docUrl.appendingPathComponent(userD.string(forKey: "Phone")! + ".png")
+        let photoURl = docUrl.appendingPathComponent(userD.string(forKey: "OwnerPhone")! + ".png")
         
         if (fileMan.fileExists(atPath: photoURl.path)){
             self.round.image = UIImage(contentsOfFile: photoURl.path)
             self.blur.image = blurEffect(foto: UIImage(contentsOfFile: photoURl.path)!, contexto: context)
+            self.nombre.text = userD.string(forKey: "OwnerName")!
         }else{
             self.round.image = UIImage(named: "kato.jpg")
             self.blur.image = blurEffect(foto: UIImage(named: "kato.jpg")!, contexto: context)
+            self.nombre.text = userD.string(forKey: "OwnerName")!
         }
     }
     

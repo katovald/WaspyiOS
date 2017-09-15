@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
+    var timer:Timer!
+    var background: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -57,11 +59,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             window?.rootViewController = view
         }
         
+        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(startTimer), userInfo: nil, repeats: true)
+        
         return true
     }
     
     //[INICIO DE SERVICIO]
     
+    func startTimer()
+    {
+        firebaseManager.init().updateUserLocation()
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+    }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         // If you are receiving a notification message while your app is in the background,
@@ -112,11 +123,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         // Messaging.messaging().apnsToken = deviceToken
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //print("updated")
+    func applicationWillTerminate(_ application: UIApplication) {
+        
     }
     
-    func applicationWillTerminate(_ application: UIApplication) {
+    func handleEvent(forRegion region: CLRegion!){
+        print("Geofence Triggered!")
+    }
+}
 
+extension AppDelegate: CLLocationManagerDelegate{
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        if region is CLCircularRegion {
+            handleEvent(forRegion: region)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        if region is CLCircularRegion{
+            handleEvent(forRegion: region)
+        }
     }
 }

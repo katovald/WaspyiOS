@@ -27,12 +27,20 @@ public class firebaseManager {
     private var almacen = Storage.storage()
     private var urlDownload:String!
     private let fileMan = FileManager.default
+    private let locationService = LocationServices()
     
     public var notificationCenter: NotificationCenter = NotificationCenter.default
     
     public let DataChangueNotification = NSNotification.Name("UserDataChanged")
     public let PhotoChangueNotification = NSNotification.Name("UserPhotoChanged")
     public let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
+  //  public let LocationChangeNotification = NSNotification.Name("UserLocationChanged")
+//    public let PhotoChangueNotification = NSNotification.Name("UserPhotoChanged")
+//    public let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
+    
+    
+    ///initiate class
+    ///battery monitor and references firebase
     
     init()
     {
@@ -46,9 +54,8 @@ public class firebaseManager {
     //    created by kato
     
     public func setUserSetting(phone: String, name: String, mail: String){
-        userD.set(name, forKey: "Name")
-        userD.set(mail, forKey: "Mail")
-        userD.set(phone, forKey: "Phone")
+        userD.set(name, forKey: "OwnerName")
+        userD.set(phone, forKey: "OwnerPhone")
         
         self.reference.child("accounts/" + phone + "/name").setValue(name)
         self.reference.child("accounts/" + phone + "/phone").setValue(phone)
@@ -72,75 +79,89 @@ public class firebaseManager {
 
         var groupCode:String = randomAlphaNumericString(length: 6)
         
-        let phone = userD.string(forKey: "Phone")!
+        let phone = userD.string(forKey: "OwnerPhone")!
         
         if phone.characters.count > 0
         {
             let userInfo = ["name" : userD.string(forKey: "Name")!,
                           "phone" : phone,
                           "rol" : "admin",
-                          "visibility" : true] as [String : Any]
+                          "visibility" : true,
+                          "photo_url": self.userD.string(forKey: "OwnerDownloadURL")!] as [String : Any]
             
             self.reference.child("groups/" + groupCode).observeSingleEvent(of: .value, with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary ?? [:]
                 let keys = value.allKeys as! [String]
                 
                 if keys.count > 0 {
-                    groupCode = self.checkCodeRepeat(array: keys, code: groupCode)
+                    groupCode = checkCodeRepeat(array: keys, code: groupCode)
                 }
             })
             
             self.reference.child("accounts/" + phone + "/user_groups/groups/" + groupCode).setValue(name)
-            self.reference.child("accounts/" + phone + "/user_groups/groups/last_group").setValue(name)
+            self.reference.child("accounts/" + phone + "/user_groups/last_group").setValue(name)
             self.reference.child("groups/" + groupCode + "/group_info/group_code").setValue(groupCode)
             self.reference.child("groups/" + groupCode + "/group_info/group_name").setValue(name)
             self.reference.child("groups/" + groupCode + "/members/" + phone).setValue(userInfo)
+
         }
         
-        var gruposAct = userD.dictionary(forKey: "Grupos") ?? [:]
+        var gruposAct = userD.dictionary(forKey: "OwnerGroups") ?? [:]
         gruposAct[groupCode] = name
         
-        userD.set(gruposAct, forKey: "Grupos")
-        userD.set(groupCode, forKey: "CodeGrupoActual")
-        userD.set(name, forKey: "NombreGrupoActual")
-
+        userD.set(gruposAct, forKey: "OwnerGroups")
+        userD.set(groupCode, forKey: "ActualGroup")
+        
+        let memberInfo = [phone:["Nombre": self.userD.string(forKey: "OwnerName") ?? "",
+                                             "Telefono": self.userD.string(forKey: "OwnerPhone") ?? "",
+                                             "Descarga": self.userD.string(forKey: "OwnerDownloadURL") ?? "",
+                                             "Rol": "Admin",
+                                             "Geocercas": ["Enter":true, "Exit":true]]]
+        
+        userD.set(memberInfo, forKey: "ActiveGroupMembers")
         
         self.notificationCenter.post(name: GroupsChangeNotification, object: self)
     }
     
     public func subscribeUserGroups(code: String){
 
-        let phone = userD.string(forKey: "Phone")!
+        let phone = userD.string(forKey: "OwnerPhone")!
         var groupName = ""
+        var groupMembers = [String:Any]()
+        
         if phone.characters.count > 0
         {
             let userInfo = ["name" : userD.string(forKey: "Name")!,
                             "phone" : phone,
                             "rol" : "admin",
-                            "visibility" : true] as [String : Any]
+                            "visibility" : true,
+                            "photo_url": self.userD.string(forKey: "OwnerDownloadURL")!] as [String : Any]
             
             self.reference.child("groups/" + code).observeSingleEvent(of: .value, with: {(snapshot) in
                 let value = snapshot.value as? NSDictionary
-                groupName = value?["group_name"] as! String
+                let groupInfo = value?["group_info"] as! NSDictionary
+                groupName = groupInfo["group_name"] as! String
+                groupMembers = value?["members"] as! [String:AnyObject]
+                
+                self.reference.child("groups/" + code + "/members/" + phone).setValue(userInfo)
+                self.reference.child("accounts/" + phone + "/user_groups/groups/" + code).setValue(groupName)
             })
-            
-            self.reference.child("groups/" + code + "/members/" + phone).setValue(userInfo)
-            self.reference.child("accounts/" + phone + "/user_groups/groups/" + code).setValue(groupName)
-            
-            self.notificationCenter.post(name: GroupsChangeNotification, object: self)
         }
-    }
-    
-    
-    func checkCodeRepeat(array: [String], code: String) -> String {
-        var codeWr = ""
-        if array.contains(code)
-        {
-            codeWr = checkCodeRepeat(array: array, code: randomAlphaNumericString(length: 6))
-        }else{
-            codeWr = code
+        var allGroupMembers = [String:Any]()
+        let keys = groupMembers.keys
+        for key in keys{
+            let memberInfo = groupMembers[key] as! [String:Any]
+            
+            allGroupMembers[key] = ["Nombre": memberInfo["name"],
+                                    "Telefono": memberInfo["phone"],
+                                    "Descarga": memberInfo["photo_url"],
+                                    "Rol": memberInfo["rol"],
+                                    "Geocercas": memberInfo["geoFence_Notifications"]]
+            
+            self.getMemberPhotoFB(phone: key)
         }
-        return codeWr
+        self.userD.set(allGroupMembers, forKey: "ActiveGroupMembers")
+        self.notificationCenter.post(name: GroupsChangeNotification, object: self)
     }
     
     public func setUserRegToken(phone: String){
@@ -150,9 +171,9 @@ public class firebaseManager {
         
     }
     
-    public func setUserPhoto (photo: UIImage, phone: String){
+    public func saveUserPhotoFB(photo: UIImage, phone: String){
         
-        let fileStorage = almacen.reference(forURL: "gs://camasacontigo.appspot.com/CAMUserPhotos/")
+        let fileStorage = almacen.reference(forURL: "gs://camasacontigo.appspot.com/Waspy/")
         let imageData: Data = UIImagePNGRepresentation(photo)!
         
         let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -168,15 +189,20 @@ public class firebaseManager {
             guard metadata != nil else {
                 return
             }
-            self.urlDownload = (metadata?.downloadURL()?.path)!
-            self.reference.child("accounts/" + phone + "/photo_url").setValue(self.urlDownload)
+            self.reference.child("accounts/" + phone + "/photo_url").setValue(metadata?.downloadURL()?.absoluteString)
+            self.userD.set(metadata?.downloadURL()?.absoluteString, forKey: "OwnerDownloadURL")
             
+            var auxMembersInfo = self.userD.dictionary(forKey: "ActiveGroupMembers")
+            var member = auxMembersInfo?[phone] as! [String:Any]
+            member["Descarga"] = metadata?.downloadURL()?.absoluteString
+            auxMembersInfo?[phone] = member
+            self.userD.set(auxMembersInfo, forKey: "ActiveGroupMembers")
         }
         
         self.notificationCenter.post(name: PhotoChangueNotification, object: self)
     }
     
-    public func saveMembersPhotos (photo: UIImage, phone: String){
+    public func saveOwnerPhoto(photo: UIImage, phone: String){
         
         let imageData: Data = UIImagePNGRepresentation(photo)!
         let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -187,11 +213,61 @@ public class firebaseManager {
     
     }
     
+    @objc public func updateUserLocation()
+    {
+        let phone = self.userD.string(forKey: "Phone")!
+        let name = self.userD.string(forKey: "Name")!
+        
+        if phone == "" || name == ""
+        {
+            return
+        }
+        
+        locationService.getAdress(completion: {coordinades, speed, address, error in
+            if let a = address {
+                
+                print(a)
+                
+                let kilo = a["FormattedAddressLines"] as! [String]
+                
+                var direccion = ""
+                
+                for index in 0...(kilo.count - 1)
+                {
+                    direccion += kilo[index] 
+                    direccion += " "
+                }
+                
+                let codeGroups = self.userD.array(forKey: "Groupkeys") as! [String]
+                
+                for code in codeGroups{
+                    self.reference.child("groups/" + code + "/members/" + phone + "/battery_level").setValue(batteryLevel())
+                    self.reference.child("groups/" + code + "/members/" + phone + "/current_place").setValue(direccion)
+                    self.reference.child("groups/" + code + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
+                    self.reference.child("groups/" + code + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
+                    self.reference.child("groups/" + code + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
+                }
+            }
+        })
+        
+        
+        
+    }
 //    get functions that use firebase methods
 //    please pay atention about the notifications and error handling
 //    created by kato
     
     public func getUserData(phone:String){
+
+    }
+    
+    public func getPhoneOwnerGroups(){
+        let phone = self.userD.string(forKey: "Phone")
+        self.reference.child("accounts/" + phone! + "/user_groups/groups").observeSingleEvent(of: .value, with: {(snapshot) in
+            guard let value = snapshot.value as? NSDictionary else {return}
+            let keys = value.allKeys as! [String]
+            self.userD.set(keys, forKey: "Groupkeys")
+        })
         
     }
     
@@ -207,8 +283,8 @@ public class firebaseManager {
     }
     
     public func getMemberPhotoFB(phone: String) {
-        let userPictureLocation = almacen.reference(forURL: "gs://camasacontigo.appspot.com/CAMUserPhotos/")
-        let userPicture = userPictureLocation.child(phone)
+        let userPictureLocation = almacen.reference(forURL: "gs://camasacontigo.appspot.com/Waspy/")
+        let userPicture = userPictureLocation.child(phone + ".png")
         userPicture.getData(maxSize: 1 * 1024 * 1024) { (data, error) -> Void in
             if (error == nil) {
                 let photo = UIImage(data: data!)
@@ -218,6 +294,24 @@ public class firebaseManager {
                 try! imageData.write(to: imageUrl)
             }
         }
+    }
+    
+    public func getGroupMembersInfo(id: String)
+    {
+        var membersGroup = [String:[String:Any]]()
+        
+        self.reference.child("groups/" + id + "members").observeSingleEvent(of: .value, with: { (snapshot) in
+            let value = snapshot.value as? [String:[String:Any]] ?? [:]
+            let keys = value.keys
+            
+            for key in keys
+            {
+                self.getMemberPhotoFB(phone: key)
+                membersGroup[key] = value[key]!
+            }
+            
+            self.userD.set(membersGroup, forKey: "MembersActiveGroup")
+        })
     }
     
     //// delete data functions
