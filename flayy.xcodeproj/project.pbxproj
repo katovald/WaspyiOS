@@ -26,6 +26,12 @@
 		410837051F1D141800F929F4 /* helpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410837041F1D141800F929F4 /* helpViewController.swift */; };
 		410B334A1F6AF73E00F3F443 /* GeoNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410B33491F6AF73E00F3F443 /* GeoNotification.swift */; };
 		4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4111D0D41F3273C10045AEF4 /* CustomMenu.swift */; };
+		4114847C1F71876A006761AE /* ic_battery_10.png in Resources */ = {isa = PBXBuildFile; fileRef = 411484761F71876A006761AE /* ic_battery_10.png */; };
+		4114847D1F71876A006761AE /* ic_battery_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 411484771F71876A006761AE /* ic_battery_30.png */; };
+		4114847E1F71876A006761AE /* ic_battery_50.png in Resources */ = {isa = PBXBuildFile; fileRef = 411484781F71876A006761AE /* ic_battery_50.png */; };
+		4114847F1F71876A006761AE /* ic_battery_70.png in Resources */ = {isa = PBXBuildFile; fileRef = 411484791F71876A006761AE /* ic_battery_70.png */; };
+		411484801F71876A006761AE /* ic_battery_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 4114847A1F71876A006761AE /* ic_battery_0.png */; };
+		411484811F71876A006761AE /* ic_battery_100.png in Resources */ = {isa = PBXBuildFile; fileRef = 4114847B1F71876A006761AE /* ic_battery_100.png */; };
 		412BC81E1F4DD7A20066E9B2 /* Login2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412BC81D1F4DD7A20066E9B2 /* Login2ViewController.swift */; };
 		414524691F575DD60095C8F2 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414524681F575DD60095C8F2 /* utils.swift */; };
 		4145246D1F5DA51D0095C8F2 /* menuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4145246C1F5DA51D0095C8F2 /* menuTableViewCell.swift */; };
@@ -50,7 +56,7 @@
 		4183CF101F3B6658008DFC76 /* prueba12.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4183CF0F1F3B6658008DFC76 /* prueba12.mp4 */; };
 		4183E4D71F0D98CC00ECBED4 /* menu_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4D61F0D98CC00ECBED4 /* menu_icon.png */; };
 		4183E4DB1F0D9BDD00ECBED4 /* menu_icon_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4DA1F0D9BDD00ECBED4 /* menu_icon_small.png */; };
-		4183E4DE1F0DA21300ECBED4 /* grops_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4DC1F0DA21300ECBED4 /* grops_small.png */; };
+		4183E4DE1F0DA21300ECBED4 /* grupos.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4DC1F0DA21300ECBED4 /* grupos.png */; };
 		4183E4E11F0E9C6900ECBED4 /* arrow_up_small.ico in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4E01F0E9C6900ECBED4 /* arrow_up_small.ico */; };
 		4183E4E41F0EA41400ECBED4 /* dron_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4E21F0EA41400ECBED4 /* dron_small.png */; };
 		4183E4E51F0EA41400ECBED4 /* dron.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4E31F0EA41400ECBED4 /* dron.png */; };
@@ -77,6 +83,17 @@
 		41CCFCFB1F0BC5A500F4AC89 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CCFCFA1F0BC5A500F4AC89 /* MapViewController.swift */; };
 		41CCFD011F0C0D8200F4AC89 /* userSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CCFD001F0C0D8200F4AC89 /* userSettings.swift */; };
 		41D416621F214E7E00BC7BDC /* PicMemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D416611F214E7E00BC7BDC /* PicMemberTableViewCell.swift */; };
+		41DCA1BB1F743248001B23F4 /* GroupSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DCA1BA1F743247001B23F4 /* GroupSelectorViewController.swift */; };
+		41EDFCB11F7014A900B796A7 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EDFCB01F7014A900B796A7 /* check.png */; };
+		41EDFCB51F701D0C00B796A7 /* ic_check_circle_white_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EDFCB21F701D0C00B796A7 /* ic_check_circle_white_2x.png */; };
+		41EDFCB61F701D0C00B796A7 /* ic_check_circle_white_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EDFCB31F701D0C00B796A7 /* ic_check_circle_white_3x.png */; };
+		41EDFCB71F701D0C00B796A7 /* ic_check_circle_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EDFCB41F701D0C00B796A7 /* ic_check_circle_white.png */; };
+		41EDFCBB1F7086BF00B796A7 /* ic_track_changes_white_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EDFCB81F7086BF00B796A7 /* ic_track_changes_white_2x.png */; };
+		41EDFCBC1F7086BF00B796A7 /* ic_track_changes_white_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EDFCB91F7086BF00B796A7 /* ic_track_changes_white_3x.png */; };
+		41EDFCBD1F7086BF00B796A7 /* ic_track_changes_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EDFCBA1F7086BF00B796A7 /* ic_track_changes_white.png */; };
+		41EDFCC11F7086DA00B796A7 /* ic_gps_fixed_white_2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EDFCBE1F7086DA00B796A7 /* ic_gps_fixed_white_2x.png */; };
+		41EDFCC21F7086DA00B796A7 /* ic_gps_fixed_white_3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EDFCBF1F7086DA00B796A7 /* ic_gps_fixed_white_3x.png */; };
+		41EDFCC31F7086DA00B796A7 /* ic_gps_fixed_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 41EDFCC01F7086DA00B796A7 /* ic_gps_fixed_white.png */; };
 		41F8BD4D1F5099710042B885 /* exit.png in Resources */ = {isa = PBXBuildFile; fileRef = 41F8BD4C1F5099710042B885 /* exit.png */; };
 		41F8BD511F50A6310042B885 /* GroupsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F8BD501F50A6310042B885 /* GroupsMenu.swift */; };
 		DE253C0327B82400176CCA14 /* Pods_flayy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403FCD8653054AF62695F8FA /* Pods_flayy.framework */; };
@@ -122,6 +139,12 @@
 		410837041F1D141800F929F4 /* helpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helpViewController.swift; sourceTree = "<group>"; };
 		410B33491F6AF73E00F3F443 /* GeoNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoNotification.swift; sourceTree = "<group>"; };
 		4111D0D41F3273C10045AEF4 /* CustomMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
+		411484761F71876A006761AE /* ic_battery_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_battery_10.png; sourceTree = "<group>"; };
+		411484771F71876A006761AE /* ic_battery_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_battery_30.png; sourceTree = "<group>"; };
+		411484781F71876A006761AE /* ic_battery_50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_battery_50.png; sourceTree = "<group>"; };
+		411484791F71876A006761AE /* ic_battery_70.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_battery_70.png; sourceTree = "<group>"; };
+		4114847A1F71876A006761AE /* ic_battery_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_battery_0.png; sourceTree = "<group>"; };
+		4114847B1F71876A006761AE /* ic_battery_100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_battery_100.png; sourceTree = "<group>"; };
 		411BC24F1F546E2800E5560D /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		412BC81D1F4DD7A20066E9B2 /* Login2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login2ViewController.swift; sourceTree = "<group>"; };
 		414524681F575DD60095C8F2 /* utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
@@ -146,7 +169,7 @@
 		4183CF0F1F3B6658008DFC76 /* prueba12.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = prueba12.mp4; path = ../../../Desktop/prueba12.mp4; sourceTree = "<group>"; };
 		4183E4D61F0D98CC00ECBED4 /* menu_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menu_icon.png; path = ../../../Downloads/menu_icon.png; sourceTree = "<group>"; };
 		4183E4DA1F0D9BDD00ECBED4 /* menu_icon_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menu_icon_small.png; path = ../../../Downloads/menu_icon_small.png; sourceTree = "<group>"; };
-		4183E4DC1F0DA21300ECBED4 /* grops_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grops_small.png; path = ../../../Desktop/grops_small.png; sourceTree = "<group>"; };
+		4183E4DC1F0DA21300ECBED4 /* grupos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grupos.png; path = ../../../Desktop/grupos.png; sourceTree = "<group>"; };
 		4183E4E01F0E9C6900ECBED4 /* arrow_up_small.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = arrow_up_small.ico; path = ../../../Desktop/arrow_up_small.ico; sourceTree = "<group>"; };
 		4183E4E21F0EA41400ECBED4 /* dron_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dron_small.png; path = ../../../Desktop/dron_small.png; sourceTree = "<group>"; };
 		4183E4E31F0EA41400ECBED4 /* dron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dron.png; path = ../../../Desktop/dron.png; sourceTree = "<group>"; };
@@ -179,6 +202,17 @@
 		41CCFCFA1F0BC5A500F4AC89 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		41CCFD001F0C0D8200F4AC89 /* userSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userSettings.swift; sourceTree = "<group>"; };
 		41D416611F214E7E00BC7BDC /* PicMemberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicMemberTableViewCell.swift; sourceTree = "<group>"; };
+		41DCA1BA1F743247001B23F4 /* GroupSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSelectorViewController.swift; sourceTree = "<group>"; };
+		41EDFCB01F7014A900B796A7 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
+		41EDFCB21F701D0C00B796A7 /* ic_check_circle_white_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_check_circle_white_2x.png; sourceTree = "<group>"; };
+		41EDFCB31F701D0C00B796A7 /* ic_check_circle_white_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_check_circle_white_3x.png; sourceTree = "<group>"; };
+		41EDFCB41F701D0C00B796A7 /* ic_check_circle_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_check_circle_white.png; sourceTree = "<group>"; };
+		41EDFCB81F7086BF00B796A7 /* ic_track_changes_white_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_track_changes_white_2x.png; sourceTree = "<group>"; };
+		41EDFCB91F7086BF00B796A7 /* ic_track_changes_white_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_track_changes_white_3x.png; sourceTree = "<group>"; };
+		41EDFCBA1F7086BF00B796A7 /* ic_track_changes_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_track_changes_white.png; sourceTree = "<group>"; };
+		41EDFCBE1F7086DA00B796A7 /* ic_gps_fixed_white_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_gps_fixed_white_2x.png; sourceTree = "<group>"; };
+		41EDFCBF1F7086DA00B796A7 /* ic_gps_fixed_white_3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_gps_fixed_white_3x.png; sourceTree = "<group>"; };
+		41EDFCC01F7086DA00B796A7 /* ic_gps_fixed_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_gps_fixed_white.png; sourceTree = "<group>"; };
 		41F8BD4C1F5099710042B885 /* exit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = exit.png; path = ../../../Desktop/exit.png; sourceTree = "<group>"; };
 		41F8BD4E1F509BF00042B885 /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleToolboxForMac.framework; path = "../../../Library/Developer/Xcode/DerivedData/flayy-bhimggnokqdphpdccbjsyxbflcvi/Build/Products/Debug-iphoneos/GoogleToolboxForMac/GoogleToolboxForMac.framework"; sourceTree = "<group>"; };
 		41F8BD501F50A6310042B885 /* GroupsMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsMenu.swift; sourceTree = "<group>"; };
@@ -338,6 +372,7 @@
 				4194EA991F1044F0002A4F21 /* HelpController.swift */,
 				417E646F1F16703200DDA8F8 /* MapController.swift */,
 				41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */,
+				41DCA1BA1F743247001B23F4 /* GroupSelectorViewController.swift */,
 			);
 			path = flayy;
 			sourceTree = "<group>";
@@ -373,6 +408,22 @@
 		41CCFCF71F0B020000F4AC89 /* app */ = {
 			isa = PBXGroup;
 			children = (
+				41EDFCB81F7086BF00B796A7 /* ic_track_changes_white_2x.png */,
+				41EDFCB91F7086BF00B796A7 /* ic_track_changes_white_3x.png */,
+				41EDFCBE1F7086DA00B796A7 /* ic_gps_fixed_white_2x.png */,
+				41EDFCBF1F7086DA00B796A7 /* ic_gps_fixed_white_3x.png */,
+				411484761F71876A006761AE /* ic_battery_10.png */,
+				411484771F71876A006761AE /* ic_battery_30.png */,
+				411484781F71876A006761AE /* ic_battery_50.png */,
+				411484791F71876A006761AE /* ic_battery_70.png */,
+				4114847A1F71876A006761AE /* ic_battery_0.png */,
+				4114847B1F71876A006761AE /* ic_battery_100.png */,
+				41EDFCC01F7086DA00B796A7 /* ic_gps_fixed_white.png */,
+				41EDFCBA1F7086BF00B796A7 /* ic_track_changes_white.png */,
+				41EDFCB21F701D0C00B796A7 /* ic_check_circle_white_2x.png */,
+				41EDFCB31F701D0C00B796A7 /* ic_check_circle_white_3x.png */,
+				41EDFCB41F701D0C00B796A7 /* ic_check_circle_white.png */,
+				41EDFCB01F7014A900B796A7 /* check.png */,
 				41F8BD4C1F5099710042B885 /* exit.png */,
 				417E647B1F191E8900DDA8F8 /* faq.png */,
 				417E647C1F191E8900DDA8F8 /* config.png */,
@@ -389,7 +440,7 @@
 				4183E4E21F0EA41400ECBED4 /* dron_small.png */,
 				4183E4E31F0EA41400ECBED4 /* dron.png */,
 				4183E4E01F0E9C6900ECBED4 /* arrow_up_small.ico */,
-				4183E4DC1F0DA21300ECBED4 /* grops_small.png */,
+				4183E4DC1F0DA21300ECBED4 /* grupos.png */,
 				4183E4DA1F0D9BDD00ECBED4 /* menu_icon_small.png */,
 				4183E4D61F0D98CC00ECBED4 /* menu_icon.png */,
 			);
@@ -547,23 +598,34 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4114847F1F71876A006761AE /* ic_battery_70.png in Resources */,
 				4101DCC71F13B5930096FC84 /* slide1.gif in Resources */,
 				417E647D1F191E8900DDA8F8 /* faq.png in Resources */,
 				4183E4E41F0EA41400ECBED4 /* dron_small.png in Resources */,
 				41F8BD4D1F5099710042B885 /* exit.png in Resources */,
+				411484811F71876A006761AE /* ic_battery_100.png in Resources */,
+				41EDFCC21F7086DA00B796A7 /* ic_gps_fixed_white_3x.png in Resources */,
 				4183CF101F3B6658008DFC76 /* prueba12.mp4 in Resources */,
+				41EDFCBD1F7086BF00B796A7 /* ic_track_changes_white.png in Resources */,
 				41B719661F069C9C00A42014 /* LaunchScreen.storyboard in Resources */,
 				4101DCCD1F13B5D20096FC84 /* slide4b.gif in Resources */,
-				4183E4DE1F0DA21300ECBED4 /* grops_small.png in Resources */,
+				411484801F71876A006761AE /* ic_battery_0.png in Resources */,
+				4183E4DE1F0DA21300ECBED4 /* grupos.png in Resources */,
+				41EDFCC11F7086DA00B796A7 /* ic_gps_fixed_white_2x.png in Resources */,
 				4181C5C11F1562040099A83E /* circlo.png in Resources */,
+				41EDFCB61F701D0C00B796A7 /* ic_check_circle_white_3x.png in Resources */,
+				41EDFCBC1F7086BF00B796A7 /* ic_track_changes_white_3x.png in Resources */,
 				4104F4061F1FD6BB00F222B9 /* ic28_casita.jpg in Resources */,
+				41EDFCBB1F7086BF00B796A7 /* ic_track_changes_white_2x.png in Resources */,
 				4183E4E81F0EA42B00ECBED4 /* local_small.png in Resources */,
 				4183E4E11F0E9C6900ECBED4 /* arrow_up_small.ico in Resources */,
 				4181C5BF1F154CDE0099A83E /* marker_layout.png in Resources */,
 				417E647A1F191AB200DDA8F8 /* lugares.png in Resources */,
 				4181C5C31F15789F0099A83E /* marker_70x.png in Resources */,
 				4101DCCC1F13B5D20096FC84 /* slide3.gif in Resources */,
+				41EDFCB11F7014A900B796A7 /* check.png in Resources */,
 				41B7198A1F06A07D00A42014 /* GoogleService-Info.plist in Resources */,
+				4114847C1F71876A006761AE /* ic_battery_10.png in Resources */,
 				4183E4DB1F0D9BDD00ECBED4 /* menu_icon_small.png in Resources */,
 				4107704D1F2B89AA004474BD /* kato.jpg in Resources */,
 				41B719631F069C9C00A42014 /* Assets.xcassets in Resources */,
@@ -571,15 +633,20 @@
 				4183E4F31F0EE2C000ECBED4 /* camera.png in Resources */,
 				417E647E1F191E8900DDA8F8 /* config.png in Resources */,
 				4181C5C51F157B9F0099A83E /* Icon-App-72x72@2x.png in Resources */,
+				4114847D1F71876A006761AE /* ic_battery_30.png in Resources */,
 				4183E4D71F0D98CC00ECBED4 /* menu_icon.png in Resources */,
 				4183E4F51F0EE2EF00ECBED4 /* camera_big.png in Resources */,
+				41EDFCC31F7086DA00B796A7 /* ic_gps_fixed_white.png in Resources */,
 				4101DCCB1F13B5D20096FC84 /* slide2.gif in Resources */,
 				41ACBADE1F44ABD700C8DFB9 /* photos.png in Resources */,
 				417FC9531F56274D00EDC5A7 /* GoogleMaps.bundle in Resources */,
+				41EDFCB51F701D0C00B796A7 /* ic_check_circle_white_2x.png in Resources */,
 				417E64791F191AB200DDA8F8 /* ic_group_black_24dp.png in Resources */,
 				4183E4E91F0EA42B00ECBED4 /* local.png in Resources */,
+				4114847E1F71876A006761AE /* ic_battery_50.png in Resources */,
 				41B719611F069C9C00A42014 /* Main.storyboard in Resources */,
 				4183E4F11F0EE1BD00ECBED4 /* defaultIMG.png in Resources */,
+				41EDFCB71F701D0C00B796A7 /* ic_check_circle_white.png in Resources */,
 				4183E4E51F0EA41400ECBED4 /* dron.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -686,6 +753,7 @@
 				414524731F5EF1A20095C8F2 /* firebaseManager.swift in Sources */,
 				414524751F5EF4900095C8F2 /* reachNet.swift in Sources */,
 				414524771F634B7D0095C8F2 /* waspyMemberMarker.swift in Sources */,
+				41DCA1BB1F743248001B23F4 /* GroupSelectorViewController.swift in Sources */,
 				4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */,
 				41D416621F214E7E00BC7BDC /* PicMemberTableViewCell.swift in Sources */,
 				4104F4041F1FBC6D00F222B9 /* PlacesViewController.swift in Sources */,
@@ -883,8 +951,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.waspy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -904,8 +972,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.waspy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -920,7 +988,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.flayyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/flayy.app/flayy";
 			};
 			name = Debug;
@@ -936,7 +1004,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.flayyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/flayy.app/flayy";
 			};
 			name = Release;
@@ -951,7 +1019,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.flayyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = flayy;
 			};
 			name = Debug;
@@ -966,7 +1034,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.flayyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = flayy;
 			};
 			name = Release;

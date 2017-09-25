@@ -11,7 +11,7 @@ import FirebaseAuth
 
 class menuDesignViewController: UIViewController {
     
-    let menu = [["Mis lugares","lugares.png"],["Configuracion","config.png"],["CAMSA FAQ", "faq.png"],["Salir","exit.png"]]
+    let menu = [["Mis Grupos","grupos.png"], ["Mis lugares","lugares.png"],["Configuracion","config.png"],["CAMSA FAQ", "faq.png"],["Salir","exit.png"]]
     let fileMan = FileManager()
     let userD = UserDefaults.standard
     var menuActionDelegate: MenuActionDelegate? = nil
@@ -81,12 +81,14 @@ extension menuDesignViewController : UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 0:
-            menuActionDelegate?.openSegue("configLugares", sender: nil)
+            menuActionDelegate?.openSegue("confiGrupos", sender: nil)
         case 1:
-            menuActionDelegate?.openSegue("datosUsuario", sender: nil)
+            menuActionDelegate?.openSegue("configLugares", sender: nil)
         case 2:
             menuActionDelegate?.openSegue("datosUsuario", sender: nil)
         case 3:
+            menuActionDelegate?.openSegue("datosUsuario", sender: nil)
+        case 4:
             let authApp = Auth.auth()
             do {
                 try authApp.signOut()

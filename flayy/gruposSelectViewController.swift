@@ -9,16 +9,12 @@
 import UIKit
 
 class gruposSelectViewController: UIViewController {
-    var grupos = ["Grupo 1","Grupo 2","Grupo 3","Grupo 1","Grupo 1"]
     
-     var menuActionDelegate: MenuActionDelegate? = nil
+    let userD:UserDefaults = UserDefaults.standard
     
-    @IBAction func sendSettings(_ sender: Any) {
-        menuActionDelegate?.openSegue("confiGrupos", sender: nil)
-    }
+    var grupos = [[String:String]]()
     
-    @IBOutlet weak var settingsGroup: UIButton!
-    
+    var menuActionDelegate: MenuActionDelegate? = nil
     
     @IBAction func closeMenu(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -28,7 +24,7 @@ class gruposSelectViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        grupos=userD.array(forKey: "OwnerGroups") as! [[String : String]]
         // Do any additional setup after loading the view.
     }
 
@@ -59,7 +55,8 @@ extension gruposSelectViewController: UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.text = grupos[indexPath.row]
+        let grupo =  grupos[indexPath.row]
+        cell.textLabel?.text = grupo.first?.value
         return cell
     }
 }

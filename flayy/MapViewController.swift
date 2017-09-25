@@ -30,6 +30,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var center: UIButton!                //boton para centrar el mapa en tu posicion original
     @IBOutlet weak var dron: UIButton!                  //modalidad de dron
     @IBOutlet weak var gmapView: UIView!                //muestra el mapa en el fondo de la vista
+    @IBOutlet weak var titleBar: UINavigationItem!
     
     @IBAction func localiza(_ sender: Any) {        //envia coordenadas y las centra en el mapa
         
@@ -64,29 +65,28 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         self.phone = (user?.phoneNumber)!
-        if self.phone != ""
+        
+//        firebaseManager.init().getOwnerData(phone: self.phone)
+        
+        if userD.string(forKey: "OwnerPhone") == nil
         {
-            userD.set(self.phone, forKey: "Phone")
-            firebaseManager.init().getPhoneOwnerGroups()
+            firebaseManager.init().getOwnerData(phone: self.phone)
         }
-        if(self.userD.string(forKey: "Name") != "")
+        
+        if userD.string(forKey: "ActualGroupTitle") == nil
         {
             self.performSegue(withIdentifier: "datosUsuario", sender: nil)
-        }else{
-            if self.userD.string(forKey: "NombreGrupoActual") != ""
-            {
-                self.title = self.userD.string(forKey: "NombreGrupoActual")
-            }
         }
-        
+
+        self.titleBar.title = userD.string(forKey: "ActualGroupTitle")
         
         NotificationCenter.default.addObserver(self, selector: #selector(changedGroup), name: NSNotification.Name("UserGroupsChanged"), object: nil)
     }
     
-    func changedGroup(){
-        self.title = self.userD.string(forKey: "NombreGrupoActual")
+    @objc func changedGroup(){
+        self.title = self.userD.string(forKey: "ActualGroupTitle")
     }
     
     override func didReceiveMemoryWarning() {

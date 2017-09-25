@@ -17,7 +17,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     var locValue = CLLocationCoordinate2D()
     let userD = UserDefaults.standard
     var getMembersData:Timer!
-    var geoNotifications:[GeoNotification] = []
+    var geoNotifications:[Geotification] = []
     
     var mapa:GMSMapView!
     var longitudes:[Double]!
@@ -55,7 +55,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         NotificationCenter.default.addObserver(self, selector: #selector(updateMarkers), name: NSNotification.Name("UserPhotoChanged"), object: nil)
     }
 
-    func updateMarkers()
+    @objc func updateMarkers()
     {
         
     }
@@ -64,7 +64,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         geoNotifications = []
         guard let savedItems = UserDefaults.standard.array(forKey: "ThisGroupsGeoFences") else { return }
         for savedItem in savedItems {
-            guard let geotification = NSKeyedUnarchiver.unarchiveObject(with: savedItem as! Data) as? GeoNotification else { continue }
+            guard let geotification = NSKeyedUnarchiver.unarchiveObject(with: savedItem as! Data) as? Geotification else { continue }
             add(geotification: geotification)
         }
     }
@@ -78,20 +78,17 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         UserDefaults.standard.set(items, forKey: "ThisGroupsGeoFences")
     }
     
-    func add(geotification: GeoNotification) {
+    func add(geotification: Geotification) {
         geoNotifications.append(geotification)
-        mapa.
-        addRadiusOverlay(forGeotification: geotification)
-        updateGeotificationsCount()
     }
     
     func drawMarker(map: GMSMapView)
     {
-        var aux = userD.dictionary(forKey: "Miembros") as? [String:waspyMarker] ?? [:]
+        var aux = userD.dictionary(forKey: "Miembros") as? [String:waspyMemberMarker] ?? [:]
         let keys = aux.keys
         
         for key in keys {
-            aux[key] = waspyMarker(phone: key)
+            aux[key] = waspyMemberMarker(phone: key)
             aux[key]?.setIconView()
             aux[key]?.setLocation(location: locationManager.location!.coordinate)
             aux[key]?.map = map

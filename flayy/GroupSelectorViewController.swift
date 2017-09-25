@@ -10,15 +10,20 @@ import UIKit
 
 class GroupSelectorViewController: UIViewController {
 
+    let userD: UserDefaults = UserDefaults.standard
+    
+    @IBOutlet weak var titulo: UINavigationItem!
+    
     @IBAction func dismissSelector(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    @IBOutlet weak var tableView: UITableView!
-    var gruposLista: [String] = ["Grupo 1", "Grupo 2", "Grupo 3", "Grupo 4"]
+    
+    var gruposLista: [[String:String]]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        gruposLista = userD.array(forKey: "OwnerGroups") as! [[String:String]]
+        titulo.title = userD.string(forKey: "ActualGroupTitle") ?? ""
         // Do any additional setup after loading the view.
     }
 
@@ -47,7 +52,7 @@ extension GroupSelectorViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.text = gruposLista[indexPath.row]
+        cell.textLabel?.text = gruposLista[indexPath.row].first?.value
         return cell
     }
 }
@@ -55,6 +60,5 @@ extension GroupSelectorViewController: UITableViewDataSource{
 extension GroupSelectorViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             performSegue(withIdentifier: "configuracionGrupo", sender: nil)
-        
     }
 }

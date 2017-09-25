@@ -18,7 +18,9 @@ class GroupSettingsViewController: UIViewController {
     }
     @IBOutlet weak var miembros: UITableView!
     
-    var membersArray = ["Juan", "Pepe", "Kato", "Kinich", "Rodrigo", "Haza"]
+    var membersArray = [[String:[String:Any]]]()
+    
+    let userD:UserDefaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +30,9 @@ class GroupSettingsViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        
+        membersArray = userD.array(forKey: "MembersActiveGroup") as! [[String:[String:Any]]]
+        
         // Dispose of any resources that can be recreated.
     }
     
@@ -42,44 +47,25 @@ class GroupSettingsViewController: UIViewController {
     }
 
 }
-
 extension GroupSettingsViewController: UITableViewDataSource{
     
-    func resizeImage(image: UIImage, newSize: CGSize) -> UIImage {
-    
-    let newRect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height).integral
-    UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
-    let context = UIGraphicsGetCurrentContext()
-    
-    // Set the quality level to use when rescaling
-    context!.interpolationQuality = CGInterpolationQuality.default
-    let flipVertical = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: newSize.height)
-    
-    context!.concatenate(flipVertical)
-    // Draw into the context; this scales the image
-    context?.draw(image.cgImage!, in: CGRect(x: 0.0,y: 0.0, width: newRect.width, height: newRect.height))
-    
-    let newImageRef = context!.makeImage()! as CGImage
-    let newImage = UIImage(cgImage: newImageRef)
-    
-    // Get the resized image from the context and a UIImage
-    UIGraphicsEndImageContext()
-    
-    return newImage
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         return membersArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "members")! as! MemberDataTableViewCell
-        var imagenR = UIImage()
-        imagenR = resizeImage(image: UIImage(named: "foto")!, newSize: CGSize(width: 70, height: 70))
-        print(membersArray[indexPath.row])
-        cell.membersInit(pic: imagenR, datos: membersArray[indexPath.row], admin: true)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! PicMemberTableViewCell
+        let aux = membersArray[indexPath.row]
+        let imagenR = firebaseManager.init().getMemberPhoto(phone: (aux.first?.key)!)
+        let member = aux.first?.key
+        let memberdata = aux[member!]
+        cell.membersInit(pic: imagenR, adress: memberdata?["current_place"] as? String ?? "Buscando direccion", nombre: memberdata?["name"] as! String, battery: memberdata?["battery_level"] as? Int ?? 0, speed: 0)
         return cell
     }
+}
+
+extension membersSelectViewController: UITableViewDelegate{
+    
 }
 
 

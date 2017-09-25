@@ -66,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     //[INICIO DE SERVICIO]
     
-    func startTimer()
+    @objc func startTimer()
     {
         firebaseManager.init().updateUserLocation()
     }

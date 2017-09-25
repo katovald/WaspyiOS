@@ -111,6 +111,7 @@ public class firebaseManager {
         
         userD.set(gruposAct, forKey: "OwnerGroups")
         userD.set(groupCode, forKey: "ActualGroup")
+        userD.set(name, forKey: "ActualGroupTitle")
         
         let memberInfo = [phone:["Nombre": self.userD.string(forKey: "OwnerName") ?? "",
                                              "Telefono": self.userD.string(forKey: "OwnerPhone") ?? "",
@@ -257,16 +258,47 @@ public class firebaseManager {
 //    please pay atention about the notifications and error handling
 //    created by kato
     
-    public func getUserData(phone:String){
-
+    public func getOwnerData(phone:String){
+        reference.child("accounts/" + phone).observeSingleEvent(of: .value, with: {(snapshot) in
+            let value = snapshot.value as? NSDictionary
+            if (value?.count)! > 0
+            {
+                self.userD.set(value?["name"] as! String, forKey: "OwnerName")
+                self.userD.set(value?["phone"] as! String, forKey: "OwnerPhone")
+                self.userD.set(value?["photo_url"] as! String, forKey: "OwnerDownloadURL")
+                let usergroupsinfo = value?["user_groups"] as! NSDictionary
+                let usergroups = usergroupsinfo["groups"] as! [String:String]
+                var gruposAux = [[String:String]]()
+                for key in usergroups.keys{
+                    gruposAux.append([key:usergroups[key]!])
+                }
+                self.userD.set(gruposAux, forKey: "OwnerGroups")
+                let actualgroupc = usergroups.first?.key
+                let actualgroupn = usergroups.first?.value
+                self.userD.set(actualgroupc, forKey: "ActualGroup")
+                self.userD.set(actualgroupn, forKey: "ActualGroupTitle")
+                self.getGroupMembersInfo(id: actualgroupc!)
+            }
+        })
+    }
+    
+    public func getUserData(phone:String) -> Bool{
+        reference.child("accounts/" + phone).observeSingleEvent(of: .value, with: {(snapshot) in
+            let value = snapshot.value as? NSDictionary
+            
+            self.userD.set(value?["name"] as! String, forKey: "OwnerName")
+            self.userD.set(value?["phone"] as! String, forKey: "OwnerPhone")
+            self.userD.set(value?["photo_url"] as! String, forKey: "OwnerDownloadURL")
+            
+        })
+        return true
     }
     
     public func getPhoneOwnerGroups(){
         let phone = self.userD.string(forKey: "Phone")
-        self.reference.child("accounts/" + phone! + "/user_groups/groups").observeSingleEvent(of: .value, with: {(snapshot) in
+        self.reference.child("accounts/" + phone! + "/user_groups/").observeSingleEvent(of: .value, with: {(snapshot) in
             guard let value = snapshot.value as? NSDictionary else {return}
-            let keys = value.allKeys as! [String]
-            self.userD.set(keys, forKey: "Groupkeys")
+            self.userD.set(value["groups"], forKey: "OwnerGroups")
         })
         
     }
@@ -298,16 +330,16 @@ public class firebaseManager {
     
     public func getGroupMembersInfo(id: String)
     {
-        var membersGroup = [String:[String:Any]]()
+        var membersGroup = [[String:[String:Any]]]()
         
-        self.reference.child("groups/" + id + "members").observeSingleEvent(of: .value, with: { (snapshot) in
+        self.reference.child("groups/" + id + "/members").observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? [String:[String:Any]] ?? [:]
             let keys = value.keys
             
             for key in keys
             {
                 self.getMemberPhotoFB(phone: key)
-                membersGroup[key] = value[key]!
+                membersGroup.append([key:value[key]!])
             }
             
             self.userD.set(membersGroup, forKey: "MembersActiveGroup")

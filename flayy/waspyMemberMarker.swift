@@ -51,7 +51,7 @@ class waspyMemberMarker: GMSMarker {
     }
 }
 
-extension waspyMarker{
+extension waspyMemberMarker{
     func updateMarker(coordinates: CLLocationCoordinate2D, degrees: CLLocationDegrees, duration: Double) {
         // Keep Rotation Short
         CATransaction.begin()

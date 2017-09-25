@@ -14,17 +14,20 @@ class membersSelectViewController: UIViewController{
         dismiss(animated: true, completion: nil)
     }
     
-    var pruebas = ["kato":["bateria":70, "direccion":"Lejos", "picture":UIImage()],
-                   "haza":["bateria":70, "direccion":"Lejos", "picture":UIImage()],
-                   "Otros":["bateria":70, "direccion":"Lejos", "picture":UIImage()]]
+//    var pruebas = ["kato":["bateria":70, "direccion":"Lejos", "picture":UIImage()],
+//                   "haza":["bateria":70, "direccion":"Lejos", "picture":UIImage()],
+//                   "Otros":["bateria":70, "direccion":"Lejos", "picture":UIImage()]]
     
-    var keys = ["kato","haza","Otros"]
+//    var keys = ["kato","haza","Otros"]
     
+    var miembros:[[String:[String:Any]]]!
     var menuActionDelegate: MenuActionDelegate? = nil
+    
+    let userD:UserDefaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        miembros = userD.array(forKey: "MembersActiveGroup") as! [[String:[String:Any]]]
         // Do any additional setup after loading the view.
     }
 
@@ -52,44 +55,22 @@ class membersSelectViewController: UIViewController{
 
 extension membersSelectViewController: UITableViewDataSource{
     
-    func resizeImage(image: UIImage, newSize: CGSize) -> UIImage {
-        
-        let newRect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height).integral
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
-        let context = UIGraphicsGetCurrentContext()
-        
-        // Set the quality level to use when rescaling
-        context!.interpolationQuality = CGInterpolationQuality.default
-        let flipVertical = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: newSize.height)
-        
-        context!.concatenate(flipVertical)
-        // Draw into the context; this scales the image
-        context?.draw(image.cgImage!, in: CGRect(x: 0.0,y: 0.0, width: newRect.width, height: newRect.height))
-        
-        let newImageRef = context!.makeImage()! as CGImage
-        let newImage = UIImage(cgImage: newImageRef)
-        
-        // Get the resized image from the context and a UIImage
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return pruebas.count
+        return miembros.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! PicMemberTableViewCell
-        let aux = pruebas[keys[indexPath.row]]
-        var imagenR = UIImage()
-        imagenR = resizeImage(image: UIImage(named: "foto")!, newSize: CGSize(width: 70, height: 70))
-        cell.membersInit(pic: imagenR, datos: aux?["direccion"] as! String, nombre: keys[indexPath.row])
+        let aux = miembros[indexPath.row]
+        let imagenR = firebaseManager.init().getMemberPhoto(phone: (aux.first?.key)!)
+        let member = aux.first?.key
+        let memberdata = aux[member!]
+        cell.membersInit(pic: imagenR, adress: memberdata?["current_place"] as? String ?? "Buscando direccion", nombre: memberdata?["name"] as! String, battery: memberdata?["battery_level"] as? Int ?? 0, speed: 0)
         return cell
     }
 }
-
-extension membersSelectViewController: UITableViewDelegate{
-    
-}
+//
+//extension membersSelectViewController: UITableViewDelegate{
+//
+//}
 

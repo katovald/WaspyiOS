@@ -87,7 +87,7 @@ class Login2ViewController: UIViewController, UITextFieldDelegate {
         
         player = AVPlayer(url: url!)
         playerLayer = AVPlayerLayer(player: player)
-        playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         player.volume = 0
         player.actionAtItemEnd = .none
         
