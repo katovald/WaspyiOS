@@ -10,11 +10,15 @@ import UIKit
 
 class gruposSelectViewController: UIViewController {
     
+    let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
+    
     let userD:UserDefaults = UserDefaults.standard
     
     var grupos = [[String:String]]()
     
     var menuActionDelegate: MenuActionDelegate? = nil
+    
+    var notificationCenter:NotificationCenter = NotificationCenter.default
     
     @IBAction func closeMenu(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -63,6 +67,12 @@ extension gruposSelectViewController: UITableViewDataSource {
 
 extension gruposSelectViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        menuActionDelegate?.openSegue("miembros", sender: nil)
+        self.dismiss(animated: true, completion:{
+            let grupoElegido = self.grupos[indexPath.row]
+            self.userD.set(grupoElegido.first?.key, forKey: "ActualGroup")
+            self.userD.set(grupoElegido.first?.value, forKey: "ActualGroupTitle")
+            firebaseManager.init().getGroupMembersInfo()
+            self.notificationCenter.post(name: self.GroupsChangeNotification, object: self)
+        })
     }
 }

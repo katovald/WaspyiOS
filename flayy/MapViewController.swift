@@ -24,6 +24,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     let userD = UserDefaults.standard
     let user = Auth.auth().currentUser
     let notificationObserver = NotificationCenter.default
+    let CenterRequest = NSNotification.Name("FixCameraPush")
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
     @IBOutlet weak var memberList: UIButton!
@@ -33,7 +34,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var titleBar: UINavigationItem!
     
     @IBAction func localiza(_ sender: Any) {        //envia coordenadas y las centra en el mapa
-        
+        notificationObserver.post(name: CenterRequest, object: self)
     }
     
     @IBAction func dronInicio(_ sender: Any) {      //modo dron
@@ -68,8 +69,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
         self.phone = (user?.phoneNumber)!
         
-//        firebaseManager.init().getOwnerData(phone: self.phone)
-        
         if userD.string(forKey: "OwnerPhone") == nil
         {
             firebaseManager.init().getOwnerData(phone: self.phone)
@@ -80,13 +79,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             self.performSegue(withIdentifier: "datosUsuario", sender: nil)
         }
 
+        if userD.array(forKey: "MembersActiveGroup") == nil{
+            firebaseManager.init().getGroupMembersInfo()
+        }
+        
         self.titleBar.title = userD.string(forKey: "ActualGroupTitle")
         
         NotificationCenter.default.addObserver(self, selector: #selector(changedGroup), name: NSNotification.Name("UserGroupsChanged"), object: nil)
     }
-    
+
     @objc func changedGroup(){
-        self.title = self.userD.string(forKey: "ActualGroupTitle")
+        self.titleBar.title = self.userD.string(forKey: "ActualGroupTitle")
     }
     
     override func didReceiveMemoryWarning() {

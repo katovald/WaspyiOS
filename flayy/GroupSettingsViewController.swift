@@ -64,7 +64,7 @@ extension GroupSettingsViewController: UITableViewDataSource{
     }
 }
 
-extension membersSelectViewController: UITableViewDelegate{
+extension GroupSettingsViewController: UITableViewDelegate{
     
 }
 

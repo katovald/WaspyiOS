@@ -27,7 +27,6 @@ public class firebaseManager {
     private var almacen = Storage.storage()
     private var urlDownload:String!
     private let fileMan = FileManager.default
-    private let locationService = LocationServices()
     
     public var notificationCenter: NotificationCenter = NotificationCenter.default
     
@@ -67,7 +66,7 @@ public class firebaseManager {
             
             if keys.count == 0
             {
-                self.createUserGroups(name: "Familia")
+                self.createUserGroups(name: "Mi Grupo")
             }
         })
         
@@ -224,7 +223,7 @@ public class firebaseManager {
             return
         }
         
-        locationService.getAdress(completion: {coordinades, speed, address, error in
+        LocationServices.init().getAdress(completion: {coordinades, speed, address, error in
             if let a = address {
                 
                 print(a)
@@ -277,21 +276,9 @@ public class firebaseManager {
                 let actualgroupn = usergroups.first?.value
                 self.userD.set(actualgroupc, forKey: "ActualGroup")
                 self.userD.set(actualgroupn, forKey: "ActualGroupTitle")
-                self.getGroupMembersInfo(id: actualgroupc!)
+                self.getGroupMembersInfo()
             }
         })
-    }
-    
-    public func getUserData(phone:String) -> Bool{
-        reference.child("accounts/" + phone).observeSingleEvent(of: .value, with: {(snapshot) in
-            let value = snapshot.value as? NSDictionary
-            
-            self.userD.set(value?["name"] as! String, forKey: "OwnerName")
-            self.userD.set(value?["phone"] as! String, forKey: "OwnerPhone")
-            self.userD.set(value?["photo_url"] as! String, forKey: "OwnerDownloadURL")
-            
-        })
-        return true
     }
     
     public func getPhoneOwnerGroups(){
@@ -328,8 +315,9 @@ public class firebaseManager {
         }
     }
     
-    public func getGroupMembersInfo(id: String)
+    public func getGroupMembersInfo()
     {
+        let id = userD.string(forKey: "ActualGroup")!
         var membersGroup = [[String:[String:Any]]]()
         
         self.reference.child("groups/" + id + "/members").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -343,6 +331,22 @@ public class firebaseManager {
             }
             
             self.userD.set(membersGroup, forKey: "MembersActiveGroup")
+        })
+    }
+    
+    public func getNotifications()
+    {
+        var Alerts = [[String:[String:Any]]]()
+        
+        self.reference.child("alerts_geo/").observeSingleEvent(of: .value, with: { (snapshot) in
+            let value = snapshot.value as! [String:[String:Any]]
+            let keys = value.keys
+            
+            for key in keys
+            {
+                self.getMemberPhotoFB(phone: key)
+                Alerts.append([key:value[key]!])
+            }
         })
     }
     

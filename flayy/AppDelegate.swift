@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
     var timer:Timer!
+    var timer1:Timer!
     var background: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -59,8 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             window?.rootViewController = view
         }
         
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(startTimer), userInfo: nil, repeats: true)
-        
+        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(startTimer), userInfo: nil, repeats: true)
+        timer1 = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
         return true
     }
     
@@ -71,6 +72,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         firebaseManager.init().updateUserLocation()
     }
     
+    @objc func updateData()
+    {
+        firebaseManager.init().getGroupMembersInfo()
+    }
     func applicationDidEnterBackground(_ application: UIApplication) {
     }
     

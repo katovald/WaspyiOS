@@ -10,6 +10,20 @@ import UIKit
 
 class GroupSelectorViewController: UIViewController {
 
+    @IBAction func create(_ sender: Any) {
+        let alertController = UIAlertController(title: "Grupo Nuevo", message: "Introduce el nombre de tu grupo", preferredStyle: .alert)
+        let confirmation = UIAlertAction(title: "Listo", style: .default, handler: {(_) in
+            if let field = alertController.textFields![0] as? UITextField {
+                
+            }else{
+                
+            }
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler:{(_) in
+        })
+    }
+    @IBOutlet weak var newGroup: UIBarButtonItem!
     let userD: UserDefaults = UserDefaults.standard
     
     @IBOutlet weak var titulo: UINavigationItem!

@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import AVFoundation
 
-class LoginViewController: UIViewController, UITextFieldDelegate{
+class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate{
     
     //// nombres de los coponentes de la view (para animaciones)
     @IBOutlet weak var sendCode: UIButton!
@@ -32,7 +32,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBAction func Clicked(_ sender: Any) {
         self.alert(message: "En un mometo recibiras un SMS con un token, introducelo")
         tel = "+52" + Telefono.text!
-        PhoneAuthProvider.provider().verifyPhoneNumber(tel, completion: { (verificationID, error) in
+        PhoneAuthProvider.provider().verifyPhoneNumber(tel, uiDelegate: self, completion: { (verificationID, error) in
             if let error = error {
                 self.alert(message: "Ocurrio un error:" + error.localizedDescription)
                 return

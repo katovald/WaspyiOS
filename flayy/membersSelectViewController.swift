@@ -14,14 +14,9 @@ class membersSelectViewController: UIViewController{
         dismiss(animated: true, completion: nil)
     }
     
-//    var pruebas = ["kato":["bateria":70, "direccion":"Lejos", "picture":UIImage()],
-//                   "haza":["bateria":70, "direccion":"Lejos", "picture":UIImage()],
-//                   "Otros":["bateria":70, "direccion":"Lejos", "picture":UIImage()]]
-    
-//    var keys = ["kato","haza","Otros"]
-    
     var miembros:[[String:[String:Any]]]!
     var menuActionDelegate: MenuActionDelegate? = nil
+    var delegate: usingMap? = nil
     
     let userD:UserDefaults = UserDefaults.standard
     
@@ -69,8 +64,15 @@ extension membersSelectViewController: UITableViewDataSource{
         return cell
     }
 }
-//
-//extension membersSelectViewController: UITableViewDelegate{
-//
-//}
+
+extension membersSelectViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let phone = miembros[indexPath.row].first?.key
+        dismiss(animated: true, completion: {
+            self.delay(segundos: 0.5, completion: {
+                    self.delegate?.centerMember(phone: phone!)
+                })
+            })
+    }
+}
 

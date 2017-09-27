@@ -15,7 +15,9 @@ class PicMemberTableViewCell: UITableViewCell {
     @IBOutlet weak var markerPic: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var adress: UILabel!
+    @IBOutlet weak var battPercent: UILabel!
     
+    var visible:Bool!
     
     func membersInit (pic: UIImage, adress: String, nombre: String, battery: Int, speed: Int)
     {
@@ -27,6 +29,8 @@ class PicMemberTableViewCell: UITableViewCell {
         roundPic.backgroundColor = UIColor.blue
         roundPic.layer.cornerRadius = roundPic.frame.height/2
         roundPic.clipsToBounds = true
+        
+        self.battPercent.text = String(battery) + "%"
         
         if battery == 0
         {

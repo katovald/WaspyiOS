@@ -793,7 +793,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="60" id="cTe-z6-bj2" customClass="menuTableViewCell" customModule="flayy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="240" height="60"/>
+                                        <rect key="frame" x="0.0" y="56" width="240" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cTe-z6-bj2" id="2rV-ag-HSC">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="60"/>
@@ -887,13 +887,17 @@
                                     <action selector="closeMenu:" destination="kmu-BP-PYz" eventType="touchUpInside" id="vpc-nH-eYY"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ic28_casita.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="IQ0-YH-IOo">
+                                <rect key="frame" x="100" y="0.0" width="220" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="wd1-RE-B8k">
                                 <rect key="frame" x="100" y="100" width="220" height="180"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.25" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="Q01-l8-bMe">
-                                        <rect key="frame" x="0.0" y="55.5" width="220" height="44"/>
+                                        <rect key="frame" x="0.0" y="55" width="220" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Q01-l8-bMe" id="cbs-XY-T6p">
                                             <rect key="frame" x="0.0" y="0.0" width="220" height="44"/>
@@ -1001,10 +1005,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="60" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="AdL-0S-Wdo">
                                 <rect key="frame" x="0.0" y="260" width="320" height="244"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="65" id="lKS-w1-Tvi" customClass="PicMemberTableViewCell" customModule="flayy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="320" height="65"/>
+                                        <rect key="frame" x="0.0" y="55" width="320" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lKS-w1-Tvi" id="47S-Mr-bhc">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
@@ -1051,11 +1055,19 @@
                                                     <rect key="frame" x="60" y="35" width="20" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nBr-ZX-wlz">
+                                                    <rect key="frame" x="200" y="5" width="25" height="24"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.20000000000000001" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="adress" destination="0Qp-nW-9IW" id="zaA-ui-vlI"/>
+                                            <outlet property="battPercent" destination="nBr-ZX-wlz" id="afD-cc-hdI"/>
                                             <outlet property="battery" destination="lAX-DM-oBA" id="AG1-fJ-eGT"/>
                                             <outlet property="markerPic" destination="AtL-hH-OVe" id="m9Y-LM-z9s"/>
                                             <outlet property="name" destination="wg7-0O-wGF" id="iBp-vo-tcu"/>
@@ -1064,14 +1076,14 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="8vX-FJ-vdG" id="8Ii-Kb-cki"/>
-                                    <outlet property="delegate" destination="8vX-FJ-vdG" id="QUJ-fI-hvp"/>
+                                    <outlet property="dataSource" destination="8vX-FJ-vdG" id="Rn4-as-v4L"/>
+                                    <outlet property="delegate" destination="8vX-FJ-vdG" id="ygY-VW-epP"/>
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xp7-S6-TXZ" customClass="Rounded" customModule="flayy" customModuleProvider="target">
-                                <rect key="frame" x="105" y="518" width="110" height="30"/>
+                                <rect key="frame" x="75" y="518" width="170" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
-                                <state key="normal" title="Invitar">
+                                <state key="normal" title="Invitar mas miembros">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -1159,7 +1171,7 @@
                                 <color key="backgroundColor" white="0.34999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="members" id="jMw-Vn-Fh8" customClass="MemberDataTableViewCell" customModule="flayy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="320" height="70"/>
+                                        <rect key="frame" x="0.0" y="55" width="320" height="70"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jMw-Vn-Fh8" id="h04-UP-uev">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
@@ -1244,7 +1256,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dox-90-6Ut" id="BXT-WL-g7Q">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1265,6 +1277,11 @@
                                                 <action selector="dismissSelector:" destination="bvj-Qv-O1z" id="reD-8H-fsj"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Nuevo" id="Xit-co-e15">
+                                            <connections>
+                                                <action selector="create:" destination="bvj-Qv-O1z" id="yeL-Bk-hQf"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -1272,6 +1289,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="newGroup" destination="Xit-co-e15" id="OfO-MN-guR"/>
                         <outlet property="titulo" destination="wzd-uT-xU4" id="cNs-bB-pFv"/>
                         <segue destination="GEI-nU-dXL" kind="show" identifier="detalleGrupo" id="YmR-fT-cOP"/>
                     </connections>
@@ -1416,6 +1434,7 @@
         <image name="check.png" width="40" height="38"/>
         <image name="grops_small.png" width="25" height="25"/>
         <image name="grupos.png" width="25" height="25"/>
+        <image name="ic28_casita.jpg" width="400" height="400"/>
         <image name="ic_check_circle_white.png" width="24" height="24"/>
         <image name="ic_gps_fixed_white.png" width="24" height="24"/>
         <image name="ic_track_changes_white_2x.png" width="48" height="48"/>

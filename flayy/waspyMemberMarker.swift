@@ -21,7 +21,7 @@ class waspyMemberMarker: GMSMarker {
         markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 35, height: 38)))
         
         let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        let photoURl = docUrl.appendingPathComponent(userD.string(forKey: "OwnerPhone")! + ".png")
+        let photoURl = docUrl.appendingPathComponent(phone + ".png")
         
         if (fileMan.fileExists(atPath: photoURl.path)){
             foto = UIImage(contentsOfFile: photoURl.path)
@@ -70,6 +70,10 @@ extension waspyMemberMarker{
     func updateMarkerdata(name: String, degrees: CLLocationDegrees, duration: Double) {
         // Keep Rotation Short
         
+    }
+    
+    func getLocation() -> CLLocationCoordinate2D {
+        return self.position
     }
 }
 

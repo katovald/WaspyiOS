@@ -180,6 +180,7 @@
 		4183E4F41F0EE2EF00ECBED4 /* camera_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = camera_big.png; path = ../../../Downloads/camera_big.png; sourceTree = "<group>"; };
 		41932AFB1F68288100BACA70 /* LocationServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationServices.swift; sourceTree = "<group>"; };
 		4194EA991F1044F0002A4F21 /* HelpController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpController.swift; sourceTree = "<group>"; };
+		419E0B0B1F7AA44600837915 /* GeoFire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GeoFire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41ACBADD1F44ABD700C8DFB9 /* photos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = photos.png; path = ../../../Desktop/photos.png; sourceTree = "<group>"; };
 		41ACBAE21F460C9E00C8DFB9 /* keyboardDesign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = keyboardDesign.swift; sourceTree = "<group>"; };
 		41B719581F069C9C00A42014 /* flayy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flayy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -459,6 +460,7 @@
 		CA07F69ADD343FD4F2B5624C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				419E0B0B1F7AA44600837915 /* GeoFire.framework */,
 				411BC24F1F546E2800E5560D /* GoogleMaps.framework */,
 				41F8BD4E1F509BF00042B885 /* GoogleToolboxForMac.framework */,
 				403FCD8653054AF62695F8FA /* Pods_flayy.framework */,
