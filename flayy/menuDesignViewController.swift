@@ -11,7 +11,7 @@ import FirebaseAuth
 
 class menuDesignViewController: UIViewController {
     
-    let menu = [["Mis Grupos","grupos.png"], ["Mis lugares","lugares.png"],["Configuracion","config.png"],["CAMSA FAQ", "faq.png"],["Salir","exit.png"]]
+    let menu = [["Mis Grupos","menu-i1.png"], ["Mis lugares","menu-i2.png"],["Configuracion","menu-i3v.png"],["CAMSA FAQ", "menu-i4.png"],["Salir","menu-i5.png"]]
     let fileMan = FileManager()
     let userD = UserDefaults.standard
     var menuActionDelegate: MenuActionDelegate? = nil
@@ -23,8 +23,6 @@ class menuDesignViewController: UIViewController {
     @IBAction func closeMenu(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    var context = CIContext(options: nil)
     
     func delay(segundos: Double, completion:@escaping()->()){
         let tiempoVista = DispatchTime.now() + Double(Int64(Double(NSEC_PER_SEC) * segundos)) / Double(NSEC_PER_SEC)
@@ -46,11 +44,9 @@ class menuDesignViewController: UIViewController {
         
         if (fileMan.fileExists(atPath: photoURl.path)){
             self.round.image = UIImage(contentsOfFile: photoURl.path)
-            self.blur.image = blurEffect(foto: UIImage(contentsOfFile: photoURl.path)!, contexto: context)
             self.nombre.text = userD.string(forKey: "OwnerName")!
         }else{
             self.round.image = UIImage(named: "kato.jpg")
-            self.blur.image = blurEffect(foto: UIImage(named: "kato.jpg")!, contexto: context)
             self.nombre.text = userD.string(forKey: "OwnerName")!
         }
     }

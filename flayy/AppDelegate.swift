@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     var timer:Timer!
     var timer1:Timer!
     var background: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    var userD:UserDefaults = UserDefaults.standard
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -74,7 +75,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     @objc func updateData()
     {
-        firebaseManager.init().getGroupMembersInfo()
+        firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
+            self.userD.set(members, forKey: "MembersActiveGroup")
+        })
     }
     func applicationDidEnterBackground(_ application: UIApplication) {
     }

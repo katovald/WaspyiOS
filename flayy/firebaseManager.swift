@@ -76,6 +76,8 @@ public class firebaseManager {
     
     public func createUserGroups(name: String){
 
+        var gruposAct = userD.array(forKey: "OwnerGroups")
+        
         var groupCode:String = randomAlphaNumericString(length: 6)
         
         let phone = userD.string(forKey: "OwnerPhone")!
@@ -102,25 +104,24 @@ public class firebaseManager {
             self.reference.child("groups/" + groupCode + "/group_info/group_code").setValue(groupCode)
             self.reference.child("groups/" + groupCode + "/group_info/group_name").setValue(name)
             self.reference.child("groups/" + groupCode + "/members/" + phone).setValue(userInfo)
-
+            
+            let newGroup = [groupCode:name]
+            gruposAct?.append(newGroup)
+            
+            userD.set(gruposAct, forKey: "OwnerGroups")
+            userD.set(groupCode, forKey: "ActualGroup")
+            userD.set(name, forKey: "ActualGroupTitle")
+            
+            let memberInfo = [phone:["Nombre": self.userD.string(forKey: "OwnerName") ?? "",
+                                     "Telefono": self.userD.string(forKey: "OwnerPhone") ?? "",
+                                     "Descarga": self.userD.string(forKey: "OwnerDownloadURL") ?? "",
+                                     "Rol": "Admin",
+                                     "Geocercas": ["Enter":true, "Exit":true]]]
+            
+            userD.set(memberInfo, forKey: "ActiveGroupMembers")
+            
+            self.notificationCenter.post(name: GroupsChangeNotification, object: self)
         }
-        
-        var gruposAct = userD.dictionary(forKey: "OwnerGroups") ?? [:]
-        gruposAct[groupCode] = name
-        
-        userD.set(gruposAct, forKey: "OwnerGroups")
-        userD.set(groupCode, forKey: "ActualGroup")
-        userD.set(name, forKey: "ActualGroupTitle")
-        
-        let memberInfo = [phone:["Nombre": self.userD.string(forKey: "OwnerName") ?? "",
-                                             "Telefono": self.userD.string(forKey: "OwnerPhone") ?? "",
-                                             "Descarga": self.userD.string(forKey: "OwnerDownloadURL") ?? "",
-                                             "Rol": "Admin",
-                                             "Geocercas": ["Enter":true, "Exit":true]]]
-        
-        userD.set(memberInfo, forKey: "ActiveGroupMembers")
-        
-        self.notificationCenter.post(name: GroupsChangeNotification, object: self)
     }
     
     public func subscribeUserGroups(code: String){
@@ -238,20 +239,17 @@ public class firebaseManager {
                     direccion += " "
                 }
                 
-                let codeGroups = self.userD.array(forKey: "Groupkeys") as! [String]
+                let ownerGroups = self.userD.array(forKey: "OwnerGroups") as! [[String:String]]
                 
-                for code in codeGroups{
-                    self.reference.child("groups/" + code + "/members/" + phone + "/battery_level").setValue(batteryLevel())
-                    self.reference.child("groups/" + code + "/members/" + phone + "/current_place").setValue(direccion)
-                    self.reference.child("groups/" + code + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
-                    self.reference.child("groups/" + code + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
-                    self.reference.child("groups/" + code + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
+                for code in ownerGroups{
+                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
+                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/current_place").setValue(direccion)
+                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
+                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
+                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
                 }
             }
         })
-        
-        
-        
     }
 //    get functions that use firebase methods
 //    please pay atention about the notifications and error handling
@@ -276,7 +274,9 @@ public class firebaseManager {
                 let actualgroupn = usergroups.first?.value
                 self.userD.set(actualgroupc, forKey: "ActualGroup")
                 self.userD.set(actualgroupn, forKey: "ActualGroupTitle")
-                self.getGroupMembersInfo()
+                self.getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: { (members) in
+                    self.userD.set(members, forKey: "MembersActiveGroup")
+                })
             }
         })
     }
@@ -315,9 +315,9 @@ public class firebaseManager {
         }
     }
     
-    public func getGroupMembersInfo()
+    public func getGroupMembersInfo(code: String, completion: @escaping ([[String:[String:Any]]]) ->  Void)
     {
-        let id = userD.string(forKey: "ActualGroup")!
+        let id = code
         var membersGroup = [[String:[String:Any]]]()
         
         self.reference.child("groups/" + id + "/members").observeSingleEvent(of: .value, with: { (snapshot) in
@@ -330,7 +330,9 @@ public class firebaseManager {
                 membersGroup.append([key:value[key]!])
             }
             
-            self.userD.set(membersGroup, forKey: "MembersActiveGroup")
+            completion(membersGroup)
+            //self.userD.set(membersGroup, forKey: "MembersActiveGroup")
+            
         })
     }
     

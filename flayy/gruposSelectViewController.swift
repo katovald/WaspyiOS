@@ -61,6 +61,7 @@ extension gruposSelectViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         let grupo =  grupos[indexPath.row]
         cell.textLabel?.text = grupo.first?.value
+        cell.textLabel?.textColor = UIColor.white
         return cell
     }
 }
@@ -71,8 +72,10 @@ extension gruposSelectViewController: UITableViewDelegate{
             let grupoElegido = self.grupos[indexPath.row]
             self.userD.set(grupoElegido.first?.key, forKey: "ActualGroup")
             self.userD.set(grupoElegido.first?.value, forKey: "ActualGroupTitle")
-            firebaseManager.init().getGroupMembersInfo()
-            self.notificationCenter.post(name: self.GroupsChangeNotification, object: self)
+            firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
+                self.userD.set(members, forKey: "MembersActiveGroup")
+                self.notificationCenter.post(name: self.GroupsChangeNotification, object: self)
+            })
         })
     }
 }

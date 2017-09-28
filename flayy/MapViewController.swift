@@ -66,9 +66,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        self.phone = (user?.phoneNumber)!
         
+        self.phone = (user?.phoneNumber)!
         if userD.string(forKey: "OwnerPhone") == nil
         {
             firebaseManager.init().getOwnerData(phone: self.phone)
@@ -80,7 +79,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         }
 
         if userD.array(forKey: "MembersActiveGroup") == nil{
-            firebaseManager.init().getGroupMembersInfo()
+            firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
+                self.userD.set(members, forKey: "MembersActiveGroup")
+            })
         }
         
         self.titleBar.title = userD.string(forKey: "ActualGroupTitle")

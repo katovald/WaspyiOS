@@ -13,15 +13,24 @@ class GroupSelectorViewController: UIViewController {
     @IBAction func create(_ sender: Any) {
         let alertController = UIAlertController(title: "Grupo Nuevo", message: "Introduce el nombre de tu grupo", preferredStyle: .alert)
         let confirmation = UIAlertAction(title: "Listo", style: .default, handler: {(_) in
-            if let field = alertController.textFields![0] as? UITextField {
-                
-            }else{
-                
+            let field = alertController.textFields![0]
+            if field.text! != ""
+            {
+                firebaseManager.init().createUserGroups(name: field.text!)
+                self.dismissSelector(self)
             }
         })
         
         let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler:{(_) in
         })
+        alertController.addTextField(configurationHandler: {(textfield) in
+            textfield.placeholder = "Nombre"
+        })
+        
+        alertController.addAction(confirmation)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     @IBOutlet weak var newGroup: UIBarButtonItem!
     let userD: UserDefaults = UserDefaults.standard
@@ -45,18 +54,6 @@ class GroupSelectorViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension GroupSelectorViewController: UITableViewDataSource{
@@ -66,6 +63,7 @@ extension GroupSelectorViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+        cell.textLabel?.textColor = UIColor.white
         cell.textLabel?.text = gruposLista[indexPath.row].first?.value
         return cell
     }
@@ -73,6 +71,14 @@ extension GroupSelectorViewController: UITableViewDataSource{
 
 extension GroupSelectorViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            performSegue(withIdentifier: "configuracionGrupo", sender: nil)
+        //"detalleGrupo"
+        let selectedGroup = gruposLista[indexPath.row].first?.key
+        
+        firebaseManager.init().getGroupMembersInfo(code: selectedGroup!, completion: {(members) in
+            self.userD.set(members, forKey: "MiembrosAuxiliares")
+            self.userD.set(selectedGroup, forKey: "CodigoGrupoAuxiliar")
+            self.userD.set(self.gruposLista[indexPath.row].first?.value, forKey: "NombreAuxiliar")
+            self.performSegue(withIdentifier: "detalleGrupo", sender: self)
+        })
     }
 }

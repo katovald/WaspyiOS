@@ -13,6 +13,10 @@ class membersSelectViewController: UIViewController{
     @IBAction func closeMenu(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    @IBOutlet weak var closeBtn: UIButton!
+    @IBAction func CloseBtn(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
     
     var miembros:[[String:[String:Any]]]!
     var menuActionDelegate: MenuActionDelegate? = nil
