@@ -1461,6 +1461,7 @@
                                 <color key="barTintColor" red="0.21960784310000001" green="0.4431372549" blue="0.70588235290000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
                                     <navigationItem id="88M-A5-jHK">
+                                        <nil key="title"/>
                                         <barButtonItem key="leftBarButtonItem" title="&lt;" id="Uyl-sk-GsM">
                                             <color key="tintColor" red="0.98823529409999999" green="0.85882352939999995" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                         </barButtonItem>
@@ -1477,6 +1478,13 @@
                                 <color key="textColor" red="0.98039215690000003" green="0.84313725490000002" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Buscar direccion" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xVj-Z1-K4V">
+                                <rect key="frame" x="50" y="28" width="200" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1491,7 +1499,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X2r-8Y-oas" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="653" y="-355"/>
+            <point key="canvasLocation" x="652.5" y="-355.98591549295776"/>
         </scene>
         <!--Map Controller-->
         <scene sceneID="eb7-wT-smU">
