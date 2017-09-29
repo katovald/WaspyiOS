@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import CoreLocation
+import GeoFire
 
 protocol MenuActionDelegate {
     func openSegue(_ segueName: String, sender: AnyObject?)
@@ -68,6 +69,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         
         self.phone = (user?.phoneNumber)!
+        
         if userD.string(forKey: "OwnerPhone") == nil
         {
             firebaseManager.init().getOwnerData(phone: self.phone)

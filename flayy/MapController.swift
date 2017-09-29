@@ -13,6 +13,7 @@ import FirebaseDatabase
 protocol usingMap {
     func centerMember(phone:String)
 }
+
 class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDelegate{
 
     let locationManager = CLLocationManager()
@@ -25,6 +26,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     var mapa:GMSMapView!
     
     override func viewDidLoad() {
+
         self.mapa = GMSMapView(frame: self.view.frame)
         self.mapa.delegate = self
         self.view = mapa
@@ -48,6 +50,13 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         
         drawMarkers(map: view as! GMSMapView)
         
+        let region = self.regionMonitor()
+        if(locationManager.monitoredRegions.count > 0)
+        {
+            locationManager.stopMonitoring(for: region)
+        }else{
+            locationManager.startMonitoring(for: region)
+        }
         //public let DataChangueNotification = NSNotification.Name("UserDataChanged")
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateMarkers), name: NSNotification.Name("UserPhotoChanged"), object: nil)
@@ -141,6 +150,14 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         
     }
     
+    func drawNotification(map: GMSMapView){
+        
+    }
+    
+    func drawGeoFences(map:GMSMapView){
+        
+    }
+    
     func findMember(phone:String) {
         let focus = markers[phone]?.getLocation()
         if focus != nil{
@@ -155,6 +172,25 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     @objc func drawNotifications()
     {
         
+    }
+
+    func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
+        
+    }
+    
+    func regionMonitor() -> CLCircularRegion {
+        let autentia = CLCircularRegion(center: CLLocationCoordinate2D(latitude: 40.453163, longitude: -3.509220), radius: 199, identifier: "prueba")
+        autentia.notifyOnExit = true
+        autentia.notifyOnEntry = true
+        return autentia
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        alert(message: "Hola")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        alert(message: "Bye")
     }
 }
 

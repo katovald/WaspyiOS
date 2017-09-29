@@ -109,7 +109,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     
     @objc func termino(notification: Notification){
         let p: AVPlayerItem = notification.object as! AVPlayerItem
-        p.seek(to: kCMTimeZero)
+        p.seek(to: kCMTimeZero, completionHandler: nil)
     }
     
     func registerForKeyboardNotifications(){

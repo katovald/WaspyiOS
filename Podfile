@@ -18,4 +18,5 @@ pod 'Firebase/RemoteConfig'
 pod 'Firebase/Storage'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
+pod 'GeoFire', :path => '/Users/kato/Documents/projects/flayy/geofire'
 end

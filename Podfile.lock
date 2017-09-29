@@ -78,6 +78,8 @@ PODS:
     - FirebaseAnalytics (~> 4.0)
     - FirebaseCore (~> 4.0)
     - GTMSessionFetcher/Core (~> 1.1)
+  - GeoFire (2.0.0):
+    - Firebase/Database (~> 4.0)
   - Google-Mobile-Ads-SDK (7.24.0)
   - GoogleMaps (2.4.0):
     - GoogleMaps/Maps (= 2.4.0)
@@ -118,8 +120,13 @@ DEPENDENCIES:
   - Firebase/Performance
   - Firebase/RemoteConfig
   - Firebase/Storage
+  - GeoFire (from `/Users/kato/Documents/projects/flayy/geofire`)
   - GoogleMaps
   - GooglePlaces
+
+EXTERNAL SOURCES:
+  GeoFire:
+    :path: /Users/kato/Documents/projects/flayy/geofire
 
 SPEC CHECKSUMS:
   Firebase: 9548cae14d69718add12d75a5b312893f7ef89c7
@@ -134,6 +141,7 @@ SPEC CHECKSUMS:
   FirebasePerformance: d0dc2a1d3dc1bca249d154cb40ee4eae25b455ad
   FirebaseRemoteConfig: 1c982f73af48ec048c8fa8621d5178cfdffac9aa
   FirebaseStorage: 0cca42d9b889a0227c3a50121f45a4469fc9eb27
+  GeoFire: 02f02683e09367c2eee073c6b09c794da19833ee
   Google-Mobile-Ads-SDK: f405b7acb098fe89e6fcd05fdbf400c1a5bcb935
   GoogleMaps: 8436ab5d1c25e36915b2f7416d0c8e3fa2e76c61
   GooglePlaces: aafe5990fa7951e98e078761bbdaaf236d7e0c65
@@ -143,6 +151,6 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
 
-PODFILE CHECKSUM: 1fc8470a2dc77b28d7ab85bc16746e0a749b8cc7
+PODFILE CHECKSUM: 99f52fe766e128b2c1e9c13de171112ccfcff48b
 
 COCOAPODS: 1.3.1

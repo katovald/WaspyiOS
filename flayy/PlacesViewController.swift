@@ -10,18 +10,21 @@ import UIKit
 
 class PlacesViewController: UIViewController {
     
+    @IBOutlet weak var titleBar: UINavigationBar!
     @IBAction func newGeofence(_ sender: Any) {
     }
     @IBAction func dismissView(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    let userD:UserDefaults = UserDefaults.standard
 
-    var places = ["Casa","Escuela","Trabajo","Gimnasio"]
+    var places = [[String:[String:Any]]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        places = userD.array(forKey: "ActualGroupPlaces") as? [[String:[String:Any]]] ?? []
         // Do any additional setup after loading the view.
     }
 
@@ -49,7 +52,8 @@ extension PlacesViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.text = places[indexPath.row]
+        let name = places[indexPath.row].first?.value
+        cell.textLabel?.text = name!["place_name"] as? String
         return cell
     }
 }

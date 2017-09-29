@@ -125,7 +125,6 @@ public class firebaseManager {
     }
     
     public func subscribeUserGroups(code: String){
-
         let phone = userD.string(forKey: "OwnerPhone")!
         var groupName = ""
         var groupMembers = [String:Any]()
@@ -146,6 +145,12 @@ public class firebaseManager {
                 
                 self.reference.child("groups/" + code + "/members/" + phone).setValue(userInfo)
                 self.reference.child("accounts/" + phone + "/user_groups/groups/" + code).setValue(groupName)
+                
+                var gruposAct = self.userD.array(forKey: "OwnerGroups")
+                gruposAct?.append([code:groupName])
+                self.userD.set(gruposAct, forKey: "OwnerGroups")
+                self.userD.set(code, forKey: "ActualGroup")
+                self.userD.set(groupName, forKey: "ActualGroupTitle")
             })
         }
         var allGroupMembers = [String:Any]()
@@ -276,6 +281,9 @@ public class firebaseManager {
                 self.userD.set(actualgroupn, forKey: "ActualGroupTitle")
                 self.getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: { (members) in
                     self.userD.set(members, forKey: "MembersActiveGroup")
+                    self.getPlaces(group: actualgroupc!, completion: {(list) in
+                        self.userD.set(list, forKey: "ActualGroupPlaces")
+                    })
                 })
             }
         })
@@ -331,8 +339,6 @@ public class firebaseManager {
             }
             
             completion(membersGroup)
-            //self.userD.set(membersGroup, forKey: "MembersActiveGroup")
-            
         })
     }
     
@@ -352,6 +358,32 @@ public class firebaseManager {
         })
     }
     
+    public func getPlaces(group: String, completion: @escaping ([[String:[String:Any]]]) ->  Void){
+        var places = [[String:[String:Any]]]()
+        self.reference.child("groups/" + group + "/group_places").observeSingleEvent(of: .value, with: {(snapshot) in
+            guard let value = snapshot.value as? [String:Any] else {return}
+            let keys = value.keys
+            
+            for key in keys{
+                let place = value[key] as! [String:Any]
+                var aux = [String:Any]()
+                aux["address"] = place["address"] as! String
+                aux["icon"] = place["icon"] as! Int
+                aux["place_name"] = place["place_name"] as! String
+                
+                let location = place["l"] as! [String:Double]
+
+                aux["l"] = location
+                aux["radio"] = place["radio"]
+                
+                let infoPlace = [key:aux]
+                
+                places.append(infoPlace)
+            }
+            
+            completion(places)
+        })
+    }
     //// delete data functions
     //// Beware whit this
     //// Created by Kato
