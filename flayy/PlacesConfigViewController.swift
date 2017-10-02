@@ -16,6 +16,8 @@ class PlacesConfigViewController: UIViewController {
     @IBOutlet weak var tipo: UIImageView!
     @IBOutlet weak var editarGuardar: UIBarButtonItem!
     
+    var icono:Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         vistaMapa.layer.borderWidth = 2
