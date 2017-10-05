@@ -33,8 +33,9 @@ public class firebaseManager {
     public let DataChangueNotification = NSNotification.Name("UserDataChanged")
     public let PhotoChangueNotification = NSNotification.Name("UserPhotoChanged")
     public let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
-  //  public let LocationChangeNotification = NSNotification.Name("UserLocationChanged")
-//    public let PhotoChangueNotification = NSNotification.Name("UserPhotoChanged")
+    public let LocationChangeNotification = NSNotification.Name("GroupPlacesUpdated")
+    public let PlacesChangedNotification = NSNotification.Name("PlacesAdded")
+    public let LogInNotification = NSNotification.Name("CorrectLogIn")
 //    public let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
     
     
@@ -52,9 +53,33 @@ public class firebaseManager {
     //    please pay atention about the notifications and error handling
     //    created by kato
     
+    public func userExist(phone:String, completion: @escaping (Bool) -> Void)
+    {
+        self.reference.child("accounts/" + phone).observeSingleEvent(of: .value, with: {(snapshot) in
+            let value = snapshot.value as? NSDictionary ?? nil
+            
+            if value == nil
+            {
+                self.userD.set(nil, forKey: "OwnerName")
+                self.userD.set(phone, forKey: "OwnerPhone")
+                self.userD.set(nil, forKey: "OwnerMail")
+                self.userD.set(nil, forKey: "OwnerGroups")
+                self.userD.set(nil, forKey: "ActualGroup")
+                self.userD.set(nil, forKey: "ActualGroupTitle")
+                self.userD.set(nil, forKey: "MembersActiveGroup")
+                self.userD.set(nil, forKey: "ActualGroupPlaces")
+                completion(false)
+            }else{
+                completion(true)
+            }
+            
+        })
+    }
+    
     public func setUserSetting(phone: String, name: String, mail: String){
         userD.set(name, forKey: "OwnerName")
         userD.set(phone, forKey: "OwnerPhone")
+        userD.set(mail, forKey: "OwnerMail")
         
         self.reference.child("accounts/" + phone + "/name").setValue(name)
         self.reference.child("accounts/" + phone + "/phone").setValue(phone)
@@ -84,7 +109,7 @@ public class firebaseManager {
         
         if phone.characters.count > 0
         {
-            let userInfo = ["name" : userD.string(forKey: "Name")!,
+            let userInfo = ["name" : userD.string(forKey: "OwnerName")!,
                           "phone" : phone,
                           "rol" : "admin",
                           "visibility" : true,
@@ -118,7 +143,7 @@ public class firebaseManager {
                                      "Rol": "Admin",
                                      "Geocercas": ["Enter":true, "Exit":true]]]
             
-            userD.set(memberInfo, forKey: "ActiveGroupMembers")
+            userD.set(memberInfo, forKey: "MembersActiveGroup")
             
             self.notificationCenter.post(name: GroupsChangeNotification, object: self)
         }
@@ -166,7 +191,11 @@ public class firebaseManager {
             
             self.getMemberPhotoFB(phone: key)
         }
-        self.userD.set(allGroupMembers, forKey: "ActiveGroupMembers")
+        self.getPlaces(group: code, completion: {(places) in
+            self.userD.set(places, forKey: "ActualGroupPlaces")
+            self.notificationCenter.post(name: self.PlacesChangedNotification, object: self)
+        })
+        self.userD.set(allGroupMembers, forKey: "MembersActiveGroup")
         self.notificationCenter.post(name: GroupsChangeNotification, object: self)
     }
     
@@ -175,6 +204,26 @@ public class firebaseManager {
         guard let token = InstanceID.instanceID().token() else { return }
         self.reference.child("accounts/" + phone + "/FCMToken").setValue(token)
         
+    }
+    
+    public func saveGroupPlace(code: String, address: String, icon: Int, l: [String:Double], place_name:String, radio: Int){
+        var placeData = [String:Any]()
+        placeData["address"] = address
+        placeData["icon"] = icon
+        placeData["l"] = l
+        placeData["place_name"] = place_name
+        placeData["radio"] = radio
+        self.reference.child("groups/" + code + "/group_places").childByAutoId().setValue(placeData)
+    }
+    
+    public func editGroupPlace(code: String, key: String, address: String, icon: Int, l: [String:Double], place_name:String, radio: Int){
+        var placeData = [String:Any]()
+        placeData["address"] = address
+        placeData["icon"] = icon
+        placeData["l"] = l
+        placeData["place_name"] = place_name
+        placeData["radio"] = radio
+        self.reference.child("groups/" + code + "/group_places/" + key).setValue(placeData)
     }
     
     public func saveUserPhotoFB(photo: UIImage, phone: String){
@@ -198,11 +247,16 @@ public class firebaseManager {
             self.reference.child("accounts/" + phone + "/photo_url").setValue(metadata?.downloadURL()?.absoluteString)
             self.userD.set(metadata?.downloadURL()?.absoluteString, forKey: "OwnerDownloadURL")
             
-            var auxMembersInfo = self.userD.dictionary(forKey: "ActiveGroupMembers")
-            var member = auxMembersInfo?[phone] as! [String:Any]
-            member["Descarga"] = metadata?.downloadURL()?.absoluteString
-            auxMembersInfo?[phone] = member
-            self.userD.set(auxMembersInfo, forKey: "ActiveGroupMembers")
+            var auxMembersInfo = self.userD.dictionary(forKey: "MembersActiveGroup")
+            if (auxMembersInfo == nil)
+            {
+                
+            }else{
+                var member = auxMembersInfo?[phone] as! [String:Any]
+                member["Descarga"] = metadata?.downloadURL()?.absoluteString
+                auxMembersInfo?[phone] = member
+                self.userD.set(auxMembersInfo, forKey: "MembersActiveGroup")
+            }
         }
         
         self.notificationCenter.post(name: PhotoChangueNotification, object: self)
@@ -221,8 +275,8 @@ public class firebaseManager {
     
     @objc public func updateUserLocation()
     {
-        let phone = self.userD.string(forKey: "Phone")!
-        let name = self.userD.string(forKey: "Name")!
+        let phone = self.userD.string(forKey: "OwnerPhone")!
+        let name = self.userD.string(forKey: "OwnerName")!
         
         if phone == "" || name == ""
         {
@@ -283,6 +337,7 @@ public class firebaseManager {
                     self.userD.set(members, forKey: "MembersActiveGroup")
                     self.getPlaces(group: actualgroupc!, completion: {(list) in
                         self.userD.set(list, forKey: "ActualGroupPlaces")
+                        self.notificationCenter.post(name: self.LogInNotification, object: self)
                     })
                 })
             }
@@ -305,7 +360,7 @@ public class firebaseManager {
         if (fileMan.fileExists(atPath: photoURl.path)){
             return UIImage(contentsOfFile: photoURl.path)!
         }else{
-            return UIImage(named: "logo.png")!
+            return UIImage(named: "map-eye.png")!
         }
     }
     
@@ -361,7 +416,7 @@ public class firebaseManager {
     public func getPlaces(group: String, completion: @escaping ([[String:[String:Any]]]) ->  Void){
         var places = [[String:[String:Any]]]()
         self.reference.child("groups/" + group + "/group_places").observeSingleEvent(of: .value, with: {(snapshot) in
-            guard let value = snapshot.value as? [String:Any] else {return}
+            let value = snapshot.value as? [String:Any] ?? [:]
             let keys = value.keys
             
             for key in keys{
@@ -371,7 +426,7 @@ public class firebaseManager {
                 aux["icon"] = place["icon"] as! Int
                 aux["place_name"] = place["place_name"] as! String
                 
-                let location = place["l"] as! [String:Double]
+                let location = place["l"]
 
                 aux["l"] = location
                 aux["radio"] = place["radio"]
@@ -380,13 +435,16 @@ public class firebaseManager {
                 
                 places.append(infoPlace)
             }
-            
             completion(places)
         })
     }
     //// delete data functions
     //// Beware whit this
     //// Created by Kato
+    
+    public func deletePlace(code: String, key: String){
+        self.reference.child("groups/" + code + "/group_places/" + key).setValue(nil)
+    }
     
     public func deleteUserGroups(code: String){
         

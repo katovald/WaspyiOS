@@ -11,6 +11,7 @@ import Firebase
 import UserNotifications
 import CoreLocation
 import GoogleMaps
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
@@ -50,6 +51,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         application.registerForRemoteNotifications()
 
         GMSServices.provideAPIKey("AIzaSyCsKticH0eEpIsY-iB07Py0RFQt8nRQ1Gk")
+        GMSPlacesClient.provideAPIKey("AIzaSyAwV7hbQZlFyOytB36ad81YAhlKxEw_34A")
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(startMonitoring), name: NSNotification.Name("CorrectLogIn"), object: nil)
         
         if (Auth.auth().currentUser == nil){
             let aux = UIStoryboard(name: "Main", bundle: nil)
@@ -60,13 +64,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             let view = aux.instantiateViewController(withIdentifier: "inicioWLogin") as UIViewController
             window?.rootViewController = view
         }
-        
-        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(startTimer), userInfo: nil, repeats: true)
-        timer1 = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
         return true
     }
     
     //[INICIO DE SERVICIO]
+    @objc func startMonitoring()
+    {
+        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(startTimer), userInfo: nil, repeats: true)
+        timer1 = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
+    }
     
     @objc func startTimer()
     {

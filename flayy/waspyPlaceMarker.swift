@@ -14,10 +14,15 @@ class waspyPlaceMarker: GMSMarker {
     var markerView:UIImageView!
     var adress:String!
     var nombre:String!
-    var iconType:Int!
     var radioGeo:Int!
     
-    init(name: String, address: String, icono: Int, radio: Int) {
+    init(name: String, address: String, radio: Int) {
+        adress = address
+        nombre = name
+        radioGeo = radio
+    }
+    
+    func setIconView(icono: Int) {
         var marcador = UIImage()
         switch icono {
         case 1:
@@ -39,18 +44,8 @@ class waspyPlaceMarker: GMSMarker {
         default:
             marcador = UIImage(named: "geoplace_house1")!
         }
+        markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 20, height: 20)))
         
-        markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 40, height: 40)))
-        
-        markerView.addSubview(markerView)
-        
-        adress = address
-        nombre = name
-        iconType = icono
-        radioGeo = radio
-    }
-    
-    func setIconView() {
         self.iconView = markerView
     }
     
@@ -58,3 +53,35 @@ class waspyPlaceMarker: GMSMarker {
         self.position = location
     }
 }
+
+extension waspyPlaceMarker{
+    func updateMarker(coordinates: CLLocationCoordinate2D, degrees: CLLocationDegrees, duration: Double) {
+        // Keep Rotation Short
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.5)
+        self.rotation = degrees
+        CATransaction.commit()
+        
+        // Movement
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(duration)
+        self.position = coordinates
+        
+        CATransaction.commit()
+    }
+    
+    func updateRadius(radius: Int){
+        
+    }
+    
+    func updateMarkerdata(name: String, degrees: CLLocationDegrees, duration: Double) {
+        // Keep Rotation Short
+        
+    }
+    
+    func getLocation() -> CLLocationCoordinate2D {
+        return self.position
+    }
+}
+
+

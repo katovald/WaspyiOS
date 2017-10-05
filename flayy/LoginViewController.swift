@@ -18,6 +18,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     @IBOutlet weak var getCode: UIButton!
     @IBOutlet weak var Telefono: UITextField!
     
+    @IBOutlet weak var banderaArea: UIImageView!
+    
+    @IBAction func changeArea(_ sender: Any) {
+        if areaCode == "+52"{
+            areaCode = "+1"
+            banderaArea.image = UIImage(named: "flag_usa.png")
+        }else{
+            areaCode = "+52"
+            banderaArea.image = UIImage(named: "flag_mexico.png")
+        }
+    }
+    
     //variables necesarias
     var activeField:UITextField? = nil
     var player: AVPlayer!
@@ -27,32 +39,28 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     var tel = ""
     var animated:Bool = false
     let userInfo:UserDefaults = UserDefaults.standard
+    var keyboardHigth:CGFloat = 0.0
+    var areaCode = "+52"
+    let notifications:NotificationCenter = NotificationCenter.default
     
     //acciones de los componentes
     @IBAction func Clicked(_ sender: Any) {
         self.alert(message: "En un mometo recibiras un SMS con un token, introducelo")
-        tel = "+52" + Telefono.text!
-        PhoneAuthProvider.provider().verifyPhoneNumber(tel, uiDelegate: self, completion: { (verificationID, error) in
-            if let error = error {
-                self.alert(message: "Ocurrio un error:" + error.localizedDescription)
-                return
-            }
+        tel = areaCode + Telefono.text!
+        PhoneAuthProvider.provider().verifyPhoneNumber(tel,
+                                                       uiDelegate: self,
+                                                       completion: { (verificationID, error) in
+                                                        if let error = error {
+                                                            self.alert(message: "Ocurrio un error:" + error.localizedDescription)
+                                                            return
+                                                        }
             
-            if (verificationID != "" && !self.animated){
-                self.verID = verificationID!
-                self.sendCode.isHidden = false
-                self.Code.isHidden = false
-                self.Telefono.isEnabled = false
-                UIView.animate(withDuration: 1, animations: {
-                    self.getCode.frame.size = CGSize(width: (self.getCode.frame.width * 0.7), height: self.getCode.frame.height)
-                    self.getCode.frame.origin.x = 20
-                    self.sendCode.transform = CGAffineTransform(scaleX: 0.85, y: 1)
-                    self.sendCode.frame.origin.x = (self.view.frame.width - 20 - self.sendCode.frame.width)
-                    self.Telefono.frame.origin.y -= 50
-                    self.Code.frame.origin.y += 50
-                    self.animated = true
-                    self.getCode.setTitle("Reenviar", for: .normal)
-                })
+                                                        if (verificationID != "" && !self.animated){
+                                                            self.verID = verificationID!
+                                                            self.sendCode.isHidden = false
+                                                            self.Code.isHidden = false
+                                                            self.Telefono.isEnabled = false
+                                                            self.getCode.isHidden = true
             }else{
                 return
             }
@@ -77,8 +85,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
         self.sendCode.isHidden = true
         self.Telefono.delegate = self
         self.Code.delegate = self
+        
+        Telefono.layer.cornerRadius = 4
+        Telefono.layer.borderColor = UIColor.white.cgColor
+        Telefono.layer.borderWidth = 1.0
+        
+        Code.layer.cornerRadius = 4
+        Code.layer.borderColor = UIColor.white.cgColor
+        Code.layer.borderWidth = 1.0
+        
         self.Telefono.keyboardType = .phonePad
         self.Code.keyboardType = .numberPad
+        
+        self.Telefono.layer.cornerRadius = 4
+        self.Telefono.layer.borderColor = UIColor.white.cgColor
         
         let url = Bundle.main.url(forResource: "prueba12", withExtension: "mp4")
         
@@ -114,8 +134,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     
     func registerForKeyboardNotifications(){
         //Adding notifies on keyboard appearing
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWasShown(notification:)),
+                                               name: NSNotification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillBeHidden(notification:)),
+                                               name: NSNotification.Name.UIKeyboardWillHide,
+                                               object: nil)
     }
     
     func deregisterFromKeyboardNotifications(){
@@ -127,15 +153,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     @objc func keyboardWasShown(notification: NSNotification){
         //Need to calculate keyboard exact size due to Apple suggestions
         var info = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-        self.activeField?.frame.origin.y -= keyboardSize!.height
+        if keyboardHigth == 0.0 {
+            let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+            keyboardHigth = keyboardSize!.height
+        }
+        self.activeField?.frame.origin.y -= keyboardHigth
     }
     
     @objc func keyboardWillBeHidden(notification: NSNotification){
         //Once keyboard disappears, restore original positions
-        var info = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-        self.activeField?.frame.origin.y += keyboardSize!.height
+        self.activeField?.frame.origin.y += keyboardHigth
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -190,7 +217,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
                         // [START_EXCLUDE]
                         // Merge prevUser and currentUser accounts and data
                         // ...
-                    
                     self.performSegue(withIdentifier: "InicioApp", sender: nil)
                         // [END_EXCLUDE]
                     }
@@ -211,3 +237,4 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     }
 
 }
+

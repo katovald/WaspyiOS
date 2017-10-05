@@ -14,12 +14,13 @@ import FirebaseDatabase
 import FirebaseStorage
 import FirebaseAuth
 
-class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate{
-    
-    let modelManager = firebaseManager()
+class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate{
     var phone:String!
     let userD = UserDefaults.standard
     let imagePicker = UIImagePickerController()
+    var edit = false
+    var keyboardHigth:CGFloat = 0.0
+    var activeField:UITextField? = nil
     
     @IBOutlet weak var phoneText: UITextField!
     @IBOutlet weak var Salir: UIBarButtonItem!
@@ -32,15 +33,31 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
     @IBOutlet weak var exit: UIBarButtonItem!
     
     @IBAction func guarda(_ sender: Any) {
-        if (self.nameText.text == "" || self.userMail.text == "")
-        {
-            self.alert(message: "Por favor llena los datos necesarios")
-            return
+        if edit {
+            if (self.nameText.text == "" || self.userMail.text == "")
+            {
+                self.alert(message: "Por favor llena los datos necesarios")
+                return
+            }
+            else{
+                firebaseManager.init().saveUserPhotoFB(photo: userPhoto.image!, phone: phone)
+                firebaseManager.init().setUserSetting(phone: phone,
+                                                  name: nameText.text!,
+                                                  mail: userMail.text!)
+            }
+            edit = false
+            editaguarda.tintColor = UIColor.yellow
+            editaguarda.title = "Editar"
+            self.dismiss(animated: true, completion: nil)
+        }else{
+            nameText.isEnabled = true
+            userMail.isEnabled = true
+            inicioCam.isEnabled = true
+            galeria.isEnabled = true
+            editaguarda.tintColor = UIColor.red
+            editaguarda.title = "Guardar"
+            edit = true
         }
-        else{
-            modelManager.setUserSetting(phone: self.phone, name: self.nameText.text!, mail: self.userMail.text!)
-        }
-        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func Salir(_ sender: Any) {
@@ -61,15 +78,41 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
     override func viewDidLoad() {
         
         imagePicker.delegate = self
-        self.nameText.text = self.userD.string(forKey: "Name") ?? ""
-        self.phone = self.userD.string(forKey: "Phone")
-        self.userMail.text = self.userD.string(forKey: "Mail") ?? ""
+        nameText.delegate = self
+        userMail.delegate = self
         
-        self.userPhoto.image = modelManager.getMemberPhoto(phone: self.phone)
+        nameText.layer.cornerRadius = 4
+        nameText.layer.borderColor = UIColor.white.cgColor
+        nameText.layer.borderWidth = 1.0
+        
+        userMail.layer.cornerRadius = 4
+        userMail.layer.borderWidth = 1.0
+        userMail.layer.borderColor = UIColor.white.cgColor
+        
+        
+        self.nameText.text = self.userD.string(forKey: "OwnerName") ?? ""
+        self.phone = self.userD.string(forKey: "OwnerPhone")
+        self.userMail.text = self.userD.string(forKey: "OwnerMail") ?? ""
+        
+        self.userPhoto.image = firebaseManager.init().getMemberPhoto(phone: self.phone)
         
         if (self.nameText.text == ""){
             self.Salir.isEnabled = false
+            nameText.isEnabled = true
+            userMail.isEnabled = true
+            inicioCam.isEnabled = true
+            galeria.isEnabled = true
+            editaguarda.tintColor = UIColor.red
+            editaguarda.title = "Guardar"
+            edit = true
+        }else{
+            nameText.isEnabled = false
+            userMail.isEnabled = false
+            inicioCam.isEnabled = false
+            galeria.isEnabled = false
         }
+        
+        registerForKeyboardNotifications()
     }
     
     @IBAction func inicioGaleria(_ sender: Any) {
@@ -99,16 +142,13 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
             if(image.size.width > image.size.height){
                 let imagenRec:UIImage =  cropToBounds(image: image, width: Double(image.size.width), height: Double(image.size.width))
                 self.userPhoto.image = resizeImage(image: imagenRec, newSize: CGSize(width: 130, height: 130))
-                self.modelManager.saveUserPhotoFB(photo: self.userPhoto.image!, phone: self.phone)
             }
             if(image.size.width < image.size.height){
                 let imagenRec:UIImage =  cropToBounds(image: image, width: Double(image.size.height), height: Double(image.size.height))
                 self.userPhoto.image =  imageRotatedByDegrees(oldImage: resizeImage(image: imagenRec, newSize: CGSize(width: 130, height: 130)), deg: 90.0)
-                self.modelManager.saveUserPhotoFB(photo: self.userPhoto.image!, phone: self.phone)
             }
             else{
                 self.userPhoto.image = resizeImage(image: image, newSize: CGSize(width: 130, height: 130))
-                self.modelManager.saveUserPhotoFB(photo: self.userPhoto.image!, phone: self.phone)
             }
         }
     }
@@ -129,7 +169,50 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
         }
     }
     
+    func registerForKeyboardNotifications(){
+        //Adding notifies on keyboard appearing
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWasShown(notification:)),
+                                               name: NSNotification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillBeHidden(notification:)),
+                                               name: NSNotification.Name.UIKeyboardWillHide,
+                                               object: nil)
+    }
     
+    func deregisterFromKeyboardNotifications(){
+        //Removing notifies on keyboard appearing
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    @objc func keyboardWasShown(notification: NSNotification){
+        //Need to calculate keyboard exact size due to Apple suggestions
+        var info = notification.userInfo!
+        if keyboardHigth == 0.0 {
+            let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+            keyboardHigth = keyboardSize!.height / 4
+        }
+        self.view.frame.origin.y -= keyboardHigth
+    }
+    
+    @objc func keyboardWillBeHidden(notification: NSNotification){
+        //Once keyboard disappears, restore original positions
+        self.view.frame.origin.y += keyboardHigth
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField){
+        activeField = textField
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField){
+        activeField = nil
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        deregisterFromKeyboardNotifications()
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true) //This will hide the keyboard

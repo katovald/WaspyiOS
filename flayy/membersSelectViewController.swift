@@ -17,16 +17,25 @@ class membersSelectViewController: UIViewController{
     @IBAction func CloseBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    @IBOutlet weak var lastCheck: UILabel!
     
     var miembros:[[String:[String:Any]]]!
     var menuActionDelegate: MenuActionDelegate? = nil
-    var delegate: usingMap? = nil
     
     let userD:UserDefaults = UserDefaults.standard
+    var checkIn:String = ""
+    
+    let notificationObserver = NotificationCenter.default
+    let solicitudUsuarios = Notification.Name("UserAsked")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         miembros = userD.array(forKey: "MembersActiveGroup") as! [[String:[String:Any]]]
+        checkIn = userD.string(forKey: "LastCheckIn") ?? ""
+        if checkIn == ""{
+            lastCheck.isHidden = true
+        }
+        
         // Do any additional setup after loading the view.
     }
 
@@ -71,12 +80,18 @@ extension membersSelectViewController: UITableViewDataSource{
 
 extension membersSelectViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let phone = miembros[indexPath.row].first?.key
-        dismiss(animated: true, completion: {
-            self.delay(segundos: 0.5, completion: {
-                    self.delegate?.centerMember(phone: phone!)
-                })
+        let data = miembros[indexPath.row].first?.value
+        
+        if data!["visibility"] as! Bool{
+            self.userD.set(data, forKey: "UserAsked")
+            self.dismiss(animated: true, completion: {
+                self.notificationObserver.post(name: self.solicitudUsuarios, object: self)
             })
+        }else{
+            self.dismiss(animated: true, completion: {
+                self.alert(message: "El usuario no esta comparitendo su ubicacion, solicitale un check in")
+            })
+        }
     }
 }
 

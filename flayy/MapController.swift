@@ -9,10 +9,7 @@
 import UIKit
 import GoogleMaps
 import FirebaseDatabase
-
-protocol usingMap {
-    func centerMember(phone:String)
-}
+import GeoFire
 
 class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDelegate{
 
@@ -21,17 +18,27 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     var locValue = CLLocationCoordinate2D()
     let userD = UserDefaults.standard
     var getMembersData:Timer!
-    var geoNotifications:[Geotification] = []
     var markers = [String:waspyMemberMarker]()
+    var places = [String:waspyPlaceMarker]()
+    var alerts = [String:waspyAlertMarker]()
     var mapa:GMSMapView!
-    
-    override func viewDidLoad() {
+    var alertas:Bool = false
+    let workingView = UIActivityIndicatorView()
+    let backView = UIView()
 
+    override func viewDidLoad() {
+        backView.frame = view.frame
+        backView.frame.origin = view.frame.origin
+        backView.backgroundColor = UIColor.gray.withAlphaComponent(0.9)
+        workingView.activityIndicatorViewStyle = .whiteLarge
+        workingView.hidesWhenStopped = true
+        workingView.center = backView.center
+        backView.addSubview(workingView)
+        workingView.startAnimating()
+        
         self.mapa = GMSMapView(frame: self.view.frame)
         self.mapa.delegate = self
         self.view = mapa
-        
-        getMembersData =  Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateMarkers), userInfo: nil, repeats: true)
         
         let status = CLLocationManager.authorizationStatus()
         if(status == CLAuthorizationStatus.notDetermined || status == CLAuthorizationStatus.denied)
@@ -41,14 +48,38 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
             locValue = locationManager.location!.coordinate
-            self.locationManager.delegate = self
         }
         
         camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.0, bearing: -15, viewingAngle: 45)
         self.view = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         locationManager.delegate = self
         
+        self.view.addSubview(backView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMarkers), name: NSNotification.Name("UserPhotoChanged"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(centerView), name: NSNotification.Name("FixCameraPush"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(changeInfo), name: NSNotification.Name("UserGroupsChanged"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(locateUser), name: NSNotification.Name("UserAsked"), object: nil)
+        
+         NotificationCenter.default.addObserver(self, selector: #selector(updateFences), name: NSNotification.Name("PlacesAdded"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(turnAlertsOnOFF), name: NSNotification.Name("Alerts"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(initWaspy), name: NSNotification.Name("CorrectLogIn"), object: nil)
+        
+    }
+    
+    @objc func initWaspy() {
+        workingView.stopAnimating()
+        backView.removeFromSuperview()
+        
+        getMembersData =  Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateMarkers), userInfo: nil, repeats: true)
+        
         drawMarkers(map: view as! GMSMapView)
+        updateFences()
         
         let region = self.regionMonitor()
         if(locationManager.monitoredRegions.count > 0)
@@ -57,23 +88,29 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         }else{
             locationManager.startMonitoring(for: region)
         }
-        //public let DataChangueNotification = NSNotification.Name("UserDataChanged")
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateMarkers), name: NSNotification.Name("UserPhotoChanged"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(centerView), name: NSNotification.Name("FixCameraPush"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(drawNotifications), name: NSNotification.Name("ShowNotifications"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(changeInfo), name: NSNotification.Name("UserGroupsChanged"), object: nil)
-        
     }
     
     @objc func changeInfo(){
+        self.view.addSubview(backView)
+        workingView.startAnimating()
         self.mapa.clear()
         let camera = GMSCameraPosition.camera(withLatitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, zoom: 15.0, bearing: -15, viewingAngle: 45)
         self.view =  GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         drawMarkers(map: self.view as! GMSMapView)
+        updateFences()
+        workingView.stopAnimating()
+        backView.removeFromSuperview()
+    }
+    
+    @objc func turnAlertsOnOFF()
+    {
+        if alertas{
+            hideAlerts()
+            alertas = false
+        }else{
+            drawAlerts(map: self.view as! GMSMapView)
+            alertas = true
+        }
     }
     
     @objc func centerView(){
@@ -84,10 +121,48 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         self.view = mapa
     }
     
+    @objc func locateUser(){
+        let userPhone = userD.dictionary(forKey: "UserAsked")
+        let location = userPhone!["location"] as! [String:Any]
+        
+        let userLocation = GMSCameraPosition(target:
+            CLLocationCoordinate2D(latitude: location["latitude"] as! Double,
+                                   longitude: location["longitude"] as! Double),
+                                   zoom: 15.0,
+                                   bearing: -15,
+                                   viewingAngle: 45)
+        
+        self.mapa = self.view as! GMSMapView!
+        mapa.animate(to: userLocation)
+        self.view = mapa
+        self.userD.set(nil, forKey: "UserAsked")
+    }
+    
+    @objc func updateFences(){
+        let lugares = userD.array(forKey: "ActualGroupPlaces") as? [[String:[String:Any]]] ?? []
+        
+        for lugar in lugares
+        {
+            let key = lugar.first?.key
+            let info = lugar.first?.value
+            let placeMarker = waspyPlaceMarker(name: info!["place_name"] as! String,
+                                               address: info!["address"] as! String,
+                                               radio: info!["radio"] as! Int)
+            let coordinate = info!["l"] as! [Double]
+            let point = CLLocationCoordinate2D(latitude: coordinate[0] ,
+                                               longitude: coordinate[1])
+            placeMarker.setLocation(location: point)
+            placeMarker.setIconView(icono: info!["icon"] as! Int)
+            places[key!] = placeMarker
+            placeMarker.map = self.view as? GMSMapView
+        }
+    }
+    
     @objc func updateMarkers()
     {
-        var aux = userD.array(forKey: "MembersActiveGroup") as! [[String:[String:Any]]]
+        var aux = userD.array(forKey: "MembersActiveGroup") as? [[String:[String:Any]]] ?? []
         var allMembers = [String]()
+        if aux.count > 0 {
         for key in 0...aux.count - 1 {
             let memberPhone = (aux[key].first?.key)!
             allMembers.append(memberPhone)
@@ -109,6 +184,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
                 }
             }
         }
+        }
         
         if allMembers.count < markers.count
         {
@@ -129,7 +205,8 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     
     func drawMarkers(map: GMSMapView)
     {
-        var aux = userD.array(forKey: "MembersActiveGroup") as! [[String:[String:Any]]]
+        var aux = userD.array(forKey: "MembersActiveGroup") as? [[String:[String:Any]]] ?? []
+        if aux.count > 0 {
         for key in 0...aux.count - 1 {
             let memberPhone = (aux[key].first?.key)!
             let marker = waspyMemberMarker(phone: memberPhone)
@@ -147,35 +224,33 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
                 markers[memberPhone] = marker
             }
         }
-        
-    }
-    
-    func drawNotification(map: GMSMapView){
-        
-    }
-    
-    func drawGeoFences(map:GMSMapView){
-        
-    }
-    
-    func findMember(phone:String) {
-        let focus = markers[phone]?.getLocation()
-        if focus != nil{
-            let memberLocation = GMSCameraPosition(target: focus!, zoom: 15.0, bearing: -15, viewingAngle: 45)
-            
-            self.mapa = self.view as! GMSMapView!
-            mapa.animate(to: memberLocation)
-            self.view = mapa
         }
+        
     }
     
-    @objc func drawNotifications()
+    func drawAlerts(map: GMSMapView)
     {
+        let theGeoFire = GeoFire(firebaseRef: Database.database().reference().child("alerts_geo"))
+        let circleQuery = theGeoFire!.query(at: locationManager.location, withRadius: 200/1000)
         
+        _ = circleQuery!.observe(.keyEntered, with: { (key, location) in
+            let llave = key
+            let marcador = waspyAlertMarker(tipo: 0, coment: "lajfbauf", title: "ejfofug")
+            marcador.setIconView(icono: 0)
+            marcador.setLocation(location: (location?.coordinate)!)
+            marcador.map = map
+            self.alerts[llave!] = marcador
+        })
     }
-
-    func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
-        
+    
+    func hideAlerts()
+    {
+        let keys = alerts.keys
+        for key in keys
+        {
+            let marker = alerts[key]
+            marker?.map = nil
+        }
     }
     
     func regionMonitor() -> CLCircularRegion {
@@ -193,10 +268,3 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         alert(message: "Bye")
     }
 }
-
-extension MapController: usingMap{
-    func centerMember(phone: String) {
-        self.findMember(phone: phone)
-    }
-}
-

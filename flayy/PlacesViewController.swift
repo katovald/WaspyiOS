@@ -23,8 +23,14 @@ class PlacesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         places = userD.array(forKey: "ActualGroupPlaces") as? [[String:[String:Any]]] ?? []
+        if places.count == 0
+        {
+            firebaseManager.init().getPlaces(group: userD.string(forKey: "ActualGroup")!, completion:{(lugares) in
+                self.places = lugares
+                self.userD.set(lugares, forKey: "ActualGroupPlaces")
+            })
+        }
         // Do any additional setup after loading the view.
     }
 

@@ -25,20 +25,38 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     let userD = UserDefaults.standard
     let user = Auth.auth().currentUser
     let notificationObserver = NotificationCenter.default
-    let CenterRequest = NSNotification.Name("FixCameraPush")
+    public let CenterRequest = NSNotification.Name("FixCameraPush")
+    public let AlertRequest = NSNotification.Name("Alerts")
+    public let LogInNotification = NSNotification.Name("CorrectLogIn")
+    
+    var alertas:Bool = false
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
     @IBOutlet weak var memberList: UIButton!
     @IBOutlet weak var center: UIButton!                //boton para centrar el mapa en tu posicion original
-    @IBOutlet weak var dron: UIButton!                  //modalidad de dron
+    @IBOutlet weak var dron: Rounded!                  //modalidad de dron
     @IBOutlet weak var gmapView: UIView!                //muestra el mapa en el fondo de la vista
     @IBOutlet weak var titleBar: UINavigationItem!
-    
+
+    @IBOutlet weak var plusBut: Rounded!
     @IBAction func localiza(_ sender: Any) {        //envia coordenadas y las centra en el mapa
         notificationObserver.post(name: CenterRequest, object: self)
     }
     
     @IBAction func dronInicio(_ sender: Any) {      //modo dron
+        if alertas{
+            notificationObserver.post(name: AlertRequest, object: self)
+            dron.normalBorderColor = UIColor.clear
+            dron.borderWidth = 0
+            plusBut.isHidden = true
+            alertas = false
+        }else{
+            notificationObserver.post(name: AlertRequest, object: self)
+            dron.normalBorderColor = UIColor.green
+            dron.borderWidth = 3
+            plusBut.isHidden = false
+            alertas = true
+        }
     }
     
     @IBAction func openGroups(_ sender: Any) {      //popup para elegir grupo
@@ -68,23 +86,39 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        plusBut.isHidden = true
+        
         self.phone = (user?.phoneNumber)!
         
-        if userD.string(forKey: "OwnerPhone") == nil
-        {
-            firebaseManager.init().getOwnerData(phone: self.phone)
-        }
-        
-        if userD.string(forKey: "ActualGroupTitle") == nil
-        {
-            self.performSegue(withIdentifier: "datosUsuario", sender: nil)
-        }
-
-        if userD.array(forKey: "MembersActiveGroup") == nil{
-            firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
-                self.userD.set(members, forKey: "MembersActiveGroup")
+        firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
+                if inSystem
+                {
+                    if self.userD.array(forKey: "MembersActiveGroup") == nil{
+                        firebaseManager.init().getOwnerData(phone: self.phone)
+                    }else{
+                        self.notificationObserver.post(name: self.LogInNotification, object: self)
+                    }
+                }else{
+                    self.performSegue(withIdentifier: "datosUsuario", sender: self)
+                }
             })
-        }
+        
+//        if userD.string(forKey: "ActualGroupTitle") == nil
+//        {
+//            self.performSegue(withIdentifier: "datosUsuario", sender: nil)
+//        }
+//
+//        if userD.array(forKey: "MembersActiveGroup") == nil{
+//            var code = self.userD.string(forKey: "ActualGroup")
+//            if code == nil {
+//                let grupo = self.userD.dictionary(forKey: "OwnerGroups")?.first
+//                code = grupo?.key
+//            }else{
+//                firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
+//                    self.userD.set(members, forKey: "MembersActiveGroup")
+//                })
+//            }
+//        }
         
         self.titleBar.title = userD.string(forKey: "ActualGroupTitle")
         
@@ -115,6 +149,8 @@ extension MapViewController: MenuActionDelegate {
     }
     
     func exitAuth(){
+        self.userD.set(nil, forKey: "OwnerPhone")
+        
         dismiss(animated: true, completion: {
             exit(0)
         })

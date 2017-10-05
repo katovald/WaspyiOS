@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Core Functions Of Searching people, can turn off presenting info to others</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -26,6 +28,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>foo.bar</string>
+				<string>com.googleusercontent.apps.900225519373-pri5naj5btjr97otauufpfopvvb071qf</string>
 			</array>
 		</dict>
 		<dict>
@@ -34,6 +37,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.900225519373-1pvp80s650ihi44kad5c2qarpnnoiio9.apps.googleusercontent.com</string>
+				<string>com.googleusercontent.apps.900225519373-pri5naj5btjr97otauufpfopvvb071qf</string>
 			</array>
 		</dict>
 	</array>
