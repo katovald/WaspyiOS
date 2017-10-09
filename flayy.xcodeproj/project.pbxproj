@@ -684,13 +684,6 @@
 			name = Hdlrs;
 			sourceTree = "<group>";
 		};
-		41ACBADF1F45CE7800C8DFB9 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Services;
-			sourceTree = "<group>";
-		};
 		41B7194F1F069C9C00A42014 = {
 			isa = PBXGroup;
 			children = (
@@ -719,7 +712,6 @@
 			isa = PBXGroup;
 			children = (
 				41776EC91F7D3D94001A0E55 /* Waspy */,
-				41ACBADF1F45CE7800C8DFB9 /* Services */,
 				417F8A181F28EC4E00C4AE58 /* Design */,
 				4183E4D31F0D5CF700ECBED4 /* Hdlrs */,
 				417F78261F0D4AA600844794 /* Models */,

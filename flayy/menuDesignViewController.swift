@@ -20,21 +20,19 @@ class menuDesignViewController: UIViewController {
     @IBOutlet weak var blur: UIImageView!
     
     @IBOutlet weak var nombre: UILabel!
+    
     @IBAction func closeMenu(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionFade
+        transition.subtype = kCATransitionFromRight
+        view.window!.layer.add(transition, forKey: "ExitMenu")
+        dismiss(animated: false, completion: nil)
     }
     
     func delay(segundos: Double, completion:@escaping()->()){
         let tiempoVista = DispatchTime.now() + Double(Int64(Double(NSEC_PER_SEC) * segundos)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: tiempoVista, execute: {completion()
-        })
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        dismiss(animated: true, completion: {
-            self.delay(segundos: 0.5, completion: {
-            self.menuActionDelegate?.reopenMenu()
-            })
         })
     }
     
@@ -50,8 +48,6 @@ class menuDesignViewController: UIViewController {
             self.nombre.text = userD.string(forKey: "OwnerName")!
         }
     }
-    
-    
 
 }
 

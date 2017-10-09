@@ -68,6 +68,7 @@ public class firebaseManager {
                 self.userD.set(nil, forKey: "ActualGroupTitle")
                 self.userD.set(nil, forKey: "MembersActiveGroup")
                 self.userD.set(nil, forKey: "ActualGroupPlaces")
+                self.userD.set(nil, forKey: "VisibleInActualGroup")
                 completion(false)
             }else{
                 completion(true)
@@ -136,6 +137,7 @@ public class firebaseManager {
             userD.set(gruposAct, forKey: "OwnerGroups")
             userD.set(groupCode, forKey: "ActualGroup")
             userD.set(name, forKey: "ActualGroupTitle")
+            userD.set(true, forKey: "VisibleInActualGroup")
             
             let memberInfo = [phone:["Nombre": self.userD.string(forKey: "OwnerName") ?? "",
                                      "Telefono": self.userD.string(forKey: "OwnerPhone") ?? "",
@@ -240,12 +242,14 @@ public class firebaseManager {
         let metadata = StorageMetadata()
         metadata.contentType = "image/png"
         
-        fileStorage.child(phone + ".png").putData(imageData, metadata: metadata) { (metadata, error) in
-            guard metadata != nil else {
+        fileStorage.child(phone + ".png").putData(imageData,
+                                                  metadata: metadata,
+                                                  completion: { (metadataFB, error) in
+            guard metadataFB != nil else {
                 return
             }
-            self.reference.child("accounts/" + phone + "/photo_url").setValue(metadata?.downloadURL()?.absoluteString)
-            self.userD.set(metadata?.downloadURL()?.absoluteString, forKey: "OwnerDownloadURL")
+            self.reference.child("accounts/" + phone + "/photo_url").setValue(metadataFB?.downloadURL()?.absoluteString)
+            self.userD.set(metadataFB?.downloadURL()?.absoluteString, forKey: "OwnerDownloadURL")
             
             var auxMembersInfo = self.userD.dictionary(forKey: "MembersActiveGroup")
             if (auxMembersInfo == nil)
@@ -253,11 +257,11 @@ public class firebaseManager {
                 
             }else{
                 var member = auxMembersInfo?[phone] as! [String:Any]
-                member["Descarga"] = metadata?.downloadURL()?.absoluteString
+                member["Descarga"] = metadataFB?.downloadURL()?.absoluteString
                 auxMembersInfo?[phone] = member
                 self.userD.set(auxMembersInfo, forKey: "MembersActiveGroup")
             }
-        }
+        })
         
         self.notificationCenter.post(name: PhotoChangueNotification, object: self)
     }
@@ -271,6 +275,12 @@ public class firebaseManager {
         let MemPhotoChangueNotification = NSNotification.Name("MemberPhotoChanged")
         self.notificationCenter.post(name: MemPhotoChangueNotification, object: self)
     
+    }
+    
+    public func setMyVisibility(code: String, tel: String, visible: Bool)
+    {
+        reference.child("groups/" + code + "/members/" + tel + "/visibility").setValue(visible)
+        userD.set(visible, forKey: "VisibleInActualGroup")
     }
     
     @objc public func updateUserLocation()
@@ -294,7 +304,7 @@ public class firebaseManager {
                 
                 for index in 0...(kilo.count - 1)
                 {
-                    direccion += kilo[index] 
+                    direccion += kilo[index]
                     direccion += " "
                 }
                 

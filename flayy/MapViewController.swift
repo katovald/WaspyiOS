@@ -14,7 +14,6 @@ import GeoFire
 
 protocol MenuActionDelegate {
     func openSegue(_ segueName: String, sender: AnyObject?)
-    func reopenMenu()
     func exitAuth()
 }
 
@@ -93,6 +92,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
                 if inSystem
                 {
+                    self.userD.set(self.phone, forKey: "OwnerPhone")
                     if self.userD.array(forKey: "MembersActiveGroup") == nil{
                         firebaseManager.init().getOwnerData(phone: self.phone)
                     }else{
@@ -139,18 +139,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 
 extension MapViewController: MenuActionDelegate {
     func openSegue(_ segueName: String, sender: AnyObject?) {
-        dismiss(animated: true, completion: {
+        dismiss(animated: false, completion: {
             self.performSegue(withIdentifier: segueName, sender: sender)
         })
     }
     
-    func reopenMenu() {
-        performSegue(withIdentifier: "menu", sender: nil)
-    }
-    
     func exitAuth(){
         self.userD.set(nil, forKey: "OwnerPhone")
-        
         dismiss(animated: true, completion: {
             exit(0)
         })

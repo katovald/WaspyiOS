@@ -21,14 +21,35 @@ class gruposSelectViewController: UIViewController {
     var notificationCenter:NotificationCenter = NotificationCenter.default
     
     @IBAction func closeMenu(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionFade
+        transition.subtype = kCATransitionFromLeft
+        view.window!.layer.add(transition, forKey: "ExitGroup")
+        dismiss(animated: false, completion: nil)
     }
     
-   
+    @IBOutlet weak var suscribirNuevo: Rounded!
+    
+    @IBAction func suscribe(_ sender: Any) {
+        firebaseManager.init().subscribeUserGroups(code: codetext.text!)
+    }
+    
+    @IBOutlet weak var codetext: UITextField!
+    @IBOutlet weak var visibleON: UISwitch!
+    
+    @IBAction func visibleONOFF(_ sender: Any) {
+        firebaseManager.init().setMyVisibility(code: userD.string(forKey: "ActualGroup")!,
+                                               tel: userD.string(forKey: "OwnerPhone")!,
+                                               visible: visibleON.isOn)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        grupos=userD.array(forKey: "OwnerGroups") as! [[String : String]]
+        grupos=userD.array(forKey: "OwnerGroups") as? [[String : String]] ?? []
+        
+        visibleON.isOn = userD.bool(forKey: "VisibleInActualGroup")
+
         // Do any additional setup after loading the view.
     }
 
@@ -42,15 +63,6 @@ class gruposSelectViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: tiempoVista, execute: {completion()
         })
     }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        dismiss(animated: true, completion: {
-            self.delay(segundos: 0.5, completion: {
-                self.menuActionDelegate?.reopenMenu()
-            })
-        })
-    }
-
 }
 
 extension gruposSelectViewController: UITableViewDataSource {
@@ -68,7 +80,12 @@ extension gruposSelectViewController: UITableViewDataSource {
 
 extension gruposSelectViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.dismiss(animated: true, completion:{
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionFade
+        transition.subtype = kCATransitionFromRight
+        view.window!.layer.add(transition, forKey: "ExitMenu")
+        self.dismiss(animated: false, completion:{
             let grupoElegido = self.grupos[indexPath.row]
             self.userD.set(grupoElegido.first?.key, forKey: "ActualGroup")
             self.userD.set(grupoElegido.first?.value, forKey: "ActualGroupTitle")

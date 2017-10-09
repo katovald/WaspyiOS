@@ -13,11 +13,15 @@ class membersSelectViewController: UIViewController{
     @IBAction func closeMenu(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
     @IBOutlet weak var closeBtn: UIButton!
+    
     @IBAction func CloseBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
     @IBOutlet weak var lastCheck: UILabel!
+    @IBOutlet weak var membersTable: UITableView!
     
     var miembros:[[String:[String:Any]]]!
     var menuActionDelegate: MenuActionDelegate? = nil
@@ -30,13 +34,11 @@ class membersSelectViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        miembros = userD.array(forKey: "MembersActiveGroup") as! [[String:[String:Any]]]
+        miembros = userD.array(forKey: "MembersActiveGroup") as? [[String:[String:Any]]] ?? []
         checkIn = userD.string(forKey: "LastCheckIn") ?? ""
-        if checkIn == ""{
+        if checkIn == "" {
             lastCheck.isHidden = true
         }
-        
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,21 +46,17 @@ class membersSelectViewController: UIViewController{
         // Dispose of any resources that can be recreated.
     }
     
-
+    @objc func updateTableData()
+    {
+        //TODO search for real time view
+        //
+    }
+    
     func delay(segundos: Double, completion:@escaping()->()){
         let tiempoVista = DispatchTime.now() + Double(Int64(Double(NSEC_PER_SEC) * segundos)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: tiempoVista, execute: {completion()
         })
     }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        dismiss(animated: true, completion: {
-            self.delay(segundos: 0.5, completion: {
-                self.menuActionDelegate?.reopenMenu()
-            })
-        })
-    }
-
 }
 
 extension membersSelectViewController: UITableViewDataSource{
@@ -73,7 +71,7 @@ extension membersSelectViewController: UITableViewDataSource{
         let imagenR = firebaseManager.init().getMemberPhoto(phone: (aux.first?.key)!)
         let member = aux.first?.key
         let memberdata = aux[member!]
-        cell.membersInit(pic: imagenR, adress: memberdata?["current_place"] as? String ?? "Buscando direccion", nombre: memberdata?["name"] as! String, battery: memberdata?["battery_level"] as? Int ?? 0, speed: 0)
+        cell.membersInit(pic: imagenR, adress: memberdata?["current_place"] as? String ?? "Buscando direccion", nombre: memberdata?["name"] as! String, battery: memberdata?["battery_level"] as? Int ?? 0, speed: 0, visible: memberdata?["visibility"] as! Bool)
         return cell
     }
 }

@@ -16,6 +16,7 @@ class waspyMemberMarker: GMSMarker {
     var userD:UserDefaults = UserDefaults.standard
     var markerView:UIImageView!
     
+    
     init(phone: String) {
         let marcador = UIImage(named: "marker_layout")!
         markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 35, height: 38)))
@@ -67,9 +68,8 @@ extension waspyMemberMarker{
         CATransaction.commit()
     }
     
-    func updateMarkerdata(name: String, degrees: CLLocationDegrees, duration: Double) {
-        // Keep Rotation Short
-        
+    func updateMarkerdata(name: String, image: UIImage) {
+        self.title = name
     }
     
     func getLocation() -> CLLocationCoordinate2D {

@@ -40,12 +40,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     var animated:Bool = false
     let userInfo:UserDefaults = UserDefaults.standard
     var keyboardHigth:CGFloat = 0.0
-    var areaCode = "+52"
+    var areaCode = "+521"
     let notifications:NotificationCenter = NotificationCenter.default
     
     //acciones de los componentes
     @IBAction func Clicked(_ sender: Any) {
-        self.alert(message: "En un mometo recibiras un SMS con un token, introducelo")
         tel = areaCode + Telefono.text!
         PhoneAuthProvider.provider().verifyPhoneNumber(tel,
                                                        uiDelegate: self,
@@ -56,6 +55,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
                                                         }
             
                                                         if (verificationID != "" && !self.animated){
+                                                            self.alert(message: "En un mometo recibiras un SMS con un token, introducelo")
                                                             self.verID = verificationID!
                                                             self.sendCode.isHidden = false
                                                             self.Code.isHidden = false

@@ -123,7 +123,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     
     @objc func locateUser(){
         let userPhone = userD.dictionary(forKey: "UserAsked")
-        let location = userPhone!["location"] as! [String:Any]
+        guard let location = userPhone!["location"] as? [String:Any] else {return}
         
         let userLocation = GMSCameraPosition(target:
             CLLocationCoordinate2D(latitude: location["latitude"] as! Double,
@@ -168,6 +168,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             allMembers.append(memberPhone)
             let data = aux[key].first?.value
             let location = data!["location"] as? [String:Any] ?? [:]
+            let visible = data!["visibility"] as! Bool
             
             if location.count > 0{
                 let latitude = location["latitude"]! as! CLLocationDegrees
@@ -177,11 +178,17 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
                     let marker = waspyMemberMarker(phone: memberPhone)
                     marker.setIconView()
                     marker.setLocation(location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-                    marker.map = self.view as? GMSMapView
                     markers[memberPhone] = marker
                 }else{
                     markers[memberPhone]?.updateMarker(coordinates: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), degrees: 0, duration: 0.2)
                 }
+            }
+            
+            if !visible
+            {
+                markers[memberPhone]?.map = nil
+            }else{
+                markers[memberPhone]?.map = self.view as? GMSMapView
             }
         }
         }
@@ -200,7 +207,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
                 }
             }
         }
-        
+        //NotificationCenter.default.post(name: NSNotification.Name("DataUpdated"), object: self)
     }
     
     func drawMarkers(map: GMSMapView)
@@ -212,7 +219,8 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             let marker = waspyMemberMarker(phone: memberPhone)
             let data = aux[key].first?.value
             let location = data!["location"] as? [String:Any] ?? [:]
-            if location.count == 0
+            let visible = data!["visibility"] as! Bool
+            if location.count == 0 || !visible
             {
     
             }else{

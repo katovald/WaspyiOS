@@ -19,16 +19,23 @@ class PicMemberTableViewCell: UITableViewCell {
     
     var visible:Bool!
     
-    func membersInit (pic: UIImage, adress: String, nombre: String, battery: Int, speed: Int)
+    func membersInit (pic: UIImage, adress: String, nombre: String, battery: Int, speed: Int, visible: Bool)
     {
         self.name.text = nombre
         self.adress.text = adress
-        self.roundPic.image = pic
-        roundPic.layer.borderWidth = 1
+        self.visible = visible
+        
+        roundPic.layer.borderWidth = 2
         roundPic.layer.masksToBounds = false
-        roundPic.backgroundColor = UIColor.blue
         roundPic.layer.cornerRadius = roundPic.frame.height/2
         roundPic.clipsToBounds = true
+        if self.visible {
+            self.roundPic.image = pic
+            roundPic.layer.borderColor = UIColor.green.cgColor
+        }else{
+            self.roundPic.image = blurEffect(foto: pic, contexto: CIContext.init())
+            roundPic.layer.borderColor = UIColor.red.cgColor
+        }
         
         self.battPercent.text = String(battery) + "%"
         
