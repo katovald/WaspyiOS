@@ -12,6 +12,8 @@ import FirebaseDatabase
 import FirebaseStorage
 import UIKit
 import CoreLocation
+import GeoFire
+import FirebaseMessaging
 
 func batteryState()-> UIDeviceBatteryState {
     return UIDevice.current.batteryState
@@ -46,6 +48,7 @@ public class firebaseManager {
     {
         UIDevice.current.isBatteryMonitoringEnabled = true
         reference = Database.database().reference()
+        
         urlDownload = ""
     }
     
@@ -75,6 +78,12 @@ public class firebaseManager {
             }
             
         })
+    }
+    
+    public func changeGroupName(code: String, name: String){
+        let telefono = userD.string(forKey: "OwnerPhone")!
+        self.reference.child("accounts/" + telefono + "/user_groups/groups/" + code).setValue(name)
+        self.reference.child("groups/" + code + "/group_info/group_name").setValue(name)
     }
     
     public func setUserSetting(phone: String, name: String, mail: String){
@@ -208,6 +217,19 @@ public class firebaseManager {
         
     }
     
+    public func setLastGroup(name: String){
+        let phone = userD.string(forKey: "OwnerPhone")
+        self.reference.child("accounts/" + phone! + "/user_groups/last_groups").setValue(name)
+    }
+    
+    public func setUserAdminGroup(phone: String, group: String, admin: Bool){
+        if admin{
+            self.reference.child("groups/" + group + "/members/" + phone + "/rol").setValue("admin")
+        }else{
+            self.reference.child("groups/" + group + "/members/" + phone + "/rol").setValue("guest")
+        }
+    }
+    
     public func saveGroupPlace(code: String, address: String, icon: Int, l: [String:Double], place_name:String, radio: Int){
         var placeData = [String:Any]()
         placeData["address"] = address
@@ -215,7 +237,12 @@ public class firebaseManager {
         placeData["l"] = l
         placeData["place_name"] = place_name
         placeData["radio"] = radio
+        
         self.reference.child("groups/" + code + "/group_places").childByAutoId().setValue(placeData)
+        
+        Messaging.messaging().subscribe(toTopic: "D8hfeS_enter")
+        Messaging.messaging().subscribe(toTopic: "D8hfeS_exit")
+        Messaging.messaging().subscribe(toTopic: "D8hfeS_alert")
     }
     
     public func editGroupPlace(code: String, key: String, address: String, icon: Int, l: [String:Double], place_name:String, radio: Int){
@@ -283,9 +310,10 @@ public class firebaseManager {
         userD.set(visible, forKey: "VisibleInActualGroup")
     }
     
-    @objc public func updateUserLocation()
+    public func updateUserLocation()
     {
-        let phone = self.userD.string(forKey: "OwnerPhone")!
+        guard let phone = self.userD.string(forKey: "OwnerPhone")
+            else {return}
         let name = self.userD.string(forKey: "OwnerName")!
         
         if phone == "" || name == ""
@@ -295,9 +323,6 @@ public class firebaseManager {
         
         LocationServices.init().getAdress(completion: {coordinades, speed, address, error in
             if let a = address {
-                
-                print(a)
-                
                 let kilo = a["FormattedAddressLines"] as! [String]
                 
                 var direccion = ""
@@ -319,6 +344,11 @@ public class firebaseManager {
                 }
             }
         })
+    }
+    
+    public func updatePlace (code: String, key: String, data: [String:Any])
+    {
+        self.reference.child("groups/" + code + "/group_places/" + key).setValue(data)
     }
 //    get functions that use firebase methods
 //    please pay atention about the notifications and error handling
@@ -455,20 +485,14 @@ public class firebaseManager {
     public func deletePlace(code: String, key: String){
         self.reference.child("groups/" + code + "/group_places/" + key).setValue(nil)
     }
-    
-    public func deleteUserGroups(code: String){
-        
+
+    public func unsuscribeGroups(code: String, phone: String, kill: Bool){
+        self.reference.child("accounts/" + phone + "/user_groups/groups/" + code).setValue(nil)
+        if kill
+        {
+            self.reference.child("groups/" + code).setValue(nil)
+        }else{
+            self.reference.child("groups/" + code + "/members/" + phone).setValue(nil)
+        }
     }
-    
-    public func unsuscribeGroups(code: String){
-        
-    }
-    
-    
-    public func sendLocation (location: CLLocation, speed: CLLocationSpeed){
-        
-    }
-    
-    
-    
 }

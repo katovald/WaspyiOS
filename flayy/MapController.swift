@@ -147,7 +147,8 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             let info = lugar.first?.value
             let placeMarker = waspyPlaceMarker(name: info!["place_name"] as! String,
                                                address: info!["address"] as! String,
-                                               radio: info!["radio"] as! Int)
+                                               radio: info!["radio"] as! Int,
+                                               icon: info!["icon"] as! Int)
             let coordinate = info!["l"] as! [Double]
             let point = CLLocationCoordinate2D(latitude: coordinate[0] ,
                                                longitude: coordinate[1])
@@ -168,7 +169,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             allMembers.append(memberPhone)
             let data = aux[key].first?.value
             let location = data!["location"] as? [String:Any] ?? [:]
-            let visible = data!["visibility"] as! Bool
+            let visible = data!["visibility"] as? Bool ?? true
             
             if location.count > 0{
                 let latitude = location["latitude"]! as! CLLocationDegrees
@@ -219,7 +220,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             let marker = waspyMemberMarker(phone: memberPhone)
             let data = aux[key].first?.value
             let location = data!["location"] as? [String:Any] ?? [:]
-            let visible = data!["visibility"] as! Bool
+            let visible = data!["visibility"] as? Bool ?? true
             if location.count == 0 || !visible
             {
     

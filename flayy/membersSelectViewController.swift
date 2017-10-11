@@ -71,7 +71,7 @@ extension membersSelectViewController: UITableViewDataSource{
         let imagenR = firebaseManager.init().getMemberPhoto(phone: (aux.first?.key)!)
         let member = aux.first?.key
         let memberdata = aux[member!]
-        cell.membersInit(pic: imagenR, adress: memberdata?["current_place"] as? String ?? "Buscando direccion", nombre: memberdata?["name"] as! String, battery: memberdata?["battery_level"] as? Int ?? 0, speed: 0, visible: memberdata?["visibility"] as! Bool)
+        cell.membersInit(pic: imagenR, adress: memberdata?["current_place"] as? String ?? "Buscando direccion", nombre: memberdata?["name"] as? String ?? "", battery: memberdata?["battery_level"] as? Int ?? 0, speed: 0, visible: memberdata?["visibility"] as? Bool ?? true)
         return cell
     }
 }

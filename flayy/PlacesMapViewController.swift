@@ -10,26 +10,47 @@ import UIKit
 import GoogleMaps
 
 class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
-    
-    func dataSaved() -> waspyPlaceMarker {
-        return location
-    }
-    
-    
+
     var icon:Int = 0
-    var location:waspyPlaceMarker!
+    public var location:waspyPlaceMarker!
+    var data = [String:Any]()
+    var key = String()
+    let userD: UserDefaults = UserDefaults.standard
+    let notificationCenter = NotificationCenter.default
     
     override func viewDidLoad() {
+        let place = userD.dictionary(forKey: "EditingPlace") ?? nil
+        if place != nil{
+            key = (place?.first?.key)!
+            data = place?.first?.value as! [String:Any]
+        }else{
+            key = "none"
+        }
         
-        
+        notificationCenter.addObserver(self, selector: #selector(updateIcon), name: NSNotification.Name("PlaceDataUpdated"), object: nil)
+        notificationCenter.addObserver(self, selector: #selector(finishData), name: NSNotification.Name("GivemePlaceData"), object: nil)
     }
     
     override func loadView() {
-        let locValue: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 19.415306357651144, longitude: -99.13663986116934)
-        location = waspyPlaceMarker(name: "Casa", address: "Aqui", radio: 200)
-        location.setLocation(location: locValue)
-        location.setIconView(icono: icon)
         
+        var locValue: CLLocationCoordinate2D!
+        
+        if data.count > 0{
+            let coordinates = data["l"] as! [String:Double]
+            locValue = CLLocationCoordinate2D(latitude: coordinates["0"]!, longitude: coordinates["1"]!)
+            location = waspyPlaceMarker(name: data["place_name"] as! String,
+                                        address: data["address"] as! String,
+                                        radio: data["radio"] as! Int,
+                                        icon: data["icon"] as! Int)
+            location.setLocation(location: locValue)
+            location.setIconView(icono: data["icon"] as! Int)
+        }else{
+            locValue = LocationServices.init().getLocationCoord()
+            location = waspyPlaceMarker(name: "", address: "", radio: 100, icon: icon)
+            location.setLocation(location: locValue)
+            location.setIconView(icono: icon)
+        }
+
         let camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.0, bearing: -15, viewingAngle: 45)
         
         let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
@@ -38,13 +59,15 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
         
         self.view = mapView
     }
-    
-    override func didReceiveMemoryWarning() {
-        
-    }
-    
-    func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
-        
+
+    @objc func updateIcon(){
+        if icon == 9
+        {
+            icon = 0
+        }else{
+            icon += 1
+        }
+        location.updateMarkerIcon(icono: icon)
     }
     
     func setIcon(icon:Int){
@@ -53,6 +76,12 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         location.updateMarker(coordinates: position.target, degrees: 0, duration: 0.2)
+        self.userD.set([key:location.getData()], forKey: "EditingPlace")
+        notificationCenter.post(name: NSNotification.Name("UpdatePlaceLocation"), object: self)
+    }
+    
+    @objc func finishData() {
+        self.userD.set([key:location.getData()], forKey: "EditingPlace")
     }
     
 }

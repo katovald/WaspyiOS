@@ -59,6 +59,7 @@ extension PlacesViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         let name = places[indexPath.row].first?.value
+        cell.textLabel?.textColor = UIColor.white
         cell.textLabel?.text = name!["place_name"] as? String
         return cell
     }
@@ -66,6 +67,8 @@ extension PlacesViewController: UITableViewDataSource{
 
 extension PlacesViewController: UITableViewDelegate{
     func  tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        userD.set(places[indexPath.row], forKey: "EditingPlace")
+        NotificationCenter.default.post(name: NSNotification.Name("EditingPlace"), object: self)
         performSegue(withIdentifier: "configuracionLugares", sender: nil)
     }
 }

@@ -40,14 +40,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     var animated:Bool = false
     let userInfo:UserDefaults = UserDefaults.standard
     var keyboardHigth:CGFloat = 0.0
-    var areaCode = "+521"
+    var areaCode = "+52"
     let notifications:NotificationCenter = NotificationCenter.default
     
     //acciones de los componentes
     @IBAction func Clicked(_ sender: Any) {
         tel = areaCode + Telefono.text!
         PhoneAuthProvider.provider().verifyPhoneNumber(tel,
-                                                       uiDelegate: self,
+                                                       uiDelegate: nil,
                                                        completion: { (verificationID, error) in
                                                         if let error = error {
                                                             self.alert(message: "Ocurrio un error:" + error.localizedDescription)

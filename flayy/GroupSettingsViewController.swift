@@ -9,16 +9,79 @@
 import UIKit
 
 class GroupSettingsViewController: UIViewController {
-    @IBAction func inicioReturn(_ sender: Any) {
-        
-    }
+
     @IBOutlet weak var nombre: UITextField!
     @IBOutlet weak var codigo: UILabel!
+    
+    @IBOutlet weak var visible: UISwitch!
+    
+    @IBAction func editar(_ sender: Any) {
+        if edicion
+        {
+            editaGuarda.tintColor = UIColor.yellow
+            editaGuarda.title = "Edicion"
+            edicion = false
+            nombre.isEnabled = false
+            firebaseManager.init().changeGroupName(code: code, name: nombre.text!)
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: {
+                firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
+            })
+        }else{
+            editaGuarda.tintColor = UIColor.red
+            editaGuarda.title = "Guardar"
+            edicion = true
+            nombre.isEnabled = true
+        }
+    }
+    @IBOutlet weak var editaGuarda: UIBarButtonItem!
+    @IBAction func getOut(_ sender: Any) {
+        let grupos = userD.array(forKey: "OwnerGroups")
+        let miembros = userD.array(forKey: "MiembrosAuxiliares")!
+        if grupos?.count == 1 {
+            alert(message: "Necesitas crear otro grupo, debes tener al menos uno")
+            return
+        } else {
+            if adminOfGroup && admins == 1 && miembros.count > 1
+            {
+                alert(message: "Por favor necesitas dejar a alguien como administrador")
+                return
+            }else{
+                if miembros.count == 1
+                {
+                    firebaseManager.init().unsuscribeGroups(code: code,
+                                                            phone: userD.string(forKey: "OwnerPhone")!,
+                                                            kill: true)
+                }else{
+                    firebaseManager.init().unsuscribeGroups(code: code,
+                                                            phone: userD.string(forKey: "OwnerPhone")!,
+                                                            kill: false)
+                }
+                self.view.window?.rootViewController?.dismiss(animated: true, completion:{
+                    let newGroup = grupos![0] as! [String:String]
+                    self.userD.set(newGroup.first?.key, forKey: "ActualGroup")
+                    self.userD.set(newGroup.first?.value, forKey: "ActualGroupTitle")
+                    firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
+                        self.userD.set(members, forKey: "MembersActiveGroup")
+                        firebaseManager.init().setLastGroup(name: (newGroup.first?.value)!)
+                        NotificationCenter.default.post(name: NSNotification.Name("UserGroupsChanged"),
+                                                        object: self)
+                        firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
+                    })
+                })
+            }
+        }
+    }
     @IBAction func dissmisConfig(_ sender: Any) {
         self.userD.set(nil, forKey: "MiembrosAuxiliares")
         self.userD.set(nil, forKey: "CodigoGrupoAuxiliar")
         self.userD.set(nil, forKey: "NombreAuxiliar")
         self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func visibleONOFF(_ sender: UISwitch) {
+        firebaseManager.init().setMyVisibility(code: code,
+                                               tel: userD.string(forKey: "OwnerPhone")!,
+                                               visible: visible.isOn)
     }
     
     var membersArray = [[String:[String:Any]]]()
@@ -27,10 +90,28 @@ class GroupSettingsViewController: UIViewController {
     
     var code:String!
     var textName:String!
+    var adminOfGroup:Bool!
+    var admins:Int = 0
+    var edicion:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         membersArray = userD.array(forKey: "MiembrosAuxiliares") as! [[String : [String : Any]]]
+        for member in membersArray{
+            if member.first?.key == userD.string(forKey: "OwnerPhone"){
+                if member.first?.value["rol"] as! String == "admin" {
+                    adminOfGroup = true
+                }else{
+                    adminOfGroup = false
+                }
+                visible.isOn = member.first?.value["visibility"] as! Bool
+            }
+            
+            if member.first?.value["rol"] as! String == "admin"
+            {
+                admins += 1
+            }
+        }
         code = userD.string(forKey: "CodigoGrupoAuxiliar")
         textName = userD.string(forKey: "NombreAuxiliar")
         self.codigo.text = code
@@ -57,13 +138,7 @@ extension GroupSettingsViewController: UITableViewDataSource{
         let imagenR = firebaseManager.init().getMemberPhoto(phone: (aux.first?.key)!)
         let member = aux.first?.key
         let memberdata = aux[member!]
-        cell.membersInit(pic: imagenR, datos: memberdata!["name"] as! String,phone: memberdata!["phone"] as! String, admin: memberdata!["rol"] as! String == "admin")
+        cell.membersInit(pic: imagenR, datos: memberdata!["name"] as! String,phone: memberdata!["phone"] as! String, ad: memberdata!["rol"] as! String == "admin", adminGroup: adminOfGroup, group: code)
         return cell
     }
 }
-
-extension GroupSettingsViewController: UITableViewDelegate{
-    
-}
-
-

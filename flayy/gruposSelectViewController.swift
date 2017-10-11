@@ -92,6 +92,7 @@ extension gruposSelectViewController: UITableViewDelegate{
             firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
                 self.userD.set(members, forKey: "MembersActiveGroup")
                 self.notificationCenter.post(name: self.GroupsChangeNotification, object: self)
+                firebaseManager.init().setLastGroup(name: (grupoElegido.first?.value)!)
             })
         })
     }

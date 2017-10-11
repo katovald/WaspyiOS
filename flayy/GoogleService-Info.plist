@@ -10,6 +10,8 @@
 	<string>900225519373-pri5naj5btjr97otauufpfopvvb071qf.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.900225519373-pri5naj5btjr97otauufpfopvvb071qf</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>900225519373-jqbruo6p5ck2h6h3jt3diid9ibm2a2pd.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyD1E-d15r1YW31r7R1xnKFVe6dlGk1ftsE</string>
 	<key>GCM_SENDER_ID</key>
@@ -23,15 +25,15 @@
 	<key>STORAGE_BUCKET</key>
 	<string>camasacontigo.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:900225519373:ios:4ffc81be88d4bfe0</string>
 	<key>DATABASE_URL</key>

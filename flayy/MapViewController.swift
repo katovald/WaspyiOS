@@ -103,23 +103,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                 }
             })
         
-//        if userD.string(forKey: "ActualGroupTitle") == nil
-//        {
-//            self.performSegue(withIdentifier: "datosUsuario", sender: nil)
-//        }
-//
-//        if userD.array(forKey: "MembersActiveGroup") == nil{
-//            var code = self.userD.string(forKey: "ActualGroup")
-//            if code == nil {
-//                let grupo = self.userD.dictionary(forKey: "OwnerGroups")?.first
-//                code = grupo?.key
-//            }else{
-//                firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
-//                    self.userD.set(members, forKey: "MembersActiveGroup")
-//                })
-//            }
-//        }
-        
         self.titleBar.title = userD.string(forKey: "ActualGroupTitle")
         
         NotificationCenter.default.addObserver(self, selector: #selector(changedGroup), name: NSNotification.Name("UserGroupsChanged"), object: nil)
@@ -128,7 +111,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     @objc func changedGroup(){
         self.titleBar.title = self.userD.string(forKey: "ActualGroupTitle")
     }
-    
+        
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

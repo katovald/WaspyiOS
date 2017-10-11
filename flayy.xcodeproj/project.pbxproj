@@ -73,6 +73,7 @@
 		414524751F5EF4900095C8F2 /* reachNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414524741F5EF4900095C8F2 /* reachNet.swift */; };
 		414524771F634B7D0095C8F2 /* waspyMemberMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414524761F634B7D0095C8F2 /* waspyMemberMarker.swift */; };
 		4149906C1F2A617500A87B34 /* cicleBorderpic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4149906B1F2A617500A87B34 /* cicleBorderpic.swift */; };
+		4161CB331F8BEEA900E5D14E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4161CB321F8BEDF000E5D14E /* GoogleService-Info.plist */; };
 		4166EDEA1F84144100CB8823 /* map-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 4129DF441F7EF29A005EE130 /* map-eye.png */; };
 		4166EDEC1F843B9C00CB8823 /* waspyAlertMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4166EDEB1F843B9C00CB8823 /* waspyAlertMarker.swift */; };
 		4166EDED1F8441DD00CB8823 /* map-eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4129DF361F7EF298005EE130 /* map-eye@2x.png */; };
@@ -202,7 +203,6 @@
 		41B719661F069C9C00A42014 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41B719641F069C9C00A42014 /* LaunchScreen.storyboard */; };
 		41B719711F069C9C00A42014 /* flayyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B719701F069C9C00A42014 /* flayyTests.swift */; };
 		41B7197C1F069C9C00A42014 /* flayyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7197B1F069C9C00A42014 /* flayyUITests.swift */; };
-		41B7198A1F06A07D00A42014 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41B719891F06A07D00A42014 /* GoogleService-Info.plist */; };
 		41C2CF331F20F128008F8370 /* PlacesMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4104F4091F1FE66D00F222B9 /* PlacesMapViewController.swift */; };
 		41C51F5F1F1E8586003B53D1 /* GroupSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */; };
 		41C51F611F1E8FA3003B53D1 /* MemberDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C51F601F1E8FA3003B53D1 /* MemberDataTableViewCell.swift */; };
@@ -348,6 +348,7 @@
 		414524741F5EF4900095C8F2 /* reachNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = reachNet.swift; sourceTree = "<group>"; };
 		414524761F634B7D0095C8F2 /* waspyMemberMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = waspyMemberMarker.swift; sourceTree = "<group>"; };
 		4149906B1F2A617500A87B34 /* cicleBorderpic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cicleBorderpic.swift; sourceTree = "<group>"; };
+		4161CB321F8BEDF000E5D14E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4166EDEB1F843B9C00CB8823 /* waspyAlertMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waspyAlertMarker.swift; sourceTree = "<group>"; };
 		4166EE141F85948400CB8823 /* flag_usa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag_usa.png; sourceTree = "<group>"; };
 		4166EE151F85948700CB8823 /* flag_mexico.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag_mexico.png; sourceTree = "<group>"; };
@@ -410,7 +411,6 @@
 		41B719771F069C9C00A42014 /* flayyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = flayyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		41B7197B1F069C9C00A42014 /* flayyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flayyUITests.swift; sourceTree = "<group>"; };
 		41B7197D1F069C9C00A42014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		41B719891F06A07D00A42014 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSettingsViewController.swift; sourceTree = "<group>"; };
 		41C51F601F1E8FA3003B53D1 /* MemberDataTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberDataTableViewCell.swift; sourceTree = "<group>"; };
 		41CCFCF51F0AB55D00F4AC89 /* flayy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = flayy.entitlements; sourceTree = "<group>"; };
@@ -716,8 +716,8 @@
 				4183E4D31F0D5CF700ECBED4 /* Hdlrs */,
 				417F78261F0D4AA600844794 /* Models */,
 				41CCFCF51F0AB55D00F4AC89 /* flayy.entitlements */,
-				41B719891F06A07D00A42014 /* GoogleService-Info.plist */,
 				41B7195B1F069C9C00A42014 /* AppDelegate.swift */,
+				4161CB321F8BEDF000E5D14E /* GoogleService-Info.plist */,
 				41B7195D1F069C9C00A42014 /* LoginViewController.swift */,
 				41B7195F1F069C9C00A42014 /* Main.storyboard */,
 				412BC81D1F4DD7A20066E9B2 /* Login2ViewController.swift */,
@@ -1022,7 +1022,6 @@
 				4181C5C31F15789F0099A83E /* marker_70x.png in Resources */,
 				4101DCCC1F13B5D20096FC84 /* slide3.gif in Resources */,
 				41EDFCB11F7014A900B796A7 /* check.png in Resources */,
-				41B7198A1F06A07D00A42014 /* GoogleService-Info.plist in Resources */,
 				413980B01F7D734900C5DCCB /* group-i1small.png in Resources */,
 				4114847C1F71876A006761AE /* ic_battery_10.png in Resources */,
 				4166EDF01F8441DD00CB8823 /* map-i1@2x.png in Resources */,
@@ -1052,6 +1051,7 @@
 				413980B81F7D756900C5DCCB /* groupselect-bg2.png in Resources */,
 				4166EDEF1F8441DD00CB8823 /* map-i1.png in Resources */,
 				417E647E1F191E8900DDA8F8 /* config.png in Resources */,
+				4161CB331F8BEEA900E5D14E /* GoogleService-Info.plist in Resources */,
 				4181C5C51F157B9F0099A83E /* Icon-App-72x72@2x.png in Resources */,
 				4166EE001F8441DD00CB8823 /* map-lupa@2x.png in Resources */,
 				4166EE031F8441DD00CB8823 /* map-m1@2x.png in Resources */,

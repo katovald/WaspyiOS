@@ -16,12 +16,9 @@ import GooglePlaces
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
-        //npi que va aqui
-    }
-    
-    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
         
     }
+    
     
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
@@ -32,27 +29,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        FirebaseApp.configure()
-        Messaging.messaging().delegate = self as MessagingDelegate
         
-        if #available(iOS 10.0, *)
-        {
+        GMSServices.provideAPIKey("AIzaSyCsKticH0eEpIsY-iB07Py0RFQt8nRQ1Gk")
+        GMSPlacesClient.provideAPIKey("AIzaSyAwV7hbQZlFyOytB36ad81YAhlKxEw_34A")
+        
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
-            
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(options: authOptions,
-                                                                    completionHandler: {_,_ in})
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+            // For iOS 10 data message (sent via FCM
             Messaging.messaging().delegate = self
-        }else {
-            let settings = UIUserNotificationSettings(types:[.alert,.badge,.sound], categories: nil)
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
         
         application.registerForRemoteNotifications()
-
-        GMSServices.provideAPIKey("AIzaSyCsKticH0eEpIsY-iB07Py0RFQt8nRQ1Gk")
-        GMSPlacesClient.provideAPIKey("AIzaSyAwV7hbQZlFyOytB36ad81YAhlKxEw_34A")
         
+        FirebaseApp.configure()
+
         NotificationCenter.default.addObserver(self, selector: #selector(startMonitoring), name: NSNotification.Name("CorrectLogIn"), object: nil)
         
         if (Auth.auth().currentUser == nil){
@@ -64,6 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             let view = aux.instantiateViewController(withIdentifier: "inicioWLogin") as UIViewController
             window?.rootViewController = view
         }
+        
+        let token = Messaging.messaging().fcmToken
+        print("FCM token: \(token ?? "")")
         return true
     }
     
@@ -85,77 +87,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
             self.userD.set(members, forKey: "MembersActiveGroup")
         })
     }
+    
+    func BGtask(_ block: @escaping () -> Void){
+        DispatchQueue.global(qos: .default).async(execute: block)
+    }
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
-    }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        // If you are receiving a notification message while your app is in the background,
-        // this callback will not be fired till the user taps on the notification launching the application.
-        // TODO: Handle data of notification
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
-        // Print message ID.
-        //if let messageID = userInfo[gcmMessageIDKey] {
-          //  print("Message ID: \(messageID)")
-        //}
-        
-        // Print full message.
-        //print(userInfo)
-    }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        // If you are receiving a notification message while your app is in the background,
-        // this callback will not be fired till the user taps on the notification launching the application.
-        // TODO: Handle data of notification
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
-        // Print message ID.
-        //if let messageID = userInfo[gcmMessageIDKey] {
-          //  print("Message ID: \(messageID)")
-        //}
-        
-        // Print full message.
-        //print(userInfo)
-        
-        if Auth.auth().canHandleNotification(userInfo) {
-            completionHandler(UIBackgroundFetchResult.noData)
-            return
+        BGtask {
+            firebaseManager.init().updateUserLocation()
         }
     }
-    // [END receive_message]
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        //print("Unable to register for remote notifications: \(error.localizedDescription)")
-    }
     
-    // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
-    // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
-    // the FCM registration token.
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Auth.auth().setAPNSToken(deviceToken, type: .unknown)
-        // With swizzling disabled you must set the APNs token here.
-        // Messaging.messaging().apnsToken = deviceToken
-    }
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        
-    }
-    
-    func handleEvent(forRegion region: CLRegion!){
-        print("Geofence Triggered!")
+    func application(received remoteMessage: MessagingRemoteMessage) {
+        print(remoteMessage.appData)
     }
 }
 
 extension AppDelegate: CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        if region is CLCircularRegion {
-            handleEvent(forRegion: region)
-        }
+    
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        if region is CLCircularRegion{
-            handleEvent(forRegion: region)
-        }
+
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(locations)
     }
 }

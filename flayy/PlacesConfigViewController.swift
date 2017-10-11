@@ -18,31 +18,41 @@ class PlacesConfigViewController: UIViewController {
     @IBOutlet weak var tipo: UIImageView!
     @IBOutlet weak var editarGuardar: UIBarButtonItem!
     @IBOutlet weak var barraNav: UINavigationBar!
+    @IBOutlet weak var infoRadius: UILabel!
+    @IBOutlet weak var direccion: UILabel!
     
     @IBAction func getBack(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func changeRadius(_ sender: Any) {
+        self.infoRadius.text = String(Int(radio.value)) + " metros"
+    }
+    
     @IBAction func editSave(_ sender: Any) {
         if edicion{
-            edicion = false
-            vistaMapa.layer.borderColor = UIColor.green.cgColor
-            vistaMapa.isUserInteractionEnabled = false
-            tipo.isUserInteractionEnabled = false
-            editarGuardar.title = "Editar"
-            editarGuardar.tintColor = UIColor.yellow
-            var l = ["0": 19.415306357651144]
-            l["1"] = -99.13663986116934
-            firebaseManager.init().saveGroupPlace(code: userD.string(forKey: "ActualGroup")!, address: "address", icon: icono, l: l, place_name: "asffafe", radio: 100)
+            NotificationCenter.default.post(name: NSNotification.Name("GivemePlaceData"), object: self)
+            place = userD.dictionary(forKey: "EditingPlace") as! [String : [String : Any]]
+            let key = place.first?.key
+            let data = place.first?.value
+            let location = data!["l"] as! [String:Double]
+            if key! == "none"{
+                firebaseManager.init().saveGroupPlace(code: userD.string(forKey: "ActualGroup")!,
+                                                      address: direccion.text!,
+                                                      icon: icono,
+                                                      l: location,
+                                                      place_name: texto.text!,
+                                                      radio: Int(radio.value))
+            }
+            
+            blockedView()
+            
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: {
+                self.userD.set(nil, forKey: "EditingPlace")
+                firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
+            })
         }else{
-            editarGuardar.title = "Guardar"
-            editarGuardar.tintColor = UIColor.red
-            edicion = true
-            vistaMapa.layer.borderColor = UIColor.red.cgColor
-            vistaMapa.isUserInteractionEnabled = true
-            tipo.isUserInteractionEnabled = true
-            eliminar.isHidden = false
-            texto.isEnabled = true
+            editingView()
         }
     }
     @IBAction func changeIcon(_ sender: Any) {
@@ -53,44 +63,98 @@ class PlacesConfigViewController: UIViewController {
         }
         
         setIcon(icono: icono)
+        NotificationCenter.default.post(name: IconChangedNotification, object: self)
     }
     
     var icono:Int = 0
     var edicion = false
     var userD:UserDefaults = UserDefaults.standard
+    var place = [String:[String:Any]]()
+    let IconChangedNotification = NSNotification.Name("PlaceDataUpdated")
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        vistaMapa.layer.borderWidth = 4
-        vistaMapa.layer.borderColor = UIColor.green.cgColor
+        place = userD.dictionary(forKey: "EditingPlace") as? [String : [String : Any]] ?? [:]
+        if place.count == 0{
+            editingView()
+            LocationServices.init().getAdress(completion: { (coordinate, speed, json, e) in
+                if let a = json {
+                    let kilo = a["FormattedAddressLines"] as! [String]
+                    
+                    var direccion = ""
+                    
+                    for index in 0...(kilo.count - 1)
+                    {
+                        direccion += kilo[index]
+                        direccion += " "
+                    }
+                    
+                    self.direccion.text = direccion
+                } else {
+                    self.direccion.text = "Obteniendo direccion..."
+                }
+            })
+            self.texto.text = "Nombre"
+            self.infoRadius.text = "100 metros"
+        }else{
+            let data = place.first?.value
+            self.texto.text = data!["place_name"] as? String
+            self.direccion.text = data!["address"] as? String
+            self.icono = (data!["icon"] as? Int)!
+            self.radio.setValue(Float((data!["radio"] as? Int)!), animated: false)
+            blockedView()
+        }
+        setIcon(icono: icono)
         
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(changeAddress),
+                                               name: NSNotification.Name("UpdatePlaceLocation"), object: nil)
+        //Do any additional setup after loading the view.
+    }
+    
+    func editingView(){
+        editarGuardar.title = "Guardar"
+        editarGuardar.tintColor = UIColor.red
+        edicion = true
+        vistaMapa.layer.borderColor = UIColor.red.cgColor
+        vistaMapa.isUserInteractionEnabled = true
+        tipo.isUserInteractionEnabled = true
+        eliminar.isHidden = true
+        texto.isEnabled = true
         tipo.layer.borderWidth = 0
         tipo.layer.masksToBounds = false
         tipo.clipsToBounds = true
-        
-        setIcon(icono: icono)
-        
+        radio.isEnabled = true
+    }
+    
+    func blockedView(){
+        edicion = false
+        vistaMapa.layer.borderWidth = 4
+        vistaMapa.layer.borderColor = UIColor.green.cgColor
         radio.isEnabled=false
         vistaMapa.isUserInteractionEnabled = false
         texto.isEnabled = false
         eliminar.isHidden = true
         tipo.isUserInteractionEnabled = false
-        //Do any additional setup after loading the view.
+        tipo.layer.borderWidth = 0
+        tipo.layer.masksToBounds = false
+        tipo.clipsToBounds = true
     }
     
     func setIcon(icono: Int){
         switch icono {
         case 1:
-            tipo.image = resizeImage(image: UIImage(named: "geoplace_school")!, newSize: CGSize(width: 35, height: 35))
-        case 2:
-            tipo.image = resizeImage(image: UIImage(named: "geoplace_work")!, newSize: CGSize(width: 35, height: 35))
-        case 3:
             tipo.image = resizeImage(image: UIImage(named: "geoplace_house2")!, newSize: CGSize(width: 35, height: 35))
+        case 2:
+            tipo.image = resizeImage(image: UIImage(named: "geoplace_school")!, newSize: CGSize(width: 35, height: 35))
+        case 3:
+            tipo.image = resizeImage(image: UIImage(named: "geoplace_work")!, newSize: CGSize(width: 35, height: 35))
         case 4:
-            tipo.image = resizeImage(image: UIImage(named: "geoplace_coffe")!, newSize: CGSize(width: 35, height: 35))
-        case 5:
             tipo.image = resizeImage(image: UIImage(named: "geoplace_super")!, newSize: CGSize(width: 35, height: 35))
+        case 5:
+            tipo.image = resizeImage(image: UIImage(named: "geoplace_coffe")!, newSize: CGSize(width: 35, height: 35))
         case 6:
             tipo.image = resizeImage(image: UIImage(named: "geoplace_gym")!, newSize: CGSize(width: 35, height: 35))
         case 7:
@@ -107,6 +171,33 @@ class PlacesConfigViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @objc func changeAddress()
+    {
+        let data = self.userD.dictionary(forKey: "EditingPlace") as! [String : [String : Any]]
+        let point = data.first?.value["l"] as! [String:Double]
+        LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point["0"]!, longitude: point["1"]!) , completion: {(json, e)  in
+            if let a = json {
+                let kilo = a["FormattedAddressLines"] as! [String]
+            
+                var direccion = ""
+            
+                for index in 0...(kilo.count - 1)
+                {
+                    direccion += kilo[index]
+                    direccion += " "
+                }
+            
+                self.direccion.text = direccion
+            } else {
+                self.direccion.text = "Obteniendo direccion..."
+            }
+        })
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true) //This will hide the keyboard
+    }
+
     /*
     // MARK: - Navigation
 
@@ -115,6 +206,17 @@ class PlacesConfigViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
+     
+     
+     -KvmgDrItrXSH0mM-5Lk
+     address:
+     g:
+     icon:
+     l
+         0:
+         1:
+     place_name:
+     radio:
     */
 
 }

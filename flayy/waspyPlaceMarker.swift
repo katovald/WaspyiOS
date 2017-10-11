@@ -15,11 +15,13 @@ class waspyPlaceMarker: GMSMarker {
     var adress:String!
     var nombre:String!
     var radioGeo:Int!
+    var icono:Int!
     
-    init(name: String, address: String, radio: Int) {
+    init(name: String, address: String, radio: Int, icon: Int) {
         adress = address
         nombre = name
         radioGeo = radio
+        icono = icon
     }
     
     func setIconView(icono: Int) {
@@ -71,16 +73,52 @@ extension waspyPlaceMarker{
     }
     
     func updateRadius(radius: Int){
-        
+        radioGeo = radius
     }
     
-    func updateMarkerdata(name: String, degrees: CLLocationDegrees, duration: Double) {
+    func updateMarkerIcon(icono: Int) {
         // Keep Rotation Short
+        var marcador = UIImage()
+        switch icono {
+        case 1:
+            marcador = UIImage(named: "geoplace_house2")!
+        case 2:
+            marcador = UIImage(named: "geoplace_school")!
+        case 3:
+            marcador = UIImage(named: "geoplace_work")!
+        case 4:
+            marcador = UIImage(named: "geoplace_super")!
+        case 5:
+            marcador = UIImage(named: "geoplace_coffe")!
+        case 6:
+            marcador = UIImage(named: "geoplace_gym")!
+        case 7:
+            marcador = UIImage(named: "geoplace_mall")!
+        case 8:
+            marcador = UIImage(named: "geoplace_park")!
+        default:
+            marcador = UIImage(named: "geoplace_house1")!
+        }
+        markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 20, height: 20)))
         
+        self.iconView = markerView
+        
+        self.icono = icono
     }
     
     func getLocation() -> CLLocationCoordinate2D {
         return self.position
+    }
+    
+    func getData() -> [String:Any] {
+        var data = [String:Any]()
+        data["address"] = self.adress
+        data["icon"] = self.icono
+        data["l"] = ["0":self.position.latitude,
+                     "1":self.position.longitude]
+        data["place_name"] = self.nombre
+        data["radio"] = self.radioGeo
+        return data
     }
 }
 

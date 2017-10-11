@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Core Functions Of Searching people, can turn off presenting info to others</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -40,6 +38,12 @@
 				<string>com.googleusercontent.apps.900225519373-pri5naj5btjr97otauufpfopvvb071qf</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array/>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
@@ -49,6 +53,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>User experience, save its picture</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Core Functions Of Searching people, can turn off presenting info to others</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Main service</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
