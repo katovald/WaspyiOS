@@ -7,13 +7,14 @@
 //
 
 import UIKit
-
+import FirebaseMessaging
 class GroupSettingsViewController: UIViewController {
 
     @IBOutlet weak var nombre: UITextField!
     @IBOutlet weak var codigo: UILabel!
     
     @IBOutlet weak var visible: UISwitch!
+    @IBOutlet weak var salida: UISwitch!
     
     @IBAction func editar(_ sender: Any) {
         if edicion
@@ -75,15 +76,36 @@ class GroupSettingsViewController: UIViewController {
         self.userD.set(nil, forKey: "MiembrosAuxiliares")
         self.userD.set(nil, forKey: "CodigoGrupoAuxiliar")
         self.userD.set(nil, forKey: "NombreAuxiliar")
+        self.userD.set(banderas, forKey: "NotificationFlags")
         self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func visibleONOFF(_ sender: UISwitch) {
-        firebaseManager.init().setMyVisibility(code: code,
-                                               tel: userD.string(forKey: "OwnerPhone")!,
-                                               visible: visible.isOn)
+        if visible.isOn
+        {
+            Messaging.messaging().subscribe(toTopic: code + "_enter")
+        }else{
+            Messaging.messaging().unsubscribe(fromTopic: code + "_enter")
+        }
+        
+        firebaseManager.init().turnEnterNotification(code: code, OnOff: visible.isOn)
+        var switches = banderas.first?.value as! [String:Bool]
+        switches["geoFence_enter"] = visible.isOn
+        banderas["geoFence_Notifications"] = switches
     }
     
+    @IBAction func sucribeONOFF(_ sender: Any) {
+        if salida.isOn
+        {
+            Messaging.messaging().subscribe(toTopic: code + "_exit")
+        }else{
+            Messaging.messaging().unsubscribe(fromTopic: code + "_exit")
+        }
+        firebaseManager.init().turnExitNotification(code: code, OnOff: visible.isOn)
+        var switches = banderas["geoFence_Notifications"]! as! [String:Bool]
+        switches["geoFence_exit"] = salida.isOn
+        banderas["geoFence_Notifications"] = switches
+    }
     var membersArray = [[String:[String:Any]]]()
     
     let userD:UserDefaults = UserDefaults.standard
@@ -93,6 +115,7 @@ class GroupSettingsViewController: UIViewController {
     var adminOfGroup:Bool!
     var admins:Int = 0
     var edicion:Bool = false
+    var banderas:[String:Any]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,6 +137,11 @@ class GroupSettingsViewController: UIViewController {
         }
         code = userD.string(forKey: "CodigoGrupoAuxiliar")
         textName = userD.string(forKey: "NombreAuxiliar")
+        
+        banderas = userD.dictionary(forKey: "NotificationFlags")
+        let switches = banderas.first?.value as! [String:Bool]
+        self.visible.isOn = switches["geoFence_enter"] ?? true
+        self.salida.isOn = switches["geoFence_exit"] ?? true
         self.codigo.text = code
         self.nombre.text = textName
         self.nombre.isEnabled = false

@@ -25,6 +25,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     var alertas:Bool = false
     let workingView = UIActivityIndicatorView()
     let backView = UIView()
+    var radius:Int!
 
     override func viewDidLoad() {
         backView.frame = view.frame
@@ -35,11 +36,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         workingView.center = backView.center
         backView.addSubview(workingView)
         workingView.startAnimating()
-        
-        self.mapa = GMSMapView(frame: self.view.frame)
-        self.mapa.delegate = self
-        self.view = mapa
-        
+
         let status = CLLocationManager.authorizationStatus()
         if(status == CLAuthorizationStatus.notDetermined || status == CLAuthorizationStatus.denied)
         {
@@ -50,8 +47,14 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             locValue = locationManager.location!.coordinate
         }
         
-        camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15.0, bearing: -15, viewingAngle: 45)
-        self.view = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15, bearing: -15, viewingAngle: 45)
+        
+        self.mapa = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        self.mapa.frame = view.frame
+        self.mapa.setMinZoom(13, maxZoom: 20)
+        self.mapa.delegate = self
+        self.view = mapa
+    
         locationManager.delegate = self
         
         self.view.addSubview(backView)
@@ -96,7 +99,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         self.mapa.clear()
         let camera = GMSCameraPosition.camera(withLatitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, zoom: 15.0, bearing: -15, viewingAngle: 45)
         self.view =  GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-        drawMarkers(map: self.view as! GMSMapView)
+        updateMarkers()
         updateFences()
         workingView.stopAnimating()
         backView.removeFromSuperview()
@@ -139,6 +142,11 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     }
     
     @objc func updateFences(){
+        let keys = places.keys
+        for key in keys{
+            places[key]?.map = nil
+        }
+        
         let lugares = userD.array(forKey: "ActualGroupPlaces") as? [[String:[String:Any]]] ?? []
         
         for lugar in lugares
@@ -157,6 +165,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             places[key!] = placeMarker
             placeMarker.map = self.view as? GMSMapView
         }
+        
     }
     
     @objc func updateMarkers()
@@ -208,7 +217,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
                 }
             }
         }
-        //NotificationCenter.default.post(name: NSNotification.Name("DataUpdated"), object: self)
+        updateFences()
     }
     
     func drawMarkers(map: GMSMapView)
@@ -223,7 +232,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             let visible = data!["visibility"] as? Bool ?? true
             if location.count == 0 || !visible
             {
-    
+                return
             }else{
                 let latitude = location["latitude"]! as! CLLocationDegrees
                 let longitude = location["longitude"]! as! CLLocationDegrees
@@ -237,11 +246,47 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         
     }
     
+    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+        if alertas
+        {
+            hideAlerts()
+            drawAlerts(map: mapView)
+        }
+    }
+    
+    func getCenterCoordinate() -> CLLocationCoordinate2D {
+        let centerPoint = self.mapa.center
+        let centerCoordinate = self.mapa.projection.coordinate(for: centerPoint)
+        return centerCoordinate
+    }
+    
+    func getTopCenterCoordinate() -> CLLocationCoordinate2D {
+        // to get coordinate from CGPoint of your map
+        let topCenterCoor = self.mapa.convert(CGPoint(x: self.mapa.frame.size.width / 2.0, y: 0),
+                                              from: self.mapa)
+        let point = self.mapa.projection.coordinate(for: topCenterCoor)
+        return point
+    }
+    
+    func getRadius() -> CLLocationDistance {
+        let centerCoordinate = getCenterCoordinate()
+        // init center location from center coordinate
+        let centerLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
+        let topCenterCoordinate = self.getTopCenterCoordinate()
+        let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
+        
+        let radius = CLLocationDistance(centerLocation.distance(from: topCenterLocation))
+        
+        return round(radius)
+    }
+    
     func drawAlerts(map: GMSMapView)
     {
+        let center = getCenterCoordinate()
         let theGeoFire = GeoFire(firebaseRef: Database.database().reference().child("alerts_geo"))
-        let circleQuery = theGeoFire!.query(at: locationManager.location, withRadius: 200/1000)
-        
+        let circleQuery = theGeoFire!.query(at: CLLocation(latitude: center.latitude,
+                                                           longitude: center.longitude),
+                                            withRadius: getRadius()/1000)
         _ = circleQuery!.observe(.keyEntered, with: { (key, location) in
             let llave = key
             let marcador = waspyAlertMarker(tipo: 0, coment: "lajfbauf", title: "ejfofug")

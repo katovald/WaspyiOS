@@ -63,7 +63,7 @@ extension GroupSelectorViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.textColor = UIColor.white
+        cell.textLabel?.textColor = UIColor.init(hex: 0x3871B4)
         cell.textLabel?.text = gruposLista[indexPath.row].first?.value
         return cell
     }

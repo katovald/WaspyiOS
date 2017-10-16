@@ -11,8 +11,7 @@ import UIKit
 class PlacesViewController: UIViewController {
     
     @IBOutlet weak var titleBar: UINavigationBar!
-    @IBAction func newGeofence(_ sender: Any) {
-    }
+
     @IBAction func dismissView(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -59,7 +58,7 @@ extension PlacesViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         let name = places[indexPath.row].first?.value
-        cell.textLabel?.textColor = UIColor.white
+        cell.textLabel?.textColor = UIColor.init(hex: 0x3871B4)
         cell.textLabel?.text = name!["place_name"] as? String
         return cell
     }

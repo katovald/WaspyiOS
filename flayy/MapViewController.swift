@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
 import CoreLocation
 import GeoFire
+import FirebaseMessaging
+import FirebaseAuth
 
 protocol MenuActionDelegate {
     func openSegue(_ segueName: String, sender: AnyObject?)
@@ -18,8 +18,6 @@ protocol MenuActionDelegate {
 }
 
 class MapViewController: UIViewController, CLLocationManagerDelegate {
-    var handle:AuthStateDidChangeListenerHandle?
-    var ref: DatabaseReference!
     var phone: String!
     let userD = UserDefaults.standard
     let user = Auth.auth().currentUser
@@ -58,6 +56,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    @IBAction func checkInGroup(_ sender: Any) {
+
+    }
     @IBAction func openGroups(_ sender: Any) {      //popup para elegir grupo
         performSegue(withIdentifier: "grupos", sender: nil)
     }
@@ -84,11 +85,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         plusBut.isHidden = true
         
         self.phone = (user?.phoneNumber)!
-        
+        firebaseManager.init().setUserRegToken(phone: self.phone)
         firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
                 if inSystem
                 {
@@ -132,6 +133,22 @@ extension MapViewController: MenuActionDelegate {
         dismiss(animated: true, completion: {
             exit(0)
         })
+    }
+}
+
+extension UIColor {
+    // Usage: UIColor(hex: 0xFC0ACE)
+    convenience init(hex: Int) {
+        self.init(hex: hex, alpha: 1)
+    }
+    
+    // Usage: UIColor(hex: 0xFC0ACE, alpha: 0.25)
+    convenience init(hex: Int, alpha: Double) {
+        self.init(
+            red: CGFloat((hex >> 16) & 0xff) / 255,
+            green: CGFloat((hex >> 8) & 0xff) / 255,
+            blue: CGFloat(hex & 0xff) / 255,
+            alpha: CGFloat(alpha))
     }
 }
 

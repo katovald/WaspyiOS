@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app purpose is to know the exact location of the people in your groups, we need to constantly update this data to have it at real time</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -47,23 +49,18 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>User experience, save its picture</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Core Functions Of Searching people, can turn off presenting info to others</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Main service</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>User Tracking for its Relatives</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Store user picture</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>audio</string>
 		<string>fetch</string>
 		<string>location</string>
 		<string>remote-notification</string>

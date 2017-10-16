@@ -38,7 +38,6 @@ public class firebaseManager {
     public let LocationChangeNotification = NSNotification.Name("GroupPlacesUpdated")
     public let PlacesChangedNotification = NSNotification.Name("PlacesAdded")
     public let LogInNotification = NSNotification.Name("CorrectLogIn")
-//    public let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
     
     
     ///initiate class
@@ -111,7 +110,7 @@ public class firebaseManager {
     
     public func createUserGroups(name: String){
 
-        var gruposAct = userD.array(forKey: "OwnerGroups")
+        var gruposAct = userD.array(forKey: "OwnerGroups") ?? []
         
         var groupCode:String = randomAlphaNumericString(length: 6)
         
@@ -123,7 +122,9 @@ public class firebaseManager {
                           "phone" : phone,
                           "rol" : "admin",
                           "visibility" : true,
-                          "photo_url": self.userD.string(forKey: "OwnerDownloadURL")!] as [String : Any]
+                          "photo_url": self.userD.string(forKey: "OwnerDownloadURL")!,
+                          "geoFence_Notifications": ["geoFence_enter":true,
+                                                     "geoFence_exit":true]] as [String : Any]
             
             self.reference.child("groups/" + groupCode).observeSingleEvent(of: .value, with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary ?? [:]
@@ -141,21 +142,29 @@ public class firebaseManager {
             self.reference.child("groups/" + groupCode + "/members/" + phone).setValue(userInfo)
             
             let newGroup = [groupCode:name]
-            gruposAct?.append(newGroup)
+            gruposAct.append(newGroup)
             
             userD.set(gruposAct, forKey: "OwnerGroups")
             userD.set(groupCode, forKey: "ActualGroup")
             userD.set(name, forKey: "ActualGroupTitle")
             userD.set(true, forKey: "VisibleInActualGroup")
             
-            let memberInfo = [phone:["Nombre": self.userD.string(forKey: "OwnerName") ?? "",
+            var banderas = [String:[String:Bool]]()
+            
+            banderas["geoFence_Notifications"] = ["geoFence_enter":true, "geoFence_exit":true]
+            var memberInfo = Array<Any>()
+            memberInfo.append([phone:["Nombre": self.userD.string(forKey: "OwnerName") ?? "",
                                      "Telefono": self.userD.string(forKey: "OwnerPhone") ?? "",
                                      "Descarga": self.userD.string(forKey: "OwnerDownloadURL") ?? "",
                                      "Rol": "Admin",
-                                     "Geocercas": ["Enter":true, "Exit":true]]]
+                                     "geoFence_Notifications": ["geoFence_enter":true, "geoFence_exit":true]]])
             
             userD.set(memberInfo, forKey: "MembersActiveGroup")
+            userD.set(banderas, forKey: "NotificationFlags")
             
+            Messaging.messaging().subscribe(toTopic: groupCode + "_enter")
+            Messaging.messaging().subscribe(toTopic: groupCode + "_exit")
+            Messaging.messaging().subscribe(toTopic: groupCode + "_alert")
             self.notificationCenter.post(name: GroupsChangeNotification, object: self)
         }
     }
@@ -207,6 +216,9 @@ public class firebaseManager {
             self.notificationCenter.post(name: self.PlacesChangedNotification, object: self)
         })
         self.userD.set(allGroupMembers, forKey: "MembersActiveGroup")
+        Messaging.messaging().subscribe(toTopic: code + "_enter")
+        Messaging.messaging().subscribe(toTopic: code + "_exit")
+        Messaging.messaging().subscribe(toTopic: code + "_alert")
         self.notificationCenter.post(name: GroupsChangeNotification, object: self)
     }
     
@@ -217,9 +229,17 @@ public class firebaseManager {
         
     }
     
+    public func turnEnterNotification(code: String, OnOff: Bool){
+        self.reference.child("groups/" + code + "/members/" + userD.string(forKey: "OwnerPhone")! + "/geoFence_Notifications/geoFence_enter").setValue(OnOff)
+    }
+    
+    public func turnExitNotification(code: String, OnOff: Bool){
+        self.reference.child("groups/" + code + "/members/" + userD.string(forKey: "OwnerPhone")! + "/geoFence_Notifications/geoFence_exit").setValue(OnOff)
+    }
+    
     public func setLastGroup(name: String){
         let phone = userD.string(forKey: "OwnerPhone")
-        self.reference.child("accounts/" + phone! + "/user_groups/last_groups").setValue(name)
+        self.reference.child("accounts/" + phone! + "/user_groups/last_group").setValue(name)
     }
     
     public func setUserAdminGroup(phone: String, group: String, admin: Bool){
@@ -239,10 +259,6 @@ public class firebaseManager {
         placeData["radio"] = radio
         
         self.reference.child("groups/" + code + "/group_places").childByAutoId().setValue(placeData)
-        
-        Messaging.messaging().subscribe(toTopic: "D8hfeS_enter")
-        Messaging.messaging().subscribe(toTopic: "D8hfeS_exit")
-        Messaging.messaging().subscribe(toTopic: "D8hfeS_alert")
     }
     
     public func editGroupPlace(code: String, key: String, address: String, icon: Int, l: [String:Double], place_name:String, radio: Int){
@@ -255,7 +271,7 @@ public class firebaseManager {
         self.reference.child("groups/" + code + "/group_places/" + key).setValue(placeData)
     }
     
-    public func saveUserPhotoFB(photo: UIImage, phone: String){
+    public func saveUserPhotoFB(photo: UIImage, phone: String, completion: @escaping () -> Void){
         
         let fileStorage = almacen.reference(forURL: "gs://camasacontigo.appspot.com/Waspy/")
         let imageData: Data = UIImagePNGRepresentation(photo)!
@@ -273,24 +289,33 @@ public class firebaseManager {
                                                   metadata: metadata,
                                                   completion: { (metadataFB, error) in
             guard metadataFB != nil else {
+                completion()
                 return
             }
             self.reference.child("accounts/" + phone + "/photo_url").setValue(metadataFB?.downloadURL()?.absoluteString)
             self.userD.set(metadataFB?.downloadURL()?.absoluteString, forKey: "OwnerDownloadURL")
             
-            var auxMembersInfo = self.userD.dictionary(forKey: "MembersActiveGroup")
-            if (auxMembersInfo == nil)
+            var auxMembersInfo = self.userD.array(forKey: "MembersActiveGroup") ?? []
+            if (auxMembersInfo.count == 0)
             {
                 
             }else{
-                var member = auxMembersInfo?[phone] as! [String:Any]
-                member["Descarga"] = metadataFB?.downloadURL()?.absoluteString
-                auxMembersInfo?[phone] = member
-                self.userD.set(auxMembersInfo, forKey: "MembersActiveGroup")
+                for key in 0...auxMembersInfo.count - 1
+                {
+                    let member = auxMembersInfo[key] as! [String:[String:Any]]
+                    if member.first?.key == phone
+                    {
+                        var data = member.first?.value
+                        data!["photo_url"] = metadataFB?.downloadURL()?.absoluteString
+                        auxMembersInfo[key] = [phone:data]
+                        self.userD.set(auxMembersInfo, forKey: "MembersActiveGroup")
+                    }
+                }
+               
             }
+                                                    self.notificationCenter.post(name: self.PhotoChangueNotification, object: self)
+                                                     completion()
         })
-        
-        self.notificationCenter.post(name: PhotoChangueNotification, object: self)
     }
     
     public func saveOwnerPhoto(photo: UIImage, phone: String){
@@ -432,6 +457,7 @@ public class firebaseManager {
                 self.getMemberPhotoFB(phone: key)
                 membersGroup.append([key:value[key]!])
             }
+            
             
             completion(membersGroup)
         })

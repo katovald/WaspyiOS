@@ -47,11 +47,12 @@ class Rounded: UIButton {
                 setBackgroundImage(nil, for: forState)
             }
         }
-        
+
+    
         override func layoutSubviews() {
             super.layoutSubviews()
             
-            layer.cornerRadius = layer.frame.height / 4
+            layer.cornerRadius = layer.frame.height / 2
             clipsToBounds = true
             
             if borderWidth > 0 {

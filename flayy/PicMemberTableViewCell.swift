@@ -22,7 +22,9 @@ class PicMemberTableViewCell: UITableViewCell {
     func membersInit (pic: UIImage, adress: String, nombre: String, battery: Int, speed: Int, visible: Bool)
     {
         self.name.text = nombre
+        self.name.textColor = UIColor.init(hex: 0x3871B4)
         self.adress.text = adress
+        self.adress.textColor = UIColor.init(hex: 0x3871B4)
         self.visible = visible
         
         roundPic.layer.borderWidth = 2
@@ -38,6 +40,7 @@ class PicMemberTableViewCell: UITableViewCell {
         }
         
         self.battPercent.text = String(battery) + "%"
+        self.battPercent.textColor = UIColor.init(hex: 0x3871B4)
         
         if battery == 0
         {

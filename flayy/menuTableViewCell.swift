@@ -16,12 +16,11 @@ class menuTableViewCell: UITableViewCell {
     func menuInit (pic: UIImage, nombre: String)
     {
         self.title.text = nombre
+        self.title.textColor = UIColor.init(hex: 0x3871B4)
         self.pic.image = pic
     }
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        
         // Initialization code
     }
 

@@ -22,11 +22,24 @@ class PlacesConfigViewController: UIViewController {
     @IBOutlet weak var direccion: UILabel!
     
     @IBAction func getBack(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: {
+            self.userD.set(nil, forKey: "EditingPlace")
+        })
     }
     
     @IBAction func changeRadius(_ sender: Any) {
         self.infoRadius.text = String(Int(radio.value)) + " metros"
+    }
+    
+    @IBAction func deletePlace(_ sender: Any) {
+        firebaseManager.init().deletePlace(code: userD.string(forKey: "ActualGroup")!,
+                                           key: (place.first?.key)!)
+        self.view.window?.rootViewController?.dismiss(animated: true, completion: {
+            self.userD.set(nil, forKey: "EditingPlace")
+            NotificationCenter.default.post(name: NSNotification.Name("PlacesAdded"),
+                                            object: self)
+            firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
+        })
     }
     
     @IBAction func editSave(_ sender: Any) {
@@ -79,6 +92,7 @@ class PlacesConfigViewController: UIViewController {
         place = userD.dictionary(forKey: "EditingPlace") as? [String : [String : Any]] ?? [:]
         if place.count == 0{
             editingView()
+            eliminar.isHidden = true
             LocationServices.init().getAdress(completion: { (coordinate, speed, json, e) in
                 if let a = json {
                     let kilo = a["FormattedAddressLines"] as! [String]
@@ -121,8 +135,8 @@ class PlacesConfigViewController: UIViewController {
         vistaMapa.layer.borderColor = UIColor.red.cgColor
         vistaMapa.isUserInteractionEnabled = true
         tipo.isUserInteractionEnabled = true
-        eliminar.isHidden = true
         texto.isEnabled = true
+        eliminar.isEnabled = true
         tipo.layer.borderWidth = 0
         tipo.layer.masksToBounds = false
         tipo.clipsToBounds = true
@@ -136,7 +150,7 @@ class PlacesConfigViewController: UIViewController {
         radio.isEnabled=false
         vistaMapa.isUserInteractionEnabled = false
         texto.isEnabled = false
-        eliminar.isHidden = true
+        eliminar.isEnabled = false
         tipo.isUserInteractionEnabled = false
         tipo.layer.borderWidth = 0
         tipo.layer.masksToBounds = false
@@ -197,26 +211,4 @@ class PlacesConfigViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true) //This will hide the keyboard
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-     
-     
-     -KvmgDrItrXSH0mM-5Lk
-     address:
-     g:
-     icon:
-     l
-         0:
-         1:
-     place_name:
-     radio:
-    */
-
 }

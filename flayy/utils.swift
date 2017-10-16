@@ -137,3 +137,4 @@ func checkCodeRepeat(array: [String], code: String) -> String {
     }
     return codeWr
 }
+

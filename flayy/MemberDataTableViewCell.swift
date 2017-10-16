@@ -43,7 +43,9 @@ class MemberDataTableViewCell: UITableViewCell {
         self.admin.transform = CGAffineTransform.init(scaleX: 0.75, y: 0.75)
         self.admin.isOn = ad
         self.Data.text = datos
+        self.Data.textColor = UIColor.init(hex: 0x3871B4)
         self.phone.text = phone
+        self.phone.textColor = UIColor.init(hex: 0x3871B4)
         self.roundedPic.image = pic
         roundedPic.layer.borderWidth = 1
         roundedPic.layer.masksToBounds = false
