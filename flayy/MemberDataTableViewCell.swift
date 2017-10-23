@@ -18,6 +18,7 @@ class MemberDataTableViewCell: UITableViewCell {
     
     var code:String!
     
+    
     @IBAction func giveAdmin(_ sender: Any) {
         firebaseManager.init().setUserAdminGroup(phone: phone.text!, group: code, admin: admin.isOn)
     }
@@ -33,6 +34,7 @@ class MemberDataTableViewCell: UITableViewCell {
                 aux2.append(member)
             }
         }
+        FCmNotifications.init().unsuscribePLS(phone: phone.text!, code: UserDefaults.standard.string(forKey: "CodigoGrupoAuxiliar")!)
         UserDefaults.standard.set(aux2, forKey: "MiembrosAuxiliares")
         self.removeFromSuperview()
         superview?.reloadInputViews()

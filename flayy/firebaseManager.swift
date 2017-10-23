@@ -223,7 +223,6 @@ public class firebaseManager {
     }
     
     public func setUserRegToken(phone: String){
-        
         guard let token = InstanceID.instanceID().token() else { return }
         self.reference.child("accounts/" + phone + "/FCMToken").setValue(token)
         
@@ -234,7 +233,7 @@ public class firebaseManager {
     }
     
     public func turnExitNotification(code: String, OnOff: Bool){
-        self.reference.child("groups/" + code + "/members/" + userD.string(forKey: "OwnerPhone")! + "/geoFence_Notifications/geoFence_exit").setValue(OnOff)
+         self.reference.child("groups/" + code + "/members/" + userD.string(forKey: "OwnerPhone")! + "/geoFence_Notifications/geoFence_exit").setValue(OnOff)
     }
     
     public func setLastGroup(name: String){
@@ -409,6 +408,13 @@ public class firebaseManager {
         })
     }
     
+    public func getMessageToken(phone: String, completion: @escaping (String) -> Void){
+        self.reference.child("accounts/" + phone + "/FCMToken/").observeSingleEvent(of: .value, with: {(snapshot) in
+            guard let value = snapshot.value as? String else {return}
+            completion(value)
+        })
+    }
+    
     public func getPhoneOwnerGroups(){
         let phone = self.userD.string(forKey: "Phone")
         self.reference.child("accounts/" + phone! + "/user_groups/").observeSingleEvent(of: .value, with: {(snapshot) in
@@ -454,7 +460,15 @@ public class firebaseManager {
             
             for key in keys
             {
-                self.getMemberPhotoFB(phone: key)
+                if self.userD.string(forKey: "OwnerPhone")! == key
+                {
+                    let datos = value[key]
+                    var banderas = [String:[String:Bool]]()
+                    banderas["geoFence_Notifications"] = datos?["geoFence_Notifications"] as? [String : Bool]
+                    self.userD.set(banderas, forKey: "NotificationFlags")
+                }else{
+                    self.getMemberPhotoFB(phone: key)
+                }
                 membersGroup.append([key:value[key]!])
             }
             

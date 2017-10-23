@@ -138,8 +138,10 @@ class GroupSettingsViewController: UIViewController {
         code = userD.string(forKey: "CodigoGrupoAuxiliar")
         textName = userD.string(forKey: "NombreAuxiliar")
         
-        banderas = userD.dictionary(forKey: "NotificationFlags")
+        banderas = userD.dictionary(forKey: "NotificationFlags") ?? ["geoFence_Notifications" : ["geoFence_enter":true, "geoFence_exit":true]]
+        
         let switches = banderas.first?.value as! [String:Bool]
+
         self.visible.isOn = switches["geoFence_enter"] ?? true
         self.salida.isOn = switches["geoFence_exit"] ?? true
         self.codigo.text = code

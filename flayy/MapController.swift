@@ -251,6 +251,8 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         {
             hideAlerts()
             drawAlerts(map: mapView)
+        }else{
+            NotificationCenter.default.post(name: NSNotification.Name("LoseFocus"), object: self)
         }
     }
     
@@ -305,6 +307,14 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             let marker = alerts[key]
             marker?.map = nil
         }
+    }
+    
+    func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
+        print(coordinate)
+        let controller = storyboard?.instantiateViewController(withIdentifier: "ConfigPlace") as! PlacesConfigViewController
+        let placeEdited = ["none": ["l": ["0":coordinate.latitude, "1": coordinate.longitude]]]
+        userD.set(placeEdited, forKey: "EditingPlace")
+        present(controller, animated: true, completion: nil)
     }
     
     func regionMonitor() -> CLCircularRegion {

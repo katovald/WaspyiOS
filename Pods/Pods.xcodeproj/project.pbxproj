@@ -52,7 +52,7 @@
 		3BFF3C0B44D7D3A2974006D67C319BD7 /* GPBExtensionRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AA0323BCB2E7350158691ADA1F7375A /* GPBExtensionRegistry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3C357AFD1E9D64C24BF67BE220054ACA /* nanopb-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A2C2F585E226C6E84CAE75CECF261EB /* nanopb-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3E7C85B2501E3DDF47886F79C9BE4A6C /* GPBWellKnownTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B5C95B7D3764040D78D9B1BFA6DA202 /* GPBWellKnownTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		418572DC1F8FAFBE00938664 /* FirebaseDatabase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 409278DBA887C376319CCE604CE0D953 /* FirebaseDatabase.framework */; };
+		41ACE4821F9E364200B0AAC6 /* FirebaseDatabase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 409278DBA887C376319CCE604CE0D953 /* FirebaseDatabase.framework */; };
 		439D6DE3E80582CCD1A810F810BA4667 /* filename.cc in Sources */ = {isa = PBXBuildFile; fileRef = 80F9AFC95DD87822C7FA5465C82D4F6E /* filename.cc */; settings = {COMPILER_FLAGS = "-DOS_MACOSX -DLEVELDB_PLATFORM_POSIX -fno-objc-arc"; }; };
 		43A154161A9885B05A49D2B7DCFE60B3 /* nanopb-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 79478E9BDEA182761FFD169C7F0AC0E4 /* nanopb-dummy.m */; };
 		444EBAC62FECB10714772331134DE3EB /* GFGeoHash.m in Sources */ = {isa = PBXBuildFile; fileRef = BF56364C8F893FF552218C16A1F0D24A /* GFGeoHash.m */; };
@@ -509,7 +509,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				418572DC1F8FAFBE00938664 /* FirebaseDatabase.framework in Frameworks */,
+				41ACE4821F9E364200B0AAC6 /* FirebaseDatabase.framework in Frameworks */,
 				72FB0A0B7CC16F19E94D1790A4C4FBCC /* CoreLocation.framework in Frameworks */,
 				25879CDBE7CF862BA00EEB95CD33F310 /* Foundation.framework in Frameworks */,
 				36897F1A564529FA0F6EDC6E56978E5A /* GoogleToolboxForMac.framework in Frameworks */,

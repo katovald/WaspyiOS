@@ -20,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let gcmMessageIDKey = "gcm.message_id"
     var timer:Timer!
     var timer1:Timer!
-    var background: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     var userD:UserDefaults = UserDefaults.standard
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -81,9 +80,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
             self.userD.set(members, forKey: "MembersActiveGroup")
         })
-        firebaseManager.init().getPlaces(group: self.userD.string(forKey: "ActualGroup")!, completion:{ (places) in
-            self.userD.set(places, forKey: "ActualGroupPlaces")
-            })
     }
     
     func BGtask(_ block: @escaping () -> Void){
@@ -118,6 +114,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Unable to register for remote notifications: \(error.localizedDescription)")
     }
     
+    func application(received remoteMessage: MessagingRemoteMessage) {
+        print(remoteMessage)
+    }
     // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
     // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
     // the FCM registration token.
@@ -184,6 +183,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         completionHandler()
     }
+
 }
 // [END ios_10_message_handling]
 
@@ -196,15 +196,6 @@ extension AppDelegate : MessagingDelegate {
     // [START ios_10_data_message]
     // Receive data messages on iOS 10+ directly from FCM (bypassing APNs) when the app is in the foreground.
     // To enable direct data messages, you can set Messaging.messaging().shouldEstablishDirectChannel to true.
-    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print("Received data message: \(remoteMessage.appData)")
-        
-        guard let data = try? JSONSerialization.data(withJSONObject: remoteMessage.appData, options: .prettyPrinted),
-        
-            let prettyPrinted = String(data: data, encoding: .utf8) else {return}
-        
-        print(prettyPrinted)
-    }
     
     // [END ios_10_data_message]
 }

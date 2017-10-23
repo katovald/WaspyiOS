@@ -1,34 +1,34 @@
 PODS:
-  - Firebase/AdMob (4.3.0):
+  - Firebase/AdMob (4.4.0):
     - Firebase/Core
     - Google-Mobile-Ads-SDK (= 7.24.1)
-  - Firebase/Analytics (4.3.0):
+  - Firebase/Analytics (4.4.0):
     - Firebase/Core
-  - Firebase/Auth (4.3.0):
+  - Firebase/Auth (4.4.0):
     - Firebase/Core
-    - FirebaseAuth (= 4.2.1)
-  - Firebase/Core (4.3.0):
+    - FirebaseAuth (= 4.3.0)
+  - Firebase/Core (4.4.0):
     - FirebaseAnalytics (= 4.0.4)
-    - FirebaseCore (= 4.0.8)
-  - Firebase/Crash (4.3.0):
+    - FirebaseCore (= 4.0.9)
+  - Firebase/Crash (4.4.0):
     - Firebase/Core
     - FirebaseCrash (= 2.0.2)
-  - Firebase/Database (4.3.0):
+  - Firebase/Database (4.4.0):
     - Firebase/Core
-    - FirebaseDatabase (= 4.1.0)
-  - Firebase/DynamicLinks (4.3.0):
+    - FirebaseDatabase (= 4.1.1)
+  - Firebase/DynamicLinks (4.4.0):
     - Firebase/Core
     - FirebaseDynamicLinks (= 2.1.0)
-  - Firebase/Messaging (4.3.0):
+  - Firebase/Messaging (4.4.0):
     - Firebase/Core
-    - FirebaseMessaging (= 2.0.4)
-  - Firebase/Performance (4.3.0):
+    - FirebaseMessaging (= 2.0.5)
+  - Firebase/Performance (4.4.0):
     - Firebase/Core
     - FirebasePerformance (= 1.0.6)
-  - Firebase/RemoteConfig (4.3.0):
+  - Firebase/RemoteConfig (4.4.0):
     - Firebase/Core
     - FirebaseRemoteConfig (= 2.0.3)
-  - Firebase/Storage (4.3.0):
+  - Firebase/Storage (4.4.0):
     - Firebase/Core
     - FirebaseStorage (= 2.0.2)
   - FirebaseAnalytics (4.0.4):
@@ -36,11 +36,11 @@ PODS:
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
-  - FirebaseAuth (4.2.1):
+  - FirebaseAuth (4.3.0):
     - FirebaseAnalytics (~> 4.0)
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (4.0.8):
+  - FirebaseCore (4.0.9):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
   - FirebaseCrash (2.0.2):
@@ -49,14 +49,14 @@ PODS:
     - GoogleToolboxForMac/Logger (~> 2.1)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - Protobuf (~> 3.1)
-  - FirebaseDatabase (4.1.0):
+  - FirebaseDatabase (4.1.1):
     - FirebaseAnalytics (~> 4.0)
     - FirebaseCore (~> 4.0)
     - leveldb-library (~> 1.18)
   - FirebaseDynamicLinks (2.1.0):
     - FirebaseAnalytics (~> 4.0)
-  - FirebaseInstanceID (2.0.4)
-  - FirebaseMessaging (2.0.4):
+  - FirebaseInstanceID (2.0.5)
+  - FirebaseMessaging (2.0.5):
     - FirebaseAnalytics (~> 4.0)
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
@@ -130,15 +130,15 @@ EXTERNAL SOURCES:
     :path: /Users/kato/Documents/projects/flayy/geofire
 
 SPEC CHECKSUMS:
-  Firebase: 83283761a1ef6dc9846e03d08059f51421afbd65
+  Firebase: 3e92884a63e8f76d107c43a67d2ab9071e1eda10
   FirebaseAnalytics: 722b53c7b32bfc7806b06e0093a2f5180d4f2c5a
-  FirebaseAuth: d7f047fbeab98062b98ea933b8d934e0fb1190e2
-  FirebaseCore: 69b1a5ac5f857ba6d5fd9d5fe794f4786dd5e579
+  FirebaseAuth: e0087d479709b20b9613b804704a928d6eafb052
+  FirebaseCore: ebe73f64302705e693b1de9919a76edbdd17a19d
   FirebaseCrash: cded0fc566c03651aea606a101bc156085f333ca
-  FirebaseDatabase: 607284a103e961d7f5863ee603cab5e85f443bd6
+  FirebaseDatabase: 2e6e8e110b93b9a6e7aac71774c769a363035cb1
   FirebaseDynamicLinks: ed4cb6c42705aaa5e841ed2d76e3a4bddbec10c1
-  FirebaseInstanceID: 70c2b877e9338971b2429ea5a4293df6961aa44e
-  FirebaseMessaging: 3dd86bfda2acb680b05c97f3f8ac566e9bb87b2a
+  FirebaseInstanceID: f2b688c66b972f30d7fa9f5f9f91455454a03b47
+  FirebaseMessaging: e25dc87045e76dfe9e920a5741dc3fe7e3ef2268
   FirebasePerformance: fa032c27e229eb8c1a8638918793fe2e47465205
   FirebaseRemoteConfig: 1c982f73af48ec048c8fa8621d5178cfdffac9aa
   FirebaseStorage: 0cca42d9b889a0227c3a50121f45a4469fc9eb27

@@ -57,7 +57,7 @@ class PlacesConfigViewController: UIViewController {
                                                       place_name: texto.text!,
                                                       radio: Int(radio.value))
             }
-            
+            FCmNotifications.init().placesUpdated()
             blockedView()
             
             self.view.window?.rootViewController?.dismiss(animated: true, completion: {
@@ -113,12 +113,36 @@ class PlacesConfigViewController: UIViewController {
             self.texto.text = "Nombre"
             self.infoRadius.text = "100 metros"
         }else{
-            let data = place.first?.value
-            self.texto.text = data!["place_name"] as? String
-            self.direccion.text = data!["address"] as? String
-            self.icono = (data!["icon"] as? Int)!
-            self.radio.setValue(Float((data!["radio"] as? Int)!), animated: false)
-            blockedView()
+            let key = place.first?.key
+            let value = place.first?.value
+            let point = value!["l"] as! [String:Double]
+            if key == "none" {
+                LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point["0"]!, longitude: point["1"]!), completion: { (json, e) in
+                    if let a = json {
+                        let kilo = a["FormattedAddressLines"] as! [String]
+                        
+                        var direccion = ""
+                        
+                        for index in 0...(kilo.count - 1)
+                        {
+                            direccion += kilo[index]
+                            direccion += " "
+                        }
+                        
+                        self.direccion.text = direccion
+                    } else {
+                        self.direccion.text = "Obteniendo direccion..."
+                    }
+                })
+                editingView()
+            }else{
+                let data = place.first?.value
+                self.texto.text = data!["place_name"] as? String
+                self.direccion.text = data!["address"] as? String
+                self.icono = (data!["icon"] as? Int)!
+                self.radio.setValue(Float((data!["radio"] as? Int)!), animated: false)
+                blockedView()
+            }
         }
         setIcon(icono: icono)
         

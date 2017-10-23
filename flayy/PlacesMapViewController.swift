@@ -19,6 +19,12 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
     let notificationCenter = NotificationCenter.default
     
     override func viewDidLoad() {
+        notificationCenter.addObserver(self, selector: #selector(updateIcon), name: NSNotification.Name("PlaceDataUpdated"), object: nil)
+        notificationCenter.addObserver(self, selector: #selector(finishData), name: NSNotification.Name("GivemePlaceData"), object: nil)
+    }
+    
+    override func loadView() {
+        
         let place = userD.dictionary(forKey: "EditingPlace") ?? nil
         if place != nil{
             key = (place?.first?.key)!
@@ -27,23 +33,17 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
             key = "none"
         }
         
-        notificationCenter.addObserver(self, selector: #selector(updateIcon), name: NSNotification.Name("PlaceDataUpdated"), object: nil)
-        notificationCenter.addObserver(self, selector: #selector(finishData), name: NSNotification.Name("GivemePlaceData"), object: nil)
-    }
-    
-    override func loadView() {
-        
         var locValue: CLLocationCoordinate2D!
         
         if data.count > 0{
             let coordinates = data["l"] as! [String:Double]
             locValue = CLLocationCoordinate2D(latitude: coordinates["0"]!, longitude: coordinates["1"]!)
-            location = waspyPlaceMarker(name: data["place_name"] as! String,
-                                        address: data["address"] as! String,
-                                        radio: data["radio"] as! Int,
-                                        icon: data["icon"] as! Int)
+            location = waspyPlaceMarker(name: data["place_name"] as? String ?? "",
+                                        address: data["address"] as? String ?? "",
+                                        radio: data["radio"] as? Int ?? 100,
+                                        icon: data["icon"] as? Int ?? 0)
             location.setLocation(location: locValue)
-            location.setIconView(icono: data["icon"] as! Int)
+            location.setIconView(icono: data["icon"] as? Int ?? 0)
         }else{
             locValue = LocationServices.init().getLocationCoord()
             location = waspyPlaceMarker(name: "", address: "", radio: 100, icon: icon)
