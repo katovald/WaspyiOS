@@ -20,7 +20,7 @@ func batteryState()-> UIDeviceBatteryState {
 }
 
 func batteryLevel()-> Int {
-    return Int(UIDevice.current.batteryLevel) * 100
+    return Int(UIDevice.current.batteryLevel * 100)
 }
 
 public class firebaseManager {
@@ -39,7 +39,6 @@ public class firebaseManager {
     public let PlacesChangedNotification = NSNotification.Name("PlacesAdded")
     public let LogInNotification = NSNotification.Name("CorrectLogIn")
     
-    
     ///initiate class
     ///battery monitor and references firebase
     
@@ -47,7 +46,6 @@ public class firebaseManager {
     {
         UIDevice.current.isBatteryMonitoringEnabled = true
         reference = Database.database().reference()
-        
         urlDownload = ""
     }
     
@@ -106,6 +104,44 @@ public class firebaseManager {
         
         self.notificationCenter.post(name: DataChangueNotification, object: self)
         
+    }
+    public func createAlertGeo(key: String, coment: String){
+        let tipo = userD.integer(forKey: "AlertType")
+        var title:String!
+        switch tipo {
+        case 1:
+            title = "Agresion"
+        case 2:
+            title = "Acoso"
+        case 3:
+            title = "Asalto"
+        case 4:
+            title = "Motoatraco"
+        case 5:
+            title = "Robos"
+        default:
+            title = ""
+        }
+        let date = Date()    /////18-Oct-2017 10:51:47
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+
+        let hour = components.hour
+        let min = components.minute
+        let sec = components.second
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MMM-yyyy"
+        let result = formatter.string(from: date) + " " +
+                        String(describing: hour ?? 0) + ":" +
+                        String(describing: min ?? 0) + ":" +
+                        String(describing: sec ?? 0)
+        
+        let alertBody = ["comments":coment,
+                        "date":result,
+                        "type":tipo,
+                        "title": title] as [String : Any]
+        self.reference.child("alerts_geo/" + key).updateChildValues(alertBody)
     }
     
     public func createUserGroups(name: String){
@@ -358,7 +394,6 @@ public class firebaseManager {
                 }
                 
                 let ownerGroups = self.userD.array(forKey: "OwnerGroups") as! [[String:String]]
-                
                 for code in ownerGroups{
                     self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
                     self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/current_place").setValue(direccion)
@@ -447,6 +482,12 @@ public class firebaseManager {
                 try! imageData.write(to: imageUrl)
             }
         }
+    }
+    
+    public func getAlertData(key: String, completion: @escaping ([String:Any]) -> Void){
+        self.reference.child("alerts_geo/" + key).observeSingleEvent(of: .value, with: { (snapshot) in
+            completion(snapshot.value as! [String:Any])
+        })
     }
     
     public func getGroupMembersInfo(code: String, completion: @escaping ([[String:[String:Any]]]) ->  Void)

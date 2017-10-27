@@ -50,7 +50,7 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let contactos = userD.array(forKey: "Contactos")
+        _ = userD.array(forKey: "Contactos")
         // Do any additional setup after loading the view.
     }
 

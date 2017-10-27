@@ -13,26 +13,28 @@ class waspyAlertMarker: GMSMarker {
     var titulo:String!
     var comentario:String!
     var imagen:Int!
+    var fecha:String!
     var markerView = UIImageView()
     
-    init(tipo:Int, coment:String, title: String){
+    init(tipo:Int, coment:String, title: String, date: String){
         titulo = title
         comentario = coment
         imagen = tipo
+        fecha = date
     }
     
-    func setIconView(icono: Int) {
+    func setIconView() {
         var marcador = UIImage()
-        switch icono {
-        case 0:
-            marcador = UIImage(named: "map-m1.png")!
+        switch imagen {
         case 1:
-            marcador = UIImage(named: "map-m2.png")!
+            marcador = UIImage(named: "map-m1.png")!
         case 2:
-            marcador = UIImage(named: "map-m3.png")!
+            marcador = UIImage(named: "map-m2.png")!
         case 3:
-            marcador = UIImage(named: "map-m4.png")!
+            marcador = UIImage(named: "map-m3.png")!
         case 4:
+            marcador = UIImage(named: "map-m4.png")!
+        case 5:
             marcador = UIImage(named: "map-m5.png")!
         default:
             marcador = UIImage(named: "map-m1.png")!
@@ -41,10 +43,11 @@ class waspyAlertMarker: GMSMarker {
         markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 12, height: 15)))
         
         self.iconView = markerView
+        self.title = titulo
+        self.snippet = fecha
     }
     
     func setLocation(location: CLLocationCoordinate2D) {
         self.position = location
     }
-    
 }

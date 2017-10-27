@@ -589,7 +589,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7YT-vf-lyr" customClass="Rounded" customModule="flayy" customModuleProvider="target">
-                                <rect key="frame" x="254" y="481" width="50" height="50"/>
+                                <rect key="frame" x="255" y="480" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <state key="normal" title="+">
                                     <color key="titleColor" red="0.98823529409999999" green="0.85882352939999995" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -605,7 +605,94 @@
                                         <color key="value" red="0.98823529409999999" green="0.85882352939999995" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="alerts:" destination="VPg-P2-4Vt" eventType="touchUpInside" id="b6i-tg-FPa"/>
+                                </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="map-marker-center.png" translatesAutoresizingMaskIntoConstraints="NO" id="wiE-SZ-V8H">
+                                <rect key="frame" x="147" y="255" width="25" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fd0-Mf-f7w" customClass="Rounded" customModule="flayy" customModuleProvider="target">
+                                <rect key="frame" x="260" y="430" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="map-i5.png"/>
+                                <connections>
+                                    <action selector="alertaRobo:" destination="VPg-P2-4Vt" eventType="touchUpInside" id="no5-0a-MPI"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hH-dH-h0X">
+                                <rect key="frame" x="260" y="380" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="map-i4.png"/>
+                                <connections>
+                                    <action selector="alertaMoto:" destination="VPg-P2-4Vt" eventType="touchUpInside" id="H94-AO-20g"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y7z-j1-BeM">
+                                <rect key="frame" x="260" y="330" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="map-i3.png"/>
+                                <connections>
+                                    <action selector="alertaAsal:" destination="VPg-P2-4Vt" eventType="touchUpInside" id="OgB-8F-d3f"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mhg-tg-j7t" customClass="Rounded" customModule="flayy" customModuleProvider="target">
+                                <rect key="frame" x="260" y="280" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="map-i2.png"/>
+                                <connections>
+                                    <action selector="alertaAco:" destination="VPg-P2-4Vt" eventType="touchUpInside" id="RBV-Zv-fCb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ndn-Lq-G44" customClass="Rounded" customModule="flayy" customModuleProvider="target">
+                                <rect key="frame" x="260" y="230" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="map-i1.png"/>
+                                <connections>
+                                    <action selector="alertaAgres:" destination="VPg-P2-4Vt" eventType="touchUpInside" id="RGP-Ko-TFJ"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Robo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upv-1l-bCc">
+                                <rect key="frame" x="224" y="440" width="31" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Motoatraco" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vy7-A2-ZN9">
+                                <rect key="frame" x="195" y="390" width="60" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.98823529409999999" green="0.85882352939999995" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Asalto" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mXi-ak-bwi">
+                                <rect key="frame" x="215" y="340" width="40" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.95686274510000002" green="0.30445623459999999" blue="0.040835938629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Acoso" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P3j-7r-NFJ">
+                                <rect key="frame" x="215" y="290" width="40" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="1" green="0.33234214329039002" blue="0.98353063192563905" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Agresiones" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LEE-lP-1Um">
+                                <rect key="frame" x="190" y="240" width="65" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="0.74571022886813854" green="0.55203194239113929" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration">
@@ -614,11 +701,22 @@
                         <gestureRecognizers/>
                     </view>
                     <connections>
+                        <outlet property="agression" destination="Ndn-Lq-G44" id="Isf-KO-rrh"/>
+                        <outlet property="agressionlbl" destination="LEE-lP-1Um" id="ADH-6a-XfS"/>
+                        <outlet property="biker" destination="0hH-dH-h0X" id="dvu-hY-Fyn"/>
+                        <outlet property="bikerlbl" destination="Vy7-A2-ZN9" id="Wfl-Aa-Xl9"/>
                         <outlet property="center" destination="M2C-2I-SQ1" id="CEm-JQ-WqY"/>
                         <outlet property="dron" destination="j6k-mB-BUD" id="U0f-f0-JNE"/>
                         <outlet property="gmapView" destination="Bze-Wx-c6m" id="XFq-oH-xV6"/>
+                        <outlet property="harassment" destination="Mhg-tg-j7t" id="8Qw-Lv-PLt"/>
+                        <outlet property="harassmentlbl" destination="P3j-7r-NFJ" id="8x3-U7-qYI"/>
+                        <outlet property="marker" destination="wiE-SZ-V8H" id="fsx-Tg-o3S"/>
                         <outlet property="memberList" destination="LOk-xA-jTA" id="hbD-rC-ApJ"/>
                         <outlet property="plusBut" destination="7YT-vf-lyr" id="jsI-am-gf0"/>
+                        <outlet property="robbery" destination="fd0-Mf-f7w" id="H2o-OT-5qs"/>
+                        <outlet property="robberylbl" destination="upv-1l-bCc" id="jMs-hk-QLn"/>
+                        <outlet property="thief" destination="y7z-j1-BeM" id="SBv-dg-KU2"/>
+                        <outlet property="thieflbl" destination="mXi-ak-bwi" id="Vi0-Gb-b9P"/>
                         <outlet property="titleBar" destination="aSP-iD-N1o" id="1x4-KK-mgG"/>
                         <segue destination="gdj-nw-yI9" kind="show" identifier="datosUsuario" id="VWM-hv-SeD"/>
                         <segue destination="TEZ-CE-atD" kind="presentation" identifier="menu" customClass="CustomMenu" customModule="flayy" customModuleProvider="target" modalPresentationStyle="overFullScreen" id="FWx-N6-FK5"/>
@@ -1806,7 +1904,13 @@
         <image name="grupo.sistemas-bg.png" width="2162" height="1331"/>
         <image name="gruposistemas-bg.png" width="2163" height="1332"/>
         <image name="logo.png" width="300" height="171"/>
+        <image name="map-i1.png" width="104" height="104"/>
+        <image name="map-i2.png" width="104" height="104"/>
+        <image name="map-i3.png" width="104" height="104"/>
+        <image name="map-i4.png" width="104" height="104"/>
+        <image name="map-i5.png" width="104" height="104"/>
         <image name="map-iasmall.png" width="25" height="17"/>
+        <image name="map-marker-center.png" width="64" height="87"/>
         <image name="map.i3a.png" width="149" height="149"/>
         <image name="mapi1small.png" width="23" height="25"/>
         <image name="mapi2small.png" width="27" height="25"/>

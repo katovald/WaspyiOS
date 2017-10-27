@@ -26,6 +26,8 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     let workingView = UIActivityIndicatorView()
     let backView = UIView()
     var radius:Int!
+    
+    var geotification: [Geotification] = []
 
     override func viewDidLoad() {
         backView.frame = view.frame
@@ -72,6 +74,8 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         NotificationCenter.default.addObserver(self, selector: #selector(turnAlertsOnOFF), name: NSNotification.Name("Alerts"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(initWaspy), name: NSNotification.Name("CorrectLogIn"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(presetnDialog), name: NSNotification.Name("PushAlert"), object: nil)
         
     }
     
@@ -220,6 +224,43 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         updateFences()
     }
     
+    @objc func presetnDialog(){
+        let alertController = UIAlertController(title: "Alerta de ", message: "Ayuda a otros a prevenir malas experiencias. Si lo viste reportalo", preferredStyle: .alert)
+        let confirmation = UIAlertAction(title: "Listo", style: .default, handler: {(_) in
+            let field = alertController.textFields![0]
+            let ref = Database.database().reference().child("alerts_geo").childByAutoId()
+            let key = ref.key
+            let theGeoFire = GeoFire(firebaseRef: Database.database().reference().child("alerts_geo"))
+            theGeoFire?.setLocation(CLLocation(latitude: self.getCenterCoordinate().latitude, longitude: self.getCenterCoordinate().longitude), forKey: key)
+            firebaseManager.init().createAlertGeo(key: key, coment: field.text ?? "")
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler:{(_) in
+        })
+        alertController.addTextField(configurationHandler: {(textfield) in
+            textfield.placeholder = "Comentario (opcional)"
+        })
+        
+        let call911 = UIAlertAction(title: "911", style: .default) { (_) in
+            guard let number = URL(string: "tel://911") else { return }
+            UIApplication.shared.open(number)
+        }
+        
+        alertController.addAction(call911)
+        alertController.addAction(confirmation)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func loadAllGeonotifications(){
+        geotification = []
+        let places = userD.array(forKey: "ActualGroupPlaces")
+        for place in places!{
+            
+        }
+    }
+    
     func drawMarkers(map: GMSMapView)
     {
         var aux = userD.array(forKey: "MembersActiveGroup") as? [[String:[String:Any]]] ?? []
@@ -247,9 +288,9 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     }
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+        hideAlerts()
         if alertas
         {
-            hideAlerts()
             drawAlerts(map: mapView)
         }else{
             NotificationCenter.default.post(name: NSNotification.Name("LoseFocus"), object: self)
@@ -291,11 +332,16 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
                                             withRadius: getRadius()/1000)
         _ = circleQuery!.observe(.keyEntered, with: { (key, location) in
             let llave = key
-            let marcador = waspyAlertMarker(tipo: 0, coment: "lajfbauf", title: "ejfofug")
-            marcador.setIconView(icono: 0)
-            marcador.setLocation(location: (location?.coordinate)!)
-            marcador.map = map
-            self.alerts[llave!] = marcador
+            firebaseManager.init().getAlertData(key: llave!, completion: { (value) in
+                let marcador = waspyAlertMarker(tipo: value["type"] as? Int ?? 0,
+                                                coment: value["comments"] as? String ?? "",
+                                                title: value["title"] as? String ?? "",
+                                                date: value["date"] as? String ?? "")
+                marcador.setIconView()
+                marcador.setLocation(location: (location?.coordinate)!)
+                marcador.map = map
+                self.alerts[llave!] = marcador
+            })
         })
     }
     
@@ -307,14 +353,16 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             let marker = alerts[key]
             marker?.map = nil
         }
+        alerts.removeAll()
     }
     
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
-        print(coordinate)
-        let controller = storyboard?.instantiateViewController(withIdentifier: "ConfigPlace") as! PlacesConfigViewController
-        let placeEdited = ["none": ["l": ["0":coordinate.latitude, "1": coordinate.longitude]]]
-        userD.set(placeEdited, forKey: "EditingPlace")
-        present(controller, animated: true, completion: nil)
+        if !alertas{
+            let controller = storyboard?.instantiateViewController(withIdentifier: "ConfigPlace") as! PlacesConfigViewController
+            let placeEdited = ["none": ["l": ["0":coordinate.latitude, "1": coordinate.longitude]]]
+            userD.set(placeEdited, forKey: "EditingPlace")
+            present(controller, animated: true, completion: nil)
+        }
     }
     
     func regionMonitor() -> CLCircularRegion {
@@ -324,6 +372,16 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         return autentia
     }
     
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        if alertas {
+            
+        }
+    }
+    
+    func startMonitor(){
+        
+    }
+    
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         alert(message: "Hola")
     }
@@ -331,4 +389,6 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         alert(message: "Bye")
     }
+    
+
 }
