@@ -115,9 +115,9 @@ class PlacesConfigViewController: UIViewController {
         }else{
             let key = place.first?.key
             let value = place.first?.value
-            let point = value!["l"] as! [String:Double]
+            let point = value!["l"] as! [Double]
             if key == "none" {
-                LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point["0"]!, longitude: point["1"]!), completion: { (json, e) in
+                LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point[0], longitude: point[1]), completion: { (json, e) in
                     if let a = json {
                         let kilo = a["FormattedAddressLines"] as! [String]
                         

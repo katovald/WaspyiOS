@@ -36,8 +36,8 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
         var locValue: CLLocationCoordinate2D!
         
         if data.count > 0{
-            let coordinates = data["l"] as! [String:Double]
-            locValue = CLLocationCoordinate2D(latitude: coordinates["0"]!, longitude: coordinates["1"]!)
+            let coordinates = data["l"] as! [Double]
+            locValue = CLLocationCoordinate2D(latitude: coordinates[0], longitude: coordinates[1])
             location = waspyPlaceMarker(name: data["place_name"] as? String ?? "",
                                         address: data["address"] as? String ?? "",
                                         radio: data["radio"] as? Int ?? 100,

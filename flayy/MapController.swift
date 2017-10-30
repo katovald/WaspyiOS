@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps
 import FirebaseDatabase
 import GeoFire
+import UserNotifications
 
 class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDelegate{
 
@@ -26,8 +27,6 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     let workingView = UIActivityIndicatorView()
     let backView = UIView()
     var radius:Int!
-    
-    var geotification: [Geotification] = []
 
     override func viewDidLoad() {
         backView.frame = view.frame
@@ -88,13 +87,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         drawMarkers(map: view as! GMSMapView)
         updateFences()
         
-        let region = self.regionMonitor()
-        if(locationManager.monitoredRegions.count > 0)
-        {
-            locationManager.stopMonitoring(for: region)
-        }else{
-            locationManager.startMonitoring(for: region)
-        }
+        startGeofences()
     }
     
     @objc func changeInfo(){
@@ -169,6 +162,8 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             places[key!] = placeMarker
             placeMarker.map = self.view as? GMSMapView
         }
+        
+        startGeofences()
         
     }
     
@@ -253,11 +248,21 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         present(alertController, animated: true, completion: nil)
     }
     
-    func loadAllGeonotifications(){
-        geotification = []
-        let places = userD.array(forKey: "ActualGroupPlaces")
-        for place in places!{
-            
+    func startGeofences(){
+        stopGeofences()
+        let places = userD.array(forKey: "ActualGroupPlaces") as! [[String:Any]]
+        for place in places {
+            let region = self.regionMonitor(geo: place)
+            locationManager.startMonitoring(for: region)
+        }
+    }
+    
+    func stopGeofences(){
+        if(locationManager.monitoredRegions.count > 0){
+            let regiones = locationManager.monitoredRegions
+            for region in regiones{
+                locationManager.stopMonitoring(for: region)
+            }
         }
     }
     
@@ -365,8 +370,11 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         }
     }
     
-    func regionMonitor() -> CLCircularRegion {
-        let autentia = CLCircularRegion(center: CLLocationCoordinate2D(latitude: 40.453163, longitude: -3.509220), radius: 199, identifier: "prueba")
+    func regionMonitor(geo: [String:Any]) -> CLCircularRegion {
+        let key = geo.first?.key
+        let info = geo.first?.value as! [String:Any]
+        let coord = info["l"] as! [Double]
+        let autentia = CLCircularRegion(center: CLLocationCoordinate2D(latitude: coord[0], longitude: coord[1]), radius: CLLocationDistance(info["radio"] as? Int ?? 100), identifier: key!)
         autentia.notifyOnExit = true
         autentia.notifyOnEntry = true
         return autentia
@@ -378,17 +386,22 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         }
     }
     
-    func startMonitor(){
-        
-    }
-    
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        alert(message: "Hola")
+        notify(msg: "Hola")
+        FCmNotifications.init().enterGEO()
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        alert(message: "Bye")
+        notify(msg: "Bye")
+        FCmNotifications.init().exitGEO()
     }
     
+    func notify(msg : String) {
+        let content = UNMutableNotificationContent()
+        content.title = "Prueba"
+        content.body = msg
+        let request = UNNotificationRequest(identifier: "geofence", content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
 
 }

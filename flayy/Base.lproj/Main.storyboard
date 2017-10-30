@@ -743,7 +743,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gruposistemas-bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="Hgi-1g-PbI">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="MisLugares-bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="Hgi-1g-PbI">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.89411764709999997" green="0.89019607840000003" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
@@ -762,7 +762,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -778,7 +778,7 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="Lugares activos en:" id="Elu-it-gTj">
+                                    <navigationItem title="Lugares activos:" id="Elu-it-gTj">
                                         <barButtonItem key="leftBarButtonItem" title="&lt;" id="Jzc-Ra-UZy">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <connections>
@@ -1894,6 +1894,7 @@
     </scenes>
     <resources>
         <image name="MisGrupos-bg.png" width="1079" height="1413"/>
+        <image name="MisLugares-bg.png" width="1080" height="1418"/>
         <image name="camera_big.png" width="800" height="800"/>
         <image name="check.png" width="40" height="38"/>
         <image name="d41abb1b.png" width="256" height="256"/>

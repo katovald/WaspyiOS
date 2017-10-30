@@ -296,6 +296,47 @@ public class firebaseManager {
         self.reference.child("groups/" + code + "/group_places").childByAutoId().setValue(placeData)
     }
     
+    public func saveCheckIn(){
+        let code = self.userD.string(forKey: "ActualGroup")
+        let name = self.userD.string(forKey: "OwnerName")
+        let date = Date()    /////18-Oct-2017 10:51:47
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        
+        let hour = components.hour
+        let min = components.minute
+        let sec = components.second
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MMM-yyyy"
+        let result = formatter.string(from: date) + " " +
+            String(describing: hour ?? 0) + ":" +
+            String(describing: min ?? 0) + ":" +
+            String(describing: sec ?? 0)
+        LocationServices.init().getAdress { (locat, speed, address, e) in
+             if let a = address {
+                let kilo = a["FormattedAddressLines"] as! [String]
+            
+                var direccion = ""
+            
+                for index in 0...(kilo.count - 1)
+                {
+                    direccion += kilo[index]
+                    direccion += " "
+                }
+                
+                let checkIn =  ["address":direccion,
+                                "location": ["latitude":locat.latitude,
+                                             "longitude":locat.longitude,
+                                             "speed":speed.magnitude],
+                                "type":"check_in",
+                                "user":name!] as [String : Any]
+                
+                self.reference.child("groups/" + code! + "/group_check_in/").child(result).setValue(checkIn)
+            }
+        }
+    }
+    
     public func editGroupPlace(code: String, key: String, address: String, icon: Int, l: [String:Double], place_name:String, radio: Int){
         var placeData = [String:Any]()
         placeData["address"] = address

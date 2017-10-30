@@ -25,6 +25,7 @@
 		410837031F1CFEF800F929F4 /* membersSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410837021F1CFEF800F929F4 /* membersSelectViewController.swift */; };
 		410837051F1D141800F929F4 /* helpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410837041F1D141800F929F4 /* helpViewController.swift */; };
 		410B334A1F6AF73E00F3F443 /* GeoNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410B33491F6AF73E00F3F443 /* GeoNotification.swift */; };
+		410B6F8D1FA7E89D003CB694 /* MisLugares-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 410B6F8C1FA7E89B003CB694 /* MisLugares-bg.png */; };
 		4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4111D0D41F3273C10045AEF4 /* CustomMenu.swift */; };
 		4114847C1F71876A006761AE /* ic_battery_10.png in Resources */ = {isa = PBXBuildFile; fileRef = 411484761F71876A006761AE /* ic_battery_10.png */; };
 		4114847D1F71876A006761AE /* ic_battery_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 411484771F71876A006761AE /* ic_battery_30.png */; };
@@ -50,7 +51,6 @@
 		413980B11F7D734900C5DCCB /* group-i1small.png in Resources */ = {isa = PBXBuildFile; fileRef = 413980B31F7D734900C5DCCB /* group-i1small.png */; };
 		413980B41F7D739400C5DCCB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41B7195F1F069C9C00A42014 /* Main.storyboard */; };
 		413980B81F7D756900C5DCCB /* groupselect-bg2.png in Resources */ = {isa = PBXBuildFile; fileRef = 413980BA1F7D756900C5DCCB /* groupselect-bg2.png */; };
-		413980BF1F7D7E7600C5DCCB /* lugares-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 413980C11F7D7E7600C5DCCB /* lugares-bg.png */; };
 		414524691F575DD60095C8F2 /* utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414524681F575DD60095C8F2 /* utils.swift */; };
 		4145246D1F5DA51D0095C8F2 /* menuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4145246C1F5DA51D0095C8F2 /* menuTableViewCell.swift */; };
 		414524731F5EF1A20095C8F2 /* firebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414524721F5EF1A20095C8F2 /* firebaseManager.swift */; };
@@ -300,6 +300,7 @@
 		410837021F1CFEF800F929F4 /* membersSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = membersSelectViewController.swift; sourceTree = "<group>"; };
 		410837041F1D141800F929F4 /* helpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helpViewController.swift; sourceTree = "<group>"; };
 		410B33491F6AF73E00F3F443 /* GeoNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoNotification.swift; sourceTree = "<group>"; };
+		410B6F8C1FA7E89B003CB694 /* MisLugares-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MisLugares-bg.png"; sourceTree = "<group>"; };
 		4111D0D41F3273C10045AEF4 /* CustomMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
 		411484761F71876A006761AE /* ic_battery_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_battery_10.png; sourceTree = "<group>"; };
 		411484771F71876A006761AE /* ic_battery_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_battery_30.png; sourceTree = "<group>"; };
@@ -363,7 +364,6 @@
 		413980A51F7D60E600C5DCCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = "Base.lproj/group-i3smallup.png"; sourceTree = "<group>"; };
 		413980B21F7D734900C5DCCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = "Base.lproj/group-i1small.png"; sourceTree = "<group>"; };
 		413980B91F7D756900C5DCCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = "Base.lproj/groupselect-bg2.png"; sourceTree = "<group>"; };
-		413980C01F7D7E7600C5DCCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = "Base.lproj/lugares-bg.png"; sourceTree = "<group>"; };
 		414524681F575DD60095C8F2 /* utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
 		4145246C1F5DA51D0095C8F2 /* menuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = menuTableViewCell.swift; sourceTree = "<group>"; };
 		414524721F5EF1A20095C8F2 /* firebaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = firebaseManager.swift; sourceTree = "<group>"; };
@@ -652,6 +652,7 @@
 		413980BC1F7D7E6600C5DCCB /* placesSelector */ = {
 			isa = PBXGroup;
 			children = (
+				410B6F8C1FA7E89B003CB694 /* MisLugares-bg.png */,
 				4129DF531F7EF54C005EE130 /* geoplace_coffe.png */,
 				4129DF571F7EF54D005EE130 /* geoplace_gym.png */,
 				4129DF541F7EF54D005EE130 /* geoplace_house1.png */,
@@ -661,7 +662,6 @@
 				4129DF521F7EF54C005EE130 /* geoplace_school.png */,
 				4129DF4F1F7EF54C005EE130 /* geoplace_super.png */,
 				4129DF551F7EF54D005EE130 /* geoplace_work.png */,
-				413980C11F7D7E7600C5DCCB /* lugares-bg.png */,
 			);
 			name = placesSelector;
 			sourceTree = "<group>";
@@ -1150,6 +1150,7 @@
 				41937E7C1F955A6600ADF1BB /* map.i2@2x.png in Resources */,
 				41937E831F95604000ADF1BB /* mapi2small.png in Resources */,
 				41B719661F069C9C00A42014 /* LaunchScreen.storyboard in Resources */,
+				410B6F8D1FA7E89D003CB694 /* MisLugares-bg.png in Resources */,
 				41937E761F955A6600ADF1BB /* map-ia@2x.png in Resources */,
 				4101DCCD1F13B5D20096FC84 /* slide4b.gif in Resources */,
 				4166EE0F1F8441DD00CB8823 /* map-m5 @3x.png in Resources */,
@@ -1228,7 +1229,6 @@
 				4114847D1F71876A006761AE /* ic_battery_30.png in Resources */,
 				41937E621F95557700ADF1BB /* map.i3a@2x.png in Resources */,
 				4166EE171F85948900CB8823 /* flag_mexico.png in Resources */,
-				413980BF1F7D7E7600C5DCCB /* lugares-bg.png in Resources */,
 				4183E4D71F0D98CC00ECBED4 /* menu_icon.png in Resources */,
 				4183E4F51F0EE2EF00ECBED4 /* camera_big.png in Resources */,
 				4166EDFB1F8441DD00CB8823 /* map-i5@2x.png in Resources */,
@@ -1492,14 +1492,6 @@
 			name = "groupselect-bg2.png";
 			sourceTree = "<group>";
 		};
-		413980C11F7D7E7600C5DCCB /* lugares-bg.png */ = {
-			isa = PBXVariantGroup;
-			children = (
-				413980C01F7D7E7600C5DCCB /* Base */,
-			);
-			name = "lugares-bg.png";
-			sourceTree = "<group>";
-		};
 		41776F101F7D44A5001A0E55 /* group-i1.png */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1720,7 +1712,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = flayy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.waspy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1744,7 +1736,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = flayy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.camsa.waspy;
 				PRODUCT_NAME = "$(TARGET_NAME)";

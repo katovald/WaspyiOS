@@ -63,6 +63,7 @@ class FCmNotifications {
                 return
             }
             
+            firebaseManager.init().saveCheckIn()
             do {
                 //create json object from data
                 if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: AnyObject] {
@@ -123,7 +124,7 @@ class FCmNotifications {
                         "content_available":true,
                         "notification" : [
                             "title" : userD.string(forKey: "OwnerName")!,
-                            "body" :  "Ha hecho un Check In"
+                            "body" :  "Ha hecho un Check In en " + address
                                 ],
                         "data" : [
                             "type" : "check_in",
@@ -165,7 +166,7 @@ class FCmNotifications {
         firebaseManager.init().getMessageToken(phone: phone) { (token) in
             let message = [ "to": token,
                             "content_available":true,
-                            "notification":["title":""],
+                            "notification":["":""],
                             "data" : [
                                 "type" : "kick_out",
                                 "body" : ["kickout":code]
@@ -178,9 +179,7 @@ class FCmNotifications {
     public func placesUpdated(){
         let message = [ "to": "/topics/" + userD.string(forKey: "ActualGroup")! + "_message",
                         "content_available":true,
-                        "notification" : [
-                            "title" : ""
-            ],
+                        "notification" : ["" : ""],
                         "data" : [
                             "type" : "update_geofences"
             ]
