@@ -26,6 +26,7 @@
 		410837051F1D141800F929F4 /* helpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410837041F1D141800F929F4 /* helpViewController.swift */; };
 		410B334A1F6AF73E00F3F443 /* GeoNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410B33491F6AF73E00F3F443 /* GeoNotification.swift */; };
 		410B6F8D1FA7E89D003CB694 /* MisLugares-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 410B6F8C1FA7E89B003CB694 /* MisLugares-bg.png */; };
+		410B6F8F1FA8CEBE003CB694 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 410B6F8E1FA8CEBE003CB694 /* GoogleService-Info.plist */; };
 		4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4111D0D41F3273C10045AEF4 /* CustomMenu.swift */; };
 		4114847C1F71876A006761AE /* ic_battery_10.png in Resources */ = {isa = PBXBuildFile; fileRef = 411484761F71876A006761AE /* ic_battery_10.png */; };
 		4114847D1F71876A006761AE /* ic_battery_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 411484771F71876A006761AE /* ic_battery_30.png */; };
@@ -155,6 +156,10 @@
 		4183E4F11F0EE1BD00ECBED4 /* defaultIMG.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4F01F0EE1BD00ECBED4 /* defaultIMG.png */; };
 		4183E4F31F0EE2C000ECBED4 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4F21F0EE2C000ECBED4 /* camera.png */; };
 		4183E4F51F0EE2EF00ECBED4 /* camera_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 4183E4F41F0EE2EF00ECBED4 /* camera_big.png */; };
+		418BDCAB1FACC9E6005FD943 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 418BDCAA1FACC9E4005FD943 /* default.png */; };
+		418BDCAD1FACCB61005FD943 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418BDCAC1FACCB61005FD943 /* UserSettingsViewController.swift */; };
+		418BDCAF1FAD216D005FD943 /* video_login.mov in Resources */ = {isa = PBXBuildFile; fileRef = 418BDCAE1FAD216C005FD943 /* video_login.mov */; };
+		418BDCB11FAD2182005FD943 /* eye.gif in Resources */ = {isa = PBXBuildFile; fileRef = 418BDCB01FAD2180005FD943 /* eye.gif */; };
 		41932AFC1F68288100BACA70 /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41932AFB1F68288100BACA70 /* LocationServices.swift */; };
 		41937E161F9521B800ADF1BB /* MisGrupos-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 41937E151F9521B500ADF1BB /* MisGrupos-bg.png */; };
 		41937E171F9521B800ADF1BB /* MisGrupos-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41937E141F9521B500ADF1BB /* MisGrupos-bg@2x.png */; };
@@ -216,7 +221,6 @@
 		41937E9A1F96553900ADF1BB /* panico-avatar2.png in Resources */ = {isa = PBXBuildFile; fileRef = 41937E8B1F96412D00ADF1BB /* panico-avatar2.png */; };
 		41937E9B1F96553900ADF1BB /* panico-avatar2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41937E8C1F96412F00ADF1BB /* panico-avatar2@2x.png */; };
 		41937E9C1F96553900ADF1BB /* panico-avatar2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41937E881F96412800ADF1BB /* panico-avatar2@3x.png */; };
-		41937E9E1F97A79600ADF1BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41937E9D1F97A72200ADF1BB /* GoogleService-Info.plist */; };
 		4194EA9A1F1044F0002A4F21 /* HelpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194EA991F1044F0002A4F21 /* HelpController.swift */; };
 		41ACBADE1F44ABD700C8DFB9 /* photos.png in Resources */ = {isa = PBXBuildFile; fileRef = 41ACBADD1F44ABD700C8DFB9 /* photos.png */; };
 		41ACBAE31F460C9E00C8DFB9 /* keyboardDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41ACBAE21F460C9E00C8DFB9 /* keyboardDesign.swift */; };
@@ -301,6 +305,7 @@
 		410837041F1D141800F929F4 /* helpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helpViewController.swift; sourceTree = "<group>"; };
 		410B33491F6AF73E00F3F443 /* GeoNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoNotification.swift; sourceTree = "<group>"; };
 		410B6F8C1FA7E89B003CB694 /* MisLugares-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MisLugares-bg.png"; sourceTree = "<group>"; };
+		410B6F8E1FA8CEBE003CB694 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4111D0D41F3273C10045AEF4 /* CustomMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
 		411484761F71876A006761AE /* ic_battery_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_battery_10.png; sourceTree = "<group>"; };
 		411484771F71876A006761AE /* ic_battery_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_battery_30.png; sourceTree = "<group>"; };
@@ -408,6 +413,10 @@
 		4183E4F01F0EE1BD00ECBED4 /* defaultIMG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = defaultIMG.png; path = ../../../Desktop/defaultIMG.png; sourceTree = "<group>"; };
 		4183E4F21F0EE2C000ECBED4 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = camera.png; path = ../../../Desktop/camera.png; sourceTree = "<group>"; };
 		4183E4F41F0EE2EF00ECBED4 /* camera_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = camera_big.png; path = ../../../Downloads/camera_big.png; sourceTree = "<group>"; };
+		418BDCAA1FACC9E4005FD943 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
+		418BDCAC1FACCB61005FD943 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
+		418BDCAE1FAD216C005FD943 /* video_login.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = video_login.mov; sourceTree = "<group>"; };
+		418BDCB01FAD2180005FD943 /* eye.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = eye.gif; sourceTree = "<group>"; };
 		41932AFB1F68288100BACA70 /* LocationServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationServices.swift; sourceTree = "<group>"; };
 		41937E131F9521B400ADF1BB /* MisGrupos-bg@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MisGrupos-bg@3x.png"; sourceTree = "<group>"; };
 		41937E141F9521B500ADF1BB /* MisGrupos-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MisGrupos-bg@2x.png"; sourceTree = "<group>"; };
@@ -477,7 +486,6 @@
 		41937E8E1F96413200ADF1BB /* panico-avatar2-.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "panico-avatar2-.png"; sourceTree = "<group>"; };
 		41937E8F1F96413400ADF1BB /* panico-avatar1+@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "panico-avatar1+@2x.png"; sourceTree = "<group>"; };
 		41937E901F96413600ADF1BB /* panico-avatar1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "panico-avatar1.png"; sourceTree = "<group>"; };
-		41937E9D1F97A72200ADF1BB /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4194EA991F1044F0002A4F21 /* HelpController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpController.swift; sourceTree = "<group>"; };
 		41ACBADD1F44ABD700C8DFB9 /* photos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = photos.png; path = ../../../Desktop/photos.png; sourceTree = "<group>"; };
 		41ACBAE21F460C9E00C8DFB9 /* keyboardDesign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = keyboardDesign.swift; sourceTree = "<group>"; };
@@ -678,6 +686,7 @@
 		41776EC91F7D3D94001A0E55 /* Waspy */ = {
 			isa = PBXGroup;
 			children = (
+				418BDCA91FACC9DB005FD943 /* defaults */,
 				41937E841F9640FF00ADF1BB /* paniView */,
 				41937E6B1F955A4200ADF1BB /* navBar */,
 				4166EE131F85946C00CB8823 /* login */,
@@ -790,6 +799,16 @@
 			name = Hdlrs;
 			sourceTree = "<group>";
 		};
+		418BDCA91FACC9DB005FD943 /* defaults */ = {
+			isa = PBXGroup;
+			children = (
+				418BDCB01FAD2180005FD943 /* eye.gif */,
+				418BDCAE1FAD216C005FD943 /* video_login.mov */,
+				418BDCAA1FACC9E4005FD943 /* default.png */,
+			);
+			name = defaults;
+			sourceTree = "<group>";
+		};
 		41937E6B1F955A4200ADF1BB /* navBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -860,11 +879,12 @@
 				4183E4D31F0D5CF700ECBED4 /* Hdlrs */,
 				417F78261F0D4AA600844794 /* Models */,
 				41CCFCF51F0AB55D00F4AC89 /* flayy.entitlements */,
+				410B6F8E1FA8CEBE003CB694 /* GoogleService-Info.plist */,
 				41B7195B1F069C9C00A42014 /* AppDelegate.swift */,
-				41937E9D1F97A72200ADF1BB /* GoogleService-Info.plist */,
 				41B7195D1F069C9C00A42014 /* LoginViewController.swift */,
 				41B7195F1F069C9C00A42014 /* Main.storyboard */,
 				412BC81D1F4DD7A20066E9B2 /* Login2ViewController.swift */,
+				418BDCAC1FACCB61005FD943 /* UserSettingsViewController.swift */,
 				4104F40B1F200BC800F222B9 /* PlacesConfigViewController.swift */,
 				4104F4031F1FBC6D00F222B9 /* PlacesViewController.swift */,
 				410837041F1D141800F929F4 /* helpViewController.swift */,
@@ -1152,6 +1172,7 @@
 				41B719661F069C9C00A42014 /* LaunchScreen.storyboard in Resources */,
 				410B6F8D1FA7E89D003CB694 /* MisLugares-bg.png in Resources */,
 				41937E761F955A6600ADF1BB /* map-ia@2x.png in Resources */,
+				418BDCAF1FAD216D005FD943 /* video_login.mov in Resources */,
 				4101DCCD1F13B5D20096FC84 /* slide4b.gif in Resources */,
 				4166EE0F1F8441DD00CB8823 /* map-m5 @3x.png in Resources */,
 				411484801F71876A006761AE /* ic_battery_0.png in Resources */,
@@ -1195,6 +1216,7 @@
 				4107704D1F2B89AA004474BD /* kato.jpg in Resources */,
 				4166EE021F8441DD00CB8823 /* map-m1.png in Resources */,
 				41937E921F96553900ADF1BB /* panico-avatar1@2x.png in Resources */,
+				418BDCB11FAD2182005FD943 /* eye.gif in Resources */,
 				41776F0C1F7D44A5001A0E55 /* group-i1.png in Resources */,
 				41937E751F955A6600ADF1BB /* map-ia.png in Resources */,
 				4166EE121F8441DD00CB8823 /* map-marker-center@3x.png in Resources */,
@@ -1255,7 +1277,8 @@
 				41EDFCB51F701D0C00B796A7 /* ic_check_circle_white_2x.png in Resources */,
 				41937E451F952D1D00ADF1BB /* menu-i1.png in Resources */,
 				417E64791F191AB200DDA8F8 /* ic_group_black_24dp.png in Resources */,
-				41937E9E1F97A79600ADF1BB /* GoogleService-Info.plist in Resources */,
+				418BDCAB1FACC9E6005FD943 /* default.png in Resources */,
+				410B6F8F1FA8CEBE003CB694 /* GoogleService-Info.plist in Resources */,
 				41937E381F9529AA00ADF1BB /* menu-i6.png in Resources */,
 				41776F2F1F7D44D1001A0E55 /* group-i3.png in Resources */,
 				41776F201F7D44C8001A0E55 /* group-i2.png in Resources */,
@@ -1405,6 +1428,7 @@
 				41937E481F95316600ADF1BB /* PanicButtonViewController.swift in Sources */,
 				414524691F575DD60095C8F2 /* utils.swift in Sources */,
 				41CCFCFB1F0BC5A500F4AC89 /* MapViewController.swift in Sources */,
+				418BDCAD1FACCB61005FD943 /* UserSettingsViewController.swift in Sources */,
 				4145246D1F5DA51D0095C8F2 /* menuTableViewCell.swift in Sources */,
 				417F8A171F28DA7E00C4AE58 /* Rounded.swift in Sources */,
 				414524731F5EF1A20095C8F2 /* firebaseManager.swift in Sources */,

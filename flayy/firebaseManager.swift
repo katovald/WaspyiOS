@@ -77,10 +77,42 @@ public class firebaseManager {
         })
     }
     
+    public func useriOSExist(userID: String, completion: @escaping (Bool, String) -> Void)
+    {
+        self.reference.child("iOSaccounts/" + userID).observeSingleEvent(of: .value, with: {(snapshot) in
+            let value = snapshot.value as? NSDictionary ?? nil
+            
+            if value == nil
+            {
+                self.userD.set(nil, forKey: "OwnerName")
+                self.userD.set(nil, forKey: "OwnerPhone")
+                self.userD.set(nil, forKey: "OwnerGroups")
+                self.userD.set(nil, forKey: "ActualGroup")
+                self.userD.set(nil, forKey: "ActualGroupTitle")
+                self.userD.set(nil, forKey: "MembersActiveGroup")
+                self.userD.set(nil, forKey: "ActualGroupPlaces")
+                self.userD.set(nil, forKey: "VisibleInActualGroup")
+                completion(false, "")
+            }else{
+                completion(true, value!["Telefono"] as! String)
+            }
+            
+        }) { (error) in
+            print(error.localizedDescription)
+            completion(false, "")
+        }
+    }
+    
     public func changeGroupName(code: String, name: String){
         let telefono = userD.string(forKey: "OwnerPhone")!
         self.reference.child("accounts/" + telefono + "/user_groups/groups/" + code).setValue(name)
         self.reference.child("groups/" + code + "/group_info/group_name").setValue(name)
+    }
+    
+    public func setiOSaccount(userID: String, phone: String){
+        guard let token = InstanceID.instanceID().token() else { return }
+        self.reference.child("iOSaccounts/" + userID + "/FCMToken/").setValue(token)
+        self.reference.child("iOSaccounts/" + userID + "/Telefono/").setValue(phone)
     }
     
     public func setUserSetting(phone: String, name: String, mail: String){
@@ -308,8 +340,13 @@ public class firebaseManager {
         let sec = components.second
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd-MMM-yyyy"
+        formatter.dateFormat = "yyyy-MM-dd"
         let result = formatter.string(from: date) + " " +
+            String(describing: hour ?? 0) + ":" +
+            String(describing: min ?? 0) + ":" +
+            String(describing: sec ?? 0)
+        formatter.dateFormat = "dd-MMM-yyyy"
+        let time = formatter.string(from: date) + " " +
             String(describing: hour ?? 0) + ":" +
             String(describing: min ?? 0) + ":" +
             String(describing: sec ?? 0)
@@ -329,6 +366,7 @@ public class firebaseManager {
                                 "location": ["latitude":locat.latitude,
                                              "longitude":locat.longitude,
                                              "speed":speed.magnitude],
+                                "time":time,
                                 "type":"check_in",
                                 "user":name!] as [String : Any]
                 
@@ -507,7 +545,7 @@ public class firebaseManager {
         if (fileMan.fileExists(atPath: photoURl.path)){
             return UIImage(contentsOfFile: photoURl.path)!
         }else{
-            return UIImage(named: "map-eye.png")!
+            return UIImage(named: "default.png")!
         }
     }
     

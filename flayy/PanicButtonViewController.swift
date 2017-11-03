@@ -22,10 +22,12 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate {
     @IBAction func setUnsetContact(_ sender: Any) {
         let cnPicker = CNContactPickerViewController()
         cnPicker.delegate = self
+        self.index = 0
         self.present(cnPicker, animated: true, completion: nil)
     }
     
     var activeBTN: UIButton? = nil
+    var index:Int!
     
     @IBAction func setUnsetContact2(_ sender: Any) {
         let cnPicker = CNContactPickerViewController()
@@ -46,11 +48,30 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate {
     }
     
     let userD:UserDefaults = UserDefaults.standard
-    var contactos = [[String:String]]()
+    var contactos = [[String:String](),[String:String](),[String:String]()]
+    var count = 0
+    var contacto = [String:String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        _ = userD.array(forKey: "Contactos")
+        let contactos = userD.array(forKey: "Contactos") ?? []
+
+        for _ in contactos
+        {
+            if count == 0
+            {
+                self.Contacto1.image = UIImage(named: "panico-avatar2.png")
+            }
+            if count == 1
+            {
+                self.Contacto2.image = UIImage(named: "panico-avatar2.png")
+            }
+            if count == 2
+            {
+                self.Contacto2.image = UIImage(named: "panico-avatar2.png")
+            }
+            count = 0
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -60,7 +81,6 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate {
     }
     
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
-        var contacto = [String:String]()
         print(contact)
         print(contact.givenName)
         let phone = (contact.phoneNumbers.first?.value)?.stringValue ?? ""
@@ -68,11 +88,22 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate {
         {
             alert(message: "Ese contato no tiene un telefono valido por favor selecciona otro")
         }else{
-            contacto[contact.givenName] = phone
-            self.nombreC1.text = contact.givenName + "\r" + phone
-            let pic = contact.imageData
-            if pic == nil {
-                
+            self.contacto[contact.givenName] = phone
+            if self.index == 0{
+                self.nombreC1.text = (self.contacto.first?.key)! + "\r" + (self.contacto.first?.value)!
+                self.contactos[0] = self.contacto
+            }
+            if self.index == 1{
+                self.nombreC2.text = (self.contacto.first?.key)! + "\r" + (self.contacto.first?.value)!
+                self.contactos[1] = self.contacto
+                    //            let pic = contacto.imageData
+                    //            if pic == nil {
+                    //
+                    //            }
+            }
+            if self.index == 2{
+                self.nombreC2.text = (self.contacto.first?.key)! + "\r" + (self.contacto.first?.value)!
+                self.contactos[1] = self.contacto
             }
         }
     }

@@ -14,11 +14,13 @@ import FirebaseAuth
 
 protocol MenuActionDelegate {
     func openSegue(_ segueName: String, sender: AnyObject?)
+    func trigger()
     func exitAuth()
 }
 
 class MapViewController: UIViewController, CLLocationManagerDelegate {
     var phone: String!
+    var userID: String!
     let userD = UserDefaults.standard
     let user = Auth.auth().currentUser
     let notificationObserver = NotificationCenter.default
@@ -183,23 +185,44 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         self.robbery.isHidden = true    ////type 5
         self.robberylbl.isHidden = true
         animationHide()
-        self.phone = (user?.phoneNumber)!
-        firebaseManager.init().setUserRegToken(phone: self.phone)
-        firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
+        self.phone = ""
+        self.userID = user?.uid ?? ""
+        if self.userID != ""{
+            self.userD.set(self.userID, forKey: "OwnerUserID")
+        }
+        
+        if self.phone == "" && self.userID != ""{
+            self.userD.set(user?.email, forKey: "OwnerMail")
+            firebaseManager.init().useriOSExist(userID: self.userID, completion: { (inSystem, phone) in
                 if inSystem
                 {
-                    self.userD.set(self.phone, forKey: "OwnerPhone")
+                    firebaseManager.init().setUserRegToken(phone: self.phone)
+                    if self.userD.array(forKey: "MembersActiveGroup") == nil{
+                        firebaseManager.init().getOwnerData(phone: phone)
+                    }else{
+                        self.notificationObserver.post(name: self.LogInNotification, object: self)
+                    }
+                }else{
+                    self.performSegue(withIdentifier: "datosUsuario2", sender: self)
+                }
+            })
+        }else if phone != nil{
+            firebaseManager.init().setUserRegToken(phone: self.phone)
+            firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
+                if inSystem
+                {
                     if self.userD.array(forKey: "MembersActiveGroup") == nil{
                         firebaseManager.init().getOwnerData(phone: self.phone)
                     }else{
                         self.notificationObserver.post(name: self.LogInNotification, object: self)
                     }
                 }else{
-                    self.performSegue(withIdentifier: "datosUsuario", sender: self)
+                    self.performSegue(withIdentifier: "datosUsuario2", sender: self)
                 }
             })
-        
-        self.titleBar.title = userD.string(forKey: "ActualGroupTitle")
+            
+            self.titleBar.title = userD.string(forKey: "ActualGroupTitle")
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(changedGroup), name: NSNotification.Name("UserGroupsChanged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeIcon), name: NSNotification.Name("LoseFocus"), object: nil)
@@ -292,6 +315,12 @@ extension MapViewController: MenuActionDelegate {
     func openSegue(_ segueName: String, sender: AnyObject?) {
         dismiss(animated: false, completion: {
             self.performSegue(withIdentifier: segueName, sender: sender)
+        })
+    }
+    
+    func trigger() {
+        dismiss(animated: false, completion: {
+            self.dronInicio(self)
         })
     }
     

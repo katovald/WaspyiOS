@@ -15,7 +15,7 @@ class Four: UIViewController{
         animated.loadGif(name: "slide4b")
     }
     @IBAction func loginInicio(_ sender: Any) {
-        performSegue(withIdentifier: "omitir4", sender: nil)
+        performSegue(withIdentifier: "omitir5", sender: nil)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

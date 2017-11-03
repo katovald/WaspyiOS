@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UserNotifications
 
 class FCmNotifications {
     private var fcmURL:URL!
@@ -31,14 +32,10 @@ class FCmNotifications {
                         "content_available": true,
                         "priority": "high",
                         "time_to_live": 60,
-                        "notification" : [
-                                            "title" : "Waspy",
-                                            "body" : userD.string(forKey: "OwnerName")! + " ha llegado"
-                                        ],
                         "data" : [
                                     "type" : "geofence",
                                     "title" : "Waspy",
-                                    "body" : "Roberto ha llegado",
+                                    "body" : userD.string(forKey: "OwnerPhone")! + " ha llegado",
                                     "sender" : userD.string(forKey: "OwnerPhone")!
                                 ]
             ] as [String : Any]
@@ -63,7 +60,6 @@ class FCmNotifications {
                 return
             }
             
-            firebaseManager.init().saveCheckIn()
             do {
                 //create json object from data
                 if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: AnyObject] {
@@ -84,14 +80,10 @@ class FCmNotifications {
                         "content_available": true,
                         "priority": "high",
                         "time_to_live": 60,
-                        "notification" : [
-                            "title" : "Waspy",
-                            "body" : userD.string(forKey: "OwnerName")! + " ha salido"
-            ],
                         "data" : [
                             "type" : "geofence",
                             "title" : "Waspy",
-                            "body" : "Roberto ha llegado",
+                            "body" : userD.string(forKey: "OwnerPhone")! + " ha salido",
                             "sender" : userD.string(forKey: "OwnerPhone")!
             ]
             ] as [String : Any]
@@ -102,10 +94,6 @@ class FCmNotifications {
         firebaseManager.init().getMessageToken(phone: telefono) { (token) in
             let message = [ "to": token,
                             "content_available":true,
-                            "notification":[
-                                    "title":"Haz CheckIn",
-                                    "body":"Alguien en tu grupo Sistemas quiere saber cómo estas"
-                            ],
                             "data": [
                                 "type":"check_in_request",
                                 "body": [
@@ -122,10 +110,7 @@ class FCmNotifications {
     public func chechIn(address: String){
         let message = [ "to": "/topics/" + userD.string(forKey: "ActualGroup")! + "_alert",
                         "content_available":true,
-                        "notification" : [
-                            "title" : userD.string(forKey: "OwnerName")!,
-                            "body" :  "Ha hecho un Check In en " + address
-                                ],
+                        
                         "data" : [
                             "type" : "check_in",
                             "body" : [
@@ -136,17 +121,13 @@ class FCmNotifications {
                              "sender": userD.string(forKey: "OwnerPhone")!
                                 ]
             ] as [String : Any]
-        
+        firebaseManager.init().saveCheckIn()
        self.send(message: message)
     }
     
     public func panicChechIn(address: String){
         let message = [ "to": "/topics/" + userD.string(forKey: "ActualGroup")! + "_alert",
                         "content_available":true,
-                        "notification" : [
-                            "title" : userD.string(forKey: "OwnerName")!,
-                            "body" :  "Ha hecho un Check In"
-            ],
                         "data" : [
                             "type" : "panic_button",
                             "body" : [
@@ -166,7 +147,6 @@ class FCmNotifications {
         firebaseManager.init().getMessageToken(phone: phone) { (token) in
             let message = [ "to": token,
                             "content_available":true,
-                            "notification":["":""],
                             "data" : [
                                 "type" : "kick_out",
                                 "body" : ["kickout":code]
@@ -179,12 +159,69 @@ class FCmNotifications {
     public func placesUpdated(){
         let message = [ "to": "/topics/" + userD.string(forKey: "ActualGroup")! + "_message",
                         "content_available":true,
-                        "notification" : ["" : ""],
                         "data" : [
                             "type" : "update_geofences"
             ]
             ] as [String : Any]
         
         self.send(message: message)
+    }
+    
+    func messageReceiver(message: [AnyHashable: Any]){
+        let msgType = message["type"] as! String
+        if msgType == "check_in_request"{
+            let msgBody = message["body"] as! String
+            let dict = convertToDictionary(text: msgBody)
+            notify(msg: dict!["body"]! as! String, titulo: dict!["title"]! as! String)
+        }
+        if msgType == "geofence"
+        {
+            let msg = message["body"] as! String
+            let title = message["title"] as! String
+            let name = message["sender"] as! String
+            
+            if name != userD.string(forKey: "OwnerName"){
+                notify(msg: msg, titulo: title)
+            }
+        }
+        if msgType == "check_in"
+        {
+            let name = message["sender"] as! String
+            if name != userD.string(forKey: "OwnerName"){
+                let msgBody = message["body"] as! String
+                let dict = convertToDictionary(text: msgBody)
+                notifyExtra(msg: dict!["location"] as! String,
+                            titulo: dict!["title"] as! String,
+                            subtitulo: dict!["body"] as! String)
+            }
+        }
+    }
+    
+    func convertToDictionary(text: String) -> [String: Any]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+    
+    func notify(msg : String, titulo: String) {
+        let content = UNMutableNotificationContent()
+        content.title = titulo
+        content.body = msg
+        let request = UNNotificationRequest(identifier: "WaspyHabla", content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    
+    func notifyExtra(msg : String, titulo: String, subtitulo:String) {
+        let content = UNMutableNotificationContent()
+        content.title = titulo
+        content.subtitle = subtitulo
+        content.body = msg
+        let request = UNNotificationRequest(identifier: "WaspyHabla", content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 }

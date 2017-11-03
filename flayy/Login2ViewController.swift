@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import FirebaseAuth
 
-class Login2ViewController: UIViewController, UITextFieldDelegate {
+class Login2ViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate {
 
     @IBOutlet weak var regiterBtn: Rounded!
     @IBOutlet weak var loginBtn: Rounded!
@@ -26,15 +26,20 @@ class Login2ViewController: UIViewController, UITextFieldDelegate {
     var activeField:UITextField? = nil
     var registrando:Bool = false
     var ayuda:Bool = false
+    var keyboardHigth:CGFloat = 0.0
+    var activeFieldHigth:Int = 0
     
     @IBAction func login(_ sender: Any) {
-        if(registrando)
+        if(!registrando)
         {
             Auth.auth().signIn(withEmail: self.mailField.text!, password: self.passField.text!) { (user, error) in
                 if (error != nil)
                 {
                     print(error?.localizedDescription ?? "")
                     return
+                }
+                else{
+                    self.performSegue(withIdentifier: "InicioApp2", sender: nil)
                 }
                 
                 print(user ?? "")
@@ -46,6 +51,8 @@ class Login2ViewController: UIViewController, UITextFieldDelegate {
                 {
                     print(error?.localizedDescription ?? "")
                     return
+                }else{
+                    self.view.reloadInputViews()
                 }
             }
         }
@@ -77,13 +84,14 @@ class Login2ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        deregisterFromKeyboardNotifications()
 
         self.passField.delegate = self
         self.mailField.delegate = self
         self.challengeField.delegate = self
         self.challengeField.isHidden = true
         
-        let url = Bundle.main.url(forResource: "prueba12", withExtension: "mp4")
+        let url = Bundle.main.url(forResource: "video_login", withExtension: "mov")
         
         player = AVPlayer(url: url!)
         playerLayer = AVPlayerLayer(player: player)
@@ -113,6 +121,7 @@ class Login2ViewController: UIViewController, UITextFieldDelegate {
         self.loginBtn.setTitle("Listo", for: .normal)
         self.registrando = true
         self.challengeField.isHidden = false
+        helpBtn.isHidden = true
         UIView.animate(withDuration: 1, animations: {
             self.regiterBtn.isHidden = true
             self.loginBtn.center.x = self.view.center.x
@@ -166,23 +175,21 @@ class Login2ViewController: UIViewController, UITextFieldDelegate {
     @objc func keyboardWasShown(notification: NSNotification){
         //Need to calculate keyboard exact size due to Apple suggestions
         var info = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-        self.activeField?.frame.origin.y -= keyboardSize!.height
-        self.activeField?.frame.size.height = (self.activeField?.frame.size.height)! * 1.3
-        self.activeField?.frame.size.width = (self.activeField?.frame.width)! * 1.3
-        self.activeField?.frame.origin.x = (self.activeField?.frame.origin.x)! * 0.6
-        self.activeField?.backgroundColor = .white
+        if keyboardHigth == 0.0 {
+            let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+            keyboardHigth = keyboardSize!.height
+        }
+        if self.activeFieldHigth == 0
+        {
+            self.activeField?.frame.origin.y -= keyboardHigth
+            activeFieldHigth = 1
+        }
     }
     
     @objc func keyboardWillBeHidden(notification: NSNotification){
         //Once keyboard disappears, restore original positions
-        var info = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-        self.activeField?.frame.origin.y += keyboardSize!.height
-        self.activeField?.frame.size.height = (self.activeField?.frame.size.height)! / 1.3
-        self.activeField?.frame.size.width = (self.activeField?.frame.width)! / 1.3
-        self.activeField?.frame.origin.x = (self.activeField?.frame.origin.x)! / 0.6
-        self.activeField?.backgroundColor = .clear
+        self.activeField?.frame.origin.y += keyboardHigth
+        activeFieldHigth = 0
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField){

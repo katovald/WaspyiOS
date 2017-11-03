@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Print full message.
-        print(userInfo)
+        FCmNotifications.init().messageReceiver(message: userInfo)
         
         completionHandler(UIBackgroundFetchResult.newData)
     }
@@ -124,25 +124,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("APNs token retrieved: \(deviceToken)")
         // With swizzling disabled you must set the APNs token here.
         Messaging.messaging().apnsToken = deviceToken
-    }
-
-}
-
-extension AppDelegate: CLLocationManagerDelegate{
-    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-    
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locations)
     }
 }
 
@@ -183,7 +164,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         completionHandler()
     }
-
 }
 // [END ios_10_message_handling]
 

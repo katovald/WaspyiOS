@@ -250,7 +250,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     
     func startGeofences(){
         stopGeofences()
-        let places = userD.array(forKey: "ActualGroupPlaces") as! [[String:Any]]
+        let places = userD.array(forKey: "ActualGroupPlaces") as? [[String:Any]] ?? []
         for place in places {
             let region = self.regionMonitor(geo: place)
             locationManager.startMonitoring(for: region)

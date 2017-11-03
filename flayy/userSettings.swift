@@ -30,7 +30,6 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
     @IBOutlet weak var inicioCam: UIButton!
     @IBOutlet weak var galeria: UIButton!
     @IBOutlet weak var userMail: UITextField!
-    @IBOutlet weak var exit: UIBarButtonItem!
     
     
     let workingView = UIActivityIndicatorView()

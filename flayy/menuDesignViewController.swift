@@ -86,7 +86,7 @@ extension menuDesignViewController : UITableViewDelegate {
         case 2:
             menuActionDelegate?.openSegue("panicButton", sender: nil)
         case 3:
-            menuActionDelegate?.openSegue("", sender: nil)
+            menuActionDelegate?.trigger()
         case 4:
             menuActionDelegate?.openSegue("datosUsuario", sender: nil)
         case 5:

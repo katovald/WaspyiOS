@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
 import AVFoundation
 
 class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate{
