@@ -297,13 +297,61 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/firebaseManager.swift"
-            timestampString = "531445419.33059"
+            filePath = "flayy/Login2ViewController.swift"
+            timestampString = "531682324.098663"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "setiOSaccount(userID:phone:)"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "login(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__ObjC.User&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in flayy.Login2ViewController.login(Any) -&gt; ()"
+                  moduleName = "flayy"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kato/Documents/projects/flayy/flayy/Login2ViewController.swift"
+                  timestampString = "531792320.182931"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "220">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "implicit closure #1 : @autoclosure () throws -&gt; Swift.String in closure #1 (Swift.Optional&lt;__ObjC.User&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in flayy.Login2ViewController.login(Any) -&gt; ()"
+                  moduleName = "flayy"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kato/Documents/projects/flayy/flayy/Login2ViewController.swift"
+                  timestampString = "531792320.184483"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "flayy/Login2ViewController.swift"
+            timestampString = "531682324.098708"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "login(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -313,13 +361,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/firebaseManager.swift"
-            timestampString = "531445419.33095"
+            filePath = "flayy/Login2ViewController.swift"
+            timestampString = "531682324.098749"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "setiOSaccount(userID:phone:)"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "login(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -329,13 +377,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/firebaseManager.swift"
-            timestampString = "531445419.331188"
+            filePath = "flayy/Login2ViewController.swift"
+            timestampString = "531682324.09879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "setiOSaccount(userID:phone:)"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "login(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

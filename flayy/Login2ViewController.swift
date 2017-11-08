@@ -49,10 +49,10 @@ class Login2ViewController: UIViewController, UITextFieldDelegate, AuthUIDelegat
             Auth.auth().createUser(withEmail: self.mailField.text!, password: self.passField.text!) { (user, error) in
                 if (error != nil)
                 {
-                    print(error?.localizedDescription ?? "")
+                    self.alert(message: error?.localizedDescription ?? "")
                     return
                 }else{
-                    self.view.reloadInputViews()
+                     self.performSegue(withIdentifier: "InicioApp2", sender: nil)
                 }
             }
         }

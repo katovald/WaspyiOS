@@ -77,42 +77,10 @@ public class firebaseManager {
         })
     }
     
-    public func useriOSExist(userID: String, completion: @escaping (Bool, String) -> Void)
-    {
-        self.reference.child("iOSaccounts/" + userID).observeSingleEvent(of: .value, with: {(snapshot) in
-            let value = snapshot.value as? NSDictionary ?? nil
-            
-            if value == nil
-            {
-                self.userD.set(nil, forKey: "OwnerName")
-                self.userD.set(nil, forKey: "OwnerPhone")
-                self.userD.set(nil, forKey: "OwnerGroups")
-                self.userD.set(nil, forKey: "ActualGroup")
-                self.userD.set(nil, forKey: "ActualGroupTitle")
-                self.userD.set(nil, forKey: "MembersActiveGroup")
-                self.userD.set(nil, forKey: "ActualGroupPlaces")
-                self.userD.set(nil, forKey: "VisibleInActualGroup")
-                completion(false, "")
-            }else{
-                completion(true, value!["Telefono"] as! String)
-            }
-            
-        }) { (error) in
-            print(error.localizedDescription)
-            completion(false, "")
-        }
-    }
-    
     public func changeGroupName(code: String, name: String){
         let telefono = userD.string(forKey: "OwnerPhone")!
         self.reference.child("accounts/" + telefono + "/user_groups/groups/" + code).setValue(name)
         self.reference.child("groups/" + code + "/group_info/group_name").setValue(name)
-    }
-    
-    public func setiOSaccount(userID: String, phone: String){
-        guard let token = InstanceID.instanceID().token() else { return }
-        self.reference.child("iOSaccounts/" + userID + "/FCMToken/").setValue(token)
-        self.reference.child("iOSaccounts/" + userID + "/Telefono/").setValue(phone)
     }
     
     public func setUserSetting(phone: String, name: String, mail: String){
@@ -134,9 +102,37 @@ public class firebaseManager {
             }
         })
         
+        self.reference.child("accounts/" + phone + "/account_level/").observeSingleEvent(of: .value, with: { (snapshot) in
+            let value = snapshot.value as? String ?? ""
+            
+            if value == ""
+            {
+                self.reference.child("accounts/" + phone + "/account_level").setValue("freemium")
+                self.userD.set("freemium", forKey: "OwnerAccountType")
+            }else{
+                self.userD.set("freemium", forKey: value)
+            }
+        })
+        
         self.notificationCenter.post(name: DataChangueNotification, object: self)
         
     }
+    
+    public func setEmergencyContacts(contact: [String:[String:String]]){
+        let telefono = self.userD.string(forKey: "OwnerPhone")!
+        let place = contact.first?.key
+        let contactNew = contact.first?.value
+        self.reference.child("accounts/" + telefono + "/contacts_of_emergency/" + place!).setValue(contactNew?.first?.key)
+        self.reference.child("accounts/" + telefono + "/contacts_of_emergency/" + place! + "_p").setValue(contactNew?.first?.value)
+        var contactos = self.userD.dictionary(forKey: "EmergencyContacts") as? [String:String] ?? [:]
+        
+        
+        contactos[place!] = contactNew?.first?.key
+        contactos[place! + "_p"] = contactNew?.first?.value
+        
+        self.userD.set(contactos, forKey: "EmergencyContacts")
+    }
+    
     public func createAlertGeo(key: String, coment: String){
         let tipo = userD.integer(forKey: "AlertType")
         var title:String!
@@ -183,8 +179,8 @@ public class firebaseManager {
         var groupCode:String = randomAlphaNumericString(length: 6)
         
         let phone = userD.string(forKey: "OwnerPhone")!
-        
-        if phone.characters.count > 0
+
+        if phone.count > 0
         {
             let userInfo = ["name" : userD.string(forKey: "OwnerName")!,
                           "phone" : phone,
@@ -242,7 +238,7 @@ public class firebaseManager {
         var groupName = ""
         var groupMembers = [String:Any]()
         
-        if phone.characters.count > 0
+        if phone.count > 0
         {
             let userInfo = ["name" : userD.string(forKey: "Name")!,
                             "phone" : phone,
@@ -492,15 +488,23 @@ public class firebaseManager {
 //    please pay atention about the notifications and error handling
 //    created by kato
     
+    public func getEmergencyContacts(){
+        let telefono = self.userD.string(forKey: "OwnerPhone")!
+        self.reference.child("accounts/" + telefono + "/contacts_of_emergency/").observeSingleEvent(of: .value) { (snapshot) in
+            guard let value = snapshot.value as? [String:String] else { return }
+            self.userD.set(value, forKey: "EmergencyContacts")
+        }
+    }
+    
     public func getOwnerData(phone:String){
         reference.child("accounts/" + phone).observeSingleEvent(of: .value, with: {(snapshot) in
-            let value = snapshot.value as? NSDictionary
-            if (value?.count)! > 0
+            let value = snapshot.value as? NSDictionary ?? [:]
+            if (value.count) > 0
             {
-                self.userD.set(value?["name"] as! String, forKey: "OwnerName")
-                self.userD.set(value?["phone"] as! String, forKey: "OwnerPhone")
-                self.userD.set(value?["photo_url"] as! String, forKey: "OwnerDownloadURL")
-                let usergroupsinfo = value?["user_groups"] as! NSDictionary
+                self.userD.set(value["name"] as! String, forKey: "OwnerName")
+                self.userD.set(value["phone"] as! String, forKey: "OwnerPhone")
+                self.userD.set(value["photo_url"] as! String, forKey: "OwnerDownloadURL")
+                let usergroupsinfo = value["user_groups"] as! NSDictionary
                 let usergroups = usergroupsinfo["groups"] as! [String:String]
                 var gruposAux = [[String:String]]()
                 for key in usergroups.keys{

@@ -185,44 +185,43 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         self.robbery.isHidden = true    ////type 5
         self.robberylbl.isHidden = true
         animationHide()
-        self.phone = ""
+        self.phone = user?.phoneNumber ?? ""
         self.userID = user?.uid ?? ""
-        if self.userID != ""{
-            self.userD.set(self.userID, forKey: "OwnerUserID")
-        }
         
-        if self.phone == "" && self.userID != ""{
-            self.userD.set(user?.email, forKey: "OwnerMail")
-            firebaseManager.init().useriOSExist(userID: self.userID, completion: { (inSystem, phone) in
+//        if self.phone == "" && self.userID != ""{
+//            self.userD.set(user?.email, forKey: "OwnerMail")
+//            firebaseManager.init().useriOSExist(userID: self.userID, completion: { (inSystem, phone) in
+//                if inSystem
+//                {
+//                    firebaseManager.init().setUserRegToken(phone: self.phone)
+//                    if self.userD.array(forKey: "MembersActiveGroup") == nil{
+//                        firebaseManager.init().getOwnerData(phone: phone)
+//                    }else{
+//                        self.notificationObserver.post(name: self.LogInNotification, object: self)
+//                    }
+//                }else{
+//                    self.performSegue(withIdentifier: "datosUsuario2", sender: self)
+//                }
+//            })
+//        }else if phone != nil{
+        
+        self.userD.set(self.phone, forKey: "OwnerPhone")
+        firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
                 if inSystem
                 {
                     firebaseManager.init().setUserRegToken(phone: self.phone)
-                    if self.userD.array(forKey: "MembersActiveGroup") == nil{
-                        firebaseManager.init().getOwnerData(phone: phone)
-                    }else{
-                        self.notificationObserver.post(name: self.LogInNotification, object: self)
-                    }
-                }else{
-                    self.performSegue(withIdentifier: "datosUsuario2", sender: self)
-                }
-            })
-        }else if phone != nil{
-            firebaseManager.init().setUserRegToken(phone: self.phone)
-            firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
-                if inSystem
-                {
                     if self.userD.array(forKey: "MembersActiveGroup") == nil{
                         firebaseManager.init().getOwnerData(phone: self.phone)
                     }else{
                         self.notificationObserver.post(name: self.LogInNotification, object: self)
                     }
                 }else{
-                    self.performSegue(withIdentifier: "datosUsuario2", sender: self)
+                    self.performSegue(withIdentifier: "datosUsuario", sender: self)
                 }
             })
             
-            self.titleBar.title = userD.string(forKey: "ActualGroupTitle")
-        }
+            self.titleBar.title = userD.string(forKey: "ActualGroupTitle") ?? ""
+//        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(changedGroup), name: NSNotification.Name("UserGroupsChanged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeIcon), name: NSNotification.Name("LoseFocus"), object: nil)

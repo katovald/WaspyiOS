@@ -73,7 +73,6 @@ class UserSettingsViewController: UIViewController, UINavigationControllerDelega
                         firebaseManager.init().setUserSetting(phone: (self.code + self.phoneText.text!),
                                                               name: self.nameText.text!,
                                                               mail: self.mail)
-                        firebaseManager.init().setiOSaccount(userID: self.userD.string(forKey: "OwnerUserID")! , phone: self.phoneText.text!)
                         self.edit = false
                         self.editaguarda.tintColor = UIColor.yellow
                         self.editaguarda.title = "Editar"

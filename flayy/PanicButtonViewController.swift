@@ -7,37 +7,85 @@
 //
 
 import UIKit
+import MessageUI
 import ContactsUI
 
-class PanicButtonViewController: UIViewController, CNContactPickerDelegate {
+class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMessageComposeViewControllerDelegate {
+    
+    // Configures and returns a MFMessageComposeViewController instance
+    func configuredMessageComposeViewController() -> MFMessageComposeViewController {
+        let messageComposeVC = MFMessageComposeViewController()
+        messageComposeVC.messageComposeDelegate = self  //  Make sure to set this property to self, so that the controller can be dismissed!
+        messageComposeVC.recipients = textMessageContact
+        LocationServices.init().getAdress { (coord, speed, adreess, e) in
+            if let a = adreess {
+                let kilo = a["FormattedAddressLines"] as! [String]
+                
+                var direccion = ""
+                
+                for index in 0...(kilo.count - 1)
+                {
+                    direccion += kilo[index]
+                    direccion += " "
+                }
+                
+                messageComposeVC.body =  "Boton de Panico activado por " +
+                    self.userD.string(forKey: "OwnerName")! +
+                    ", cerca de " + direccion +
+                    "\r Comunicate Pronto."
+            } else {
+                messageComposeVC.body =  "Boton de Panico activado por " +
+                    self.userD.string(forKey: "OwnerName")! +
+                    "\r Comunicate Pronto."
+            }
+        }
+        
+        return messageComposeVC
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
 
     @IBOutlet weak var Contacto1: UIImageView!
     @IBOutlet weak var Contacto2: UIImageView!
     @IBOutlet weak var Contacto3: UIImageView!
     
+    @IBOutlet weak var plusLess: UIImageView!
+    @IBOutlet weak var plusLess2: UIImageView!
+    @IBOutlet weak var plussLes3: UIImageView!
+    
     @IBOutlet weak var nombreC1: UILabel!
     @IBOutlet weak var nombreC2: UILabel!
     @IBOutlet weak var nombreC3: UILabel!
     
+    @IBOutlet weak var panicBtn: Rounded!
+    @IBOutlet weak var cancelAid: Rounded!
+    
     @IBAction func setUnsetContact(_ sender: Any) {
         let cnPicker = CNContactPickerViewController()
         cnPicker.delegate = self
-        self.index = 0
+        place = "coe_one"
         self.present(cnPicker, animated: true, completion: nil)
     }
     
+    var place:String!
     var activeBTN: UIButton? = nil
     var index:Int!
+    var textMessageContact = [String]()
     
     @IBAction func setUnsetContact2(_ sender: Any) {
         let cnPicker = CNContactPickerViewController()
         cnPicker.delegate = self
+        place = "coe_two"
         self.present(cnPicker, animated: true, completion: nil)
     }
     
     @IBAction func setUnsetContact3(_ sender: Any) {
         let cnPicker = CNContactPickerViewController()
         cnPicker.delegate = self
+        place = "coe_three"
         self.present(cnPicker, animated: true, completion: nil)
     }
     
@@ -47,30 +95,35 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate {
         }
     }
     
+    @IBAction func panico(_ sender: Any) {
+        sendHelpMsg()
+    }
+    
+    @IBAction func cacel(_ sender: Any) {
+       
+    }
+    
     let userD:UserDefaults = UserDefaults.standard
-    var contactos = [[String:String](),[String:String](),[String:String]()]
+    var contactos:[String:String]!
     var count = 0
-    var contacto = [String:String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let contactos = userD.array(forKey: "Contactos") ?? []
-
-        for _ in contactos
-        {
-            if count == 0
-            {
-                self.Contacto1.image = UIImage(named: "panico-avatar2.png")
+        contactos = userD.dictionary(forKey: "EmergencyContacts") as? [String : String] ?? [:]
+        let keys = contactos.keys
+        for key in keys {
+            if key == "coe_one"{
+                changeIcon(place: key, contactoName: contactos[key]!, contactoPhone: contactos[key + "_p"]!)
+                textMessageContact.append(contactos[key + "_p"]!)
             }
-            if count == 1
-            {
-                self.Contacto2.image = UIImage(named: "panico-avatar2.png")
+            if key == "coe_two"{
+                changeIcon(place: key, contactoName: contactos[key]!, contactoPhone: contactos[key + "_p"]!)
+                textMessageContact.append(contactos[key + "_p"]!)
             }
-            if count == 2
-            {
-                self.Contacto2.image = UIImage(named: "panico-avatar2.png")
+            if key == "coe_three"{
+                changeIcon(place: key, contactoName: contactos[key]!, contactoPhone: contactos[key + "_p"]!)
+                textMessageContact.append(contactos[key + "_p"]!)
             }
-            count = 0
         }
         // Do any additional setup after loading the view.
     }
@@ -88,33 +141,30 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate {
         {
             alert(message: "Ese contato no tiene un telefono valido por favor selecciona otro")
         }else{
-            self.contacto[contact.givenName] = phone
-            if self.index == 0{
-                self.nombreC1.text = (self.contacto.first?.key)! + "\r" + (self.contacto.first?.value)!
-                self.contactos[0] = self.contacto
-            }
-            if self.index == 1{
-                self.nombreC2.text = (self.contacto.first?.key)! + "\r" + (self.contacto.first?.value)!
-                self.contactos[1] = self.contacto
-                    //            let pic = contacto.imageData
-                    //            if pic == nil {
-                    //
-                    //            }
-            }
-            if self.index == 2{
-                self.nombreC2.text = (self.contacto.first?.key)! + "\r" + (self.contacto.first?.value)!
-                self.contactos[1] = self.contacto
-            }
+            firebaseManager.init().setEmergencyContacts(contact: [place: [contact.givenName:phone]])
+            changeIcon(place: place, contactoName: contact.givenName, contactoPhone: phone)
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func changeIcon(place: String, contactoName: String, contactoPhone: String) {
+        if place == "coe_one"{
+            self.Contacto1.image = UIImage(named: "panico-avatar2.png")
+            self.nombreC1.text = contactoName + "\r" + contactoPhone
+        }
+        if place == "coe_two"{
+            self.Contacto2.image = UIImage(named: "panico-avatar2.png")
+            self.nombreC2.text = contactoName + "\r" + contactoPhone
+        }
+        if place == "coe_three"{
+            self.Contacto3.image = UIImage(named: "panico-avatar2.png")
+            self.nombreC3.text = contactoName + "\r" + contactoPhone
+        }
     }
-    */
-
+    
+    func sendHelpMsg(){
+        if MFMessageComposeViewController.canSendText(){
+            let messageCV = self.configuredMessageComposeViewController()
+            present(messageCV, animated: true, completion: nil)
+        }
+    }
 }

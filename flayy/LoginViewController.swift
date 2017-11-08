@@ -19,6 +19,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     @IBOutlet weak var Telefono: UITextField!
     
     @IBOutlet weak var banderaArea: UIImageView!
+    @IBOutlet weak var icono: UIImageView!
     
     @IBAction func changeArea(_ sender: Any) {
         if areaCode == "+52"{
@@ -100,7 +101,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
         self.Telefono.layer.cornerRadius = 4
         self.Telefono.layer.borderColor = UIColor.white.cgColor
         
-        let url = Bundle.main.url(forResource: "prueba12", withExtension: "mp4")
+        let url = Bundle.main.url(forResource: "video_login", withExtension: "mov")
         
         player = AVPlayer(url: url!)
         playerLayer = AVPlayerLayer(player: player)
@@ -111,6 +112,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
         playerLayer.frame = view.layer.bounds
         view.backgroundColor = UIColor.clear
         view.layer.insertSublayer(playerLayer, at: 0)
+        
+        icono.loadGif(name: "eye.a")
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(termino(notification:)),
@@ -152,17 +155,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     
     @objc func keyboardWasShown(notification: NSNotification){
         //Need to calculate keyboard exact size due to Apple suggestions
-        var info = notification.userInfo!
-        if keyboardHigth == 0.0 {
-            let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-            keyboardHigth = keyboardSize!.height
-        }
-        self.activeField?.frame.origin.y -= keyboardHigth
+//        var info = notification.userInfo!
+//        if keyboardHigth == 0.0 {
+//            let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+//            keyboardHigth = keyboardSize!.height
+//        }
+//        self.activeField?.frame.origin.y -= keyboardHigth
     }
     
     @objc func keyboardWillBeHidden(notification: NSNotification){
         //Once keyboard disappears, restore original positions
-        self.activeField?.frame.origin.y += keyboardHigth
+//        self.activeField?.frame.origin.y += keyboardHigth
     }
     
     override func viewWillAppear(_ animated: Bool) {

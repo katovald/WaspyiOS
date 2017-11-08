@@ -12,10 +12,10 @@ class Four: UIViewController{
     @IBOutlet weak var animated: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        animated.loadGif(name: "slide4b")
+        animated.loadGif(name: "slide-4-last-interface")
     }
     @IBAction func loginInicio(_ sender: Any) {
-        performSegue(withIdentifier: "omitir5", sender: nil)
+        performSegue(withIdentifier: "omitir4", sender: nil)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

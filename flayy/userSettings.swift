@@ -21,8 +21,7 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
     var edit = false
     var keyboardHigth:CGFloat = 0.0
     var activeField:UITextField? = nil
-    
-    @IBOutlet weak var phoneText: UITextField!
+
     @IBOutlet weak var Salir: UIBarButtonItem!
     @IBOutlet weak var userPhoto: UIImageView!
     @IBOutlet weak var nameText: UITextField!

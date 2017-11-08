@@ -5,6 +5,10 @@ This application makes use of the following third party libraries:
 
 Copyright 2017 Google
 
+## FirebaseABTesting
+
+Copyright 2017 Google
+
 ## FirebaseAnalytics
 
 Copyright 2017 Google
