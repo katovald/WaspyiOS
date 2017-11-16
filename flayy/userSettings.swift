@@ -16,11 +16,12 @@ import FirebaseAuth
 
 class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate{
     var phone:String!
-    let userD = UserDefaults.standard
+    let userD:UserDefaults = UserDefaults.standard
     let imagePicker = UIImagePickerController()
     var edit = false
     var keyboardHigth:CGFloat = 0.0
-    var activeField:UITextField? = nil
+    public let LogInNotification = NSNotification.Name("CorrectLogIn")
+    let user = Auth.auth().currentUser!
 
     @IBOutlet weak var Salir: UIBarButtonItem!
     @IBOutlet weak var userPhoto: UIImageView!
@@ -47,11 +48,10 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
         if edit {
             if (self.nameText.text == "" || self.userMail.text == "")
             {
-                self.alert(message: "Por favor llena los datos necesarios")
+                alert(message: "Necesitamos tus datos completos")
                 return
             }
             else{
-                
                 self.view.addSubview(backView)
                 firebaseManager.init().saveUserPhotoFB(photo: userPhoto.image!, phone: phone, completion:{
                     firebaseManager.init().setUserSetting(phone: self.phone,
@@ -62,6 +62,8 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
                     self.editaguarda.title = "Editar"
                     self.workingView.stopAnimating()
                     self.backView.removeFromSuperview()
+                    NotificationCenter.default.post(name: self.LogInNotification, object: self)
+                    NotificationCenter.default.post(name: NSNotification.Name("UserGroupsChanged"), object: self)
                     self.dismiss(animated: true, completion: nil)
                 })
             }
@@ -105,10 +107,9 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
         userMail.layer.borderWidth = 1.0
         userMail.layer.borderColor = UIColor.white.cgColor
         
-        
         self.nameText.text = self.userD.string(forKey: "OwnerName") ?? ""
         self.phone = self.userD.string(forKey: "OwnerPhone")
-        self.userMail.text = self.userD.string(forKey: "OwnerMail") ?? ""
+        self.userMail.text = user.email ?? ""
         
         self.userPhoto.image = firebaseManager.init().getMemberPhoto(phone: self.phone)
         
@@ -127,8 +128,6 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
             inicioCam.isEnabled = false
             galeria.isEnabled = false
         }
-        
-        registerForKeyboardNotifications()
     }
     
     @IBAction func inicioGaleria(_ sender: Any) {
@@ -183,51 +182,6 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
             self.present(alert, animated: true,
                          completion: nil)
         }
-    }
-    
-    func registerForKeyboardNotifications(){
-        //Adding notifies on keyboard appearing
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWasShown(notification:)),
-                                               name: NSNotification.Name.UIKeyboardWillShow,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillBeHidden(notification:)),
-                                               name: NSNotification.Name.UIKeyboardWillHide,
-                                               object: nil)
-    }
-    
-    func deregisterFromKeyboardNotifications(){
-        //Removing notifies on keyboard appearing
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-    
-    @objc func keyboardWasShown(notification: NSNotification){
-        //Need to calculate keyboard exact size due to Apple suggestions
-        var info = notification.userInfo!
-        if keyboardHigth == 0.0 {
-            let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-            keyboardHigth = keyboardSize!.height / 4
-        }
-        self.view.frame.origin.y -= keyboardHigth
-    }
-    
-    @objc func keyboardWillBeHidden(notification: NSNotification){
-        //Once keyboard disappears, restore original positions
-        self.view.frame.origin.y += keyboardHigth
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField){
-        activeField = textField
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField){
-        activeField = nil
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        deregisterFromKeyboardNotifications()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

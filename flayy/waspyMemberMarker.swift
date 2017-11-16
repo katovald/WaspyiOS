@@ -27,7 +27,7 @@ class waspyMemberMarker: GMSMarker {
         if (fileMan.fileExists(atPath: photoURl.path)){
             foto = UIImage(contentsOfFile: photoURl.path)
         }else{
-            foto = UIImage(named: "defaultIMG.png")
+            foto = UIImage(named: "default.png")
         }
         
         let fotoview = UIImageView(image: resizeImage(image: foto, newSize: CGSize(width: 24, height: 24)))

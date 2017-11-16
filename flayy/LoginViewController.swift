@@ -13,13 +13,14 @@ import AVFoundation
 class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate{
     
     //// nombres de los coponentes de la view (para animaciones)
-    @IBOutlet weak var sendCode: UIButton!
-    @IBOutlet weak var Code: UITextField!
-    @IBOutlet weak var getCode: UIButton!
-    @IBOutlet weak var Telefono: UITextField!
+    @IBOutlet weak var inicioSesion: UIButton!
+    @IBOutlet weak var phone: UITextField!
+    @IBOutlet weak var appMessages: UILabel!
     
     @IBOutlet weak var banderaArea: UIImageView!
     @IBOutlet weak var icono: UIImageView!
+    
+    var window: UIWindow?
     
     @IBAction func changeArea(_ sender: Any) {
         if areaCode == "+52"{
@@ -32,74 +33,78 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     }
     
     //variables necesarias
-    var activeField:UITextField? = nil
     var player: AVPlayer!
     var playerLayer: AVPlayerLayer!
     var pausa: Bool = false
-    var verID = ""
-    var tel = ""
     var animated:Bool = false
-    let userInfo:UserDefaults = UserDefaults.standard
-    var keyboardHigth:CGFloat = 0.0
     var areaCode = "+52"
-    let notifications:NotificationCenter = NotificationCenter.default
+    let userD:UserDefaults = UserDefaults.standard
+    var ownerPhone:String!
     
     //acciones de los componentes
-    @IBAction func Clicked(_ sender: Any) {
-        tel = areaCode + Telefono.text!
-        PhoneAuthProvider.provider().verifyPhoneNumber(tel,
-                                                       uiDelegate: nil,
-                                                       completion: { (verificationID, error) in
-                                                        if let error = error {
-                                                            self.alert(message: "Ocurrio un error:" + error.localizedDescription)
-                                                            return
-                                                        }
-            
-                                                        if (verificationID != "" && !self.animated){
-                                                            self.alert(message: "En un mometo recibiras un SMS con un token, introducelo")
-                                                            self.verID = verificationID!
-                                                            self.sendCode.isHidden = false
-                                                            self.Code.isHidden = false
-                                                            self.Telefono.isEnabled = false
-                                                            self.getCode.isHidden = true
-            }else{
-                return
-            }
-        })
-    }
     
-    @IBAction func checkCode(_ sender: Any) {
-        if (Code.text == "")
+    @IBAction func loginAttemp(_ sender: Any) {
+        
+        self.ownerPhone = areaCode + phone.text!
+        
+        if self.ownerPhone.count == 11 || self.ownerPhone.count == 13
         {
-            return
-        }else
-        {
-            let credential = PhoneAuthProvider.provider().credential(withVerificationID: self.verID, verificationCode: Code.text!)
-            firebaseLogin(credential)
+            firebaseManager.init().userExist(phone: self.ownerPhone, completion: { (exist) in
+                if exist
+                {
+                    firebaseManager.init().getUserMail(phone: self.ownerPhone, completion: { (mail) in
+                        let alertView = UIAlertController(title: "Inicio de sesion", message: "Introduce tu contraseña", preferredStyle: .alert)
+                        let inicio = UIAlertAction(title: "Inicio", style: .default, handler: { (_) in
+                            self.firebaseLogin(mail: mail, pass: alertView.textFields![0].text!)
+                        })
+                        let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+                        
+                        alertView.addTextField(configurationHandler: { (textfield) in
+                            textfield.placeholder = "Contraseña"
+                        })
+                        
+                        alertView.addAction(inicio)
+                        alertView.addAction(cancel)
+                        
+                        self.present(alertView, animated: true, completion: nil)
+                    })
+                }
+                else{
+                    let alertView = UIAlertController(title: "Registrate con nosotros", message: "Introduce tus datos", preferredStyle: .alert)
+                    let registro = UIAlertAction(title: "Registro", style: .default, handler: { (_) in
+                        if alertView.textFields![1].text == alertView.textFields![2].text!{
+                            let correo = alertView.textFields![0].text!
+                            let pass = alertView.textFields![1].text!
+                            self.firebaseregister(mail: correo, pass: pass)
+                        }
+                        else{
+                            self.alert(message: "Tus contraseñas no coinciden por favor vuelve a intentarlo.")
+                        }
+                    })
+                    let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+                    
+                    alertView.addTextField(configurationHandler: { (textfield) in
+                        textfield.placeholder = "Correo"
+                    })
+                    alertView.addTextField(configurationHandler: { (textfield) in
+                        textfield.placeholder = "Contraseña"
+                    })
+                    alertView.addTextField(configurationHandler: { (textfield) in
+                        textfield.placeholder = "Repite tu Contraseña"
+                    })
+                    
+                    alertView.addAction(registro)
+                    alertView.addAction(cancel)
+                    
+                    self.present(alertView, animated: true, completion: nil)
+                }
+            })
         }
     }
     
     //Funciones de la view
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.Code.isHidden = true
-        self.sendCode.isHidden = true
-        self.Telefono.delegate = self
-        self.Code.delegate = self
-        
-        Telefono.layer.cornerRadius = 4
-        Telefono.layer.borderColor = UIColor.white.cgColor
-        Telefono.layer.borderWidth = 1.0
-        
-        Code.layer.cornerRadius = 4
-        Code.layer.borderColor = UIColor.white.cgColor
-        Code.layer.borderWidth = 1.0
-        
-        self.Telefono.keyboardType = .phonePad
-        self.Code.keyboardType = .numberPad
-        
-        self.Telefono.layer.cornerRadius = 4
-        self.Telefono.layer.borderColor = UIColor.white.cgColor
         
         let url = Bundle.main.url(forResource: "video_login", withExtension: "mov")
         
@@ -114,58 +119,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
         view.layer.insertSublayer(playerLayer, at: 0)
         
         icono.loadGif(name: "eye.a")
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(termino(notification:)),
-                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
-                                               object: player.currentItem)
-
-        
-        registerForKeyboardNotifications()
         // Do any additional setup after loading the view, typically from a nib.
         
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        deregisterFromKeyboardNotifications()
     }
     
     @objc func termino(notification: Notification){
         let p: AVPlayerItem = notification.object as! AVPlayerItem
         p.seek(to: kCMTimeZero, completionHandler: nil)
-    }
-    
-    func registerForKeyboardNotifications(){
-        //Adding notifies on keyboard appearing
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWasShown(notification:)),
-                                               name: NSNotification.Name.UIKeyboardWillShow,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillBeHidden(notification:)),
-                                               name: NSNotification.Name.UIKeyboardWillHide,
-                                               object: nil)
-    }
-    
-    func deregisterFromKeyboardNotifications(){
-        //Removing notifies on keyboard appearing
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-    
-    @objc func keyboardWasShown(notification: NSNotification){
-        //Need to calculate keyboard exact size due to Apple suggestions
-//        var info = notification.userInfo!
-//        if keyboardHigth == 0.0 {
-//            let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-//            keyboardHigth = keyboardSize!.height
-//        }
-//        self.activeField?.frame.origin.y -= keyboardHigth
-    }
-    
-    @objc func keyboardWillBeHidden(notification: NSNotification){
-        //Once keyboard disappears, restore original positions
-//        self.activeField?.frame.origin.y += keyboardHigth
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -185,59 +145,51 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    func firebaseLogin(_ credential: AuthCredential) {
-            if let user = Auth.auth().currentUser {
-                // [START link_credential]
-                user.link(with: credential) { (user, error) in
-                    // [START_EXCLUDE]
-                        if let error = error {
-                            print(error.localizedDescription)
-                            return
-                        }
-                    // [END_EXCLUDE]
-                }
-                // [END link_credential]
-            } else {
-                // [START signin_credential]
-                Auth.auth().signIn(with: credential) { (user, error) in
-                        if let error = error as NSError? {
-                            // [START_EXCLUDE]
-                            guard let code = AuthErrorCode(rawValue: error.code)
-                                else {
-                                    return
-                            }
-                            switch code{
-                            case .invalidVerificationCode:
-                                self.alert(message: "El codigo es invalido, por favor revisalo e intenta de nuevo" , title: "Ups...")
-                            default:
-                                self.alert(message: "Algo salio mal", title: "Ups...")
-                            }
-                            //print(error.localizedDescription)
-                            // [END_EXCLUDE]
-                            return
-                        }
-                        // User is signed in
-                        // [START_EXCLUDE]
-                        // Merge prevUser and currentUser accounts and data
-                        // ...
-                    self.performSegue(withIdentifier: "InicioApp", sender: nil)
-                        // [END_EXCLUDE]
-                    }
-                }
-                // [END signin_credential]
-        
+    func firebaseLogin(mail: String, pass: String) {
+        Auth.auth().signIn(withEmail: mail, password: pass) { (user, e) in
+            if (e != nil){
+                self.alert(message: "Error: " + (e?.localizedDescription)!)
+            }else{
+                self.appMessages.textColor = UIColor.white
+                self.appMessages.text = "Bienvenido"
+                sleep(2)
+                let correo = mail
+                self.userD.set(self.ownerPhone, forKey: "OwnerPhone")
+                self.userD.set(correo, forKey:"OwnerMail")
+                firebaseManager.init().getOwnerData(phone: self.ownerPhone)
+                self.performSegue(withIdentifier: "InicioApp", sender: self)
+            }
+        }
     }
-
-    func textFieldDidBeginEditing(_ textField: UITextField){
-        activeField = textField
+    
+    func firebaseregister(mail: String, pass: String){
+        Auth.auth().createUser(withEmail: mail, password: pass) { (user, e) in
+            if (e != nil){
+                self.alert(message: "Error al crear el usuario: " + (e?.localizedDescription)!)
+            }else{
+                self.appMessages.textColor = UIColor.white
+                self.appMessages.text = "Bienvenido"
+                sleep(2)
+                let correo = mail
+                self.userD.set(self.ownerPhone, forKey: "OwnerPhone")
+                self.userD.set(correo, forKey:"OwnerMail")
+                self.performSegue(withIdentifier: "InicioApp", sender: self)
+            }
+        }
     }
-
-    func textFieldDidEndEditing(_ textField: UITextField){
-        activeField = nil
-    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true) //This will hide the keyboard
     }
 
+}
+
+extension UIViewController {
+    func alert(message: String, title: String = "") {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
 

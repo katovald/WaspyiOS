@@ -77,7 +77,7 @@ class GroupSettingsViewController: UIViewController {
         self.userD.set(nil, forKey: "CodigoGrupoAuxiliar")
         self.userD.set(nil, forKey: "NombreAuxiliar")
         self.userD.set(banderas, forKey: "NotificationFlags")
-        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func visibleONOFF(_ sender: UISwitch) {

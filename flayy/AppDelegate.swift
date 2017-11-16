@@ -49,6 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerForRemoteNotifications()
 
         NotificationCenter.default.addObserver(self, selector: #selector(startMonitoring), name: NSNotification.Name("CorrectLogIn"), object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(stopMonitoring), name: NSNotification.Name("LogOut"), object: nil)
+        
         
         if (Auth.auth().currentUser == nil){
             let aux = UIStoryboard(name: "Main", bundle: nil)
@@ -77,9 +79,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @objc func updateData()
     {
-        firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
-            self.userD.set(members, forKey: "MembersActiveGroup")
-        })
+        let groupCode = self.userD.string(forKey: "ActualGroup") ?? ""
+        if groupCode != ""{
+            firebaseManager.init().getGroupMembersInfo(code: groupCode, completion: {(members) in
+                self.userD.set(members, forKey: "MembersActiveGroup")
+            })
+        }
+    }
+    
+    @objc func stopMonitoring()
+    {
+        timer.invalidate()
+        timer1.invalidate()
     }
     
     func BGtask(_ block: @escaping () -> Void){
@@ -171,6 +182,7 @@ extension AppDelegate : MessagingDelegate {
     // [START refresh_token]
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
         print("Firebase registration token: \(fcmToken)")
+        firebaseManager.init().setUserRegToken()
     }
     // [END refresh_token]
     // [START ios_10_data_message]

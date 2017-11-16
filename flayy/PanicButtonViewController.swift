@@ -17,29 +17,16 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
         let messageComposeVC = MFMessageComposeViewController()
         messageComposeVC.messageComposeDelegate = self  //  Make sure to set this property to self, so that the controller can be dismissed!
         messageComposeVC.recipients = textMessageContact
-        LocationServices.init().getAdress { (coord, speed, adreess, e) in
-            if let a = adreess {
-                let kilo = a["FormattedAddressLines"] as! [String]
-                
-                var direccion = ""
-                
-                for index in 0...(kilo.count - 1)
-                {
-                    direccion += kilo[index]
-                    direccion += " "
-                }
-                
-                messageComposeVC.body =  "Boton de Panico activado por " +
-                    self.userD.string(forKey: "OwnerName")! +
-                    ", cerca de " + direccion +
-                    "\r Comunicate Pronto."
-            } else {
-                messageComposeVC.body =  "Boton de Panico activado por " +
-                    self.userD.string(forKey: "OwnerName")! +
-                    "\r Comunicate Pronto."
-            }
+        if street != nil {
+            messageComposeVC.body =  "Boton de Panico activado por " +
+                self.userD.string(forKey: "OwnerName")! +
+                ", cerca de " + street +
+                "\r Comunicate Pronto."
+        } else {
+            messageComposeVC.body =  "Boton de Panico activado por " +
+                self.userD.string(forKey: "OwnerName")! +
+                "\r Comunicate Pronto."
         }
-        
         return messageComposeVC
     }
     
@@ -74,6 +61,8 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
     var activeBTN: UIButton? = nil
     var index:Int!
     var textMessageContact = [String]()
+    var street:String!
+    let sempahore = DispatchSemaphore(value: 0)
     
     @IBAction func setUnsetContact2(_ sender: Any) {
         let cnPicker = CNContactPickerViewController()
@@ -109,6 +98,23 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        LocationServices.init().getAdress { (coord, speed, adreess, e) in
+            if let a = adreess {
+                let kilo = a["FormattedAddressLines"] as! [String]
+                
+                var direccion = ""
+                
+                for index in 0...(kilo.count - 1)
+                {
+                    direccion += kilo[index]
+                    direccion += " "
+                }
+                
+                self.street = direccion
+            }
+        }
+        
         contactos = userD.dictionary(forKey: "EmergencyContacts") as? [String : String] ?? [:]
         let keys = contactos.keys
         for key in keys {
@@ -139,7 +145,7 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
         let phone = (contact.phoneNumbers.first?.value)?.stringValue ?? ""
         if phone == ""
         {
-            alert(message: "Ese contato no tiene un telefono valido por favor selecciona otro")
+            alert(message: "Ese contacto no tiene un telefono valido por favor selecciona otro")
         }else{
             firebaseManager.init().setEmergencyContacts(contact: [place: [contact.givenName:phone]])
             changeIcon(place: place, contactoName: contact.givenName, contactoPhone: phone)
@@ -166,5 +172,6 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
             let messageCV = self.configuredMessageComposeViewController()
             present(messageCV, animated: true, completion: nil)
         }
+        FCmNotifications.init().panicChechIn(address: street)
     }
 }

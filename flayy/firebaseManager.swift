@@ -53,6 +53,19 @@ public class firebaseManager {
     //    please pay atention about the notifications and error handling
     //    created by kato
     
+    public func clearUserDefaults()
+    {
+        self.userD.set(nil, forKey: "OwnerName")
+        self.userD.set(nil, forKey: "OwnerPhone")
+        self.userD.set(nil, forKey: "OwnerMail")
+        self.userD.set(nil, forKey: "OwnerGroups")
+        self.userD.set(nil, forKey: "ActualGroup")
+        self.userD.set(nil, forKey: "ActualGroupTitle")
+        self.userD.set(nil, forKey: "MembersActiveGroup")
+        self.userD.set(nil, forKey: "ActualGroupPlaces")
+        self.userD.set(nil, forKey: "VisibleInActualGroup")
+    }
+    
     public func userExist(phone:String, completion: @escaping (Bool) -> Void)
     {
         self.reference.child("accounts/" + phone).observeSingleEvent(of: .value, with: {(snapshot) in
@@ -240,7 +253,7 @@ public class firebaseManager {
         
         if phone.count > 0
         {
-            let userInfo = ["name" : userD.string(forKey: "Name")!,
+            let userInfo = ["name" : userD.string(forKey: "OwnerName")!,
                             "phone" : phone,
                             "rol" : "admin",
                             "visibility" : true,
@@ -286,10 +299,12 @@ public class firebaseManager {
         self.notificationCenter.post(name: GroupsChangeNotification, object: self)
     }
     
-    public func setUserRegToken(phone: String){
-        guard let token = InstanceID.instanceID().token() else { return }
-        self.reference.child("accounts/" + phone + "/FCMToken").setValue(token)
-        
+    public func setUserRegToken(){
+        let phone = self.userD.string(forKey: "OwnerPhone") ?? ""
+        if phone != ""{
+            guard let token = InstanceID.instanceID().token() else { return }
+            self.reference.child("accounts/" + phone + "/FCMToken").setValue(token)
+        }
     }
     
     public func turnEnterNotification(code: String, OnOff: Bool){
@@ -496,6 +511,12 @@ public class firebaseManager {
         }
     }
     
+    public func getUserMail(phone: String, completion: @escaping (String) -> Void){
+        self.reference.child("accounts/" + phone + "/mail").observeSingleEvent(of: .value) { (mail) in
+            completion(mail.value as? String ?? "")
+        }
+    }
+    
     public func getOwnerData(phone:String){
         reference.child("accounts/" + phone).observeSingleEvent(of: .value, with: {(snapshot) in
             let value = snapshot.value as? NSDictionary ?? [:]
@@ -504,6 +525,10 @@ public class firebaseManager {
                 self.userD.set(value["name"] as! String, forKey: "OwnerName")
                 self.userD.set(value["phone"] as! String, forKey: "OwnerPhone")
                 self.userD.set(value["photo_url"] as! String, forKey: "OwnerDownloadURL")
+                let urlDownload = value["photo_url"] as? String ?? ""
+                if urlDownload != ""{
+                    self.getMemberPhotoFB(phone: phone)
+                }
                 let usergroupsinfo = value["user_groups"] as! NSDictionary
                 let usergroups = usergroupsinfo["groups"] as! [String:String]
                 var gruposAux = [[String:String]]()
@@ -584,7 +609,7 @@ public class firebaseManager {
             
             for key in keys
             {
-                if self.userD.string(forKey: "OwnerPhone")! == key
+                if self.userD.string(forKey: "OwnerPhone") ?? "" == key
                 {
                     let datos = value[key]
                     var banderas = [String:[String:Bool]]()

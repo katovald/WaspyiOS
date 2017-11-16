@@ -138,3 +138,54 @@ func checkCodeRepeat(array: [String], code: String) -> String {
     return codeWr
 }
 
+func isOnlyNumbers(string: String) -> Bool {
+    return NSPredicate(format: "SELF MATCHES %@", "\\d{10}").evaluate(with: string)
+}
+
+func phoneAreaCode(phone:String, areacode:String) -> String{
+    var cleanedPhone = ""
+    if (phone.count >= 13 && areacode != "+1"){
+        let regEx = "\\+([0-9]{9,12})"
+        let arrayAux = matchesForRegexInText(regex: regEx, text: phone)
+        for item in arrayAux
+        {
+            cleanedPhone += item
+        }
+    }else{
+        let regEx = "\\+([0-9]{9,12})"
+        let arrayAux = matchesForRegexInText(regex: regEx, text: areacode + phone)
+        for item in arrayAux
+        {
+            cleanedPhone += item
+        }
+    }
+    return cleanedPhone
+}
+func isValidEmail(string: String) -> Bool {
+    let emailReg = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+    let emailTest = NSPredicate(format:"SELF MATCHES %@", emailReg)
+    return emailTest.evaluate(with: string)
+}
+
+func matchesForRegexInText(regex: String!, text: String!) -> [String] {
+    
+    do {
+        
+        let regex = try NSRegularExpression(pattern: regex, options: [])
+        let nsString = text as NSString
+        
+        let results = regex.matches(in: text,
+                                            options: [], range: NSMakeRange(0, nsString.length))
+        return results.map { nsString.substring(with: $0.range)}
+        
+    } catch let error as NSError {
+        
+        print("invalid regex: \(error.localizedDescription)")
+        
+        return []
+    }
+    
+}
+
+
+

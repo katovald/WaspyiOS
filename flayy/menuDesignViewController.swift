@@ -37,6 +37,17 @@ class menuDesignViewController: UIViewController {
         dismiss(animated: false, completion: nil)
     }
     
+    @IBOutlet var close: UISwipeGestureRecognizer!
+    
+    @IBAction func coseSwiping(_ sender: Any) {
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionFade
+        transition.subtype = kCATransitionFromRight
+        view.window!.layer.add(transition, forKey: "ExitMenu")
+        dismiss(animated: false, completion: nil)
+    }
+    
     func delay(segundos: Double, completion:@escaping()->()){
         let tiempoVista = DispatchTime.now() + Double(Int64(Double(NSEC_PER_SEC) * segundos)) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: tiempoVista, execute: {completion()
@@ -49,10 +60,10 @@ class menuDesignViewController: UIViewController {
         
         if (fileMan.fileExists(atPath: photoURl.path)){
             self.round.image = UIImage(contentsOfFile: photoURl.path)
-            self.nombre.text = userD.string(forKey: "OwnerName")!
+            self.nombre.text = userD.string(forKey: "OwnerName") ?? ""
         }else{
-            self.round.image = UIImage(named: "kato.jpg")
-            self.nombre.text = userD.string(forKey: "OwnerName")!
+            self.round.image = UIImage(named: "default.png")
+            self.nombre.text = userD.string(forKey: "OwnerName") ?? ""
         }
     }
 
@@ -89,10 +100,6 @@ extension menuDesignViewController : UITableViewDelegate {
             menuActionDelegate?.trigger()
         case 4:
             menuActionDelegate?.openSegue("datosUsuario", sender: nil)
-        case 5:
-            menuActionDelegate?.openSegue("", sender: nil)
-        case 6:
-            menuActionDelegate?.openSegue("", sender: nil)
         case 7:
             let authApp = Auth.auth()
             do {

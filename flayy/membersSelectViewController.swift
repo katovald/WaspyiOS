@@ -22,6 +22,10 @@ class membersSelectViewController: UIViewController{
     
     @IBOutlet weak var lastCheck: UILabel!
     @IBOutlet weak var membersTable: UITableView!
+    @IBOutlet weak var shareBtn: UIButton!
+    
+    @IBAction func sharing(_ sender: Any) {
+    }
     
     var miembros:[[String:[String:Any]]]!
     var menuActionDelegate: MenuActionDelegate? = nil
@@ -39,6 +43,7 @@ class membersSelectViewController: UIViewController{
         if checkIn == "" {
             lastCheck.isHidden = true
         }
+        shareBtn.layer.cornerRadius = 2
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,8 +84,8 @@ extension membersSelectViewController: UITableViewDataSource{
 extension membersSelectViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = miembros[indexPath.row].first?.value
-        
-        if data!["visibility"] as! Bool{
+        let visibility = data!["visibility"] as? Bool ?? true
+        if visibility{
             self.userD.set(data, forKey: "UserAsked")
             self.dismiss(animated: true, completion: {
                 self.notificationObserver.post(name: self.solicitudUsuarios, object: self)

@@ -40,7 +40,9 @@ class waspyAlertMarker: GMSMarker {
             marcador = UIImage(named: "map-m1.png")!
         }
         
-        markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 12, height: 15)))
+        markerView = UIImageView(image: marcador)
+        markerView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        markerView.contentMode = .scaleAspectFit
         
         self.iconView = markerView
         self.title = titulo

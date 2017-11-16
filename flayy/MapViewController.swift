@@ -22,12 +22,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     var phone: String!
     var userID: String!
     let userD = UserDefaults.standard
-    let user = Auth.auth().currentUser
     let notificationObserver = NotificationCenter.default
     public let CenterRequest = NSNotification.Name("FixCameraPush")
     public let AlertRequest = NSNotification.Name("Alerts")
     public let LogInNotification = NSNotification.Name("CorrectLogIn")
     public let PlaceAlertRequest = NSNotification.Name("PushAlert")
+    public let LogOutConfirm = NSNotification.Name("LogOut")
     
     var alertas:Bool = false
     var alertBtn:Bool = true
@@ -55,6 +55,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var robbery: Rounded!
     @IBOutlet weak var robberylbl: UILabel!
     //
+    @IBOutlet weak var flechaArriba: UIImageView!
     //
     
     @IBOutlet weak var plusBut: Rounded!
@@ -69,6 +70,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         }
         
     }
+    @IBAction func openMembersTap(_ sender: Any) {
+         performSegue(withIdentifier: "miembros", sender: nil)
+    }
     
     @IBAction func localiza(_ sender: Any) {        //envia coordenadas y las centra en el mapa
         notificationObserver.post(name: CenterRequest, object: self)
@@ -82,15 +86,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             alertBtn = true
             memberList.isHidden = false
             notificationObserver.post(name: AlertRequest, object: self)
-            dron.normalBorderColor = UIColor.clear
-            dron.borderWidth = 0
+            dron.setImage(UIImage(named: "map.i3a.png"), for: .normal)
             plusBut.isHidden = true
             alertas = false
         }else{
             memberList.isHidden = true
             notificationObserver.post(name: AlertRequest, object: self)
-            dron.normalBorderColor = UIColor.green
-            dron.borderWidth = 3
+            dron.setImage(UIImage(named: "map-a1shadowldpi.png"), for: .normal)
             plusBut.isHidden = false
             alertas = true
         }
@@ -185,43 +187,24 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         self.robbery.isHidden = true    ////type 5
         self.robberylbl.isHidden = true
         animationHide()
-        self.phone = user?.phoneNumber ?? ""
-        self.userID = user?.uid ?? ""
+        self.phone = userD.string(forKey: "OwnerPhone")
         
-//        if self.phone == "" && self.userID != ""{
-//            self.userD.set(user?.email, forKey: "OwnerMail")
-//            firebaseManager.init().useriOSExist(userID: self.userID, completion: { (inSystem, phone) in
-//                if inSystem
-//                {
-//                    firebaseManager.init().setUserRegToken(phone: self.phone)
-//                    if self.userD.array(forKey: "MembersActiveGroup") == nil{
-//                        firebaseManager.init().getOwnerData(phone: phone)
-//                    }else{
-//                        self.notificationObserver.post(name: self.LogInNotification, object: self)
-//                    }
-//                }else{
-//                    self.performSegue(withIdentifier: "datosUsuario2", sender: self)
-//                }
-//            })
-//        }else if phone != nil{
-        
-        self.userD.set(self.phone, forKey: "OwnerPhone")
         firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
                 if inSystem
                 {
-                    firebaseManager.init().setUserRegToken(phone: self.phone)
-                    if self.userD.array(forKey: "MembersActiveGroup") == nil{
+                    firebaseManager.init().setUserRegToken()
+                    if self.userD.string(forKey: "ActualGroup") == nil {
                         firebaseManager.init().getOwnerData(phone: self.phone)
                     }else{
                         self.notificationObserver.post(name: self.LogInNotification, object: self)
+                        self.notificationObserver.post(name: NSNotification.Name("UserGroupsChanged"), object: self)
                     }
                 }else{
                     self.performSegue(withIdentifier: "datosUsuario", sender: self)
                 }
             })
-            
-            self.titleBar.title = userD.string(forKey: "ActualGroupTitle") ?? ""
-//        }
+        
+        self.titleBar.title = userD.string(forKey: "ActualGroupTitle") ?? ""
         
         NotificationCenter.default.addObserver(self, selector: #selector(changedGroup), name: NSNotification.Name("UserGroupsChanged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeIcon), name: NSNotification.Name("LoseFocus"), object: nil)
@@ -246,17 +229,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     func animationPresent(){
         self.agression.isHidden = false
-        self.agressionlbl.isHidden = false
         self.harassment.isHidden = false
-        self.harassmentlbl.isHidden = false
         self.thief.isHidden = false
-        self.thieflbl.isHidden = false
         self.biker.isHidden = false
-        self.bikerlbl.isHidden = false
         self.robbery.isHidden = false
-        self.robberylbl.isHidden = false
         
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.robbery.center.x = self.plusBut.center.x
             self.robbery.center.y = self.plusBut.center.y - 60
             self.robberylbl.center.y = self.robbery.center.y
@@ -276,34 +254,44 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             self.agression.center.x = self.plusBut.center.x
             self.agression.center.y = self.plusBut.center.y - 300
             self.agressionlbl.center.y = self.agression.center.y
+            
         }, completion: {(_) in
+            self.agressionlbl.isHidden = false
+            self.harassmentlbl.isHidden = false
+            self.thieflbl.isHidden = false
+            self.bikerlbl.isHidden = false
+            self.robberylbl.isHidden = false
+            
             self.marker.isHidden = false
         })
     }
     
     func animationHide(){
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.agressionlbl.isHidden = true
+            self.harassmentlbl.isHidden = true
+            self.thieflbl.isHidden = true
+            self.bikerlbl.isHidden = true
+            self.robberylbl.isHidden = true
+            
             self.agression.center = self.plusBut.center
-            self.agressionlbl.frame.origin.y = self.plusBut.center.y
             self.harassment.center = self.plusBut.center
-            self.harassmentlbl.frame.origin.y = self.plusBut.center.y
             self.thief.center = self.plusBut.center
-            self.thieflbl.frame.origin.y = self.plusBut.center.y
             self.biker.center = self.plusBut.center
-            self.bikerlbl.frame.origin.y = self.plusBut.center.y
             self.robbery.center = self.plusBut.center
+            
+            
+            self.agressionlbl.frame.origin.y = self.plusBut.center.y
+            self.harassmentlbl.frame.origin.y = self.plusBut.center.y
+            self.thieflbl.frame.origin.y = self.plusBut.center.y
+            self.bikerlbl.frame.origin.y = self.plusBut.center.y
             self.robberylbl.frame.origin.y = self.plusBut.center.y
         }) { (_) in
             self.agression.isHidden = true
-            self.agressionlbl.isHidden = true
             self.harassment.isHidden = true
-            self.harassmentlbl.isHidden = true
             self.thief.isHidden = true
-            self.thieflbl.isHidden = true
             self.biker.isHidden = true
-            self.bikerlbl.isHidden = true
             self.robbery.isHidden = true
-            self.robberylbl.isHidden = true
             self.marker.isHidden = true
         }
     }
@@ -324,7 +312,8 @@ extension MapViewController: MenuActionDelegate {
     }
     
     func exitAuth(){
-        self.userD.set(nil, forKey: "OwnerPhone")
+        firebaseManager.init().clearUserDefaults()
+        NotificationCenter.default.post(name: LogOutConfirm, object: self)
         dismiss(animated: true, completion: {
             exit(0)
         })

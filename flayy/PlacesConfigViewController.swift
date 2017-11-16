@@ -60,7 +60,7 @@ class PlacesConfigViewController: UIViewController {
             FCmNotifications.init().placesUpdated()
             blockedView()
             
-            self.view.window?.rootViewController?.dismiss(animated: true, completion: {
+            self.dismiss(animated: true, completion: {
                 self.userD.set(nil, forKey: "EditingPlace")
                 firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
             })

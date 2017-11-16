@@ -29,10 +29,22 @@ class gruposSelectViewController: UIViewController {
         dismiss(animated: false, completion: nil)
     }
     
+    @IBAction func swipeClose(_ sender: Any) {
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionFade
+        transition.subtype = kCATransitionFromLeft
+        view.window!.layer.add(transition, forKey: "ExitGroup")
+        dismiss(animated: false, completion: nil)
+    }
+    
     @IBOutlet weak var suscribirNuevo: Rounded!
     
     @IBAction func suscribe(_ sender: Any) {
         firebaseManager.init().subscribeUserGroups(code: codetext.text!)
+        dismiss(animated: true) {
+            self.notificationCenter.post(name: self.GroupsChangeNotification, object: self)
+        }
     }
     
     @IBOutlet weak var codetext: UITextField!
