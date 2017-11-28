@@ -195,6 +195,14 @@ class FCmNotifications {
                             subtitulo: dict!["body"] as! String)
             }
         }
+        if msgType == "kick_out"
+        {
+            let group = message["body"] as! [String:String]
+            firebaseManager.init().unsuscribeGroups(code: group["kick_out"]!,
+                                                    phone: self.userD.string(forKey: "OwnerPhone")!,
+                                                    kill: false)
+            NotificationCenter.default.post(name: NSNotification.Name("GotKickOut"), object: self)
+        }
     }
     
     func convertToDictionary(text: String) -> [String: Any]? {

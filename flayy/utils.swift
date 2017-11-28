@@ -144,19 +144,31 @@ func isOnlyNumbers(string: String) -> Bool {
 
 func phoneAreaCode(phone:String, areacode:String) -> String{
     var cleanedPhone = ""
-    if (phone.count >= 13 && areacode != "+1"){
-        let regEx = "\\+([0-9]{9,12})"
-        let arrayAux = matchesForRegexInText(regex: regEx, text: phone)
-        for item in arrayAux
+    cleanedPhone = phone.replacingOccurrences(of: "*", with: "")
+    cleanedPhone = cleanedPhone.replacingOccurrences(of: "(", with: "")
+    cleanedPhone = cleanedPhone.replacingOccurrences(of: ")", with: "")
+    cleanedPhone = cleanedPhone.replacingOccurrences(of: " ", with: "")
+    cleanedPhone = cleanedPhone.replacingOccurrences(of: ";", with: "")
+    cleanedPhone = cleanedPhone.replacingOccurrences(of: ",", with: "")
+    cleanedPhone = cleanedPhone.replacingOccurrences(of: ".", with: "")
+    cleanedPhone = cleanedPhone.replacingOccurrences(of: "#", with: "")
+    cleanedPhone = cleanedPhone.replacingOccurrences(of: "[", with: "")
+    cleanedPhone = cleanedPhone.replacingOccurrences(of: "]", with: "")
+    if (areacode == "+1"){
+        if cleanedPhone.count == 10{
+            return areacode + cleanedPhone
+        }
+        if cleanedPhone.count == 11
         {
-            cleanedPhone += item
+            return "+" + cleanedPhone
         }
     }else{
-        let regEx = "\\+([0-9]{9,12})"
-        let arrayAux = matchesForRegexInText(regex: regEx, text: areacode + phone)
-        for item in arrayAux
+        if cleanedPhone.count == 10{
+            return areacode + cleanedPhone
+        }
+        if cleanedPhone.count == 12
         {
-            cleanedPhone += item
+            return "+" + cleanedPhone
         }
     }
     return cleanedPhone
@@ -166,26 +178,3 @@ func isValidEmail(string: String) -> Bool {
     let emailTest = NSPredicate(format:"SELF MATCHES %@", emailReg)
     return emailTest.evaluate(with: string)
 }
-
-func matchesForRegexInText(regex: String!, text: String!) -> [String] {
-    
-    do {
-        
-        let regex = try NSRegularExpression(pattern: regex, options: [])
-        let nsString = text as NSString
-        
-        let results = regex.matches(in: text,
-                                            options: [], range: NSMakeRange(0, nsString.length))
-        return results.map { nsString.substring(with: $0.range)}
-        
-    } catch let error as NSError {
-        
-        print("invalid regex: \(error.localizedDescription)")
-        
-        return []
-    }
-    
-}
-
-
-

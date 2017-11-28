@@ -34,7 +34,7 @@ class PlacesConfigViewController: UIViewController {
     @IBAction func deletePlace(_ sender: Any) {
         firebaseManager.init().deletePlace(code: userD.string(forKey: "ActualGroup")!,
                                            key: (place.first?.key)!)
-        self.view.window?.rootViewController?.dismiss(animated: true, completion: {
+        self.dismiss(animated: true, completion: {
             self.userD.set(nil, forKey: "EditingPlace")
             NotificationCenter.default.post(name: NSNotification.Name("PlacesAdded"),
                                             object: self)
@@ -43,7 +43,7 @@ class PlacesConfigViewController: UIViewController {
     }
     
     @IBAction func editSave(_ sender: Any) {
-        if edicion{
+        if edicion {
             NotificationCenter.default.post(name: NSNotification.Name("GivemePlaceData"), object: self)
             place = userD.dictionary(forKey: "EditingPlace") as! [String : [String : Any]]
             let key = place.first?.key
@@ -59,7 +59,7 @@ class PlacesConfigViewController: UIViewController {
             }
             FCmNotifications.init().placesUpdated()
             blockedView()
-            
+            NotificationCenter.default.post(name: NSNotification.Name("PlacesUpdated"), object: self)
             self.dismiss(animated: true, completion: {
                 self.userD.set(nil, forKey: "EditingPlace")
                 firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)

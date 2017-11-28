@@ -85,12 +85,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             animationHide()
             alertBtn = true
             memberList.isHidden = false
+            flechaArriba.isHidden = false
             notificationObserver.post(name: AlertRequest, object: self)
             dron.setImage(UIImage(named: "map.i3a.png"), for: .normal)
             plusBut.isHidden = true
             alertas = false
         }else{
             memberList.isHidden = true
+            flechaArriba.isHidden = true
             notificationObserver.post(name: AlertRequest, object: self)
             dron.setImage(UIImage(named: "map-a1shadowldpi.png"), for: .normal)
             plusBut.isHidden = false
@@ -215,11 +217,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @objc func changeIcon(){
-        if fixed {
-            center.setImage(UIImage(named: "d41abb1b.png"), for: .normal)
-        }else{
-            center.setImage(UIImage(named: "map.i4a.png"), for: .normal)
-        }
+
     }
         
     override func didReceiveMemoryWarning() {

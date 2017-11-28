@@ -13,7 +13,7 @@ class One: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        animado.loadGif(name: "slide1-new")
+        animado.loadGif(name: "slide1.l")
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

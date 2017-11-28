@@ -12,7 +12,7 @@ class Three: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        animated.loadGif(name: "slide3")
+        animated.loadGif(name: "slide3-new")
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

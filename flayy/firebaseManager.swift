@@ -90,6 +90,34 @@ public class firebaseManager {
         })
     }
     
+    public func isGroupExists(code: String, completion: @escaping (Bool, String) -> Void) {
+        self.reference.child("groups/" + code).observeSingleEvent(of: .value) { (snap) in
+            let value = snap.value as? NSDictionary ?? nil
+            let childexist:Bool = (value != nil)
+            var owner:String = ""
+            if childexist {
+                let data = snap.value as! [String:[String:Any]]
+                let members = data["members"] as! [String:[String:Any]]
+                let memberNumbers = members.keys
+                let ownerPhone = self.userD.string(forKey: "OwnerPhone")!
+                for member in memberNumbers {
+                    if member == ownerPhone{
+                        completion(false, "")
+                        return
+                    }
+                }
+                for member in memberNumbers {
+                    let memberData = members[member]
+                    if memberData!["rol"] as? String == "admin"{
+                        owner = memberData!["name"] as! String
+                        break
+                    }
+                }
+            }
+            completion(childexist,owner)
+        }
+    }
+    
     public func changeGroupName(code: String, name: String){
         let telefono = userD.string(forKey: "OwnerPhone")!
         self.reference.child("accounts/" + telefono + "/user_groups/groups/" + code).setValue(name)
@@ -225,6 +253,7 @@ public class firebaseManager {
             userD.set(groupCode, forKey: "ActualGroup")
             userD.set(name, forKey: "ActualGroupTitle")
             userD.set(true, forKey: "VisibleInActualGroup")
+            userD.set(nil, forKey: "OwnerPlaces")
             
             var banderas = [String:[String:Bool]]()
             
@@ -255,7 +284,7 @@ public class firebaseManager {
         {
             let userInfo = ["name" : userD.string(forKey: "OwnerName")!,
                             "phone" : phone,
-                            "rol" : "admin",
+                            "rol" : "guest",
                             "visibility" : true,
                             "photo_url": self.userD.string(forKey: "OwnerDownloadURL")!] as [String : Any]
             
@@ -400,7 +429,7 @@ public class firebaseManager {
         
         let fileStorage = almacen.reference(forURL: "gs://camasacontigo.appspot.com/Waspy/")
         let imageData: Data = UIImagePNGRepresentation(photo)!
-        
+        self.saveOwnerPhoto(photo: photo, phone: phone)
         let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         
         let imageUrl = docUrl.appendingPathComponent(phone + ".png")
@@ -461,6 +490,41 @@ public class firebaseManager {
     }
     
     public func updateUserLocation()
+    {
+        guard let phone = self.userD.string(forKey: "OwnerPhone")
+            else {return}
+        let name = self.userD.string(forKey: "OwnerName") ?? ""
+        
+        if phone == "" || name == ""
+        {
+            return
+        }
+        
+        LocationServices.init().getAdress(completion: {coordinades, speed, address, error in
+            if let a = address {
+                let kilo = a["FormattedAddressLines"] as! [String]
+                
+                var direccion = ""
+                
+                for index in 0...(kilo.count - 1)
+                {
+                    direccion += kilo[index]
+                    direccion += " "
+                }
+                
+                let ownerGroups = self.userD.array(forKey: "OwnerGroups") as! [[String:String]]
+                for code in ownerGroups{
+                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
+                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/current_place").setValue(direccion)
+                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
+                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
+                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
+                }
+            }
+        })
+    }
+    
+    public func updateUserLocationBKG()
     {
         guard let phone = self.userD.string(forKey: "OwnerPhone")
             else {return}

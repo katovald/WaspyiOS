@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
         FirebaseApp.configure()
         
         GMSServices.provideAPIKey("AIzaSyCsKticH0eEpIsY-iB07Py0RFQt8nRQ1Gk")
@@ -47,19 +46,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         application.registerForRemoteNotifications()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(startMonitoring), name: NSNotification.Name("CorrectLogIn"), object: nil)
-         NotificationCenter.default.addObserver(self, selector: #selector(stopMonitoring), name: NSNotification.Name("LogOut"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(stopMonitoring), name: NSNotification.Name("LogOut"), object: nil)
         
         if (Auth.auth().currentUser == nil){
             let aux = UIStoryboard(name: "Main", bundle: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(startMonitoring), name: NSNotification.Name("CorrectLogIn"), object: nil)
             let view = aux.instantiateViewController(withIdentifier: "inicioWOLogin") as UIViewController
             window?.rootViewController = view
         }else{
             let aux = UIStoryboard(name: "Main", bundle: nil)
             let view = aux.instantiateViewController(withIdentifier: "inicioWLogin") as UIViewController
             window?.rootViewController = view
+            startMonitoring()
         }
         
         return true
@@ -68,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //[INICIO DE SERVICIO]
     @objc func startMonitoring()
     {
-        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(startTimer), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(startTimer), userInfo: nil, repeats: true)
         timer1 = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
     }
     
@@ -91,16 +90,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     {
         timer.invalidate()
         timer1.invalidate()
-    }
-    
-    func BGtask(_ block: @escaping () -> Void){
-        DispatchQueue.global(qos: .default).async(execute: block)
-    }
-    
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        BGtask {
-            firebaseManager.init().updateUserLocation()
-        }
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
@@ -135,6 +124,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("APNs token retrieved: \(deviceToken)")
         // With swizzling disabled you must set the APNs token here.
         Messaging.messaging().apnsToken = deviceToken
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        
+        print("url \(url)")
+        print("url host :\(url.host!)")
+        print("url path :\(url.path)")
+        
+        
+        let urlPath : String = url.path as String!
+        let urlHost : String = url.host as String!
+        let _: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if(urlHost != "swiftdeveloperblog.com")
+        {
+            print("Host is not correct")
+            return false
+        }
+        
+        if(urlPath == "/inner"){
+            
+        } else if (urlPath == "/about"){
+            
+        }
+        self.window?.makeKeyAndVisible()
+        return true
     }
 }
 

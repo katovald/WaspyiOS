@@ -170,6 +170,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     @objc func updateMarkers()
     {
         var aux = userD.array(forKey: "MembersActiveGroup") as? [[String:[String:Any]]] ?? []
+        //print(aux)
         var allMembers = [String]()
         if aux.count > 0 {
         for key in 0...aux.count - 1 {
@@ -387,21 +388,11 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        notify(msg: "Hola")
         FCmNotifications.init().enterGEO()
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        notify(msg: "Bye")
         FCmNotifications.init().exitGEO()
-    }
-    
-    func notify(msg : String) {
-        let content = UNMutableNotificationContent()
-        content.title = "Prueba"
-        content.body = msg
-        let request = UNNotificationRequest(identifier: "geofence", content: content, trigger: nil)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 
 }

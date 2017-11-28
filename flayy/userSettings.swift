@@ -13,11 +13,11 @@ import Photos
 import FirebaseDatabase
 import FirebaseStorage
 import FirebaseAuth
+import ALCameraViewController
 
-class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate{
+class userSettings: UIViewController, UINavigationControllerDelegate, UITextFieldDelegate{
     var phone:String!
     let userD:UserDefaults = UserDefaults.standard
-    let imagePicker = UIImagePickerController()
     var edit = false
     var keyboardHigth:CGFloat = 0.0
     public let LogInNotification = NSNotification.Name("CorrectLogIn")
@@ -28,7 +28,6 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
     @IBOutlet weak var nameText: UITextField!
     @IBOutlet weak var editaguarda: UIBarButtonItem!
     @IBOutlet weak var inicioCam: UIButton!
-    @IBOutlet weak var galeria: UIButton!
     @IBOutlet weak var userMail: UITextField!
     
     
@@ -62,8 +61,6 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
                     self.editaguarda.title = "Editar"
                     self.workingView.stopAnimating()
                     self.backView.removeFromSuperview()
-                    NotificationCenter.default.post(name: self.LogInNotification, object: self)
-                    NotificationCenter.default.post(name: NSNotification.Name("UserGroupsChanged"), object: self)
                     self.dismiss(animated: true, completion: nil)
                 })
             }
@@ -71,7 +68,6 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
             nameText.isEnabled = true
             userMail.isEnabled = true
             inicioCam.isEnabled = true
-            galeria.isEnabled = true
             editaguarda.tintColor = UIColor.red
             editaguarda.title = "Guardar"
             edit = true
@@ -94,8 +90,6 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
     }
     
     override func viewDidLoad() {
-        
-        imagePicker.delegate = self
         nameText.delegate = self
         userMail.delegate = self
         
@@ -118,7 +112,6 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
             nameText.isEnabled = true
             userMail.isEnabled = true
             inicioCam.isEnabled = true
-            galeria.isEnabled = true
             editaguarda.tintColor = UIColor.red
             editaguarda.title = "Guardar"
             edit = true
@@ -126,63 +119,21 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UIImagePic
             nameText.isEnabled = false
             userMail.isEnabled = false
             inicioCam.isEnabled = false
-            galeria.isEnabled = false
-        }
-    }
-    
-    @IBAction func inicioGaleria(_ sender: Any) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
-            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-            imagePicker.mediaTypes = [kUTTypeImage as String]
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true,completion: nil)
         }
     }
     
     @IBAction func inicioCamView(_ sender: Any) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
-            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-            imagePicker.cameraDevice = UIImagePickerControllerCameraDevice.rear
-            imagePicker.cameraCaptureMode = .photo
-            self.present(imagePicker, animated: true,completion: nil)
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let mediaType = info[UIImagePickerControllerMediaType] as! NSString
-        self.dismiss(animated: true, completion: nil)
-        
-        if mediaType.isEqual(to: kUTTypeImage as String) {
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-            if(image.size.width > image.size.height){
-                let imagenRec:UIImage =  cropToBounds(image: image, width: Double(image.size.width), height: Double(image.size.width))
-                self.userPhoto.image = resizeImage(image: imagenRec, newSize: CGSize(width: 130, height: 130))
+        let param = CroppingParameters(isEnabled: true, allowResizing: true, allowMoving: true, minimumSize: CGSize(width: 130, height: 130))
+        let cameraViewController = CameraViewController.init(croppingParameters: param, allowsLibraryAccess: true, allowsSwapCameraOrientation: true, allowVolumeButtonCapture: true) { [weak self] image, asset in
+            // Do something with your image here.
+            if image != nil {
+                self?.userPhoto.image = image
             }
-            if(image.size.width < image.size.height){
-                let imagenRec:UIImage =  cropToBounds(image: image, width: Double(image.size.height), height: Double(image.size.height))
-                self.userPhoto.image =  imageRotatedByDegrees(oldImage: resizeImage(image: imagenRec, newSize: CGSize(width: 130, height: 130)), deg: 90.0)
-            }
-            else{
-                self.userPhoto.image = resizeImage(image: image, newSize: CGSize(width: 130, height: 130))
-            }
+            self?.dismiss(animated: true, completion: nil)
         }
+        present(cameraViewController, animated: true, completion: nil)
     }
-    
-    func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo:UnsafeRawPointer) {
-        
-        if error != nil {
-            let alert = UIAlertController(title: "Ups...",
-                                          message: "Algo Fallo...",
-                                          preferredStyle: UIAlertControllerStyle.alert)
-            
-            let cancelAction = UIAlertAction(title: "Listo",
-                                             style: .cancel, handler: nil)
-            
-            alert.addAction(cancelAction)
-            self.present(alert, animated: true,
-                         completion: nil)
-        }
-    }
+
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true) //This will hide the keyboard

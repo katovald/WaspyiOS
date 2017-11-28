@@ -9,28 +9,39 @@
 import UIKit
 import FirebaseAuth
 import AVFoundation
+import CountryPicker
 
-class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate{
+class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate, CountryPickerDelegate {
+    
+    func countryPhoneCodePicker(_ picker: CountryPicker, didSelectCountryWithName name: String, countryCode: String, phoneCode: String, flag: UIImage) {
+        areaCode = phoneCode
+        areaInfo.text = phoneCode
+        flagCountry.setImage(flag, for: .normal)
+    }
+    
+    @IBAction func selectCountry(_ sender: Any) {
+        self.countryCode.isHidden = false
+        self.flagCountry.isEnabled = false
+        self.okSelected.isHidden = false
+    }
+    @IBAction func selected(_ sender: Any) {
+        self.countryCode.isHidden = true
+        self.flagCountry.isEnabled = true
+        self.okSelected.isHidden = true
+    }
     
     //// nombres de los coponentes de la view (para animaciones)
     @IBOutlet weak var inicioSesion: UIButton!
     @IBOutlet weak var phone: UITextField!
     @IBOutlet weak var appMessages: UILabel!
+    @IBOutlet weak var countryCode: CountryPicker!
+    @IBOutlet weak var flagCountry: UIButton!
+    @IBOutlet weak var areaInfo: UILabel!
+    @IBOutlet weak var okSelected: UIButton!
     
-    @IBOutlet weak var banderaArea: UIImageView!
     @IBOutlet weak var icono: UIImageView!
     
     var window: UIWindow?
-    
-    @IBAction func changeArea(_ sender: Any) {
-        if areaCode == "+52"{
-            areaCode = "+1"
-            banderaArea.image = UIImage(named: "flag_usa.png")
-        }else{
-            areaCode = "+52"
-            banderaArea.image = UIImage(named: "flag_mexico.png")
-        }
-    }
     
     //variables necesarias
     var player: AVPlayer!
@@ -45,7 +56,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     
     @IBAction func loginAttemp(_ sender: Any) {
         
-        self.ownerPhone = areaCode + phone.text!
+        self.ownerPhone = phoneAreaCode(phone: phone.text!, areacode: areaCode)
         
         if self.ownerPhone.count == 11 || self.ownerPhone.count == 13
         {
@@ -61,6 +72,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
                         
                         alertView.addTextField(configurationHandler: { (textfield) in
                             textfield.placeholder = "Contraseña"
+                            textfield.isSecureTextEntry = true
                         })
                         
                         alertView.addAction(inicio)
@@ -88,9 +100,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
                     })
                     alertView.addTextField(configurationHandler: { (textfield) in
                         textfield.placeholder = "Contraseña"
+                        textfield.isSecureTextEntry = true
                     })
                     alertView.addTextField(configurationHandler: { (textfield) in
                         textfield.placeholder = "Repite tu Contraseña"
+                        textfield.isSecureTextEntry = true
                     })
                     
                     alertView.addAction(registro)
@@ -99,12 +113,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
                     self.present(alertView, animated: true, completion: nil)
                 }
             })
+        }else{
+            alert(message: "Numero Invalido")
         }
     }
+    
     
     //Funciones de la view
     override func viewDidLoad() {
         super.viewDidLoad()
+        let locale = Locale.current
+        let code = (locale as NSLocale).object(forKey: NSLocale.Key.countryCode) as! String?
+        countryCode.countryPickerDelegate = self
+        countryCode.showPhoneNumbers = true
+        countryCode.setCountry(code!)
+        countryCode.isHidden = true
+        self.okSelected.isHidden = true
         
         let url = Bundle.main.url(forResource: "video_login", withExtension: "mov")
         
@@ -119,6 +143,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
         view.layer.insertSublayer(playerLayer, at: 0)
         
         icono.loadGif(name: "eye.a")
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(termino(notification:)),
+                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                                               object: player.currentItem)
         // Do any additional setup after loading the view, typically from a nib.
         
     }
@@ -150,9 +179,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
             if (e != nil){
                 self.alert(message: "Error: " + (e?.localizedDescription)!)
             }else{
-                self.appMessages.textColor = UIColor.white
-                self.appMessages.text = "Bienvenido"
-                sleep(2)
                 let correo = mail
                 self.userD.set(self.ownerPhone, forKey: "OwnerPhone")
                 self.userD.set(correo, forKey:"OwnerMail")
@@ -167,9 +193,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
             if (e != nil){
                 self.alert(message: "Error al crear el usuario: " + (e?.localizedDescription)!)
             }else{
-                self.appMessages.textColor = UIColor.white
-                self.appMessages.text = "Bienvenido"
-                sleep(2)
                 let correo = mail
                 self.userD.set(self.ownerPhone, forKey: "OwnerPhone")
                 self.userD.set(correo, forKey:"OwnerMail")
@@ -180,6 +203,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true) //This will hide the keyboard
+        self.countryCode.isHidden = true
+        self.flagCountry.isEnabled = true
+        self.okSelected.isHidden = true
     }
 
 }

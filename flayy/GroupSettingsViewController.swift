@@ -24,7 +24,7 @@ class GroupSettingsViewController: UIViewController {
             edicion = false
             nombre.isEnabled = false
             firebaseManager.init().changeGroupName(code: code, name: nombre.text!)
-            self.view.window?.rootViewController?.dismiss(animated: true, completion: {
+            self.dismiss(animated: true, completion: {
                 firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
             })
         }else{
@@ -35,6 +35,7 @@ class GroupSettingsViewController: UIViewController {
         }
     }
     @IBOutlet weak var editaGuarda: UIBarButtonItem!
+    
     @IBAction func getOut(_ sender: Any) {
         let grupos = userD.array(forKey: "OwnerGroups")
         let miembros = userD.array(forKey: "MiembrosAuxiliares")!
@@ -57,16 +58,17 @@ class GroupSettingsViewController: UIViewController {
                                                             phone: userD.string(forKey: "OwnerPhone")!,
                                                             kill: false)
                 }
-                self.view.window?.rootViewController?.dismiss(animated: true, completion:{
+                self.dismiss(animated: true, completion:{
                     let newGroup = grupos![0] as! [String:String]
                     self.userD.set(newGroup.first?.key, forKey: "ActualGroup")
                     self.userD.set(newGroup.first?.value, forKey: "ActualGroupTitle")
                     firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
                         self.userD.set(members, forKey: "MembersActiveGroup")
                         firebaseManager.init().setLastGroup(name: (newGroup.first?.value)!)
+                        firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
                         NotificationCenter.default.post(name: NSNotification.Name("UserGroupsChanged"),
                                                         object: self)
-                        firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
+                        
                     })
                 })
             }
@@ -138,7 +140,10 @@ class GroupSettingsViewController: UIViewController {
         code = userD.string(forKey: "CodigoGrupoAuxiliar")
         textName = userD.string(forKey: "NombreAuxiliar")
         
-        banderas = userD.dictionary(forKey: "NotificationFlags") ?? ["geoFence_Notifications" : ["geoFence_enter":true, "geoFence_exit":true]]
+        banderas = userD.dictionary(forKey: "NotificationFlags") ?? [:]
+        if banderas.count == 0 {
+            banderas = ["geoFence_Notifications" : ["geoFence_enter":true, "geoFence_exit":true]]
+        }
         
         let switches = banderas.first?.value as! [String:Bool]
 

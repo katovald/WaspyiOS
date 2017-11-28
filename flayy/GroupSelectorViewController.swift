@@ -32,6 +32,7 @@ class GroupSelectorViewController: UIViewController {
         
         present(alertController, animated: true, completion: nil)
     }
+    
     @IBOutlet weak var newGroup: UIBarButtonItem!
     let userD: UserDefaults = UserDefaults.standard
     
@@ -47,7 +48,6 @@ class GroupSelectorViewController: UIViewController {
         super.viewDidLoad()
         gruposLista = userD.array(forKey: "OwnerGroups") as! [[String:String]]
         titulo.title = userD.string(forKey: "ActualGroupTitle") ?? ""
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

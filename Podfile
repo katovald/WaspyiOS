@@ -20,4 +20,6 @@ pod 'FirebaseInstanceID'
 pod 'GoogleMaps'
 pod 'GooglePlaces'
 pod 'GeoFire', :path => '/Users/kato/Documents/projects/flayy/geofire'
+pod 'CountryPickerSwift', '1.4.5'
+pod 'ALCameraViewController'
 end

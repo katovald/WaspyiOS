@@ -27,6 +27,10 @@
 		410B6F8F1FA8CEBE003CB694 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 410B6F8E1FA8CEBE003CB694 /* GoogleService-Info.plist */; };
 		4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4111D0D41F3273C10045AEF4 /* CustomMenu.swift */; };
 		4125596C1F98ED99004B843A /* FCMNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4125596B1F98ED99004B843A /* FCMNotifications.swift */; };
+		4125C1331FBF4B9B00E37412 /* map-focus.png in Resources */ = {isa = PBXBuildFile; fileRef = 4125C1321FBF4B9900E37412 /* map-focus.png */; };
+		4125C1391FBF744100E37412 /* slide1new.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4125C1381FBF743E00E37412 /* slide1new.gif */; };
+		4125C13B1FBF755300E37412 /* slide3-new.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4125C13A1FBF755300E37412 /* slide3-new.gif */; };
+		4125C13D1FBF969900E37412 /* boton-panico.png in Resources */ = {isa = PBXBuildFile; fileRef = 4125C13C1FBF969900E37412 /* boton-panico.png */; };
 		4129DF251F7EF08C005EE130 /* waspyPlaceMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4129DF241F7EF08C005EE130 /* waspyPlaceMarker.swift */; };
 		4129DF581F7EF654005EE130 /* geoplace_coffe.png in Resources */ = {isa = PBXBuildFile; fileRef = 4129DF531F7EF54C005EE130 /* geoplace_coffe.png */; };
 		4129DF591F7EF654005EE130 /* geoplace_gym.png in Resources */ = {isa = PBXBuildFile; fileRef = 4129DF571F7EF54D005EE130 /* geoplace_gym.png */; };
@@ -37,6 +41,7 @@
 		4129DF5E1F7EF654005EE130 /* geoplace_school.png in Resources */ = {isa = PBXBuildFile; fileRef = 4129DF521F7EF54C005EE130 /* geoplace_school.png */; };
 		4129DF5F1F7EF654005EE130 /* geoplace_super.png in Resources */ = {isa = PBXBuildFile; fileRef = 4129DF4F1F7EF54C005EE130 /* geoplace_super.png */; };
 		4129DF601F7EF654005EE130 /* geoplace_work.png in Resources */ = {isa = PBXBuildFile; fileRef = 4129DF551F7EF54D005EE130 /* geoplace_work.png */; };
+		413291C21FCCBCBD00880239 /* palomita@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 413291C11FCCBCB700880239 /* palomita@2x.png */; };
 		413980931F7D4D8100C5DCCB /* menu-bg2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 413980891F7D4D7800C5DCCB /* menu-bg2x.png */; };
 		413980B01F7D734900C5DCCB /* group-i1small.png in Resources */ = {isa = PBXBuildFile; fileRef = 413980B31F7D734900C5DCCB /* group-i1small.png */; };
 		413980B11F7D734900C5DCCB /* group-i1small.png in Resources */ = {isa = PBXBuildFile; fileRef = 413980B31F7D734900C5DCCB /* group-i1small.png */; };
@@ -52,6 +57,9 @@
 		414A93411FBE00DC00A6B42F /* ic_people_black_24dp_w2.png in Resources */ = {isa = PBXBuildFile; fileRef = 414A933F1FBE00DA00A6B42F /* ic_people_black_24dp_w2.png */; };
 		414A93471FBE050800A6B42F /* groups1.png in Resources */ = {isa = PBXBuildFile; fileRef = 414A93461FBE050800A6B42F /* groups1.png */; };
 		414A93491FBE056900A6B42F /* checkin1.png in Resources */ = {isa = PBXBuildFile; fileRef = 414A93481FBE056600A6B42F /* checkin1.png */; };
+		415D27BE1FC4E4C000DFDB48 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415D27BD1FC4E4C000DFDB48 /* LocationSearchTable.swift */; };
+		415D27C01FC71C4700DFDB48 /* SLIDE4BG.png in Resources */ = {isa = PBXBuildFile; fileRef = 415D27BF1FC71C4600DFDB48 /* SLIDE4BG.png */; };
+		415D27C21FC71C4B00DFDB48 /* bg1slide1.png in Resources */ = {isa = PBXBuildFile; fileRef = 415D27C11FC71C4B00DFDB48 /* bg1slide1.png */; };
 		415FEF031FBA19A30024C6F2 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 415FEF021FBA19A10024C6F2 /* check.png */; };
 		4166EDEA1F84144100CB8823 /* map-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 4129DF441F7EF29A005EE130 /* map-eye.png */; };
 		4166EDEC1F843B9C00CB8823 /* waspyAlertMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4166EDEB1F843B9C00CB8823 /* waspyAlertMarker.swift */; };
@@ -130,6 +138,14 @@
 		418BDCAB1FACC9E6005FD943 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 418BDCAA1FACC9E4005FD943 /* default.png */; };
 		418BDCAF1FAD216D005FD943 /* video_login.mov in Resources */ = {isa = PBXBuildFile; fileRef = 418BDCAE1FAD216C005FD943 /* video_login.mov */; };
 		418BDCB11FAD2182005FD943 /* eye.gif in Resources */ = {isa = PBXBuildFile; fileRef = 418BDCB01FAD2180005FD943 /* eye.gif */; };
+		418DB7F61FC745C000398310 /* ALCameraViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 418DB7F71FC745C000398310 /* ALCameraViewController.framework */; };
+		418DB7FC1FC7797E00398310 /* camera1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 418DB7FB1FC7797E00398310 /* camera1@2x.png */; };
+		418DB7FE1FC77D5B00398310 /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = 418DB7FD1FC77D5800398310 /* Back.png */; };
+		418DB8001FC7851900398310 /* Back1.png in Resources */ = {isa = PBXBuildFile; fileRef = 418DB7FF1FC7851600398310 /* Back1.png */; };
+		418DB8021FC7888F00398310 /* Back_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 418DB8011FC7888C00398310 /* Back_2.png */; };
+		418DB8041FCC5B6100398310 /* Back_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 418DB8031FCC5B6100398310 /* Back_4.png */; };
+		418DB8071FCC5FA400398310 /* WalkTViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418DB8061FCC5FA400398310 /* WalkTViewController.swift */; };
+		418DB8091FCC887D00398310 /* waspy_bggroup.png in Resources */ = {isa = PBXBuildFile; fileRef = 418DB8081FCC887A00398310 /* waspy_bggroup.png */; };
 		41932AFC1F68288100BACA70 /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41932AFB1F68288100BACA70 /* LocationServices.swift */; };
 		41937E161F9521B800ADF1BB /* MisGrupos-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 41937E151F9521B500ADF1BB /* MisGrupos-bg.png */; };
 		41937E171F9521B800ADF1BB /* MisGrupos-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41937E141F9521B500ADF1BB /* MisGrupos-bg@2x.png */; };
@@ -188,6 +204,7 @@
 		41937E9A1F96553900ADF1BB /* panico-avatar2.png in Resources */ = {isa = PBXBuildFile; fileRef = 41937E8B1F96412D00ADF1BB /* panico-avatar2.png */; };
 		41937E9B1F96553900ADF1BB /* panico-avatar2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41937E8C1F96412F00ADF1BB /* panico-avatar2@2x.png */; };
 		41937E9C1F96553900ADF1BB /* panico-avatar2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41937E881F96412800ADF1BB /* panico-avatar2@3x.png */; };
+		4193DD861FC4AB9400CCC086 /* slide1.l.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4193DD851FC4AB9100CCC086 /* slide1.l.gif */; };
 		4194EA9A1F1044F0002A4F21 /* HelpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4194EA991F1044F0002A4F21 /* HelpController.swift */; };
 		41ACBAE31F460C9E00C8DFB9 /* keyboardDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41ACBAE21F460C9E00C8DFB9 /* keyboardDesign.swift */; };
 		41B7195C1F069C9C00A42014 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7195B1F069C9C00A42014 /* AppDelegate.swift */; };
@@ -281,6 +298,10 @@
 		4111D0D41F3273C10045AEF4 /* CustomMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
 		411BC24F1F546E2800E5560D /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		4125596B1F98ED99004B843A /* FCMNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMNotifications.swift; sourceTree = "<group>"; };
+		4125C1321FBF4B9900E37412 /* map-focus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-focus.png"; sourceTree = "<group>"; };
+		4125C1381FBF743E00E37412 /* slide1new.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = slide1new.gif; sourceTree = "<group>"; };
+		4125C13A1FBF755300E37412 /* slide3-new.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "slide3-new.gif"; sourceTree = "<group>"; };
+		4125C13C1FBF969900E37412 /* boton-panico.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "boton-panico.png"; sourceTree = "<group>"; };
 		4129DF241F7EF08C005EE130 /* waspyPlaceMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waspyPlaceMarker.swift; sourceTree = "<group>"; };
 		4129DF271F7EF297005EE130 /* map-m5 @2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-m5 @2x.png"; sourceTree = "<group>"; };
 		4129DF281F7EF297005EE130 /* map-i3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-i3@3x.png"; sourceTree = "<group>"; };
@@ -330,6 +351,7 @@
 		4129DF551F7EF54D005EE130 /* geoplace_work.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoplace_work.png; sourceTree = "<group>"; };
 		4129DF561F7EF54D005EE130 /* geoplace_house2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoplace_house2.png; sourceTree = "<group>"; };
 		4129DF571F7EF54D005EE130 /* geoplace_gym.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoplace_gym.png; sourceTree = "<group>"; };
+		413291C11FCCBCB700880239 /* palomita@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "palomita@2x.png"; sourceTree = "<group>"; };
 		413980891F7D4D7800C5DCCB /* menu-bg2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-bg2x.png"; sourceTree = "<group>"; };
 		413980B21F7D734900C5DCCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = "Base.lproj/group-i1small.png"; sourceTree = "<group>"; };
 		414524681F575DD60095C8F2 /* utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = utils.swift; sourceTree = "<group>"; };
@@ -343,6 +365,9 @@
 		414A933F1FBE00DA00A6B42F /* ic_people_black_24dp_w2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_people_black_24dp_w2.png; sourceTree = "<group>"; };
 		414A93461FBE050800A6B42F /* groups1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = groups1.png; path = ../../../Desktop/iOS/iconswaspy/groups1.png; sourceTree = "<group>"; };
 		414A93481FBE056600A6B42F /* checkin1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkin1.png; sourceTree = "<group>"; };
+		415D27BD1FC4E4C000DFDB48 /* LocationSearchTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
+		415D27BF1FC71C4600DFDB48 /* SLIDE4BG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SLIDE4BG.png; sourceTree = "<group>"; };
+		415D27C11FC71C4B00DFDB48 /* bg1slide1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg1slide1.png; sourceTree = "<group>"; };
 		415FEF021FBA19A10024C6F2 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = check.png; path = ../../respaldo/flayy/check.png; sourceTree = "<group>"; };
 		415FEF061FBA1A620024C6F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = "Base.lproj/gruposistemas-bg.png"; sourceTree = "<group>"; };
 		4166EDEB1F843B9C00CB8823 /* waspyAlertMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waspyAlertMarker.swift; sourceTree = "<group>"; };
@@ -364,6 +389,14 @@
 		418BDCAA1FACC9E4005FD943 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		418BDCAE1FAD216C005FD943 /* video_login.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = video_login.mov; sourceTree = "<group>"; };
 		418BDCB01FAD2180005FD943 /* eye.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = eye.gif; sourceTree = "<group>"; };
+		418DB7F71FC745C000398310 /* ALCameraViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = ALCameraViewController.framework; path = ALCameraViewController/ALCameraViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		418DB7FB1FC7797E00398310 /* camera1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera1@2x.png"; sourceTree = "<group>"; };
+		418DB7FD1FC77D5800398310 /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
+		418DB7FF1FC7851600398310 /* Back1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back1.png; sourceTree = "<group>"; };
+		418DB8011FC7888C00398310 /* Back_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back_2.png; sourceTree = "<group>"; };
+		418DB8031FCC5B6100398310 /* Back_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back_4.png; sourceTree = "<group>"; };
+		418DB8061FCC5FA400398310 /* WalkTViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkTViewController.swift; sourceTree = "<group>"; };
+		418DB8081FCC887A00398310 /* waspy_bggroup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waspy_bggroup.png; sourceTree = "<group>"; };
 		41932AFB1F68288100BACA70 /* LocationServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationServices.swift; sourceTree = "<group>"; };
 		41937E131F9521B400ADF1BB /* MisGrupos-bg@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MisGrupos-bg@3x.png"; sourceTree = "<group>"; };
 		41937E141F9521B500ADF1BB /* MisGrupos-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MisGrupos-bg@2x.png"; sourceTree = "<group>"; };
@@ -430,6 +463,7 @@
 		41937E8E1F96413200ADF1BB /* panico-avatar2-.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "panico-avatar2-.png"; sourceTree = "<group>"; };
 		41937E8F1F96413400ADF1BB /* panico-avatar1+@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "panico-avatar1+@2x.png"; sourceTree = "<group>"; };
 		41937E901F96413600ADF1BB /* panico-avatar1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "panico-avatar1.png"; sourceTree = "<group>"; };
+		4193DD851FC4AB9100CCC086 /* slide1.l.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = slide1.l.gif; sourceTree = "<group>"; };
 		4194EA991F1044F0002A4F21 /* HelpController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpController.swift; sourceTree = "<group>"; };
 		41ACBAE21F460C9E00C8DFB9 /* keyboardDesign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = keyboardDesign.swift; sourceTree = "<group>"; };
 		41B719581F069C9C00A42014 /* flayy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flayy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -482,6 +516,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				418DB7F61FC745C000398310 /* ALCameraViewController.framework in Frameworks */,
 				417FC9511F5626D700EDC5A7 /* GoogleMaps.framework in Frameworks */,
 				DE253C0327B82400176CCA14 /* Pods_flayy.framework in Frameworks */,
 			);
@@ -589,6 +624,8 @@
 		413980B51F7D751600C5DCCB /* GroupSelector */ = {
 			isa = PBXGroup;
 			children = (
+				418DB8081FCC887A00398310 /* waspy_bggroup.png */,
+				413291C11FCCBCB700880239 /* palomita@2x.png */,
 				415FEF021FBA19A10024C6F2 /* check.png */,
 				41937E151F9521B500ADF1BB /* MisGrupos-bg.png */,
 				41937E141F9521B500ADF1BB /* MisGrupos-bg@2x.png */,
@@ -673,6 +710,7 @@
 		41776EDF1F7D418C001A0E55 /* mapController */ = {
 			isa = PBXGroup;
 			children = (
+				4125C1321FBF4B9900E37412 /* map-focus.png */,
 				414A933C1FBDFE9B00A6B42F /* map-a1shadowldpi.png */,
 				41937E691F95569200ADF1BB /* d41abb1b.png */,
 				41937E5D1F95556400ADF1BB /* map.i3a.png */,
@@ -701,6 +739,7 @@
 		417F8A181F28EC4E00C4AE58 /* Design */ = {
 			isa = PBXGroup;
 			children = (
+				418DB8051FCC5F7D00398310 /* walktrougth */,
 				414524761F634B7D0095C8F2 /* waspyMemberMarker.swift */,
 				4129DF241F7EF08C005EE130 /* waspyPlaceMarker.swift */,
 				4166EDEB1F843B9C00CB8823 /* waspyAlertMarker.swift */,
@@ -724,6 +763,7 @@
 		4183E4D31F0D5CF700ECBED4 /* Hdlrs */ = {
 			isa = PBXGroup;
 			children = (
+				4194EA991F1044F0002A4F21 /* HelpController.swift */,
 				410B33491F6AF73E00F3F443 /* GeoNotification.swift */,
 				414524741F5EF4900095C8F2 /* reachNet.swift */,
 				414524721F5EF1A20095C8F2 /* firebaseManager.swift */,
@@ -731,6 +771,7 @@
 				417F8A191F29210600C4AE58 /* asyncData.swift */,
 				414524681F575DD60095C8F2 /* utils.swift */,
 				4101DCD81F13CB760096FC84 /* Gif.swift */,
+				415D27BD1FC4E4C000DFDB48 /* LocationSearchTable.swift */,
 			);
 			name = Hdlrs;
 			sourceTree = "<group>";
@@ -739,10 +780,15 @@
 			isa = PBXGroup;
 			children = (
 				41025C531FBE0D64009CF1FD /* test12x.png */,
+				4193DD851FC4AB9100CCC086 /* slide1.l.gif */,
 				41D401BA1FB27F2300D65FC7 /* slide2.gif */,
 				41D401B91FB27F2100D65FC7 /* slide3.gif */,
+				4125C1381FBF743E00E37412 /* slide1new.gif */,
 				41D401B61FB27E7F00D65FC7 /* slide1-new.gif */,
+				4125C13A1FBF755300E37412 /* slide3-new.gif */,
 				41D401B31FB27E1F00D65FC7 /* slide-4-last-interface.gif */,
+				415D27C11FC71C4B00DFDB48 /* bg1slide1.png */,
+				415D27BF1FC71C4600DFDB48 /* SLIDE4BG.png */,
 				41D401B11FB2785200D65FC7 /* eye.a.gif */,
 				41C6AB591FB0E5F1001D41BF /* marker_layout.png */,
 				418BDCB01FAD2180005FD943 /* eye.gif */,
@@ -752,6 +798,14 @@
 			name = defaults;
 			sourceTree = "<group>";
 		};
+		418DB8051FCC5F7D00398310 /* walktrougth */ = {
+			isa = PBXGroup;
+			children = (
+				418DB8061FCC5FA400398310 /* WalkTViewController.swift */,
+			);
+			name = walktrougth;
+			sourceTree = "<group>";
+		};
 		41937E6B1F955A4200ADF1BB /* navBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -759,7 +813,11 @@
 				414A933F1FBE00DA00A6B42F /* ic_people_black_24dp_w2.png */,
 				414A93461FBE050800A6B42F /* groups1.png */,
 				414A93481FBE056600A6B42F /* checkin1.png */,
+				418DB7FF1FC7851600398310 /* Back1.png */,
+				418DB8011FC7888C00398310 /* Back_2.png */,
+				418DB7FD1FC77D5800398310 /* Back.png */,
 				41937E821F95603D00ADF1BB /* mapi2small.png */,
+				418DB8031FCC5B6100398310 /* Back_4.png */,
 				41937E7E1F955F0A00ADF1BB /* map-iasmall.png */,
 				41937E6F1F955A5800ADF1BB /* map-ia.png */,
 				41937E6D1F955A5500ADF1BB /* map-ia@2x.png */,
@@ -778,6 +836,7 @@
 		41937E841F9640FF00ADF1BB /* paniView */ = {
 			isa = PBXGroup;
 			children = (
+				4125C13C1FBF969900E37412 /* boton-panico.png */,
 				41937E901F96413600ADF1BB /* panico-avatar1.png */,
 				41937E861F96412500ADF1BB /* panico-avatar1@2x.png */,
 				41937E891F96412A00ADF1BB /* panico-avatar1@3x.png */,
@@ -839,7 +898,6 @@
 				41937E471F95316600ADF1BB /* PanicButtonViewController.swift */,
 				4104F4091F1FE66D00F222B9 /* PlacesMapViewController.swift */,
 				41CCFD001F0C0D8200F4AC89 /* userSettings.swift */,
-				4194EA991F1044F0002A4F21 /* HelpController.swift */,
 				417E646F1F16703200DDA8F8 /* MapController.swift */,
 				41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */,
 				41DCA1BA1F743247001B23F4 /* GroupSelectorViewController.swift */,
@@ -870,6 +928,7 @@
 		41C6AB461FB0D864001D41BF /* settings */ = {
 			isa = PBXGroup;
 			children = (
+				418DB7FB1FC7797E00398310 /* camera1@2x.png */,
 				41C6AB571FB0DD3E001D41BF /* camera.png */,
 				41C6AB531FB0DCB5001D41BF /* photos.png */,
 			);
@@ -888,6 +947,7 @@
 		CA07F69ADD343FD4F2B5624C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				418DB7F71FC745C000398310 /* ALCameraViewController.framework */,
 				411BC24F1F546E2800E5560D /* GoogleMaps.framework */,
 				41F8BD4E1F509BF00042B885 /* GoogleToolboxForMac.framework */,
 				403FCD8653054AF62695F8FA /* Pods_flayy.framework */,
@@ -985,6 +1045,9 @@
 							com.apple.Push = {
 								enabled = 1;
 							};
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 						};
 					};
 					41B7196B1F069C9C00A42014 = {
@@ -1028,6 +1091,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				418DB7FE1FC77D5B00398310 /* Back.png in Resources */,
 				4166EE161F85948900CB8823 /* flag_usa.png in Resources */,
 				4166EE091F8441DD00CB8823 /* map-m3@2x.png in Resources */,
 				4129DF5C1F7EF654005EE130 /* geoplace_mall.png in Resources */,
@@ -1056,18 +1120,22 @@
 				4166EDF61F8441DD00CB8823 /* map-i3@3x.png in Resources */,
 				41025C541FBE0D64009CF1FD /* test12x.png in Resources */,
 				41D401BC1FB27F2500D65FC7 /* slide2.gif in Resources */,
+				415D27C21FC71C4B00DFDB48 /* bg1slide1.png in Resources */,
 				4166EDFD1F8441DD00CB8823 /* map-lupa-transp.png in Resources */,
 				41C6AB521FB0D8AB001D41BF /* ic_battery_100.png in Resources */,
 				414A93401FBE00DC00A6B42F /* ic_people_black_24dp_w.png in Resources */,
+				418DB8041FCC5B6100398310 /* Back_4.png in Resources */,
 				41C6AB4F1FB0D8AB001D41BF /* ic_battery_70.png in Resources */,
 				41937E401F9529AA00ADF1BB /* menu-i8@3x.png in Resources */,
 				41776F1B1F7D44C5001A0E55 /* group-i1@3x.png in Resources */,
 				41937E7A1F955A6600ADF1BB /* map.i1@3x.png in Resources */,
+				4125C1331FBF4B9B00E37412 /* map-focus.png in Resources */,
 				4166EDEE1F8441DD00CB8823 /* map-eye@3x.png in Resources */,
 				41937E971F96553900ADF1BB /* panico-avatar2-.png in Resources */,
 				41025C621FBE43C7009CF1FD /* group-i3small.png in Resources */,
 				4129DF5E1F7EF654005EE130 /* geoplace_school.png in Resources */,
 				4166EDF91F8441DD00CB8823 /* map-i4@3x.png in Resources */,
+				418DB8021FC7888F00398310 /* Back_2.png in Resources */,
 				4166EDF31F8441DD00CB8823 /* map-i22x.png in Resources */,
 				41937E7C1F955A6600ADF1BB /* map.i2@2x.png in Resources */,
 				41937E831F95604000ADF1BB /* mapi2small.png in Resources */,
@@ -1082,6 +1150,7 @@
 				41937E3B1F9529AA00ADF1BB /* menu-i7.png in Resources */,
 				41937E3C1F9529AA00ADF1BB /* menu-i7@2x.png in Resources */,
 				41937E7D1F955A6600ADF1BB /* map.i2@3x.png in Resources */,
+				415D27C01FC71C4700DFDB48 /* SLIDE4BG.png in Resources */,
 				41776F251F7D44CB001A0E55 /* group-i2@2x.png in Resources */,
 				41776F161F7D44C2001A0E55 /* group-i1@2x.png in Resources */,
 				41937E9A1F96553900ADF1BB /* panico-avatar2.png in Resources */,
@@ -1092,13 +1161,16 @@
 				4166EDF51F8441DD00CB8823 /* map-i32x.png in Resources */,
 				4129DF5B1F7EF654005EE130 /* geoplace_house2.png in Resources */,
 				41FCE94F1FBB4600007A1A98 /* menu-bg.png in Resources */,
+				4125C1391FBF744100E37412 /* slide1new.gif in Resources */,
 				41937E941F96553900ADF1BB /* panico-avatar1+.png in Resources */,
 				413980B01F7D734900C5DCCB /* group-i1small.png in Resources */,
 				4166EDF01F8441DD00CB8823 /* map-i12x.png in Resources */,
 				4166EDFA1F8441DD00CB8823 /* map-i5.png in Resources */,
 				41937E771F955A6600ADF1BB /* map-ia@3x.png in Resources */,
+				413291C21FCCBCBD00880239 /* palomita@2x.png in Resources */,
 				4166EE021F8441DD00CB8823 /* map-m1.png in Resources */,
 				41937E921F96553900ADF1BB /* panico-avatar1@2x.png in Resources */,
+				418DB7FC1FC7797E00398310 /* camera1@2x.png in Resources */,
 				418BDCB11FAD2182005FD943 /* eye.gif in Resources */,
 				41776F0C1F7D44A5001A0E55 /* group-i1.png in Resources */,
 				41C6AB511FB0D8AB001D41BF /* ic_battery_30.png in Resources */,
@@ -1135,16 +1207,20 @@
 				4166EDFB1F8441DD00CB8823 /* map-i52x.png in Resources */,
 				4166EE0E1F8441DD00CB8823 /* map-m5 @2x.png in Resources */,
 				41025C561FBE2005009CF1FD /* icon1-test.png in Resources */,
+				4125C13B1FBF755300E37412 /* slide3-new.gif in Resources */,
 				41776F341F7D44D5001A0E55 /* group-i3@2x.png in Resources */,
 				41937E541F95545A00ADF1BB /* map.i4a@3x.png in Resources */,
 				4166EE0A1F8441DD00CB8823 /* map-m3@3x.png in Resources */,
 				41937E371F9529A600ADF1BB /* menu-i4@2x.png in Resources */,
+				4125C13D1FBF969900E37412 /* boton-panico.png in Resources */,
 				4166EDF11F8441DD00CB8823 /* map-i1@3x.png in Resources */,
 				41937E951F96553900ADF1BB /* panico-avatar1+@2x.png in Resources */,
 				41937E661F95557700ADF1BB /* map.i3b@3x.png in Resources */,
 				4129DF591F7EF654005EE130 /* geoplace_gym.png in Resources */,
+				418DB8091FCC887D00398310 /* waspy_bggroup.png in Resources */,
 				41937E171F9521B800ADF1BB /* MisGrupos-bg@2x.png in Resources */,
 				41937E6A1F95569700ADF1BB /* d41abb1b.png in Resources */,
+				418DB8001FC7851900398310 /* Back1.png in Resources */,
 				41937E651F95557700ADF1BB /* map.i3b@2x.png in Resources */,
 				41937E441F952C9A00ADF1BB /* menu-i5.png in Resources */,
 				417FC9531F56274D00EDC5A7 /* GoogleMaps.bundle in Resources */,
@@ -1176,6 +1252,7 @@
 				41937E931F96553900ADF1BB /* panico-avatar1@3x.png in Resources */,
 				41C6AB581FB0DD40001D41BF /* camera.png in Resources */,
 				41937E9B1F96553900ADF1BB /* panico-avatar2@2x.png in Resources */,
+				4193DD861FC4AB9400CCC086 /* slide1.l.gif in Resources */,
 				4166EDFC1F8441DD00CB8823 /* map-i5@3x.png in Resources */,
 				41937E181F9521B800ADF1BB /* MisGrupos-bg@3x.png in Resources */,
 				4166EDF81F8441DD00CB8823 /* map-i42x.png in Resources */,
@@ -1227,6 +1304,8 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-flayy/Pods-flayy-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ALCameraViewController/ALCameraViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/CountryPickerSwift/CountryPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GeoFire/GeoFire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
@@ -1236,6 +1315,8 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ALCameraViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GeoFire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
@@ -1307,12 +1388,14 @@
 				4145246D1F5DA51D0095C8F2 /* menuTableViewCell.swift in Sources */,
 				417F8A171F28DA7E00C4AE58 /* Rounded.swift in Sources */,
 				414524731F5EF1A20095C8F2 /* firebaseManager.swift in Sources */,
+				418DB8071FCC5FA400398310 /* WalkTViewController.swift in Sources */,
 				41F9C8ED1FBDED9200D79411 /* corersRounded.swift in Sources */,
 				414524751F5EF4900095C8F2 /* reachNet.swift in Sources */,
 				4129DF251F7EF08C005EE130 /* waspyPlaceMarker.swift in Sources */,
 				414524771F634B7D0095C8F2 /* waspyMemberMarker.swift in Sources */,
 				41DCA1BB1F743248001B23F4 /* GroupSelectorViewController.swift in Sources */,
 				4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */,
+				415D27BE1FC4E4C000DFDB48 /* LocationSearchTable.swift in Sources */,
 				41D416621F214E7E00BC7BDC /* PicMemberTableViewCell.swift in Sources */,
 				4166EDEC1F843B9C00CB8823 /* waspyAlertMarker.swift in Sources */,
 				4104F4041F1FBC6D00F222B9 /* PlacesViewController.swift in Sources */,

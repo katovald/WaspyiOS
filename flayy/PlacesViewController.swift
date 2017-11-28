@@ -16,6 +16,8 @@ class PlacesViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBOutlet weak var tablePlaces: UITableView!
+    
     let userD:UserDefaults = UserDefaults.standard
 
     var places = [[String:[String:Any]]]()
@@ -30,6 +32,8 @@ class PlacesViewController: UIViewController {
                 self.userD.set(lugares, forKey: "ActualGroupPlaces")
             })
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateData), name: NSNotification.Name("PlacesUpdated"), object: nil)
         // Do any additional setup after loading the view.
     }
 
@@ -38,7 +42,9 @@ class PlacesViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    @objc func updateData(){
+        self.tablePlaces.dataSource = self
+    }
     /*
     // MARK: - Navigation
 
