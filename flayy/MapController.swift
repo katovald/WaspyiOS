@@ -12,7 +12,7 @@ import FirebaseDatabase
 import GeoFire
 import UserNotifications
 
-class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDelegate{
+class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDelegate {
 
     let locationManager = CLLocationManager()
     var camera = GMSCameraPosition()
@@ -75,7 +75,6 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         NotificationCenter.default.addObserver(self, selector: #selector(initWaspy), name: NSNotification.Name("CorrectLogIn"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(presetnDialog), name: NSNotification.Name("PushAlert"), object: nil)
-        
     }
     
     @objc func initWaspy() {

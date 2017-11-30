@@ -11,6 +11,7 @@ import CoreLocation
 import GeoFire
 import FirebaseMessaging
 import FirebaseAuth
+import BWWalkthrough
 
 protocol MenuActionDelegate {
     func openSegue(_ segueName: String, sender: AnyObject?)
@@ -18,7 +19,7 @@ protocol MenuActionDelegate {
     func exitAuth()
 }
 
-class MapViewController: UIViewController, CLLocationManagerDelegate {
+class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverPresentationControllerDelegate, BWWalkthroughViewControllerDelegate {
     var phone: String!
     var userID: String!
     let userD = UserDefaults.standard
@@ -57,6 +58,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     //
     @IBOutlet weak var flechaArriba: UIImageView!
     //
+    @IBOutlet weak var checkInBTN: UIBarButtonItem!
     
     @IBOutlet weak var plusBut: Rounded!
     @IBAction func alerts(_ sender: Any) {
@@ -113,10 +115,27 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                     direccion += " "
                 }
                 
-                FCmNotifications.init().chechIn(address: direccion)
+                let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "checkInBTN") as! CheckInViewController
+                vc.address = direccion
+                let width = self.view.frame.width/4
+                vc.preferredContentSize = CGSize(width: 3 * width, height: 3 * width)
+                vc.modalPresentationStyle = .popover
+                let popover = vc.popoverPresentationController!
+                popover.delegate = self
+                popover.permittedArrowDirections = .up
+                
+                popover.barButtonItem = self.checkInBTN
+                
+                self.present(vc, animated: true, completion: nil)
             } 
         })
     }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
+    
     @IBAction func openGroups(_ sender: Any) {      //popup para elegir grupo
         performSegue(withIdentifier: "grupos", sender: nil)
     }
@@ -210,6 +229,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(changedGroup), name: NSNotification.Name("UserGroupsChanged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeIcon), name: NSNotification.Name("LoseFocus"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showWT), name: NSNotification.Name("HelpMe"), object: nil)
     }
 
     @objc func changedGroup(){
@@ -219,11 +239,36 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     @objc func changeIcon(){
 
     }
+    
+    @objc func showWT() {
+        let stb = UIStoryboard(name: "Main", bundle: nil)
+        let walkthrough = stb.instantiateViewController(withIdentifier: "WTContainer") as! BWWalkthroughViewController
+        let page_one = stb.instantiateViewController(withIdentifier: "WT1")
+        let page_two = stb.instantiateViewController(withIdentifier: "WT2")
+        let page_three = stb.instantiateViewController(withIdentifier: "WT3")
+        let page_four = stb.instantiateViewController(withIdentifier: "WT4")
         
+        // Attach the pages to the master
+        walkthrough.delegate = self
+        walkthrough.add(viewController: page_one)
+        walkthrough.add(viewController: page_two)
+        walkthrough.add(viewController: page_three)
+        walkthrough.add(viewController: page_four)
+        // Do any additional setup after loading the view.
+        walkthrough.modalPresentationStyle = .overFullScreen
+        walkthrough.modalTransitionStyle = .crossDissolve
+        present(walkthrough, animated: false, completion: nil)
+    }
+
+    func walkthroughCloseButtonPressed() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
     func animationPresent(){
         self.agression.isHidden = false

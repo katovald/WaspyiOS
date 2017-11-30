@@ -21,6 +21,7 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
     var edit = false
     var keyboardHigth:CGFloat = 0.0
     public let LogInNotification = NSNotification.Name("CorrectLogIn")
+    public let HelpNotification = NSNotification.Name("HelpMe")
     let user = Auth.auth().currentUser!
 
     @IBOutlet weak var Salir: UIBarButtonItem!
@@ -78,6 +79,11 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func help(_ sender: Any) {
+        self.dismiss(animated: true, completion: {
+            NotificationCenter.default.post(name: self.HelpNotification, object: self)
+        })
+    }
     
     
     override func viewDidAppear(_ animated: Bool) {
