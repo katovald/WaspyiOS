@@ -19,7 +19,20 @@ class waspyMemberMarker: GMSMarker {
     
     init(phone: String) {
         let marcador = UIImage(named: "marker_layout")!
-        markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 35, height: 38)))
+        let screenWidth = UIScreen.main.nativeBounds.width
+        var markerSize:CGSize!
+        var photoSize:CGSize!
+        var dif:Int!
+        if screenWidth > 1000 {
+            markerSize = CGSize(width: 21, height: 23)
+            photoSize = CGSize(width: 15, height: 15)
+            dif = 7
+        }else{
+            markerSize = CGSize(width: 32, height: 35)
+            photoSize = CGSize(width: 23, height: 23)
+            dif = 6
+        }
+        markerView = UIImageView(image: resizeImage(image: marcador, newSize: markerSize))
         
         let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         let photoURl = docUrl.appendingPathComponent(phone + ".png")
@@ -30,14 +43,14 @@ class waspyMemberMarker: GMSMarker {
             foto = UIImage(named: "default.png")
         }
         
-        let fotoview = UIImageView(image: resizeImage(image: foto, newSize: CGSize(width: 24, height: 24)))
+        let fotoview = UIImageView(image: resizeImage(image: foto, newSize: photoSize))
         fotoview.layer.borderWidth = 1
         fotoview.layer.masksToBounds = false
         fotoview.backgroundColor = UIColor.blue
         fotoview.layer.cornerRadius = fotoview.frame.height/2
         fotoview.clipsToBounds = true
         fotoview.center.x = markerView.center.x
-        fotoview.center.y = markerView.center.y - 7
+        fotoview.center.y = markerView.center.y - CGFloat(dif)
         fotoview.backgroundColor = UIColor.clear
         
         markerView.addSubview(fotoview)

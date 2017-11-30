@@ -46,7 +46,16 @@ class waspyPlaceMarker: GMSMarker {
         default:
             marcador = UIImage(named: "geoplace_house1")!
         }
-        markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 20, height: 20)))
+        let screenWidth = UIScreen.main.nativeBounds.width
+        var markerSize:CGSize!
+        
+        if screenWidth > 1000 {
+            markerSize = CGSize(width: 15, height: 15)
+        }else{
+            markerSize = CGSize(width: 20, height: 20)
+        }
+        
+        markerView = UIImageView(image: resizeImage(image: marcador, newSize: markerSize))
         
         self.iconView = markerView
     }
@@ -99,7 +108,16 @@ extension waspyPlaceMarker{
         default:
             marcador = UIImage(named: "geoplace_house1")!
         }
-        markerView = UIImageView(image: resizeImage(image: marcador, newSize: CGSize(width: 20, height: 20)))
+        let screenWidth = UIScreen.main.nativeBounds.width
+        var markerSize:CGSize!
+        
+        if screenWidth > 1000 {
+            markerSize = CGSize(width: 15, height: 15)
+        }else{
+            markerSize = CGSize(width: 20, height: 20)
+        }
+        
+        markerView = UIImageView(image: resizeImage(image: marcador, newSize: markerSize))
         
         self.iconView = markerView
         
