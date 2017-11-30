@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDynamicLinks
 
 class membersSelectViewController: UIViewController{
 
@@ -27,6 +28,8 @@ class membersSelectViewController: UIViewController{
     @IBAction func sharing(_ sender: Any) {
         //https://app_code.app.goo.gl/apple-app-site-association
         //https://s2ek9.app.goo.gl/
+        
+        
     }
     
     var miembros:[[String:[String:Any]]]!
