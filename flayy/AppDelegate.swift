@@ -25,10 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        FirebaseOptions.defaultOptions()?.deepLinkURLScheme = "https://s2ek9.app.goo.gl/"
         FirebaseApp.configure()
         
         GMSServices.provideAPIKey("AIzaSyCsKticH0eEpIsY-iB07Py0RFQt8nRQ1Gk")
-        GMSPlacesClient.provideAPIKey("AIzaSyAwV7hbQZlFyOytB36ad81YAhlKxEw_34A")
+        GMSPlacesClient.provideAPIKey("AIzaSyAw2s06gUvJkiNLcBCsCoNm_Ncbjgin8Fk")
         
         Messaging.messaging().delegate = self
         
@@ -127,30 +128,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().apnsToken = deviceToken
     }
     
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        return application(app, open: url,
+                           sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
+                           annotation: "")
+    }
+    
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        
-        print("url \(url)")
-        print("url host :\(url.host!)")
-        print("url path :\(url.path)")
-        
-        
-        let urlPath : String = url.path as String!
-        let urlHost : String = url.host as String!
-        let _: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        if(urlHost != "swiftdeveloperblog.com")
-        {
-            print("Host is not correct")
+        if (DynamicLinks.dynamicLinks()?.dynamicLink(fromCustomSchemeURL: url)) != nil {
+            // Handle the deep link. For example, show the deep-linked content or
+            // apply a promotional offer to the user's account.
+            // ...
+            return true
+        }
+        return false
+    }
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        guard let dynamicLinks = DynamicLinks.dynamicLinks() else {
             return false
         }
-        
-        if(urlPath == "/inner"){
-            
-        } else if (urlPath == "/about"){
-            
+        let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+            // ...
         }
-        self.window?.makeKeyAndVisible()
-        return true
+        
+        return handled
     }
 }
 

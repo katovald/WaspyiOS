@@ -209,7 +209,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         self.robberylbl.isHidden = true
         animationHide()
         self.phone = userD.string(forKey: "OwnerPhone")
-        
+        print(self.phone)
         firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
                 if inSystem
                 {

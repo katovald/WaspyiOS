@@ -16,6 +16,8 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
     func configuredMessageComposeViewController() -> MFMessageComposeViewController {
         let messageComposeVC = MFMessageComposeViewController()
         messageComposeVC.messageComposeDelegate = self  //  Make sure to set this property to self, so that the controller can be dismissed!
+        textMessageContact.removeAll()
+        getContacts()
         messageComposeVC.recipients = textMessageContact
         if street != nil {
             messageComposeVC.body =  "Boton de Panico activado por " +
@@ -88,10 +90,6 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
         sendHelpMsg()
     }
     
-    @IBAction func cacel(_ sender: Any) {
-       
-    }
-    
     let userD:UserDefaults = UserDefaults.standard
     var contactos:[String:String]!
     var count = 0
@@ -115,6 +113,11 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
             }
         }
         
+        getContacts()
+        // Do any additional setup after loading the view.
+    }
+
+    func getContacts(){
         contactos = userD.dictionary(forKey: "EmergencyContacts") as? [String : String] ?? [:]
         let keys = contactos.keys
         for key in keys {
@@ -131,9 +134,7 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
                 textMessageContact.append(contactos[key + "_p"]!)
             }
         }
-        // Do any additional setup after loading the view.
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

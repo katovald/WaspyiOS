@@ -18,7 +18,7 @@ class CheckInViewController: UIViewController {
         direccion.adjustsFontSizeToFitWidth = true
         aviso.adjustsFontSizeToFitWidth = true
         direccion.text = address
-        aviso.text = "Todos los integrantes del grupo " + userD.string(forKey: "ActualGroupTitle")! + " veran tu checkIn"
+        aviso.text = "Todos los integrantes del grupo " + userD.string(forKey: "ActualGroupTitle")! + " verán tu checkIn"
         // Do any additional setup after loading the view.
     }
 

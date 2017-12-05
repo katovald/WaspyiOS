@@ -94,7 +94,9 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         workingView.startAnimating()
         self.mapa.clear()
         let camera = GMSCameraPosition.camera(withLatitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, zoom: 15.0, bearing: -15, viewingAngle: 45)
-        self.view =  GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        self.mapa = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        mapa.delegate = self
+        self.view = mapa
         updateMarkers()
         updateFences()
         workingView.stopAnimating()
@@ -117,6 +119,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         
         self.mapa = self.view as! GMSMapView!
         mapa.animate(to: OwnerLocation)
+        mapa.delegate = self
         self.view = mapa
     }
     
@@ -133,6 +136,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         
         self.mapa = self.view as! GMSMapView!
         mapa.animate(to: userLocation)
+        mapa.delegate = self
         self.view = mapa
         self.userD.set(nil, forKey: "UserAsked")
     }
@@ -292,16 +296,6 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         
     }
     
-    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        hideAlerts()
-        if alertas
-        {
-            drawAlerts(map: mapView)
-        }else{
-            NotificationCenter.default.post(name: NSNotification.Name("LoseFocus"), object: self)
-        }
-    }
-    
     func getCenterCoordinate() -> CLLocationCoordinate2D {
         let centerPoint = self.mapa.center
         let centerCoordinate = self.mapa.projection.coordinate(for: centerPoint)
@@ -334,7 +328,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         let theGeoFire = GeoFire(firebaseRef: Database.database().reference().child("alerts_geo"))
         let circleQuery = theGeoFire!.query(at: CLLocation(latitude: center.latitude,
                                                            longitude: center.longitude),
-                                            withRadius: getRadius()/1000)
+                                            withRadius: getRadius()/3000)
         _ = circleQuery!.observe(.keyEntered, with: { (key, location) in
             let llave = key
             firebaseManager.init().getAlertData(key: llave!, completion: { (value) in
@@ -380,18 +374,20 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         return autentia
     }
     
-    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        if alertas {
-            
-        }
-    }
-    
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         FCmNotifications.init().enterGEO()
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         FCmNotifications.init().exitGEO()
+    }
+    
+    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+        hideAlerts()
+        if alertas
+        {
+            drawAlerts(map: mapView)
+        }
     }
 
 }

@@ -7,7 +7,9 @@
 //
 
 import UIKit
+import MapKit
 import GooglePlaces
+
 
 class PlacesConfigViewController: UIViewController {
     
@@ -21,9 +23,35 @@ class PlacesConfigViewController: UIViewController {
     @IBOutlet weak var infoRadius: UILabel!
     @IBOutlet weak var direccion: UILabel!
     
+    
+    var searcController:UISearchController!
+    var annotation:MKAnnotation!
+    var localsearchRequest:MKLocalSearchRequest!
+    var localsearch:MKLocalSearch!
+    var localSearchResponse:MKLocalSearchResponse!
+    var error:NSError!
+    var pointAnnotation:MKPointAnnotation!
+    var pinAnnottion:MKPinAnnotationView!
+    
+    @IBAction func searchBarBTN(_ sender: Any) {
+//        searcController = UISearchController(searchResultsController: nil)
+//        searcController.hidesNavigationBarDuringPresentation = false
+//        self.searcController.searchBar.delegate = self
+//        present(searcController, animated: true, completion: nil)
+        let autocomplete = GMSAutocompleteViewController()
+        autocomplete.delegate = self
+        
+        let filter = GMSAutocompleteFilter()
+        filter.type = .address
+        autocomplete.autocompleteFilter = filter
+        
+        present(autocomplete, animated: true, completion: nil)
+    }
+    
     @IBAction func getBack(_ sender: Any) {
         self.dismiss(animated: true, completion: {
             self.userD.set(nil, forKey: "EditingPlace")
+            self.userD.set(nil, forKey: "PlaceAddressFind")
         })
     }
     
@@ -84,7 +112,7 @@ class PlacesConfigViewController: UIViewController {
     var userD:UserDefaults = UserDefaults.standard
     var place = [String:[String:Any]]()
     let IconChangedNotification = NSNotification.Name("PlaceDataUpdated")
-
+    let PlaceFinded = NSNotification.Name("PlaceAdressFind")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,7 +143,7 @@ class PlacesConfigViewController: UIViewController {
         }else{
             let key = place.first?.key
             let value = place.first?.value
-            let point = value!["l"] as! [Double]
+            let point = value!["l"] as? [Double] ?? [LocationServices.init().getLocationCoord().latitude,LocationServices.init().getLocationCoord().longitude]
             if key == "none" {
                 LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point[0], longitude: point[1]), completion: { (json, e) in
                     if let a = json {
@@ -154,7 +182,7 @@ class PlacesConfigViewController: UIViewController {
     
     func editingView(){
         editarGuardar.title = "Guardar"
-        editarGuardar.tintColor = UIColor.red
+        editarGuardar.tintColor = UIColor.init(hex: 0xEEC61B)
         edicion = true
         vistaMapa.layer.borderColor = UIColor.red.cgColor
         vistaMapa.isUserInteractionEnabled = true
@@ -234,5 +262,64 @@ class PlacesConfigViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true) //This will hide the keyboard
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
+        //1
+        searchBar.resignFirstResponder()
+        dismiss(animated: true, completion: nil)
+        //2
+        localsearchRequest = MKLocalSearchRequest()
+        localsearchRequest.naturalLanguageQuery = searchBar.text
+        localsearch = MKLocalSearch(request: localsearchRequest)
+        localsearch.start { (localSearchResponse, error) -> Void in
+            
+            if localSearchResponse == nil{
+                let alertController = UIAlertController(title: nil, message: "Place Not Found", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+                return
+            }
+            //3
+            self.pointAnnotation = MKPointAnnotation()
+            self.pointAnnotation.title = searchBar.text
+            self.pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: localSearchResponse!.boundingRegion.center.latitude, longitude:     localSearchResponse!.boundingRegion.center.longitude)
+            print("Coordenada: \(self.pointAnnotation.coordinate)")
+        }
+    }
+}
+
+extension PlacesConfigViewController: GMSAutocompleteViewControllerDelegate {
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        // Print place info to the console.
+        print("Place attributions: \(String(describing: place.coordinate))")
+        // Call custom function zcto populate the address form.
+        
+        // Close the autocomplete widget.
+        self.dismiss(animated: true, completion: {
+            let pointSended = ["lat":place.coordinate.latitude,
+                               "long":place.coordinate.longitude]
+            self.userD.set(pointSended, forKey: "PointCoordinate")
+            NotificationCenter.default.post(name: NSNotification.Name("PlaceAddressFind"), object: self)
+        })
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        // TODO: handle the error.
+        print("Error: ", error.localizedDescription)
+    }
+    
+    // User canceled the operation.
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // Turn the network activity indicator on and off again.
+    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }

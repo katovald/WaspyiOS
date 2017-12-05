@@ -13,7 +13,7 @@ class menuDesignViewController: UIViewController {
     
     let menu = [["Mis Grupos","menu-i1.png"],
                 ["Mis lugares","menu-i2.png"],
-                ["Boton de pánico","menu-i3.png"],
+                ["Botón de pánico","menu-i3.png"],
                 ["Mapa de alertas","menu-i4.png"],
                 ["Configuraciones","menu-i5.png"],
                 ["Waspy FAQ","menu-i6.png"],
@@ -100,6 +100,8 @@ extension menuDesignViewController : UITableViewDelegate {
             menuActionDelegate?.trigger()
         case 4:
             menuActionDelegate?.openSegue("datosUsuario", sender: nil)
+        case 5:
+            menuActionDelegate?.openSegue("FAQsegue", sender: nil)
         case 7:
             let authApp = Auth.auth()
             do {

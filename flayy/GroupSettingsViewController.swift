@@ -28,7 +28,7 @@ class GroupSettingsViewController: UIViewController {
                 firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
             })
         }else{
-            editaGuarda.tintColor = UIColor.red
+            editaGuarda.tintColor = UIColor.init(hex: 0xEEC61B)
             editaGuarda.title = "Guardar"
             edicion = true
             nombre.isEnabled = true

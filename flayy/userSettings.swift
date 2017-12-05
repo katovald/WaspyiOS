@@ -69,7 +69,7 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
             nameText.isEnabled = true
             userMail.isEnabled = true
             inicioCam.isEnabled = true
-            editaguarda.tintColor = UIColor.red
+            editaguarda.tintColor = UIColor.init(hex: 0xEEC61B)
             editaguarda.title = "Guardar"
             edit = true
         }

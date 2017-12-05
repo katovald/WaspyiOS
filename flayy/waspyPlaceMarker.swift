@@ -56,7 +56,6 @@ class waspyPlaceMarker: GMSMarker {
         }
         
         markerView = UIImageView(image: resizeImage(image: marcador, newSize: markerSize))
-        
         self.iconView = markerView
     }
     
@@ -139,5 +138,4 @@ extension waspyPlaceMarker{
         return data
     }
 }
-
 
