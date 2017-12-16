@@ -38,7 +38,7 @@ public class firebaseManager {
     public let LocationChangeNotification = NSNotification.Name("GroupPlacesUpdated")
     public let PlacesChangedNotification = NSNotification.Name("PlacesAdded")
     public let LogInNotification = NSNotification.Name("CorrectLogIn")
-    
+
     ///initiate class
     ///battery monitor and references firebase
     
@@ -214,10 +214,10 @@ public class firebaseManager {
     }
     
     public func createUserGroups(name: String){
-
+        
         var gruposAct = userD.array(forKey: "OwnerGroups") ?? []
         
-        var groupCode:String = randomAlphaNumericString(length: 6)
+        var groupCode = randomAlphaNumericString(length: 6)
         
         let phone = userD.string(forKey: "OwnerPhone")!
 
@@ -253,7 +253,7 @@ public class firebaseManager {
             userD.set(groupCode, forKey: "ActualGroup")
             userD.set(name, forKey: "ActualGroupTitle")
             userD.set(true, forKey: "VisibleInActualGroup")
-            userD.set(nil, forKey: "OwnerPlaces")
+            userD.set(nil, forKey: "ActualGroupPlaces")
             
             var banderas = [String:[String:Bool]]()
             
@@ -279,7 +279,7 @@ public class firebaseManager {
         let phone = userD.string(forKey: "OwnerPhone")!
         var groupName = ""
         var groupMembers = [String:Any]()
-        
+        userD.set(nil, forKey: "ActualGroupPlaces")
         if phone.count > 0
         {
             let userInfo = ["name" : userD.string(forKey: "OwnerName")!,
@@ -741,10 +741,39 @@ public class firebaseManager {
 
     public func unsuscribeGroups(code: String, phone: String, kill: Bool){
         self.reference.child("accounts/" + phone + "/user_groups/groups/" + code).setValue(nil)
+        var groups = userD.array(forKey: "OwnerGroups") as! [[String:Any]]
         if kill
         {
             self.reference.child("groups/" + code).setValue(nil)
         }else{
+            if groups.count == 1 {
+                self.userD.set(nil, forKey: "OwnerGroups")
+                self.userD.set(nil, forKey: "ActualGroupPlaces")
+                self.createUserGroups(name: "Mi grupo")
+            }else{
+                var index = 0
+                for grupo in groups
+                {
+                    if grupo.first?.key == code{
+                        groups.remove(at: index)
+                        break
+                    }
+                    index += 1
+                }
+                let newGroup = groups.first
+                self.userD.set(groups, forKey: "OwnerGroups")
+                self.userD.set(newGroup?.first?.key, forKey: "ActualGroup")
+                self.userD.set(newGroup?.first?.value, forKey: "ActualGroupTitle")
+                self.userD.set(nil, forKey: "ActualGroupPlaces")
+                self.notificationCenter.post(name: GroupsChangeNotification, object: self)
+                self.getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
+                    self.userD.set(members, forKey: "MembersActiveGroup")
+                    self.setLastGroup(name: (newGroup?.first?.value)! as! String)
+                })
+                self.getPlaces(group: self.userD.string(forKey: "ActualGroup")!, completion: { (places) in
+                    self.userD.set(places, forKey: "ActualGroupPlaces")
+                })
+            }
             self.reference.child("groups/" + code + "/members/" + phone).setValue(nil)
         }
     }

@@ -12,7 +12,7 @@ import FirebaseDatabase
 import GeoFire
 import UserNotifications
 
-class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDelegate {
+class MapController: UIViewController,  GMSMapViewDelegate {
 
     let locationManager = CLLocationManager()
     var camera = GMSCameraPosition()
@@ -27,6 +27,11 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
     let workingView = UIActivityIndicatorView()
     let backView = UIView()
     var radius:Int!
+    var ownerPhone:String!
+    
+    var timer:Timer!
+    var timer1:Timer!
+
 
     override func viewDidLoad() {
         backView.frame = view.frame
@@ -38,15 +43,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         backView.addSubview(workingView)
         workingView.startAnimating()
 
-        let status = CLLocationManager.authorizationStatus()
-        if(status == CLAuthorizationStatus.notDetermined || status == CLAuthorizationStatus.denied)
-        {
-            locationManager.requestAlwaysAuthorization()
-        }else{
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startUpdatingLocation()
-            locValue = locationManager.location!.coordinate
-        }
+        ownerPhone = userD.string(forKey: "OwnerPhone")
         
         camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15, bearing: -15, viewingAngle: 45)
         
@@ -60,7 +57,7 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
         
         self.view.addSubview(backView)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateMarkers), name: NSNotification.Name("UserPhotoChanged"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateOwnerMarkerPhoto), name: NSNotification.Name("UserPhotoChanged"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(centerView), name: NSNotification.Name("FixCameraPush"), object: nil)
         
@@ -221,6 +218,13 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             }
         }
         updateFences()
+    }
+    
+    @objc func updateOwnerMarkerPhoto()
+    {
+        let name = userD.string(forKey: "OwnerName") ?? ""
+        let image = firebaseManager.init().getMemberPhoto(phone: ownerPhone)
+        markers[ownerPhone]?.updateMarkerdata(name: name, image: image)
     }
     
     @objc func presetnDialog(){
@@ -389,5 +393,111 @@ class MapController: UIViewController,  GMSMapViewDelegate, CLLocationManagerDel
             drawAlerts(map: mapView)
         }
     }
+    
+    func getLocation() {
+        let status = CLLocationManager.authorizationStatus()
+        handleLocationAuthorizationStatus(status: status)
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        alertController.addAction(defaultAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func statusDeniedAlert() {
+        let alertController = UIAlertController(title: "Compartir ubicacion esta desabilitado", message: "Esta aplicacion necesita permisos de SIEMPRE compartir localizacion.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Abrir Configuracion", style: .default, handler: { action in
+            if #available(iOS 10.0, *) {
+                let settingsURL = URL(string: UIApplicationOpenSettingsURLString)!
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            } else {
+                if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
+                    UIApplication.shared.openURL(url as URL)
+                }
+            }
+        }))
+        self.present(alertController, animated: true, completion: nil)
+    }
 
+}
+
+extension MapController : CLLocationManagerDelegate{
+    
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
+    }
+    
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        handleLocationAuthorizationStatus(status: status)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let currentLocation = locations.last {
+            if markers[ownerPhone] != nil{
+                markers[ownerPhone]?.updateMarker(coordinates: currentLocation.coordinate, degrees: 0, duration: 0)
+            }else{
+                let ownerMarker = waspyMemberMarker(phone: ownerPhone)
+                markers[ownerPhone] = ownerMarker
+                markers[ownerPhone]?.updateMarker(coordinates: currentLocation.coordinate, degrees: 0, duration: 0)
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        showAlert(title: "Error en la carga de la localizacion.", message: "Error code: \(error)")
+    }
+    
+    func handleLocationAuthorizationStatus(status: CLAuthorizationStatus) {
+        switch status {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.startUpdatingLocation()
+            startMonitoring()
+        case .denied:
+            statusDeniedAlert()
+            stopMonitoring()
+        case .restricted:
+            showAlert(title: "La localizacion esta restringida", message: "Esta aplicacion necesita permisos de SIEMPRE compartir localizacion.")
+            stopMonitoring()
+        }
+    }
+}
+
+extension MapController {
+    //[INICIO DE SERVICIO]
+        func startMonitoring()
+        {
+            timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(startTimer), userInfo: nil, repeats: true)
+            timer1 = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
+        }
+    
+        @objc func startTimer()
+        {
+            firebaseManager.init().updateUserLocation()
+        }
+    
+        @objc func updateData()
+        {
+            let groupCode = self.userD.string(forKey: "ActualGroup") ?? ""
+            if groupCode != ""{
+                firebaseManager.init().getGroupMembersInfo(code: groupCode, completion: {(members) in
+                    self.userD.set(members, forKey: "MembersActiveGroup")
+                })
+            }
+        }
+    
+        @objc func stopMonitoring()
+        {
+            timer.invalidate()
+            timer1.invalidate()
+        }
 }

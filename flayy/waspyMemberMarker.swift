@@ -15,14 +15,13 @@ class waspyMemberMarker: GMSMarker {
     var foto:UIImage!
     var userD:UserDefaults = UserDefaults.standard
     var markerView:UIImageView!
-    
+    let screenWidth = UIScreen.main.nativeBounds.width
+    var markerSize:CGSize!
+    var photoSize:CGSize!
+    var dif:Int!
+    let marcador = UIImage(named: "marker_layout")!
     
     init(phone: String) {
-        let marcador = UIImage(named: "marker_layout")!
-        let screenWidth = UIScreen.main.nativeBounds.width
-        var markerSize:CGSize!
-        var photoSize:CGSize!
-        var dif:Int!
         if screenWidth > 1000 {
             markerSize = CGSize(width: 21, height: 23)
             photoSize = CGSize(width: 15, height: 15)
@@ -46,7 +45,6 @@ class waspyMemberMarker: GMSMarker {
         let fotoview = UIImageView(image: resizeImage(image: foto, newSize: photoSize))
         fotoview.layer.borderWidth = 1
         fotoview.layer.masksToBounds = false
-        fotoview.backgroundColor = UIColor.blue
         fotoview.layer.cornerRadius = fotoview.frame.height/2
         fotoview.clipsToBounds = true
         fotoview.center.x = markerView.center.x
@@ -83,6 +81,30 @@ extension waspyMemberMarker{
     
     func updateMarkerdata(name: String, image: UIImage) {
         self.title = name
+        
+        if screenWidth > 1000 {
+            markerSize = CGSize(width: 21, height: 23)
+            photoSize = CGSize(width: 15, height: 15)
+            dif = 7
+        }else{
+            markerSize = CGSize(width: 32, height: 35)
+            photoSize = CGSize(width: 23, height: 23)
+            dif = 6
+        }
+        markerView = UIImageView(image: resizeImage(image: marcador, newSize: markerSize))
+
+        let fotoview = UIImageView(image: resizeImage(image: image, newSize: photoSize))
+        fotoview.layer.borderWidth = 1
+        fotoview.layer.masksToBounds = false
+        fotoview.layer.cornerRadius = fotoview.frame.height/2
+        fotoview.clipsToBounds = true
+        fotoview.center.x = markerView.center.x
+        fotoview.center.y = markerView.center.y - CGFloat(dif)
+        fotoview.backgroundColor = UIColor.clear
+        
+        markerView.addSubview(fotoview)
+        
+        self.iconView = markerView
     }
     
     func getLocation() -> CLLocationCoordinate2D {

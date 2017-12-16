@@ -9,7 +9,6 @@
 import UIKit
 import Firebase
 import UserNotifications
-import CoreLocation
 import GoogleMaps
 import GooglePlaces
 
@@ -18,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
-    var timer:Timer!
-    var timer1:Timer!
+//    var timer:Timer!
+//    var timer1:Timer!
     var userD:UserDefaults = UserDefaults.standard
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -32,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSPlacesClient.provideAPIKey("AIzaSyAw2s06gUvJkiNLcBCsCoNm_Ncbjgin8Fk")
         
         Messaging.messaging().delegate = self
+        
+        let userPhone = userD.string(forKey: "OwnerPhone")
         
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
@@ -48,57 +49,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         application.registerForRemoteNotifications()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(stopMonitoring), name: NSNotification.Name("LogOut"), object: nil)
-        
-        if (Auth.auth().currentUser == nil){
+
+        if (Auth.auth().currentUser == nil || userPhone == nil){
             let aux = UIStoryboard(name: "Main", bundle: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(startMonitoring), name: NSNotification.Name("CorrectLogIn"), object: nil)
             let view = aux.instantiateViewController(withIdentifier: "inicioWOLogin") as UIViewController
             window?.rootViewController = view
         }else{
             let aux = UIStoryboard(name: "Main", bundle: nil)
             let view = aux.instantiateViewController(withIdentifier: "inicioWLogin") as UIViewController
             window?.rootViewController = view
-            startMonitoring()
         }
         
-        return true
-    }
-    
-    //[INICIO DE SERVICIO]
-    @objc func startMonitoring()
-    {
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(startTimer), userInfo: nil, repeats: true)
-        timer1 = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
-    }
-    
-    @objc func startTimer()
-    {
-        firebaseManager.init().updateUserLocation()
-    }
-    
-    @objc func updateData()
-    {
-        let groupCode = self.userD.string(forKey: "ActualGroup") ?? ""
-        if groupCode != ""{
-            firebaseManager.init().getGroupMembersInfo(code: groupCode, completion: {(members) in
-                self.userD.set(members, forKey: "MembersActiveGroup")
-            })
-        }
-    }
-    
-    @objc func stopMonitoring()
-    {
-        timer.invalidate()
-        timer1.invalidate()
+    return true
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
-        // TODO: Handle data of notification
         // With swizzling disabled you must let Messaging know about the message, for Analytics
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
@@ -155,6 +123,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         return handled
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        
     }
 }
 

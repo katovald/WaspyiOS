@@ -17,8 +17,6 @@ class gruposSelectViewController: UIViewController {
     
     var grupos = [[String:String]]()
     
-    var menuActionDelegate: MenuActionDelegate? = nil
-    
     var notificationCenter:NotificationCenter = NotificationCenter.default
     
     @IBAction func closeMenu(_ sender: Any) {

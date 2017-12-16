@@ -124,9 +124,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
                 let popover = vc.popoverPresentationController!
                 popover.delegate = self
                 popover.permittedArrowDirections = .up
-                
                 popover.barButtonItem = self.checkInBTN
-                
                 self.present(vc, animated: true, completion: nil)
             } 
         })
@@ -150,12 +148,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationViewController = segue.destination as? menuDesignViewController {
-            destinationViewController.menuActionDelegate = self
-        }
-        if let destinationViewController = segue.destination as? gruposSelectViewController {
-            destinationViewController.menuActionDelegate = self
-        }
-        if let destinationViewController = segue.destination as? membersSelectViewController {
             destinationViewController.menuActionDelegate = self
         }
     }
@@ -208,6 +200,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         self.robbery.isHidden = true    ////type 5
         self.robberylbl.isHidden = true
         animationHide()
+        userD.set(true, forKey: "InstaledBefore")
         self.phone = userD.string(forKey: "OwnerPhone")
         print(self.phone)
         firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in

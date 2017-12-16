@@ -50,7 +50,6 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
     @IBOutlet weak var nombreC3: UILabel!
     
     @IBOutlet weak var panicBtn: Rounded!
-    @IBOutlet weak var cancelAid: Rounded!
     
     @IBAction func setUnsetContact(_ sender: Any) {
         let cnPicker = CNContactPickerViewController()

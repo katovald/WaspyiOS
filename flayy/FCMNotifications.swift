@@ -197,11 +197,14 @@ class FCmNotifications {
         }
         if msgType == "kick_out"
         {
-            let group = message["body"] as! [String:String]
-            firebaseManager.init().unsuscribeGroups(code: group["kick_out"]!,
+            print(message["body"] ?? "")
+            let group = message["body"] as! String
+            let dic = convertToDictionary(text: group)
+            let code = dic!["kickout"] as! String
+            print(code)
+            firebaseManager.init().unsuscribeGroups(code: code,
                                                     phone: self.userD.string(forKey: "OwnerPhone")!,
                                                     kill: false)
-            NotificationCenter.default.post(name: NSNotification.Name("GotKickOut"), object: self)
         }
     }
     

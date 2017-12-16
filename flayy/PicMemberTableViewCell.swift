@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PicMemberTableViewCell: UITableViewCell {
+class PicMemberTableViewCell: UITableViewCell, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var battery: UIImageView!
     @IBOutlet weak var roundPic: UIImageView!
@@ -16,17 +16,31 @@ class PicMemberTableViewCell: UITableViewCell {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var adress: UILabel!
     @IBOutlet weak var battPercent: UILabel!
+    @IBOutlet weak var plusBtn: UIButton!
     
     var visible:Bool!
+    var phoneNumber:String!
+    let userPhone: String = {
+        return UserDefaults.standard.string(forKey: "OwnerPhone")!
+    }()
     
-    func membersInit (pic: UIImage, adress: String, nombre: String, battery: Int, speed: Int, visible: Bool)
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        // return UIModalPresentationStyle.FullScreen
+        return UIModalPresentationStyle.none
+    }
+    
+    func membersInit (pic: UIImage, adress: String, nombre: String, battery: Int, speed: Int, visible: Bool, telefono: String)
     {
         self.name.text = nombre
         self.name.textColor = UIColor.init(hex: 0x3871B4)
         self.adress.text = adress
         self.adress.textColor = UIColor.init(hex: 0x3871B4)
         self.visible = visible
+        self.phoneNumber = telefono
         
+        if phoneNumber == userPhone {
+            plusBtn.isHidden = true
+        }
         roundPic.layer.borderWidth = 2
         roundPic.layer.masksToBounds = false
         roundPic.layer.cornerRadius = roundPic.frame.height/2
@@ -72,7 +86,6 @@ class PicMemberTableViewCell: UITableViewCell {
             self.battery.image = UIImage(named: "ic_battery_100.png")?.maskWithColor(color: UIColor.green)
         }
     }
-    
 }
 
 extension UIImage {
