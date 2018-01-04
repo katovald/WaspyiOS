@@ -66,10 +66,9 @@ class GroupSettingsViewController: UIViewController {
                         self.userD.set(members, forKey: "MembersActiveGroup")
                         firebaseManager.init().setLastGroup(name: (newGroup.first?.value)!)
                         firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
-                        NotificationCenter.default.post(name: NSNotification.Name("UserGroupsChanged"),
-                                                        object: self)
-                        
                     })
+                    NotificationCenter.default.post(name: NSNotification.Name("UserGroupsChanged"),
+                                                    object: self)
                 })
             }
         }

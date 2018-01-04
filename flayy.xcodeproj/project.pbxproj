@@ -856,14 +856,14 @@
 			name = mapController;
 			sourceTree = "<group>";
 		};
-		417F78261F0D4AA600844794 /* Models */ = {
+		417F78261F0D4AA600844794 /* Menus */ = {
 			isa = PBXGroup;
 			children = (
 				410836FE1F1CFEB500F929F4 /* menuDesignViewController.swift */,
 				410837001F1CFED800F929F4 /* gruposSelectViewController.swift */,
 				410837021F1CFEF800F929F4 /* membersSelectViewController.swift */,
 			);
-			name = Models;
+			name = Menus;
 			sourceTree = "<group>";
 		};
 		417F8A181F28EC4E00C4AE58 /* Design */ = {
@@ -1007,7 +1007,7 @@
 				41776EC91F7D3D94001A0E55 /* Waspy */,
 				417F8A181F28EC4E00C4AE58 /* Design */,
 				4183E4D31F0D5CF700ECBED4 /* Hdlrs */,
-				417F78261F0D4AA600844794 /* Models */,
+				417F78261F0D4AA600844794 /* Menus */,
 				41CCFCF51F0AB55D00F4AC89 /* flayy.entitlements */,
 				410B6F8E1FA8CEBE003CB694 /* GoogleService-Info.plist */,
 				41B7195B1F069C9C00A42014 /* AppDelegate.swift */,
@@ -1478,7 +1478,6 @@
 				"${BUILT_PRODUCTS_DIR}/ALCameraViewController/ALCameraViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/BWWalkthrough/BWWalkthrough.framework",
 				"${BUILT_PRODUCTS_DIR}/CountryPickerSwift/CountryPicker.framework",
-				"${BUILT_PRODUCTS_DIR}/FAQView/FAQView.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GeoFire/GeoFire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
@@ -1491,7 +1490,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ALCameraViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BWWalkthrough.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CountryPicker.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FAQView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GeoFire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",

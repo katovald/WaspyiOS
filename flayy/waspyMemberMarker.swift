@@ -20,8 +20,9 @@ class waspyMemberMarker: GMSMarker {
     var photoSize:CGSize!
     var dif:Int!
     let marcador = UIImage(named: "marker_layout")!
+    var name:String!
     
-    init(phone: String) {
+    init(phone: String, name: String) {
         if screenWidth > 1000 {
             markerSize = CGSize(width: 21, height: 23)
             photoSize = CGSize(width: 15, height: 15)
@@ -52,10 +53,12 @@ class waspyMemberMarker: GMSMarker {
         fotoview.backgroundColor = UIColor.clear
         
         markerView.addSubview(fotoview)
+        self.name = name
     }
     
     func setIconView() {
         self.iconView = markerView
+        self.snippet = self.name
     }
     
     func setLocation(location: CLLocationCoordinate2D) {

@@ -64,7 +64,7 @@ class PlacesConfigViewController: UIViewController {
                                            key: (place.first?.key)!)
         self.dismiss(animated: true, completion: {
             self.userD.set(nil, forKey: "EditingPlace")
-            NotificationCenter.default.post(name: NSNotification.Name("PlacesAdded"),
+            NotificationCenter.default.post(name: NSNotification.Name("PlacesUpdated"),
                                             object: self)
             firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
         })

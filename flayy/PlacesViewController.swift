@@ -43,7 +43,7 @@ class PlacesViewController: UIViewController {
     }
     
     @objc func updateData(){
-        self.tablePlaces.dataSource = self
+        self.dismiss(animated: false, completion: nil)
     }
     /*
     // MARK: - Navigation

@@ -57,65 +57,59 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     @IBAction func loginAttemp(_ sender: Any) {
         
         self.ownerPhone = phoneAreaCode(phone: phone.text!, areacode: areaCode)
-        
-        if self.ownerPhone.count == 11 || self.ownerPhone.count == 13
-        {
-            firebaseManager.init().userExist(phone: self.ownerPhone, completion: { (exist) in
-                if exist
-                {
-                    firebaseManager.init().getUserMail(phone: self.ownerPhone, completion: { (mail) in
-                        let alertView = UIAlertController(title: "Inicio de sesion", message: "Introduce tu contraseña", preferredStyle: .alert)
-                        let inicio = UIAlertAction(title: "Inicio", style: .default, handler: { (_) in
+        firebaseManager.init().userExist(phone: self.ownerPhone, completion: { (exist) in
+            if exist
+            {
+                firebaseManager.init().getUserMail(phone: self.ownerPhone, completion: { (mail) in
+                    let alertView = UIAlertController(title: "Inicio de sesion", message: "Introduce tu contraseña", preferredStyle: .alert)
+                    let inicio = UIAlertAction(title: "Inicio", style: .default, handler: { (_) in
                             self.firebaseLogin(mail: mail, pass: alertView.textFields![0].text!)
                         })
-                        let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
-                        
-                        alertView.addTextField(configurationHandler: { (textfield) in
-                            textfield.placeholder = "Contraseña"
-                            textfield.isSecureTextEntry = true
-                        })
-                        
-                        alertView.addAction(inicio)
-                        alertView.addAction(cancel)
-                        
-                        self.present(alertView, animated: true, completion: nil)
-                    })
-                }
-                else{
-                    let alertView = UIAlertController(title: "Registrate con nosotros", message: "Introduce tus datos", preferredStyle: .alert)
-                    let registro = UIAlertAction(title: "Registro", style: .default, handler: { (_) in
-                        if alertView.textFields![1].text == alertView.textFields![2].text!{
-                            let correo = alertView.textFields![0].text!
-                            let pass = alertView.textFields![1].text!
-                            self.firebaseregister(mail: correo, pass: pass)
-                        }
-                        else{
-                            self.alert(message: "Tus contraseñas no coinciden por favor vuelve a intentarlo.")
-                        }
-                    })
                     let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
-                    
-                    alertView.addTextField(configurationHandler: { (textfield) in
-                        textfield.placeholder = "Correo"
-                    })
+                        
                     alertView.addTextField(configurationHandler: { (textfield) in
                         textfield.placeholder = "Contraseña"
                         textfield.isSecureTextEntry = true
                     })
-                    alertView.addTextField(configurationHandler: { (textfield) in
-                        textfield.placeholder = "Repite tu Contraseña"
-                        textfield.isSecureTextEntry = true
-                    })
-                    
-                    alertView.addAction(registro)
+                        
+                    alertView.addAction(inicio)
                     alertView.addAction(cancel)
-                    
+                        
                     self.present(alertView, animated: true, completion: nil)
-                }
-            })
-        }else{
-            alert(message: "Numero Invalido")
-        }
+                })
+            }
+            else{
+                let alertView = UIAlertController(title: "Registrate con nosotros", message: "Introduce tus datos", preferredStyle: .alert)
+                let registro = UIAlertAction(title: "Registro", style: .default, handler: { (_) in
+                    if alertView.textFields![1].text == alertView.textFields![2].text!{
+                        let correo = alertView.textFields![0].text!
+                        let pass = alertView.textFields![1].text!
+                        self.firebaseregister(mail: correo, pass: pass)
+                    }
+                    else{
+                        self.alert(message: "Tus contraseñas no coinciden por favor vuelve a intentarlo.")
+                    }
+                })
+                let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+                    
+                alertView.addTextField(configurationHandler: { (textfield) in
+                    textfield.placeholder = "Correo"
+                })
+                alertView.addTextField(configurationHandler: { (textfield) in
+                    textfield.placeholder = "Contraseña"
+                    textfield.isSecureTextEntry = true
+                })
+                alertView.addTextField(configurationHandler: { (textfield) in
+                    textfield.placeholder = "Repite tu Contraseña"
+                    textfield.isSecureTextEntry = true
+                })
+                    
+                alertView.addAction(registro)
+                alertView.addAction(cancel)
+                    
+                self.present(alertView, animated: true, completion: nil)
+            }
+        })
     }
     
     

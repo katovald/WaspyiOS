@@ -28,6 +28,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     let backView = UIView()
     var radius:Int!
     var ownerPhone:String!
+    var fixed:Bool!
     
     var timer:Timer!
     var timer1:Timer!
@@ -44,6 +45,8 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         workingView.startAnimating()
 
         ownerPhone = userD.string(forKey: "OwnerPhone")
+        
+        fixed = false
         
         camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15, bearing: -15, viewingAngle: 45)
         
@@ -105,9 +108,11 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         if alertas{
             hideAlerts()
             alertas = false
+            fixed = false
         }else{
             drawAlerts(map: self.view as! GMSMapView)
             alertas = true
+            fixed = true
         }
     }
     
@@ -118,6 +123,9 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         mapa.animate(to: OwnerLocation)
         mapa.delegate = self
         self.view = mapa
+        if !fixed && alertas {
+            self.fixed = true
+        }
     }
     
     @objc func locateUser(){
@@ -127,7 +135,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         let userLocation = GMSCameraPosition(target:
             CLLocationCoordinate2D(latitude: location["latitude"] as! Double,
                                    longitude: location["longitude"] as! Double),
-                                   zoom: 15.0,
+                                   zoom: 18.0,
                                    bearing: -15,
                                    viewingAngle: 45)
         
@@ -136,6 +144,9 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         mapa.delegate = self
         self.view = mapa
         self.userD.set(nil, forKey: "UserAsked")
+        if fixed && alertas {
+            self.fixed = false
+        }
     }
     
     @objc func updateFences(){
@@ -185,7 +196,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
                 let longitude = location["longitude"]! as! CLLocationDegrees
                 if markers[memberPhone] == nil
                 {
-                    let marker = waspyMemberMarker(phone: memberPhone)
+                    let marker = waspyMemberMarker(phone: memberPhone, name: data!["name"] as! String)
                     marker.setIconView()
                     marker.setLocation(location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
                     markers[memberPhone] = marker
@@ -280,8 +291,8 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         if aux.count > 0 {
         for key in 0...aux.count - 1 {
             let memberPhone = (aux[key].first?.key)!
-            let marker = waspyMemberMarker(phone: memberPhone)
             let data = aux[key].first?.value
+            let marker = waspyMemberMarker(phone: memberPhone,name: data!["name"] as! String)
             let location = data!["location"] as? [String:Any] ?? [:]
             let visible = data!["visibility"] as? Bool ?? true
             if location.count == 0 || !visible
@@ -328,6 +339,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     
     func drawAlerts(map: GMSMapView)
     {
+        fixed = true
         let center = getCenterCoordinate()
         let theGeoFire = GeoFire(firebaseRef: Database.database().reference().child("alerts_geo"))
         let circleQuery = theGeoFire!.query(at: CLLocation(latitude: center.latitude,
@@ -444,9 +456,14 @@ extension MapController : CLLocationManagerDelegate{
             if markers[ownerPhone] != nil{
                 markers[ownerPhone]?.updateMarker(coordinates: currentLocation.coordinate, degrees: 0, duration: 0)
             }else{
-                let ownerMarker = waspyMemberMarker(phone: ownerPhone)
+                let ownerMarker = waspyMemberMarker(phone: ownerPhone, name: self.userD.string(forKey: "OwnerName")!)
+                ownerMarker.setIconView()
                 markers[ownerPhone] = ownerMarker
                 markers[ownerPhone]?.updateMarker(coordinates: currentLocation.coordinate, degrees: 0, duration: 0)
+            }
+            let mapa = self.view as! GMSMapView
+            if fixed {
+                mapa.animate(to: GMSCameraPosition(target: (locations.last?.coordinate)!, zoom: 15, bearing: -15, viewingAngle: 45))
             }
         }
     }

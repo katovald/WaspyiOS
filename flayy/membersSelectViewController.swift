@@ -45,7 +45,9 @@ class membersSelectViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         miembros = userD.array(forKey: "MembersActiveGroup") as? [[String:[String:Any]]] ?? []
-        checkIn = userD.string(forKey: "LastCheckIn") ?? ""
+        firebaseManager.init().getLastCheckIN { (texto, location) in
+            print(texto)
+        }
         if checkIn == "" {
             lastCheck.isHidden = true
         }

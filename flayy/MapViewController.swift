@@ -203,6 +203,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         userD.set(true, forKey: "InstaledBefore")
         self.phone = userD.string(forKey: "OwnerPhone")
         print(self.phone)
+        print(self.userD.string(forKey: "ActualGroup") ?? "")
         firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
                 if inSystem
                 {

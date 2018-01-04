@@ -48,11 +48,16 @@ class GroupSelectorViewController: UIViewController {
         super.viewDidLoad()
         gruposLista = userD.array(forKey: "OwnerGroups") as! [[String:String]]
         titulo.title = userD.string(forKey: "ActualGroupTitle") ?? ""
+        NotificationCenter.default.addObserver(self, selector: #selector(dataChanged), name: NSNotification.Name("UserGroupsChanged"), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @objc func dataChanged(){
+        self.dismiss(animated: false, completion: nil)
     }
 }
 

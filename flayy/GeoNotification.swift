@@ -66,9 +66,9 @@ class Geotification: NSObject, NSCoding, MKAnnotation {
         let longitude = aDecoder.decodeDouble(forKey: Geokey.longitude)
         coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         radius = aDecoder.decodeDouble(forKey: Geokey.radius)
-        identifier = aDecoder.decodeObject(forKey: Geokey.identifier) as! String
-        note = aDecoder.decodeObject(forKey: Geokey.note) as! String
-        eventType = EventType(rawValue: aDecoder.decodeObject(forKey: Geokey.eventType) as! String)!
+        identifier = aDecoder.decodeObject(forKey: Geokey.identifier) as? String ?? ""
+        note = aDecoder.decodeObject(forKey: Geokey.note) as? String ?? ""
+        eventType = EventType(rawValue: aDecoder.decodeObject(forKey: Geokey.eventType) as? String ?? "")!
     }
     
 

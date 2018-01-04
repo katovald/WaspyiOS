@@ -35,7 +35,7 @@ class FCmNotifications {
                         "data" : [
                                     "type" : "geofence",
                                     "title" : "Waspy",
-                                    "body" : userD.string(forKey: "OwnerPhone")! + " ha llegado",
+                                    "body" : userD.string(forKey: "OwnerName")! + " ha llegado",
                                     "sender" : userD.string(forKey: "OwnerPhone")!
                                 ]
             ] as [String : Any]
@@ -83,7 +83,7 @@ class FCmNotifications {
                         "data" : [
                             "type" : "geofence",
                             "title" : "Waspy",
-                            "body" : userD.string(forKey: "OwnerPhone")! + " ha salido",
+                            "body" : userD.string(forKey: "OwnerName")! + " ha salido",
                             "sender" : userD.string(forKey: "OwnerPhone")!
             ]
             ] as [String : Any]
@@ -132,13 +132,14 @@ class FCmNotifications {
                             "type" : "panic_button",
                             "body" : [
                                 "title" : userD.string(forKey: "OwnerName")!,
-                                "body" : "Ha hecho un Check In",
+                                "body" : "Ha pedido Ayuda",
                                 "location" : address
                             ],
                             "sender": userD.string(forKey: "OwnerPhone")!
             ]
             ] as [String : Any]
         
+        firebaseManager.init().savePanicCall()
         self.send(message: message)
     }
     
@@ -186,14 +187,11 @@ class FCmNotifications {
         }
         if msgType == "check_in"
         {
-            let name = message["sender"] as! String
-            if name != userD.string(forKey: "OwnerName"){
-                let msgBody = message["body"] as! String
-                let dict = convertToDictionary(text: msgBody)
-                notifyExtra(msg: dict!["location"] as! String,
-                            titulo: dict!["title"] as! String,
-                            subtitulo: dict!["body"] as! String)
-            }
+            let msgBody = message["body"] as! String
+            let dict = convertToDictionary(text: msgBody)
+            notifyExtra(msg: dict!["location"] as! String,
+                        titulo: dict!["title"] as! String,
+                        subtitulo: dict!["body"] as! String)
         }
         if msgType == "kick_out"
         {

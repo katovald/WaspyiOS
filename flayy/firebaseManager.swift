@@ -35,8 +35,7 @@ public class firebaseManager {
     public let DataChangueNotification = NSNotification.Name("UserDataChanged")
     public let PhotoChangueNotification = NSNotification.Name("UserPhotoChanged")
     public let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
-    public let LocationChangeNotification = NSNotification.Name("GroupPlacesUpdated")
-    public let PlacesChangedNotification = NSNotification.Name("PlacesAdded")
+    public let PlacesChangedNotification = NSNotification.Name("PlacesUpdated")
     public let LogInNotification = NSNotification.Name("CorrectLogIn")
 
     ///initiate class
@@ -96,8 +95,8 @@ public class firebaseManager {
             let childexist:Bool = (value != nil)
             var owner:String = ""
             if childexist {
-                let data = snap.value as! [String:[String:Any]]
-                let members = data["members"] as! [String:[String:Any]]
+                let data = snap.value as? [String:[String:Any]] ?? [:]
+                let members = data["members"] as? [String:[String:Any]] ?? [:]
                 let memberNumbers = members.keys
                 let ownerPhone = self.userD.string(forKey: "OwnerPhone")!
                 for member in memberNumbers {
@@ -109,7 +108,7 @@ public class firebaseManager {
                 for member in memberNumbers {
                     let memberData = members[member]
                     if memberData!["rol"] as? String == "admin"{
-                        owner = memberData!["name"] as! String
+                        owner = memberData!["name"] as? String ?? ""
                         break
                     }
                 }
@@ -289,10 +288,10 @@ public class firebaseManager {
                             "photo_url": self.userD.string(forKey: "OwnerDownloadURL")!] as [String : Any]
             
             self.reference.child("groups/" + code).observeSingleEvent(of: .value, with: {(snapshot) in
-                let value = snapshot.value as? NSDictionary
-                let groupInfo = value?["group_info"] as! NSDictionary
+                guard let value = snapshot.value as? NSDictionary else {return}
+                let groupInfo = value["group_info"] as! NSDictionary
                 groupName = groupInfo["group_name"] as! String
-                groupMembers = value?["members"] as! [String:AnyObject]
+                groupMembers = value["members"] as! [String:AnyObject]
                 
                 self.reference.child("groups/" + code + "/members/" + phone).setValue(userInfo)
                 self.reference.child("accounts/" + phone + "/user_groups/groups/" + code).setValue(groupName)
@@ -307,7 +306,7 @@ public class firebaseManager {
         var allGroupMembers = [String:Any]()
         let keys = groupMembers.keys
         for key in keys{
-            let memberInfo = groupMembers[key] as! [String:Any]
+            let memberInfo = groupMembers[key] as? [String:Any] ?? [:]
             
             allGroupMembers[key] = ["Nombre": memberInfo["name"],
                                     "Telefono": memberInfo["phone"],
@@ -415,6 +414,53 @@ public class firebaseManager {
         }
     }
     
+    public func savePanicCall(){
+        let code = self.userD.string(forKey: "ActualGroup")
+        let name = self.userD.string(forKey: "OwnerName")
+        let date = Date()    /////18-Oct-2017 10:51:47
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        
+        let hour = components.hour
+        let min = components.minute
+        let sec = components.second
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let result = formatter.string(from: date) + " " +
+            String(describing: hour ?? 0) + ":" +
+            String(describing: min ?? 0) + ":" +
+            String(describing: sec ?? 0)
+        formatter.dateFormat = "dd-MMM-yyyy"
+        let time = formatter.string(from: date) + " " +
+            String(describing: hour ?? 0) + ":" +
+            String(describing: min ?? 0) + ":" +
+            String(describing: sec ?? 0)
+        LocationServices.init().getAdress { (locat, speed, address, e) in
+            if let a = address {
+                let kilo = a["FormattedAddressLines"] as! [String]
+                
+                var direccion = ""
+                
+                for index in 0...(kilo.count - 1)
+                {
+                    direccion += kilo[index]
+                    direccion += " "
+                }
+                
+                let checkIn =  ["address":direccion,
+                                "location": ["latitude":locat.latitude,
+                                             "longitude":locat.longitude,
+                                             "speed":speed.magnitude],
+                                "time":time,
+                                "type":"panic_button",
+                                "user":name!] as [String : Any]
+                
+                self.reference.child("groups/" + code! + "/group_check_in/").child(result).setValue(checkIn)
+            }
+        }
+    }
+    
     public func editGroupPlace(code: String, key: String, address: String, icon: Int, l: [String:Double], place_name:String, radio: Int){
         var placeData = [String:Any]()
         placeData["address"] = address
@@ -512,7 +558,7 @@ public class firebaseManager {
                     direccion += " "
                 }
                 
-                let ownerGroups = self.userD.array(forKey: "OwnerGroups") as! [[String:String]]
+                let ownerGroups = self.userD.array(forKey: "OwnerGroups") as? [[String:String]] ?? []
                 for code in ownerGroups{
                     self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
                     self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/current_place").setValue(direccion)
@@ -619,6 +665,19 @@ public class firebaseManager {
         self.reference.child("accounts/" + phone + "/FCMToken/").observeSingleEvent(of: .value, with: {(snapshot) in
             guard let value = snapshot.value as? String else {return}
             completion(value)
+        })
+    }
+    
+    public func getLastCheckIN(completion: @escaping (String, [String:Double]) -> Void){
+        let grupo = self.userD.string(forKey: "ActualGroup")
+        self.reference.child("groups/" + grupo! + "/group_check_in/").queryLimited(toLast: 1).observeSingleEvent(of: .value, with: {(snapshot) in
+            guard let value = snapshot.value as? [String:Any] else {return}
+            let keys = value.keys
+            let data = value[keys.first!] as! [String:Any]
+            let location = data["location"] as! [String:Double]
+            let checkINMSG = "\(data["user"] as! String) ha hecho checkIn en: \n \(data["address"] as! String) \n \(data["time"] as! String)"
+            print(checkINMSG)
+            completion(checkINMSG, location)
         })
     }
     

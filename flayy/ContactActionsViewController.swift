@@ -37,6 +37,10 @@ class ContactActionsViewController: UIViewController, MFMessageComposeViewContro
         }
     }
     
+    @IBAction func touchOutside(_ sender: Any) {
+        self.dismiss(animated: false, completion: nil)
+    }
+    
     // Configures and returns a MFMessageComposeViewController instance
     func configuredMessageComposeViewController() -> MFMessageComposeViewController {
         let messageComposeVC = MFMessageComposeViewController()
