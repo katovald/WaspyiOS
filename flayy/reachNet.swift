@@ -17,7 +17,7 @@ public enum ReachabilityError: Error{
     case UnableToSetDispachQueue
 }
 
-public let ReachabilityChangueNotification = NSNotification.Name("ReachabilityChangedNotifiication")
+public let ReachabilityChangueNotification = NSNotification.Name("ReachabilityChangedNotification")
 
 func callback(reachability:SCNetworkReachability, flags: SCNetworkReachabilityFlags, info: UnsafeMutableRawPointer?){
     guard let info = info else {return}

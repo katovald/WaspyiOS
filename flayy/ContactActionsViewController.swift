@@ -34,6 +34,9 @@ class ContactActionsViewController: UIViewController, MFMessageComposeViewContro
         if MFMessageComposeViewController.canSendText(){
             let messageCV = self.configuredMessageComposeViewController()
             present(messageCV, animated: true, completion: nil)
+        }else{
+            showToast(message: "No tienes habilitado el servicio de mensageria SMS")
+            self.dismiss(animated: true, completion: nil)
         }
     }
     

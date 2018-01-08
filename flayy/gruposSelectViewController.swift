@@ -11,9 +11,11 @@ import UIKit
 class gruposSelectViewController: UIViewController {
     
     let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
+    let netReached = Reachability()
     
     let userD:UserDefaults = UserDefaults.standard
     @IBOutlet weak var ownerGroup: UILabel!
+    @IBOutlet weak var create: UIButton!
     
     var grupos = [[String:String]]()
     
@@ -38,26 +40,30 @@ class gruposSelectViewController: UIViewController {
     }
     
     @IBAction func create(_ sender: Any) {
-        let alertController = UIAlertController(title: "Grupo Nuevo", message: "Introduce el nombre de tu grupo", preferredStyle: .alert)
-        let confirmation = UIAlertAction(title: "Listo", style: .default, handler: {(_) in
-            let field = alertController.textFields![0]
-            if field.text! != ""
-            {
-                firebaseManager.init().createUserGroups(name: field.text!)
-                self.dismiss(animated: false, completion: nil)
-            }
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler:{(_) in
-        })
-        alertController.addTextField(configurationHandler: {(textfield) in
-            textfield.placeholder = "Nombre"
-        })
-        
-        alertController.addAction(confirmation)
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated: true, completion: nil)
+        if (netReached?.isReachable)! {
+            let alertController = UIAlertController(title: "Grupo Nuevo", message: "Introduce el nombre de tu grupo", preferredStyle: .alert)
+            let confirmation = UIAlertAction(title: "Listo", style: .default, handler: {(_) in
+                let field = alertController.textFields![0]
+                if field.text! != ""
+                {
+                    firebaseManager.init().createUserGroups(name: field.text!)
+                    self.dismiss(animated: false, completion: nil)
+                }
+            })
+            
+            let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler:{(_) in
+            })
+            alertController.addTextField(configurationHandler: {(textfield) in
+                textfield.placeholder = "Nombre"
+            })
+            
+            alertController.addAction(confirmation)
+            alertController.addAction(cancelAction)
+            
+            present(alertController, animated: true, completion: nil)
+        }else{
+            self.dismiss(animated: false, completion: nil)
+        }
     }
     
     @IBOutlet weak var suscribirNuevo: Rounded!
@@ -154,26 +160,30 @@ extension gruposSelectViewController: UITableViewDataSource {
 
 extension gruposSelectViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.type = kCATransitionFade
-        transition.subtype = kCATransitionFromRight
-        view.window!.layer.add(transition, forKey: "ExitMenu")
-        let grupoElegido = self.grupos[indexPath.row]
-        self.userD.set(grupoElegido.first?.key, forKey: "ActualGroup")
-        self.userD.set(grupoElegido.first?.value, forKey: "ActualGroupTitle")
-        self.userD.set(nil, forKey: "ActualGroupPlaces")
-        firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
-            self.userD.set(members, forKey: "MembersActiveGroup")
-            firebaseManager.init().setLastGroup(name: (grupoElegido.first?.value)!)
-        })
-        firebaseManager.init().getPlaces(group: self.userD.string(forKey: "ActualGroup")!, completion: { (places) in
-            self.userD.set(places, forKey: "ActualGroupPlaces")
-        })
+        if (netReached?.isReachable)! {
+            let transition = CATransition()
+            transition.duration = 0.5
+            transition.type = kCATransitionFade
+            transition.subtype = kCATransitionFromRight
+            view.window!.layer.add(transition, forKey: "ExitMenu")
+            let grupoElegido = self.grupos[indexPath.row]
+            self.userD.set(grupoElegido.first?.key, forKey: "ActualGroup")
+            self.userD.set(grupoElegido.first?.value, forKey: "ActualGroupTitle")
+            self.userD.set(nil, forKey: "ActualGroupPlaces")
+            firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
+                self.userD.set(members, forKey: "MembersActiveGroup")
+                firebaseManager.init().setLastGroup(name: (grupoElegido.first?.value)!)
+            })
+            firebaseManager.init().getPlaces(group: self.userD.string(forKey: "ActualGroup")!, completion: { (places) in
+                self.userD.set(places, forKey: "ActualGroupPlaces")
+            })
         
-        self.dismiss(animated: false, completion:{
-            self.notificationCenter.post(name: self.GroupsChangeNotification, object: self)
-        })
+            self.dismiss(animated: false, completion:{
+                self.notificationCenter.post(name: self.GroupsChangeNotification, object: self)
+            })
+        }else{
+            self.dismiss(animated: false, completion:nil)
+        }
     }
 }
 

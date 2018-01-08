@@ -14,7 +14,7 @@ typealias JSONDictionary = [String:Any]
 class LocationServices {
     
     let locManager = CLLocationManager()
-    var currentLocation: CLLocation!
+    var currentLocation = CLLocation()
     
     let authStatus = CLLocationManager.authorizationStatus()
     let inUse = CLAuthorizationStatus.authorizedWhenInUse
@@ -26,7 +26,7 @@ class LocationServices {
         
         if self.authStatus == inUse || self.authStatus == always {
             
-            self.currentLocation = locManager.location
+            self.currentLocation = locManager.location ?? CLLocation()
             
             let geoCoder = CLGeocoder()
             

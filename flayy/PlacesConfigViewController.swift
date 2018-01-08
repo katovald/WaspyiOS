@@ -32,6 +32,7 @@ class PlacesConfigViewController: UIViewController {
     var error:NSError!
     var pointAnnotation:MKPointAnnotation!
     var pinAnnottion:MKPinAnnotationView!
+    let reacNet = Reachability()
     
     @IBAction func searchBarBTN(_ sender: Any) {
 //        searcController = UISearchController(searchResultsController: nil)
@@ -60,38 +61,46 @@ class PlacesConfigViewController: UIViewController {
     }
     
     @IBAction func deletePlace(_ sender: Any) {
-        firebaseManager.init().deletePlace(code: userD.string(forKey: "ActualGroup")!,
-                                           key: (place.first?.key)!)
-        self.dismiss(animated: true, completion: {
-            self.userD.set(nil, forKey: "EditingPlace")
-            NotificationCenter.default.post(name: NSNotification.Name("PlacesUpdated"),
-                                            object: self)
-            firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
-        })
+        if (reacNet?.isReachable)!{
+            firebaseManager.init().deletePlace(code: userD.string(forKey: "ActualGroup")!,
+                                               key: (place.first?.key)!)
+            self.dismiss(animated: true, completion: {
+                self.userD.set(nil, forKey: "EditingPlace")
+                NotificationCenter.default.post(name: NSNotification.Name("PlacesUpdated"),
+                                                object: self)
+                firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
+            })
+        }else{
+            showToast(message: "Necesitas estar conectado a internet")
+        }
     }
     
     @IBAction func editSave(_ sender: Any) {
         if edicion {
-            NotificationCenter.default.post(name: NSNotification.Name("GivemePlaceData"), object: self)
-            place = userD.dictionary(forKey: "EditingPlace") as! [String : [String : Any]]
-            let key = place.first?.key
-            let data = place.first?.value
-            let location = data!["l"] as! [String:Double]
-            if key! == "none"{
-                firebaseManager.init().saveGroupPlace(code: userD.string(forKey: "ActualGroup")!,
-                                                      address: direccion.text!,
-                                                      icon: icono,
-                                                      l: location,
-                                                      place_name: texto.text!,
-                                                      radio: Int(radio.value))
+            if (reacNet?.isReachable)! {
+                NotificationCenter.default.post(name: NSNotification.Name("GivemePlaceData"), object: self)
+                place = userD.dictionary(forKey: "EditingPlace") as! [String : [String : Any]]
+                let key = place.first?.key
+                let data = place.first?.value
+                let location = data!["l"] as! [String:Double]
+                if key! == "none"{
+                    firebaseManager.init().saveGroupPlace(code: userD.string(forKey: "ActualGroup")!,
+                                                          address: direccion.text!,
+                                                          icon: icono,
+                                                          l: location,
+                                                          place_name: texto.text!,
+                                                          radio: Int(radio.value))
+                }
+                FCmNotifications.init().placesUpdated()
+                blockedView()
+                NotificationCenter.default.post(name: NSNotification.Name("PlacesUpdated"), object: self)
+                self.dismiss(animated: true, completion: {
+                    self.userD.set(nil, forKey: "EditingPlace")
+                    firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
+                })
+            }else{
+                showToast(message: "Necesitas Internet para poder guardar")
             }
-            FCmNotifications.init().placesUpdated()
-            blockedView()
-            NotificationCenter.default.post(name: NSNotification.Name("PlacesUpdated"), object: self)
-            self.dismiss(animated: true, completion: {
-                self.userD.set(nil, forKey: "EditingPlace")
-                firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
-            })
         }else{
             editingView()
         }

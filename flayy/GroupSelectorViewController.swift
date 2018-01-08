@@ -10,14 +10,21 @@ import UIKit
 
 class GroupSelectorViewController: UIViewController {
 
+    let conected = Reachability()
+    
     @IBAction func create(_ sender: Any) {
         let alertController = UIAlertController(title: "Grupo Nuevo", message: "Introduce el nombre de tu grupo", preferredStyle: .alert)
         let confirmation = UIAlertAction(title: "Listo", style: .default, handler: {(_) in
             let field = alertController.textFields![0]
-            if field.text! != ""
-            {
-                firebaseManager.init().createUserGroups(name: field.text!)
-                self.dismissSelector(self)
+            
+            if (self.conected?.isReachable)! {
+                if field.text! != ""
+                {
+                    firebaseManager.init().createUserGroups(name: field.text!)
+                    self.dismissSelector(self)
+                }
+            }else{
+                self.showToast(message: "No estas conectado a Internet")
             }
         })
         
@@ -78,12 +85,15 @@ extension GroupSelectorViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //"detalleGrupo"
         let selectedGroup = gruposLista[indexPath.row].first?.key
-        
-        firebaseManager.init().getGroupMembersInfo(code: selectedGroup!, completion: {(members) in
-            self.userD.set(members, forKey: "MiembrosAuxiliares")
-            self.userD.set(selectedGroup, forKey: "CodigoGrupoAuxiliar")
-            self.userD.set(self.gruposLista[indexPath.row].first?.value, forKey: "NombreAuxiliar")
-            self.performSegue(withIdentifier: "detalleGrupo", sender: self)
-        })
+        if (conected?.isReachable)!{
+            firebaseManager.init().getGroupMembersInfo(code: selectedGroup!, completion: {(members) in
+                self.userD.set(members, forKey: "MiembrosAuxiliares")
+                self.userD.set(selectedGroup, forKey: "CodigoGrupoAuxiliar")
+                self.userD.set(self.gruposLista[indexPath.row].first?.value, forKey: "NombreAuxiliar")
+                self.performSegue(withIdentifier: "detalleGrupo", sender: self)
+            })
+        }else{
+            showToast(message: "No estas conectado a Internet")
+        }
     }
 }

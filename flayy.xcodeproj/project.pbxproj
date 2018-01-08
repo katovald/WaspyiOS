@@ -242,7 +242,6 @@
 		41ABC2F81FD0B69F00694308 /* wt2.png in Resources */ = {isa = PBXBuildFile; fileRef = 41ABC2F71FD0B69E00694308 /* wt2.png */; };
 		41ABC2FA1FD0B6A500694308 /* wt3.png in Resources */ = {isa = PBXBuildFile; fileRef = 41ABC2F91FD0B6A500694308 /* wt3.png */; };
 		41ABC2FC1FD0B87200694308 /* lipita.png in Resources */ = {isa = PBXBuildFile; fileRef = 41ABC2FB1FD0B86F00694308 /* lipita.png */; };
-		41ACBAE31F460C9E00C8DFB9 /* keyboardDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41ACBAE21F460C9E00C8DFB9 /* keyboardDesign.swift */; };
 		41B7195C1F069C9C00A42014 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7195B1F069C9C00A42014 /* AppDelegate.swift */; };
 		41B7195E1F069C9C00A42014 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B7195D1F069C9C00A42014 /* LoginViewController.swift */; };
 		41B719631F069C9C00A42014 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41B719621F069C9C00A42014 /* Assets.xcassets */; };
@@ -541,7 +540,6 @@
 		41ABC2F71FD0B69E00694308 /* wt2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wt2.png; sourceTree = "<group>"; };
 		41ABC2F91FD0B6A500694308 /* wt3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wt3.png; sourceTree = "<group>"; };
 		41ABC2FB1FD0B86F00694308 /* lipita.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lipita.png; sourceTree = "<group>"; };
-		41ACBAE21F460C9E00C8DFB9 /* keyboardDesign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = keyboardDesign.swift; sourceTree = "<group>"; };
 		41B719581F069C9C00A42014 /* flayy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flayy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41B7195B1F069C9C00A42014 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		41B7195D1F069C9C00A42014 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -883,7 +881,6 @@
 				41D416611F214E7E00BC7BDC /* PicMemberTableViewCell.swift */,
 				41C51F601F1E8FA3003B53D1 /* MemberDataTableViewCell.swift */,
 				4145246C1F5DA51D0095C8F2 /* menuTableViewCell.swift */,
-				41ACBAE21F460C9E00C8DFB9 /* keyboardDesign.swift */,
 				41F8BD501F50A6310042B885 /* GroupsMenu.swift */,
 				41F9C8EC1FBDED9200D79411 /* corersRounded.swift */,
 				41FFDBCF1FCE0B1C001B70BF /* CheckInViewController.swift */,
@@ -1555,7 +1552,6 @@
 				417F8A1A1F29210600C4AE58 /* asyncData.swift in Sources */,
 				41C51F5F1F1E8586003B53D1 /* GroupSettingsViewController.swift in Sources */,
 				41B7195E1F069C9C00A42014 /* LoginViewController.swift in Sources */,
-				41ACBAE31F460C9E00C8DFB9 /* keyboardDesign.swift in Sources */,
 				41937E481F95316600ADF1BB /* PanicButtonViewController.swift in Sources */,
 				414524691F575DD60095C8F2 /* utils.swift in Sources */,
 				41CCFCFB1F0BC5A500F4AC89 /* MapViewController.swift in Sources */,

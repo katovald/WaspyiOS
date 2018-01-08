@@ -30,8 +30,8 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     var ownerPhone:String!
     var fixed:Bool!
     
-    var timer:Timer!
-    var timer1:Timer!
+    var timer = Timer()
+    var timer1 = Timer()
 
 
     override func viewDidLoad() {
@@ -90,11 +90,17 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     }
     
     @objc func changeInfo(){
+        let status = CLLocationManager.authorizationStatus()
+        print(status)
         self.view.addSubview(backView)
         workingView.startAnimating()
         self.mapa.clear()
-        let camera = GMSCameraPosition.camera(withLatitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, zoom: 15.0, bearing: -15, viewingAngle: 45)
-        self.mapa = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        if locationManager.location != nil{
+            let camera = GMSCameraPosition.camera(withLatitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, zoom: 15.0, bearing: -15, viewingAngle: 45)
+            self.mapa = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        }else{
+            self.mapa = GMSMapView()
+        }
         mapa.delegate = self
         self.view = mapa
         updateMarkers()
@@ -340,6 +346,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     func drawAlerts(map: GMSMapView)
     {
         fixed = true
+        
         let center = getCenterCoordinate()
         let theGeoFire = GeoFire(firebaseRef: Database.database().reference().child("alerts_geo"))
         let circleQuery = theGeoFire!.query(at: CLLocation(latitude: center.latitude,
@@ -456,7 +463,7 @@ extension MapController : CLLocationManagerDelegate{
             if markers[ownerPhone] != nil{
                 markers[ownerPhone]?.updateMarker(coordinates: currentLocation.coordinate, degrees: 0, duration: 0)
             }else{
-                let ownerMarker = waspyMemberMarker(phone: ownerPhone, name: self.userD.string(forKey: "OwnerName")!)
+                let ownerMarker = waspyMemberMarker(phone: ownerPhone, name: self.userD.string(forKey: "OwnerName") ?? "")
                 ownerMarker.setIconView()
                 markers[ownerPhone] = ownerMarker
                 markers[ownerPhone]?.updateMarker(coordinates: currentLocation.coordinate, degrees: 0, duration: 0)

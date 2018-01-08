@@ -171,7 +171,35 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
         if MFMessageComposeViewController.canSendText(){
             let messageCV = self.configuredMessageComposeViewController()
             present(messageCV, animated: true, completion: nil)
+        }else{
+            showToast(message: "No tienes habilitado el servicio de mensajes SMS")
         }
         FCmNotifications.init().panicChechIn(address: street)
+    }
+}
+
+extension UIViewController {
+    
+    func showToast(message : String) {
+        
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - self.view.frame.size.width/4,
+                                               y: self.view.frame.size.height-self.view.frame.size.height/5,
+                                               width: self.view.frame.size.width/2,
+                                               height: 35))
+        toastLabel.backgroundColor = UIColor.clear
+        toastLabel.textColor = UIColor.red
+        toastLabel.textAlignment = .center;
+        toastLabel.font = UIFont(name: "Montserrat-Light", size: 12.0)
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        toastLabel.adjustsFontSizeToFitWidth = true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
     }
 }

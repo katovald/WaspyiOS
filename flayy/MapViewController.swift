@@ -23,6 +23,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     var phone: String!
     var userID: String!
     let userD = UserDefaults.standard
+    let netReach = Reachability()
     let notificationObserver = NotificationCenter.default
     public let CenterRequest = NSNotification.Name("FixCameraPush")
     public let AlertRequest = NSNotification.Name("Alerts")
@@ -103,31 +104,35 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     }
     
     @IBAction func checkInGroup(_ sender: Any) {
-        LocationServices.init().getAdress(completion: { (coordinate, speed, json, e) in
-            if let a = json {
-                let kilo = a["FormattedAddressLines"] as! [String]
-                
-                var direccion = ""
-                
-                for index in 0...(kilo.count - 1)
-                {
-                    direccion += kilo[index]
-                    direccion += " "
+        if (netReach?.isReachable)!{
+            LocationServices.init().getAdress(completion: { (coordinate, speed, json, e) in
+                if let a = json {
+                    let kilo = a["FormattedAddressLines"] as! [String]
+                    
+                    var direccion = ""
+                    
+                    for index in 0...(kilo.count - 1)
+                    {
+                        direccion += kilo[index]
+                        direccion += " "
+                    }
+                    
+                    let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyboard.instantiateViewController(withIdentifier: "checkInBTN") as! CheckInViewController
+                    vc.address = direccion
+                    let width = self.view.frame.width/4
+                    vc.preferredContentSize = CGSize(width: 3 * width, height: 3 * width)
+                    vc.modalPresentationStyle = .popover
+                    let popover = vc.popoverPresentationController!
+                    popover.delegate = self
+                    popover.permittedArrowDirections = .up
+                    popover.barButtonItem = self.checkInBTN
+                    self.present(vc, animated: true, completion: nil)
                 }
-                
-                let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "checkInBTN") as! CheckInViewController
-                vc.address = direccion
-                let width = self.view.frame.width/4
-                vc.preferredContentSize = CGSize(width: 3 * width, height: 3 * width)
-                vc.modalPresentationStyle = .popover
-                let popover = vc.popoverPresentationController!
-                popover.delegate = self
-                popover.permittedArrowDirections = .up
-                popover.barButtonItem = self.checkInBTN
-                self.present(vc, animated: true, completion: nil)
-            } 
-        })
+            })
+        }else{
+            showToast(message: "Necesitas estar conectado a internet")
+        }
     }
     
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {

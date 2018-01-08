@@ -1366,6 +1366,7 @@
                     </view>
                     <connections>
                         <outlet property="codetext" destination="7um-c0-oW6" id="JID-3s-3IZ"/>
+                        <outlet property="create" destination="GJR-uk-yUl" id="42p-o5-3uy"/>
                         <outlet property="ownerGroup" destination="XIU-hs-G4Q" id="lGF-l2-5Tg"/>
                         <outlet property="suscribirNuevo" destination="muC-Tt-dY7" id="zq7-xl-UDu"/>
                         <outlet property="visibleON" destination="Cp9-AF-2Cp" id="D7N-lk-ylm"/>
@@ -2321,18 +2322,18 @@
                                     <action selector="setUnsetContact:" destination="7iF-Ey-752" eventType="touchUpInside" id="3vx-Mz-qET"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GDX-fa-bTX" customClass="Rounded" customModule="flayy" customModuleProvider="target">
-                                <rect key="frame" x="230" y="110" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="setUnsetContact3:" destination="7iF-Ey-752" eventType="touchUpInside" id="peO-vv-kkc"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ieg-og-tmJ" customClass="Rounded" customModule="flayy" customModuleProvider="target">
                                 <rect key="frame" x="130" y="110" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="setUnsetContact2:" destination="7iF-Ey-752" eventType="touchUpInside" id="IXc-bO-ltV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GDX-fa-bTX" customClass="Rounded" customModule="flayy" customModuleProvider="target">
+                                <rect key="frame" x="230" y="110" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="setUnsetContact3:" destination="7iF-Ey-752" eventType="touchUpInside" id="peO-vv-kkc"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Agrega a tus contactos de emergencia" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MxM-aj-CP9">
@@ -2454,6 +2455,6 @@
         <image name="wt3.png" width="1083" height="1700"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="u9n-1S-ZPf"/>
+        <segue reference="QqW-Kf-zPN"/>
     </inferredMetricsTieBreakers>
 </document>

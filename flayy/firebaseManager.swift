@@ -258,10 +258,10 @@ public class firebaseManager {
             
             banderas["geoFence_Notifications"] = ["geoFence_enter":true, "geoFence_exit":true]
             var memberInfo = Array<Any>()
-            memberInfo.append([phone:["Nombre": self.userD.string(forKey: "OwnerName") ?? "",
-                                     "Telefono": self.userD.string(forKey: "OwnerPhone") ?? "",
-                                     "Descarga": self.userD.string(forKey: "OwnerDownloadURL") ?? "",
-                                     "Rol": "Admin",
+            memberInfo.append([phone:["name": self.userD.string(forKey: "OwnerName") ?? "",
+                                     "phone": self.userD.string(forKey: "OwnerPhone") ?? "",
+                                     "photo_url": self.userD.string(forKey: "OwnerDownloadURL") ?? "",
+                                     "rol": "Admin",
                                      "geoFence_Notifications": ["geoFence_enter":true, "geoFence_exit":true]]])
             
             userD.set(memberInfo, forKey: "MembersActiveGroup")
@@ -308,11 +308,11 @@ public class firebaseManager {
         for key in keys{
             let memberInfo = groupMembers[key] as? [String:Any] ?? [:]
             
-            allGroupMembers[key] = ["Nombre": memberInfo["name"],
-                                    "Telefono": memberInfo["phone"],
-                                    "Descarga": memberInfo["photo_url"],
-                                    "Rol": memberInfo["rol"],
-                                    "Geocercas": memberInfo["geoFence_Notifications"]]
+            allGroupMembers[key] = ["name": memberInfo["name"],
+                                    "phone": memberInfo["phone"],
+                                    "photo_url": memberInfo["photo_url"],
+                                    "rol": memberInfo["rol"],
+                                    "photo_url": memberInfo["geoFence_Notifications"]]
             
             self.getMemberPhotoFB(phone: key)
         }

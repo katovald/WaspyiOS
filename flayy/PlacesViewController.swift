@@ -19,7 +19,7 @@ class PlacesViewController: UIViewController {
     @IBOutlet weak var tablePlaces: UITableView!
     
     let userD:UserDefaults = UserDefaults.standard
-
+    let netReach = Reachability()
     var places = [[String:[String:Any]]]()
     
     override func viewDidLoad() {
