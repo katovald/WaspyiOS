@@ -1044,6 +1044,52 @@
             </objects>
             <point key="canvasLocation" x="-2195.625" y="-203.87323943661971"/>
         </scene>
+        <!--Invite View Controller-->
+        <scene sceneID="GJq-yl-7Sd">
+            <objects>
+                <viewController storyboardIdentifier="InviteView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="HwJ-JD-2Ou" customClass="InviteViewController" customModule="flayy" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oXh-UG-0nz"/>
+                        <viewControllerLayoutGuide type="bottom" id="Nwx-R4-ipM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="center" semanticContentAttribute="spatial" id="Itf-b5-cYQ">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="160"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ahora que has creado un nuevo grupo invita a algunas personas...." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C7H-kk-hO3">
+                                <rect key="frame" x="16" y="20" width="168" height="69"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4u-jB-yMb">
+                                <rect key="frame" x="15" y="105" width="170" height="24"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.98823529409999999" green="0.92941176469999998" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="Invitar Miembros"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="normalBorderColor">
+                                        <color key="value" red="0.95686274510000002" green="0.79607843140000001" blue="0.10980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                        <color key="value" red="0.98823529409999999" green="0.92941176469999998" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <size key="freeformSize" width="200" height="160"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vtK-5z-m0z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1539.375" y="-180.63380281690141"/>
+        </scene>
         <!--Places Controller-->
         <scene sceneID="E8t-Rw-CFT">
             <objects>

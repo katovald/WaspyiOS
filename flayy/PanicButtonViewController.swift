@@ -64,6 +64,7 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
     var textMessageContact = [String]()
     var street:String!
     let sempahore = DispatchSemaphore(value: 0)
+    let reachNet = Reachability()
     
     @IBAction func setUnsetContact2(_ sender: Any) {
         let cnPicker = CNContactPickerViewController()
@@ -147,7 +148,9 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
         {
             alert(message: "Ese contacto no tiene un telefono valido por favor selecciona otro")
         }else{
-            firebaseManager.init().setEmergencyContacts(contact: [place: [contact.givenName:phone]])
+            if (reachNet?.isReachable)! {
+                firebaseManager.init().setEmergencyContacts(contact: [place: [contact.givenName:phone]])
+            }
             changeIcon(place: place, contactoName: contact.givenName, contactoPhone: phone)
         }
     }
@@ -174,7 +177,10 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
         }else{
             showToast(message: "No tienes habilitado el servicio de mensajes SMS")
         }
-        FCmNotifications.init().panicChechIn(address: street)
+        if (reachNet?.isReachable)!
+        {
+            FCmNotifications.init().panicChechIn(address: street)
+        }
     }
 }
 

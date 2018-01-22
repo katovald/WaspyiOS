@@ -166,6 +166,7 @@
 		417F8A1A1F29210600C4AE58 /* asyncData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417F8A191F29210600C4AE58 /* asyncData.swift */; };
 		417FC9511F5626D700EDC5A7 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 411BC24F1F546E2800E5560D /* GoogleMaps.framework */; };
 		417FC9531F56274D00EDC5A7 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 417FC9521F56274D00EDC5A7 /* GoogleMaps.bundle */; };
+		4185E9C420164A3200521264 /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4185E9C320164A3200521264 /* InviteViewController.swift */; };
 		418BDCAB1FACC9E6005FD943 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 418BDCAA1FACC9E4005FD943 /* default.png */; };
 		418BDCAF1FAD216D005FD943 /* video_login.mov in Resources */ = {isa = PBXBuildFile; fileRef = 418BDCAE1FAD216C005FD943 /* video_login.mov */; };
 		418BDCB11FAD2182005FD943 /* eye.gif in Resources */ = {isa = PBXBuildFile; fileRef = 418BDCB01FAD2180005FD943 /* eye.gif */; };
@@ -270,6 +271,7 @@
 		41D401BC1FB27F2500D65FC7 /* slide2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 41D401BA1FB27F2300D65FC7 /* slide2.gif */; };
 		41D416621F214E7E00BC7BDC /* PicMemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D416611F214E7E00BC7BDC /* PicMemberTableViewCell.swift */; };
 		41DCA1BB1F743248001B23F4 /* GroupSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DCA1BA1F743247001B23F4 /* GroupSelectorViewController.swift */; };
+		41F01B28200E8068006D9E05 /* alertMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F01B27200E8068006D9E05 /* alertMarker.swift */; };
 		41F8BD511F50A6310042B885 /* GroupsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F8BD501F50A6310042B885 /* GroupsMenu.swift */; };
 		41F9C8ED1FBDED9200D79411 /* corersRounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9C8EC1FBDED9200D79411 /* corersRounded.swift */; };
 		41FCE94F1FBB4600007A1A98 /* menu-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 41FCE94E1FBB4600007A1A98 /* menu-bg.png */; };
@@ -456,6 +458,7 @@
 		417F8A161F28DA7E00C4AE58 /* Rounded.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Rounded.swift; path = ../Rounded.swift; sourceTree = "<group>"; };
 		417F8A191F29210600C4AE58 /* asyncData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = asyncData.swift; sourceTree = "<group>"; };
 		417FC9521F56274D00EDC5A7 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
+		4185E9C320164A3200521264 /* InviteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
 		418BDCAA1FACC9E4005FD943 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		418BDCAE1FAD216C005FD943 /* video_login.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = video_login.mov; sourceTree = "<group>"; };
 		418BDCB01FAD2180005FD943 /* eye.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = eye.gif; sourceTree = "<group>"; };
@@ -507,7 +510,7 @@
 		41937E5E1F95556500ADF1BB /* map.i3a@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map.i3a@2x.png"; sourceTree = "<group>"; };
 		41937E5F1F95556700ADF1BB /* map.i3a@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map.i3a@3x.png"; sourceTree = "<group>"; };
 		41937E601F95556800ADF1BB /* map.i3b@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map.i3b@3x.png"; sourceTree = "<group>"; };
-		41937E691F95569200ADF1BB /* d41abb1b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = d41abb1b.png; path = ../../../Desktop/d41abb1b.png; sourceTree = "<group>"; };
+		41937E691F95569200ADF1BB /* d41abb1b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = d41abb1b.png; path = ../../../Desktop/waspy_design/d41abb1b.png; sourceTree = "<group>"; };
 		41937E6C1F955A5400ADF1BB /* map.i2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map.i2@2x.png"; sourceTree = "<group>"; };
 		41937E6D1F955A5500ADF1BB /* map-ia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-ia@2x.png"; sourceTree = "<group>"; };
 		41937E6E1F955A5600ADF1BB /* map-ia@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-ia@3x.png"; sourceTree = "<group>"; };
@@ -575,6 +578,7 @@
 		41D401BA1FB27F2300D65FC7 /* slide2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = slide2.gif; sourceTree = "<group>"; };
 		41D416611F214E7E00BC7BDC /* PicMemberTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PicMemberTableViewCell.swift; sourceTree = "<group>"; };
 		41DCA1BA1F743247001B23F4 /* GroupSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupSelectorViewController.swift; sourceTree = "<group>"; };
+		41F01B27200E8068006D9E05 /* alertMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alertMarker.swift; sourceTree = "<group>"; };
 		41F8BD4E1F509BF00042B885 /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleToolboxForMac.framework; path = "../../../Library/Developer/Xcode/DerivedData/flayy-bhimggnokqdphpdccbjsyxbflcvi/Build/Products/Debug-iphoneos/GoogleToolboxForMac/GoogleToolboxForMac.framework"; sourceTree = "<group>"; };
 		41F8BD501F50A6310042B885 /* GroupsMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsMenu.swift; sourceTree = "<group>"; };
 		41F9C8EC1FBDED9200D79411 /* corersRounded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = corersRounded.swift; sourceTree = "<group>"; };
@@ -884,6 +888,8 @@
 				41F8BD501F50A6310042B885 /* GroupsMenu.swift */,
 				41F9C8EC1FBDED9200D79411 /* corersRounded.swift */,
 				41FFDBCF1FCE0B1C001B70BF /* CheckInViewController.swift */,
+				4185E9C320164A3200521264 /* InviteViewController.swift */,
+				41F01B27200E8068006D9E05 /* alertMarker.swift */,
 			);
 			name = Design;
 			sourceTree = "<group>";
@@ -1577,11 +1583,13 @@
 				4101DCD11F13BEC90096FC84 /* One.swift in Sources */,
 				4101DCD31F13C4890096FC84 /* Two.swift in Sources */,
 				41932AFC1F68288100BACA70 /* LocationServices.swift in Sources */,
+				4185E9C420164A3200521264 /* InviteViewController.swift in Sources */,
 				410837051F1D141800F929F4 /* helpViewController.swift in Sources */,
 				4101DCDC1F13D56C0096FC84 /* Three.swift in Sources */,
 				410837011F1CFED800F929F4 /* gruposSelectViewController.swift in Sources */,
 				41C2CF331F20F128008F8370 /* PlacesMapViewController.swift in Sources */,
 				41FCE9561FBB6AF1007A1A98 /* registerViewController.swift in Sources */,
+				41F01B28200E8068006D9E05 /* alertMarker.swift in Sources */,
 				410B334A1F6AF73E00F3F443 /* GeoNotification.swift in Sources */,
 				41CCFD011F0C0D8200F4AC89 /* userSettings.swift in Sources */,
 				4194EA9A1F1044F0002A4F21 /* HelpController.swift in Sources */,

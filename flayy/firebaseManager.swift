@@ -37,6 +37,7 @@ public class firebaseManager {
     public let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
     public let PlacesChangedNotification = NSNotification.Name("PlacesUpdated")
     public let LogInNotification = NSNotification.Name("CorrectLogIn")
+    public let CreatedNotification = NSNotification.Name("NewGroupCreated")
 
     ///initiate class
     ///battery monitor and references firebase
@@ -271,6 +272,7 @@ public class firebaseManager {
             Messaging.messaging().subscribe(toTopic: groupCode + "_exit")
             Messaging.messaging().subscribe(toTopic: groupCode + "_alert")
             self.notificationCenter.post(name: GroupsChangeNotification, object: self)
+            self.notificationCenter.post(name: CreatedNotification, object: self)
         }
     }
     
@@ -655,6 +657,7 @@ public class firebaseManager {
                     self.getPlaces(group: actualgroupc!, completion: {(list) in
                         self.userD.set(list, forKey: "ActualGroupPlaces")
                         self.notificationCenter.post(name: self.LogInNotification, object: self)
+                        self.notificationCenter.post(name: self.PlacesChangedNotification, object: self)
                     })
                 })
             }

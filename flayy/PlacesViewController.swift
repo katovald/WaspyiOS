@@ -43,7 +43,7 @@ class PlacesViewController: UIViewController {
     }
     
     @objc func updateData(){
-        self.dismiss(animated: false, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     /*
     // MARK: - Navigation
@@ -68,6 +68,7 @@ extension PlacesViewController: UITableViewDataSource{
         cell.textLabel?.text = name!["place_name"] as? String
         return cell
     }
+
 }
 
 extension PlacesViewController: UITableViewDelegate{

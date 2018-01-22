@@ -30,6 +30,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     public let LogInNotification = NSNotification.Name("CorrectLogIn")
     public let PlaceAlertRequest = NSNotification.Name("PushAlert")
     public let LogOutConfirm = NSNotification.Name("LogOut")
+    public let TurnOnPush = NSNotification.Name("TryToPush")
     
     var alertas:Bool = false
     var alertBtn:Bool = true
@@ -135,6 +136,20 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         }
     }
     
+    @objc func presentInvite(){
+        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: "InviteView") as! InviteViewController
+        vc.modalPresentationStyle = .popover
+        if let popover = vc.popoverPresentationController {
+            popover.sourceView = memberList
+            popover.sourceRect = memberList.bounds
+            vc.preferredContentSize = CGSize(width: 200, height: 160)
+            popover.delegate = self
+        }
+        
+        self.present(vc, animated: true, completion: nil)
+    }
+    
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
     }
@@ -229,6 +244,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         NotificationCenter.default.addObserver(self, selector: #selector(changedGroup), name: NSNotification.Name("UserGroupsChanged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeIcon), name: NSNotification.Name("LoseFocus"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showWT), name: NSNotification.Name("HelpMe"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(presentInvite), name: NSNotification.Name("NewGroupCreated"), object: nil)
     }
 
     @objc func changedGroup(){
@@ -306,6 +322,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
             
             self.marker.isHidden = false
         })
+        
+        NotificationCenter.default.post(name: TurnOnPush, object: self)
     }
     
     func animationHide(){
@@ -336,6 +354,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
             self.robbery.isHidden = true
             self.marker.isHidden = true
         }
+        
+        NotificationCenter.default.post(name: TurnOnPush, object: self)
     }
 
 }

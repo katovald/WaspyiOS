@@ -46,8 +46,9 @@ class gruposSelectViewController: UIViewController {
                 let field = alertController.textFields![0]
                 if field.text! != ""
                 {
-                    firebaseManager.init().createUserGroups(name: field.text!)
-                    self.dismiss(animated: false, completion: nil)
+                    self.dismiss(animated: false, completion: {
+                        firebaseManager.init().createUserGroups(name: field.text!)
+                    })
                 }
             })
             

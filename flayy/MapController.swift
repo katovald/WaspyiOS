@@ -29,6 +29,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     var radius:Int!
     var ownerPhone:String!
     var fixed:Bool!
+    var putAlert:Bool!
     
     var timer = Timer()
     var timer1 = Timer()
@@ -47,6 +48,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         ownerPhone = userD.string(forKey: "OwnerPhone")
         
         fixed = false
+        putAlert = false
         
         camera = GMSCameraPosition.camera(withLatitude: locValue.latitude, longitude: locValue.longitude, zoom: 15, bearing: -15, viewingAngle: 45)
         
@@ -75,6 +77,12 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(initWaspy), name: NSNotification.Name("CorrectLogIn"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(presetnDialog), name: NSNotification.Name("PushAlert"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(turnEdit), name: NSNotification.Name("TryToPush"), object: nil)
+    }
+    
+    @objc func turnEdit(){
+        putAlert = !putAlert
     }
     
     @objc func initWaspy() {
@@ -469,7 +477,7 @@ extension MapController : CLLocationManagerDelegate{
                 markers[ownerPhone]?.updateMarker(coordinates: currentLocation.coordinate, degrees: 0, duration: 0)
             }
             let mapa = self.view as! GMSMapView
-            if fixed {
+            if fixed && putAlert {
                 mapa.animate(to: GMSCameraPosition(target: (locations.last?.coordinate)!, zoom: 15, bearing: -15, viewingAngle: 45))
             }
         }

@@ -129,15 +129,19 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
     }
     
     @IBAction func inicioCamView(_ sender: Any) {
-        let param = CroppingParameters(isEnabled: true, allowResizing: true, allowMoving: true, minimumSize: CGSize(width: 130, height: 130))
-        let cameraViewController = CameraViewController.init(croppingParameters: param, allowsLibraryAccess: true, allowsSwapCameraOrientation: true, allowVolumeButtonCapture: true) { [weak self] image, asset in
-            // Do something with your image here.
-            if image != nil {
-                self?.userPhoto.image = image
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            let param = CroppingParameters(isEnabled: true, allowResizing: true, allowMoving: true, minimumSize: CGSize(width: 130, height: 130))
+            let cameraViewController = CameraViewController.init(croppingParameters: param, allowsLibraryAccess: true, allowsSwapCameraOrientation: true, allowVolumeButtonCapture: true) { [weak self] image, asset in
+                // Do something with your image here.
+                if image != nil {
+                    self?.userPhoto.image = image
+                }
+                self?.dismiss(animated: true, completion: nil)
             }
-            self?.dismiss(animated: true, completion: nil)
+            present(cameraViewController, animated: true, completion: nil)
+        }else{
+            showToast(message: "No esta presente la camara")
         }
-        present(cameraViewController, animated: true, completion: nil)
     }
 
     

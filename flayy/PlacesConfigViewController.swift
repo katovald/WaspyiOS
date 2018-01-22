@@ -64,11 +64,11 @@ class PlacesConfigViewController: UIViewController {
         if (reacNet?.isReachable)!{
             firebaseManager.init().deletePlace(code: userD.string(forKey: "ActualGroup")!,
                                                key: (place.first?.key)!)
+            NotificationCenter.default.post(name: NSNotification.Name("PlacesUpdated"),
+                                            object: self)
+            firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
             self.dismiss(animated: true, completion: {
                 self.userD.set(nil, forKey: "EditingPlace")
-                NotificationCenter.default.post(name: NSNotification.Name("PlacesUpdated"),
-                                                object: self)
-                firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
             })
         }else{
             showToast(message: "Necesitas estar conectado a internet")
@@ -93,10 +93,9 @@ class PlacesConfigViewController: UIViewController {
                 }
                 FCmNotifications.init().placesUpdated()
                 blockedView()
-                NotificationCenter.default.post(name: NSNotification.Name("PlacesUpdated"), object: self)
+                firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
                 self.dismiss(animated: true, completion: {
                     self.userD.set(nil, forKey: "EditingPlace")
-                    firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
                 })
             }else{
                 showToast(message: "Necesitas Internet para poder guardar")
