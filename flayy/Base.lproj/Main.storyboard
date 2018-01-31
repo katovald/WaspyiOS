@@ -998,6 +998,10 @@
                                     <outletCollection property="gestureRecognizers" destination="Xlk-Tb-WVm" appends="YES" id="5zV-ps-cGD"/>
                                 </connections>
                             </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="bD7-I2-Uuo">
+                                <rect key="frame" x="3" y="160" width="60" height="200"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration">

@@ -66,9 +66,9 @@ class GroupSettingsViewController: UIViewController {
                         self.userD.set(members, forKey: "MembersActiveGroup")
                         firebaseManager.init().setLastGroup(name: (newGroup.first?.value)!)
                         firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
+                        NotificationCenter.default.post(name: NSNotification.Name("UserGroupsChanged"),
+                                                        object: self)
                     })
-                    NotificationCenter.default.post(name: NSNotification.Name("UserGroupsChanged"),
-                                                    object: self)
                 })
             }
         }
@@ -123,15 +123,15 @@ class GroupSettingsViewController: UIViewController {
         membersArray = userD.array(forKey: "MiembrosAuxiliares") as! [[String : [String : Any]]]
         for member in membersArray{
             if member.first?.key == userD.string(forKey: "OwnerPhone"){
-                if member.first?.value["rol"] as! String == "admin" {
+                if member.first?.value["rol"] as? String == "admin" {
                     adminOfGroup = true
                 }else{
                     adminOfGroup = false
                 }
-                visible.isOn = member.first?.value["visibility"] as! Bool
+                visible.isOn = member.first?.value["visibility"] as? Bool ?? true
             }
             
-            if member.first?.value["rol"] as! String == "admin"
+            if member.first?.value["rol"] as? String == "admin"
             {
                 admins += 1
             }

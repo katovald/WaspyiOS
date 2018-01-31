@@ -98,11 +98,10 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     }
     
     @objc func changeInfo(){
-        let status = CLLocationManager.authorizationStatus()
-        print(status)
         self.view.addSubview(backView)
-        workingView.startAnimating()
+        self.view = UIView()
         self.mapa.clear()
+        workingView.startAnimating()
         if locationManager.location != nil{
             let camera = GMSCameraPosition.camera(withLatitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, zoom: 15.0, bearing: -15, viewingAngle: 45)
             self.mapa = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
@@ -195,7 +194,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     @objc func updateMarkers()
     {
         var aux = userD.array(forKey: "MembersActiveGroup") as? [[String:[String:Any]]] ?? []
-        //print(aux)
+        print(aux)
         var allMembers = [String]()
         if aux.count > 0 {
         for key in 0...aux.count - 1 {
@@ -306,7 +305,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         for key in 0...aux.count - 1 {
             let memberPhone = (aux[key].first?.key)!
             let data = aux[key].first?.value
-            let marker = waspyMemberMarker(phone: memberPhone,name: data!["name"] as! String)
+            let marker = waspyMemberMarker(phone: memberPhone,name: data!["name"] as? String ?? "Usuario")
             let location = data!["location"] as? [String:Any] ?? [:]
             let visible = data!["visibility"] as? Bool ?? true
             if location.count == 0 || !visible
@@ -354,7 +353,6 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     func drawAlerts(map: GMSMapView)
     {
         fixed = true
-        
         let center = getCenterCoordinate()
         let theGeoFire = GeoFire(firebaseRef: Database.database().reference().child("alerts_geo"))
         let circleQuery = theGeoFire!.query(at: CLLocation(latitude: center.latitude,

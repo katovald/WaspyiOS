@@ -37,6 +37,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     var fixed = true
     
+    //@IBOutlet weak var addressText: UITextField!
+    //@IBOutlet weak var searchAddress: Rounded!
+    //@IBOutlet weak var lugares: UIButton!
     @IBOutlet weak var memberList: UIButton!
     @IBOutlet weak var center: UIButton!                //boton para centrar el mapa en tu posicion original
     @IBOutlet weak var dron: Rounded!                  //modalidad de dron
@@ -90,15 +93,23 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
             alertBtn = true
             memberList.isHidden = false
             flechaArriba.isHidden = false
+            //searchAddress.isHidden = true
+            //lugares.isHidden = true
             notificationObserver.post(name: AlertRequest, object: self)
             dron.setImage(UIImage(named: "map.i3a.png"), for: .normal)
+            center.setImage(UIImage(named:"map-focus.png"), for: .normal)
+            showToast(message: "Saliendo de Modo Navegacion")
             plusBut.isHidden = true
             alertas = false
         }else{
             memberList.isHidden = true
             flechaArriba.isHidden = true
+//            searchAddress.isHidden = false
+//            lugares.isHidden = false
             notificationObserver.post(name: AlertRequest, object: self)
             dron.setImage(UIImage(named: "map-a1shadowldpi.png"), for: .normal)
+            center.setImage(UIImage(named:"gps-navi-arrow-512.png"), for: .normal)
+            showToast(message: "Modo de navegacion activo")
             plusBut.isHidden = false
             alertas = true
         }
@@ -207,7 +218,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+//        addressText.isHidden = true
+//        searchAddress.isHidden = true
+//        lugares.isHidden = true
         plusBut.isHidden = true
         self.agression.isHidden = true    //// type 1
         self.agressionlbl.isHidden = true
