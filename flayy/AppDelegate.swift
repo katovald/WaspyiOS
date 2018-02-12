@@ -22,17 +22,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        //Google services Keys
+        FirebaseOptions.defaultOptions()?.deepLinkURLScheme = "https://s2ek9.app.goo.gl/"
+        FirebaseApp.configure()
+        
         GMSServices.provideAPIKey("AIzaSyCsKticH0eEpIsY-iB07Py0RFQt8nRQ1Gk")
         GMSPlacesClient.provideAPIKey("AIzaSyAw2s06gUvJkiNLcBCsCoNm_Ncbjgin8Fk")
-        
-        //Init
-        FirebaseApp.configure()
         
         Messaging.messaging().delegate = self
         
         let userPhone = userD.string(forKey: "OwnerPhone")
-
+        
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
@@ -60,7 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
     return true
-        
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],

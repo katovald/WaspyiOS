@@ -245,6 +245,11 @@ class PlacesConfigViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        self.userD.set(nil, forKey: "EditingPlace")
+        self.userD.set(nil, forKey: "PlaceAddressFind")
+    }
+    
     @objc func changeAddress()
     {
         let data = self.userD.dictionary(forKey: "EditingPlace") as! [String : [String : Any]]

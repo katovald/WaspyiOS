@@ -250,7 +250,7 @@
                   moduleName = "ALCameraViewController"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/Pods/ALCameraViewController/ALCameraViewController/Views/CameraView.swift"
-                  timestampString = "540143509.355404"
+                  timestampString = "540168843.1953371"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "186"
@@ -265,7 +265,7 @@
                   moduleName = "ALCameraViewController"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/Pods/ALCameraViewController/ALCameraViewController/Views/CameraView.swift"
-                  timestampString = "540143509.358211"
+                  timestampString = "540168843.199182"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "186"
@@ -394,7 +394,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/MapController.swift"
-                  timestampString = "540143508.079792"
+                  timestampString = "540168842.401107"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "262"
@@ -409,7 +409,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/MapController.swift"
-                  timestampString = "540143508.0817291"
+                  timestampString = "540168842.403015"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "262"
@@ -417,22 +417,6 @@
                   offsetFromSymbolStart = "12">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/AppDelegate.swift"
-            timestampString = "539819217.624547"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
-            landmarkName = "unknown"
-            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
