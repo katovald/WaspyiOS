@@ -1,3 +1,8 @@
+Version 2.1.1
+==================================
+- Fix an issue that throttle rate drops during developer mode.
+- Replaced FIR_SWIFT_NAME with NS_SWIFT_NAME.
+
 Version 2.1.0
 ==================================
 - Add ABTesting feature to allow developers to run experiments using Remote Config.

@@ -75,7 +75,7 @@ THE SOFTWARE.
 
 ## Firebase
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseABTesting
 
@@ -83,15 +83,15 @@ Copyright 2017 Google
 
 ## FirebaseAnalytics
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseAuth
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseCore
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseCrash
 
@@ -99,11 +99,11 @@ Copyright 2017 Google
 
 ## FirebaseDatabase
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseDynamicLinks
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseInstanceID
 
@@ -115,15 +115,15 @@ Copyright 2017 Google
 
 ## FirebasePerformance
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseRemoteConfig
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseStorage
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseSwizzlingUtilities
 

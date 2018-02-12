@@ -30,6 +30,7 @@ class membersSelectViewController: UIViewController{
     @IBOutlet weak var shareBtn: UIButton!
     
     @IBAction func sharing(_ sender: Any) {
+        
         //https://app_code.app.goo.gl/apple-app-site-association
         //https://s2ek9.app.goo.gl/ 
     }
