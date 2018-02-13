@@ -35,17 +35,11 @@ class PlacesConfigViewController: UIViewController {
     let reacNet = Reachability()
     
     @IBAction func searchBarBTN(_ sender: Any) {
-//        searcController = UISearchController(searchResultsController: nil)
-//        searcController.hidesNavigationBarDuringPresentation = false
-//        self.searcController.searchBar.delegate = self
-//        present(searcController, animated: true, completion: nil)
         let autocomplete = GMSAutocompleteViewController()
         autocomplete.delegate = self
-        
         let filter = GMSAutocompleteFilter()
         filter.type = .address
         autocomplete.autocompleteFilter = filter
-        
         present(autocomplete, animated: true, completion: nil)
     }
     
@@ -185,6 +179,8 @@ class PlacesConfigViewController: UIViewController {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(changeAddress),
                                                name: NSNotification.Name("UpdatePlaceLocation"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         //Do any additional setup after loading the view.
     }
     
@@ -298,6 +294,22 @@ class PlacesConfigViewController: UIViewController {
             self.pointAnnotation.title = searchBar.text
             self.pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: localSearchResponse!.boundingRegion.center.latitude, longitude:     localSearchResponse!.boundingRegion.center.longitude)
             print("Coordenada: \(self.pointAnnotation.coordinate)")
+        }
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height
+            }
         }
     }
 }
