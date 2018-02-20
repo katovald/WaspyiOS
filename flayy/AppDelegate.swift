@@ -18,11 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
     var userD:UserDefaults = UserDefaults.standard
+    let customURLScheme = "com.camsa.waspy"
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        FirebaseOptions.defaultOptions()?.deepLinkURLScheme = "https://s2ek9.app.goo.gl/"
+        FirebaseOptions.defaultOptions()?.deepLinkURLScheme = self.customURLScheme
         FirebaseApp.configure()
         
         GMSServices.provideAPIKey("AIzaSyCsKticH0eEpIsY-iB07Py0RFQt8nRQ1Gk")
@@ -102,12 +103,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        if (DynamicLinks.dynamicLinks()?.dynamicLink(fromCustomSchemeURL: url)) != nil {
+        if let dynamicLink = DynamicLinks.dynamicLinks()?.dynamicLink(fromCustomSchemeURL: url) {
             // Handle the deep link. For example, show the deep-linked content or
             // apply a promotional offer to the user's account.
             // ...
+            
+            handleDynamicLink(dynamicLink)
             return true
         }
+        
+        showDeepLinkAlertView(withMessage: "openURL:\n\(url)")
+        
         return false
     }
     
@@ -118,13 +124,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
             // ...
+            if error == nil {
+                self.handleDynamicLink(dynamiclink!)
+            }
+        }
+        if !handled {
+            // Show the deep link URL from userActivity.
+            let message = "continueUserActivity webPageURL:\n\(userActivity.webpageURL?.absoluteString ?? "")"
+            showDeepLinkAlertView(withMessage: message)
         }
         
         return handled
     }
     
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        
+    func handleDynamicLink(_ dynamicLink: DynamicLink) {
+//        let matchConfidence: String
+//        if dynamicLink.matchType == .weak {
+//            matchConfidence = "Weak"
+//        } else {
+//            matchConfidence = "Strong"
+//        }
+//        let message = "App URL: \(dynamicLink.url?.absoluteString ?? "")\n" +
+//        "Match Confidence: \(matchConfidence)\nMinimum App Version: \(dynamicLink.minimumAppVersion ?? "")"
+//        showDeepLinkAlertView(withMessage: message)
+        if dynamicLink.url?.absoluteString != nil {
+            let linkString = dynamicLink.url?.absoluteString
+            let splitString = linkString?.components(separatedBy: "?")
+            if splitString!.count > 1 {
+                let code = splitString![1]
+                print(code)
+                let groupSended = code.components(separatedBy: "=")
+                print(groupSended)
+                firebaseManager.init().isGroupExists(code: groupSended[1], completion: { (exist, owner) in
+                    if exist {
+                        firebaseManager.init().subscribeUserGroups(code: groupSended[1])
+                    }
+                })
+            }
+        }
+    }
+    
+    func showDeepLinkAlertView(withMessage message: String) {
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let alertController = UIAlertController(title: "Deep-link Data", message: message, preferredStyle: .alert)
+        alertController.addAction(okAction)
+        self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
     }
 }
 

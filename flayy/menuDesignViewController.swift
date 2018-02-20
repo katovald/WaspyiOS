@@ -102,6 +102,8 @@ extension menuDesignViewController : UITableViewDelegate {
             menuActionDelegate?.openSegue("datosUsuario", sender: nil)
         case 5:
             menuActionDelegate?.openSegue("FAQsegue", sender: nil)
+        case 6:
+            menuActionDelegate?.shareAPP()
         case 7:
             let authApp = Auth.auth()
             do {

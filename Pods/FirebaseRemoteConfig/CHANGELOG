@@ -1,3 +1,7 @@
+Version 2.1.2
+==================================
+- Improve language targeting. Simplied Chinese (zh_hans) and Traditional Chinese (Taiwan) (zh_TW) language targeting should also be more accurate.
+
 Version 2.1.1
 ==================================
 - Fix an issue that throttle rate drops during developer mode.

@@ -1946,6 +1946,9 @@
                                 <rect key="frame" x="263" y="128" width="25" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="menu-i7.png"/>
+                                <connections>
+                                    <action selector="coompartir:" destination="GEI-nU-dXL" eventType="touchUpInside" id="0Qv-Kt-kIQ"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Codigo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gTt-mb-dC2">
                                 <rect key="frame" x="150" y="126" width="101" height="28"/>
@@ -1964,6 +1967,7 @@
                         <outlet property="editaGuarda" destination="9S7-8e-x46" id="R6w-Gb-gPN"/>
                         <outlet property="nombre" destination="bWS-qC-gwX" id="oqN-Dx-gkV"/>
                         <outlet property="salida" destination="duz-QH-HWK" id="cgc-o8-qYS"/>
+                        <outlet property="share" destination="ClQ-bM-naB" id="weC-vS-TTn"/>
                         <outlet property="visible" destination="vzD-Ch-WoV" id="r2z-a7-ukI"/>
                     </connections>
                 </viewController>

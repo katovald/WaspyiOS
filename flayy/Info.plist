@@ -22,26 +22,22 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
-			<string>None</string>
+			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string></string>
+			<string>share</string>
 			<key>CFBundleURLSchemes</key>
-			<array/>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>None</string>
-			<key>CFBundleURLSchemes</key>
-			<array/>
+			<array>
+				<string>com.camsa.waspy</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>Dynamic Links</string>
+			<string>SingIn</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.camsa.waspy</string>
+				<string>com.googleusercontent.apps.900225519373-pri5naj5btjr97otauufpfopvvb071qf</string>
 			</array>
 		</dict>
 	</array>

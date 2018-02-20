@@ -17,6 +17,7 @@ protocol MenuActionDelegate {
     func openSegue(_ segueName: String, sender: AnyObject?)
     func trigger()
     func exitAuth()
+    func shareAPP()
 }
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverPresentationControllerDelegate, BWWalkthroughViewControllerDelegate {
@@ -392,6 +393,25 @@ extension MapViewController: MenuActionDelegate {
         NotificationCenter.default.post(name: LogOutConfirm, object: self)
         dismiss(animated: true, completion: {
             exit(0)
+        })
+    }
+    
+    func shareAPP(){
+        dismiss(animated: false, completion: {
+            //https://s2ek9.app.goo.gl/
+            
+            // TODO: Handle shortURL.
+            let textMSG = "Descarga Waspy y cuida de tus seres queridos\n"
+            let textMSG1 = "\nWaspy v1.0 \nCAMSA development"
+            let shortURL = URL(string: "https://s2ek9.app.goo.gl/ZTCU")
+            let obj2Share = [textMSG, shortURL!, textMSG1] as [Any]
+            let activity = UIActivityViewController(activityItems: obj2Share, applicationActivities: nil)
+            activity.completionWithItemsHandler = { activity, success, items, error in
+                if error == nil {
+                    super.dismiss(animated: true, completion: nil)
+                }
+            }
+            self.present(activity, animated: true, completion: nil)
         })
     }
 }

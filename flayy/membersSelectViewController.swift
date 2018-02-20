@@ -13,8 +13,49 @@ protocol ActionMenuDelegate {
     func presentActions(phoneNumber: String)
 }
 
-class membersSelectViewController: UIViewController{
+struct Section {
+    var name: ParamTypes
+    var items: [Params]
+    var collapsed: Bool
+    
+    init(name: ParamTypes, items: [Params], collapsed: Bool = true) {
+        self.name = name
+        self.items = items
+        self.collapsed = collapsed
+    }
+}
 
+enum Params: String {
+    case link = "Link Value"
+    case source = "Source"
+    case medium = "Medium"
+    case content = "Content"
+    case bundleID = "App Bundle ID"
+    case fallbackURL = "Fallback URL"
+    case minimumAppVersion = "Minimum App Version"
+    case customScheme = "Custom Scheme"
+    case appStoreID = "AppStore ID"
+    case affiliateToken = "Affiliate Token"
+    case campaignToken = "Campaign Token"
+    case providerToken = "Provider Token"
+    case packageName = "Package Name"
+    case androidFallbackURL = "Android Fallback URL"
+    case minimumVersion = "Minimum Version"
+    case title = "Title"
+    case descriptionText = "Description Text"
+    case imageURL = "Image URL"
+    case otherFallbackURL = "Other Platform Fallback URL"
+}
+
+enum ParamTypes: String {
+    case iOS = "iOS"
+    case iTunes = "iTunes Connect Analytics"
+    case android = "Android"
+}
+
+
+class membersSelectViewController: UIViewController{
+    
     @IBAction func closeMenu(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
@@ -30,8 +71,45 @@ class membersSelectViewController: UIViewController{
     @IBOutlet weak var shareBtn: UIButton!
     
     @IBAction func sharing(_ sender: Any) {
-        //https://app_code.app.goo.gl/apple-app-site-association
-        //https://s2ek9.app.goo.gl/ 
+        //https://s2ek9.app.goo.gl/
+        let code = self.userD.string(forKey: "ActualGroup")!
+        let domain = "s2ek9.app.goo.gl"
+        let bundleID = "com.camsa.waspy"
+        let minVersion = "1.0"
+        guard let deepLink = URL(string: "https://waspy.com/?groupID=" + code) else { return }
+
+        print(deepLink)
+        
+        let components = DynamicLinkComponents(link: deepLink, domain: domain)
+        
+        let androidPKG = "com.dev.camsa.waspy"
+        
+        let iOSParams = DynamicLinkIOSParameters(bundleID: bundleID)
+        iOSParams.minimumAppVersion = minVersion
+        components.iOSParameters = iOSParams
+        
+        let androidParams = DynamicLinkAndroidParameters(packageName: androidPKG)
+        androidParams.minimumVersion = 1
+        components.androidParameters = androidParams
+        
+        // Or create a shortened dynamic link
+        components.shorten { (shortURL, warnings, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            // TODO: Handle shortURL.
+            let textMSG = "Unete a mi grupo \(self.userD.string(forKey: "ActualGroupTitle") ?? "") en Waspy \n"
+            let textMSG1 = "\n Waspy v1.0 \nCAMSA development"
+            let obj2Share = [textMSG, shortURL!, textMSG1] as [Any]
+            let activity = UIActivityViewController(activityItems: obj2Share, applicationActivities: nil)
+            activity.completionWithItemsHandler = { activity, success, items, error in
+                if error == nil {
+                    super.dismiss(animated: true, completion: nil)
+                }
+            }
+            self.present(activity, animated: true, completion: nil)
+        }
     }
     
     var miembros:[[String:[String:Any]]]!

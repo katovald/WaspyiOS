@@ -8,6 +8,8 @@
 
 import UIKit
 import FirebaseMessaging
+import FirebaseDynamicLinks
+
 class GroupSettingsViewController: UIViewController {
 
     @IBOutlet weak var nombre: UITextField!
@@ -15,6 +17,46 @@ class GroupSettingsViewController: UIViewController {
     
     @IBOutlet weak var visible: UISwitch!
     @IBOutlet weak var salida: UISwitch!
+    @IBOutlet weak var share: UIButton!
+    
+    @IBAction func coompartir(_ sender: Any) {
+        //https://s2ek9.app.goo.gl/
+        let domain = "s2ek9.app.goo.gl"
+        let bundleID = "com.camsa.waspy"
+        let minVersion = "1.0"
+        guard let deepLink = URL(string: "https://waspy.com/?groupID=" + codigo.text!) else { return }
+        
+        let components = DynamicLinkComponents(link: deepLink, domain: domain)
+        
+        let androidPKG = "com.dev.camsa.waspy"
+        
+        let iOSParams = DynamicLinkIOSParameters(bundleID: bundleID)
+        iOSParams.minimumAppVersion = minVersion
+        components.iOSParameters = iOSParams
+        
+        let androidParams = DynamicLinkAndroidParameters(packageName: androidPKG)
+        androidParams.minimumVersion = 1
+        components.androidParameters = androidParams
+        
+        // Or create a shortened dynamic link
+        components.shorten { (shortURL, warnings, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            // TODO: Handle shortURL.
+            let textMSG = "Unete a mi grupo \(self.nombre.text!) en Waspy \n"
+            let textMSG1 = "\n Waspy v1.0 \nCAMSA development"
+            let obj2Share = [textMSG, shortURL!, textMSG1] as [Any]
+            let activity = UIActivityViewController(activityItems: obj2Share, applicationActivities: nil)
+            activity.completionWithItemsHandler = { activity, success, items, error in
+                if error == nil {
+                    super.dismiss(animated: true, completion: nil)
+                }
+            }
+            self.present(activity, animated: true, completion: nil)
+        }
+    }
     
     @IBAction func editar(_ sender: Any) {
         if edicion
@@ -59,6 +101,8 @@ class GroupSettingsViewController: UIViewController {
                                                             kill: false)
                 }
                 self.dismiss(animated: true, completion:{
+                    NotificationCenter.default.post(name: NSNotification.Name("UserGroupsChanged"),
+                                                    object: self)
                     let newGroup = grupos![0] as! [String:String]
                     self.userD.set(newGroup.first?.key, forKey: "ActualGroup")
                     self.userD.set(newGroup.first?.value, forKey: "ActualGroupTitle")
@@ -66,8 +110,6 @@ class GroupSettingsViewController: UIViewController {
                         self.userD.set(members, forKey: "MembersActiveGroup")
                         firebaseManager.init().setLastGroup(name: (newGroup.first?.value)!)
                         firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
-                        NotificationCenter.default.post(name: NSNotification.Name("UserGroupsChanged"),
-                                                        object: self)
                     })
                 })
             }
