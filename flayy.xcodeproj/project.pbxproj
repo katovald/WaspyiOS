@@ -26,7 +26,6 @@
 		410B6F8D1FA7E89D003CB694 /* MisLugares-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 410B6F8C1FA7E89B003CB694 /* MisLugares-bg.png */; };
 		410B6F8F1FA8CEBE003CB694 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 410B6F8E1FA8CEBE003CB694 /* GoogleService-Info.plist */; };
 		4111D0D51F3273C10045AEF4 /* CustomMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4111D0D41F3273C10045AEF4 /* CustomMenu.swift */; };
-		411CC1AA1FD056C70011A396 /* BWWalkthrough.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 411CC1AB1FD056C70011A396 /* BWWalkthrough.framework */; };
 		4125596C1F98ED99004B843A /* FCMNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4125596B1F98ED99004B843A /* FCMNotifications.swift */; };
 		4125C1331FBF4B9B00E37412 /* map-focus.png in Resources */ = {isa = PBXBuildFile; fileRef = 4125C1321FBF4B9900E37412 /* map-focus.png */; };
 		4125C1391FBF744100E37412 /* slide1new.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4125C1381FBF743E00E37412 /* slide1new.gif */; };
@@ -340,7 +339,6 @@
 		410B6F8E1FA8CEBE003CB694 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4111D0D41F3273C10045AEF4 /* CustomMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMenu.swift; sourceTree = "<group>"; };
 		411BC24F1F546E2800E5560D /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
-		411CC1AB1FD056C70011A396 /* BWWalkthrough.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BWWalkthrough.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4125596B1F98ED99004B843A /* FCMNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMNotifications.swift; sourceTree = "<group>"; };
 		4125C1321FBF4B9900E37412 /* map-focus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-focus.png"; sourceTree = "<group>"; };
 		4125C1381FBF743E00E37412 /* slide1new.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = slide1new.gif; sourceTree = "<group>"; };
@@ -592,9 +590,7 @@
 		41FFDBCC1FCDE1CB001B70BF /* WalkTViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkTViewController.swift; sourceTree = "<group>"; };
 		41FFDBCF1FCE0B1C001B70BF /* CheckInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInViewController.swift; sourceTree = "<group>"; };
 		41FFDBD11FCE0C69001B70BF /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		4915D23C685FA92623D3F299 /* Pods_flayyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_flayyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		950118D2E87C3BF17F776766 /* Pods-flayy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flayy.release.xcconfig"; path = "Pods/Target Support Files/Pods-flayy/Pods-flayy.release.xcconfig"; sourceTree = "<group>"; };
-		D0096F65E670F05D130E4033 /* Pods_flayyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_flayyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -602,7 +598,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				411CC1AA1FD056C70011A396 /* BWWalkthrough.framework in Frameworks */,
 				418DB7F61FC745C000398310 /* ALCameraViewController.framework in Frameworks */,
 				417FC9511F5626D700EDC5A7 /* GoogleMaps.framework in Frameworks */,
 				DE253C0327B82400176CCA14 /* Pods_flayy.framework in Frameworks */,
@@ -1092,13 +1087,10 @@
 		CA07F69ADD343FD4F2B5624C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				411CC1AB1FD056C70011A396 /* BWWalkthrough.framework */,
 				418DB7F71FC745C000398310 /* ALCameraViewController.framework */,
 				411BC24F1F546E2800E5560D /* GoogleMaps.framework */,
 				41F8BD4E1F509BF00042B885 /* GoogleToolboxForMac.framework */,
 				403FCD8653054AF62695F8FA /* Pods_flayy.framework */,
-				D0096F65E670F05D130E4033 /* Pods_flayyTests.framework */,
-				4915D23C685FA92623D3F299 /* Pods_flayyUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
