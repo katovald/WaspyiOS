@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseAuth
 
-class menuDesignViewController: UIViewController {
+class mainMenuViewController: UIViewController {
     
     let menu = [["Mis Grupos","menu-i1.png"],
                 ["Mis lugares","menu-i2.png"],
@@ -69,7 +69,7 @@ class menuDesignViewController: UIViewController {
 
 }
 
-extension menuDesignViewController: UITableViewDataSource {
+extension mainMenuViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menu.count
@@ -86,7 +86,7 @@ extension menuDesignViewController: UITableViewDataSource {
     }
 }
 
-extension menuDesignViewController : UITableViewDelegate {
+extension mainMenuViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {

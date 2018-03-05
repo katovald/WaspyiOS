@@ -191,6 +191,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         
+        //FCmNotifications.init().messageReceiver(message: userInfo)
         // Change this to your preferred presentation option
         completionHandler([.alert, .badge, .sound])
     }
@@ -207,6 +208,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         
+        //FCmNotifications.init().messageReceiver(message: userInfo)
         completionHandler()
     }
 }

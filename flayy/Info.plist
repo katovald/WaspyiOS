@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>9</string>
+	<string>10</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
@@ -52,7 +52,7 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This app purpose is to know the exact location of the people in your groups, we need to constantly update this data to have it at real time</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>User Tracking for its Relatives</string>
+	<string>We use it to show to the members in your active group to have a real time information, we don&apos;t save routes only your last location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Store user picture</string>
 	<key>UIBackgroundModes</key>

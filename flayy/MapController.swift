@@ -24,29 +24,21 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     var alerts = [String:waspyAlertMarker]()
     var mapa:GMSMapView!
     var alertas:Bool = false
-    let workingView = UIActivityIndicatorView()
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
     let backView = UIView()
     var radius:Int!
     var ownerPhone:String!
     var fixed:Bool!
     var putAlert:Bool!
+    var onBackground:Bool!
     
     var timer = Timer()
     var timer1 = Timer()
 
-
     override func viewDidLoad() {
-        backView.frame = view.frame
-        backView.frame.origin = view.frame.origin
-        backView.backgroundColor = UIColor.gray.withAlphaComponent(0.9)
-        workingView.activityIndicatorViewStyle = .whiteLarge
-        workingView.hidesWhenStopped = true
-        workingView.center = backView.center
-        backView.addSubview(workingView)
-        workingView.startAnimating()
-
-        ownerPhone = userD.string(forKey: "OwnerPhone")
         
+        ownerPhone = userD.string(forKey: "OwnerPhone")
+        self.onBackground = true
         fixed = false
         putAlert = false
         
@@ -58,9 +50,15 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         self.mapa.delegate = self
         self.view = mapa
     
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.pausesLocationUpdatesAutomatically = false
+        if #available(iOS 11.0, *) {
+            locationManager.showsBackgroundLocationIndicator = false
+        } else {
+            // Fallback on earlier versions
+        }
+        locationManager.distanceFilter = 5.0
         locationManager.delegate = self
-        
-        self.view.addSubview(backView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateOwnerMarkerPhoto), name: NSNotification.Name("UserPhotoChanged"), object: nil)
         
@@ -79,6 +77,11 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(presetnDialog), name: NSNotification.Name("PushAlert"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(turnEdit), name: NSNotification.Name("TryToPush"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: .UIApplicationWillResignActive, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: .UIApplicationDidBecomeActive, object: nil)
+
     }
     
     @objc func turnEdit(){
@@ -86,22 +89,21 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     }
     
     @objc func initWaspy() {
-        workingView.stopAnimating()
-        backView.removeFromSuperview()
+        startLoading()
         
         getMembersData =  Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateMarkers), userInfo: nil, repeats: true)
         
         drawMarkers(map: view as! GMSMapView)
         updateFences()
         
-        startGeofences()
+        stopLoading()
     }
     
     @objc func changeInfo(){
         self.view.addSubview(backView)
         self.view = UIView()
         self.mapa.clear()
-        workingView.startAnimating()
+        startLoading()
         if locationManager.location != nil{
             let camera = GMSCameraPosition.camera(withLatitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, zoom: 15.0, bearing: -15, viewingAngle: 45)
             self.mapa = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
@@ -112,8 +114,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         self.view = mapa
         updateMarkers()
         updateFences()
-        workingView.stopAnimating()
-        backView.removeFromSuperview()
+        stopLoading()
     }
     
     @objc func turnAlertsOnOFF()
@@ -186,9 +187,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
             places[key!] = placeMarker
             placeMarker.map = self.view as? GMSMapView
         }
-        
         startGeofences()
-        
     }
     
     @objc func updateMarkers()
@@ -302,26 +301,25 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     {
         var aux = userD.array(forKey: "MembersActiveGroup") as? [[String:[String:Any]]] ?? []
         if aux.count > 0 {
-        for key in 0...aux.count - 1 {
-            let memberPhone = (aux[key].first?.key)!
-            let data = aux[key].first?.value
-            let marker = waspyMemberMarker(phone: memberPhone,name: data!["name"] as? String ?? "Usuario")
-            let location = data!["location"] as? [String:Any] ?? [:]
-            let visible = data!["visibility"] as? Bool ?? true
-            if location.count == 0 || !visible
-            {
-                return
-            }else{
-                let latitude = location["latitude"]! as! CLLocationDegrees
-                let longitude = location["longitude"]! as! CLLocationDegrees
-                marker.setIconView()
-                marker.setLocation(location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-                marker.map = map
-                markers[memberPhone] = marker
+            for key in 0...aux.count - 1 {
+                let memberPhone = (aux[key].first?.key)!
+                let data = aux[key].first?.value
+                let marker = waspyMemberMarker(phone: memberPhone,name: data!["name"] as? String ?? "Usuario")
+                let location = data!["location"] as? [String:Any] ?? [:]
+                let visible = data!["visibility"] as? Bool ?? true
+                if location.count == 0 || !visible
+                {
+                    return
+                }else{
+                    let latitude = location["latitude"]! as! CLLocationDegrees
+                    let longitude = location["longitude"]! as! CLLocationDegrees
+                    marker.setIconView()
+                    marker.setLocation(location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                    marker.map = map
+                    markers[memberPhone] = marker
+                }
             }
         }
-        }
-        
     }
     
     func getCenterCoordinate() -> CLLocationCoordinate2D {
@@ -449,16 +447,33 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         }))
         self.present(alertController, animated: true, completion: nil)
     }
-
+    
+    @objc func willResignActive(){
+        onBackground = !onBackground
+    }
+    
+    func startLoading(){
+        DispatchQueue.main.async { // Correct
+            self.activityIndicator.center = self.view.center
+            self.activityIndicator.hidesWhenStopped = true
+            self.activityIndicator.activityIndicatorViewStyle = .gray
+            self.activityIndicator.backgroundColor = UIColor.blue
+            self.view.addSubview(self.activityIndicator)
+            
+            self.activityIndicator.startAnimating()
+            UIApplication.shared.beginIgnoringInteractionEvents()
+        }
+    }
+    
+    func stopLoading(){
+        DispatchQueue.main.async { // Correct
+            self.activityIndicator.stopAnimating()
+            UIApplication.shared.endIgnoringInteractionEvents()
+        }
+    }
 }
 
 extension MapController : CLLocationManagerDelegate{
-    
-    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
-    }
-    
-    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
-    }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         handleLocationAuthorizationStatus(status: status)
@@ -479,10 +494,13 @@ extension MapController : CLLocationManagerDelegate{
                 mapa.animate(to: GMSCameraPosition(target: (locations.last?.coordinate)!, zoom: 15, bearing: -15, viewingAngle: 45))
             }
         }
+        
+        if onBackground {
+            updateDataBG(_coordintates: (manager.location?.coordinate)!, _speed: (manager.location?.speed)!)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        showAlert(title: "Error en la carga de la localizacion.", message: "Error code: \(error)")
     }
     
     func handleLocationAuthorizationStatus(status: CLAuthorizationStatus) {
@@ -523,6 +541,11 @@ extension MapController {
                     self.userD.set(members, forKey: "MembersActiveGroup")
                 })
             }
+        }
+    
+        @objc func updateDataBG(_coordintates: CLLocationCoordinate2D, _speed: CLLocationSpeed)
+        {
+            firebaseManager.init().updateUserLocationBKG(coordinades: _coordintates, speed: _speed)
         }
     
         @objc func stopMonitoring()

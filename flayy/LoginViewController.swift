@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import AVFoundation
 import CountryPicker
+import LocalAuthentication
 
 class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate, CountryPickerDelegate {
     
@@ -51,65 +52,93 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     var areaCode = "+52"
     let userD:UserDefaults = UserDefaults.standard
     var ownerPhone:String!
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
     
     //acciones de los componentes
     
     @IBAction func loginAttemp(_ sender: Any) {
-        
-        self.ownerPhone = phoneAreaCode(phone: phone.text!, areacode: areaCode)
-        firebaseManager.init().userExist(phone: self.ownerPhone, completion: { (exist) in
-            if exist
-            {
-                firebaseManager.init().getUserMail(phone: self.ownerPhone, completion: { (mail) in
-                    let alertView = UIAlertController(title: "Inicio de sesion", message: "Introduce tu contraseña", preferredStyle: .alert)
-                    let inicio = UIAlertAction(title: "Inicio", style: .default, handler: { (_) in
-                            self.firebaseLogin(mail: mail, pass: alertView.textFields![0].text!)
-                        })
-                    let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+        if (phone.text?.count == 10) {
+            self.ownerPhone = phoneAreaCode(phone: phone.text!, areacode: areaCode)
+            firebaseManager.init().userExist(phone: self.ownerPhone, completion: { (exist) in
+                if exist
+                {
+                    firebaseManager.init().getUserMail(phone: self.ownerPhone, completion: { (mail) in
+                        let alertView = UIAlertController(title: "Inicio de sesion", message: "Introduce tu contraseña", preferredStyle: .alert)
+                        let inicio = UIAlertAction(title: "Inicio", style: .default, handler: { (_) in
+                            self.startLoading()
+                            let attempt = LogingAttemps(contra: alertView.textFields![0].text!, correo: mail, telefono: self.ownerPhone)
+                            attempt.passwordAttempt(completion: { (success) in
+                                if success {
+                                    self.userD.set(self.ownerPhone, forKey: "OwnerPhone")
+                                    self.userD.set(mail, forKey:"OwnerMail")
+                                    firebaseManager.init().getOwnerData(phone: self.ownerPhone)
+                                    self.stopLoading()
+                                    self.performSegue(withIdentifier: "InicioApp", sender: self)
+                                } else {
+                                    self.stopLoading()
+                                    self.alert(message: attempt.tell())
+                                }
+                            })
+                            })
+                        let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
                         
+                        alertView.addTextField(configurationHandler: { (textfield) in
+                            textfield.placeholder = "Contraseña"
+                            textfield.isSecureTextEntry = true
+                        })
+                        
+                        alertView.addAction(inicio)
+                        alertView.addAction(cancel)
+                        
+                        self.present(alertView, animated: true, completion: nil)
+                    })
+                }
+                else{
+                    let alertView = UIAlertController(title: "Registrate con nosotros", message: "Introduce tus datos", preferredStyle: .alert)
+                    let registro = UIAlertAction(title: "Registro", style: .default, handler: { (_) in
+                        self.startLoading()
+                        if alertView.textFields![1].text == alertView.textFields![2].text!{
+                            let correo = alertView.textFields![0].text!
+                            let pass = alertView.textFields![1].text!
+                            let attempt = LogingAttemps(contra: pass, correo: correo, telefono: self.ownerPhone)
+                            attempt.registerAttempt(completion: { (success) in
+                                if success {
+                                    self.stopLoading()
+                                    self.performSegue(withIdentifier: "InicioApp", sender: self)
+                                }else{
+                                    self.stopLoading()
+                                    self.alert(message: attempt.tell())
+                                }
+                            })
+                        }
+                        else{
+                            self.stopLoading()
+                            self.alert(message: "Tus contraseñas no coinciden por favor vuelve a intentarlo.")
+                        }
+                    })
+                    let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+                    
+                    alertView.addTextField(configurationHandler: { (textfield) in
+                        textfield.placeholder = "Correo"
+                    })
                     alertView.addTextField(configurationHandler: { (textfield) in
                         textfield.placeholder = "Contraseña"
                         textfield.isSecureTextEntry = true
                     })
-                        
-                    alertView.addAction(inicio)
+                    alertView.addTextField(configurationHandler: { (textfield) in
+                        textfield.placeholder = "Repite tu Contraseña"
+                        textfield.isSecureTextEntry = true
+                    })
+                    
+                    alertView.addAction(registro)
                     alertView.addAction(cancel)
-                        
+                    
                     self.present(alertView, animated: true, completion: nil)
-                })
-            }
-            else{
-                let alertView = UIAlertController(title: "Registrate con nosotros", message: "Introduce tus datos", preferredStyle: .alert)
-                let registro = UIAlertAction(title: "Registro", style: .default, handler: { (_) in
-                    if alertView.textFields![1].text == alertView.textFields![2].text!{
-                        let correo = alertView.textFields![0].text!
-                        let pass = alertView.textFields![1].text!
-                        self.firebaseregister(mail: correo, pass: pass)
-                    }
-                    else{
-                        self.alert(message: "Tus contraseñas no coinciden por favor vuelve a intentarlo.")
-                    }
-                })
-                let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
-                    
-                alertView.addTextField(configurationHandler: { (textfield) in
-                    textfield.placeholder = "Correo"
-                })
-                alertView.addTextField(configurationHandler: { (textfield) in
-                    textfield.placeholder = "Contraseña"
-                    textfield.isSecureTextEntry = true
-                })
-                alertView.addTextField(configurationHandler: { (textfield) in
-                    textfield.placeholder = "Repite tu Contraseña"
-                    textfield.isSecureTextEntry = true
-                })
-                    
-                alertView.addAction(registro)
-                alertView.addAction(cancel)
-                    
-                self.present(alertView, animated: true, completion: nil)
-            }
-        })
+                }
+            })
+        }else{
+            self.alert(message: "Recuerda que tu telefono debe ser a 10 digitos")
+        }
     }
     
     
@@ -144,6 +173,27 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
                                                object: player.currentItem)
         // Do any additional setup after loading the view, typically from a nib.
         
+        let context = LAContext()
+        var error:NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Podemos usar tu huella para el inicio", reply: { [unowned self] (success, error) in
+                if success {
+                    self.startLoading()
+                    let atempt = LogingAttemps()
+                    atempt.fingerPrintAttempt(completion: { (login) in
+                        if login {
+                            firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
+                            self.stopLoading()
+                            self.performSegue(withIdentifier: "InicioApp", sender: self)
+                        } else {
+                            self.stopLoading()
+                            self.alert(message: atempt.tell())
+                        }
+                    })
+                }
+            })
+        }
     }
     
     @objc func termino(notification: Notification){
@@ -168,44 +218,44 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    func firebaseLogin(mail: String, pass: String) {
-        Auth.auth().signIn(withEmail: mail, password: pass) { (user, e) in
-            if (e != nil){
-                self.alert(message: "Error: " + (e?.localizedDescription)!)
-            }else{
-                let correo = mail
-                self.userD.set(self.ownerPhone, forKey: "OwnerPhone")
-                self.userD.set(correo, forKey:"OwnerMail")
-                firebaseManager.init().getOwnerData(phone: self.ownerPhone)
-                self.performSegue(withIdentifier: "InicioApp", sender: self)
-            }
-        }
-    }
-    
-    func firebaseregister(mail: String, pass: String){
-        Auth.auth().createUser(withEmail: mail, password: pass) { (user, e) in
-            if (e != nil){
-                self.alert(message: "Error al crear el usuario: " + (e?.localizedDescription)!)
-            }else{
-                let correo = mail
-                self.userD.set(self.ownerPhone, forKey: "OwnerPhone")
-                self.userD.set(correo, forKey:"OwnerMail")
-                self.performSegue(withIdentifier: "InicioApp", sender: self)
-            }
-        }
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true) //This will hide the keyboard
         self.countryCode.isHidden = true
         self.flagCountry.isEnabled = true
         self.okSelected.isHidden = true
     }
+    
+    func startLoading(){
+        DispatchQueue.main.async { // Correct
+            self.activityIndicator.center = self.view.center
+            self.activityIndicator.hidesWhenStopped = true
+            self.activityIndicator.activityIndicatorViewStyle = .whiteLarge
+            self.activityIndicator.backgroundColor = UIColor.blue
+            self.view.addSubview(self.activityIndicator)
+            
+            self.activityIndicator.startAnimating()
+            UIApplication.shared.beginIgnoringInteractionEvents()
+        }
+    }
+    
+    func stopLoading(){
+        DispatchQueue.main.async { // Correct
+            self.activityIndicator.stopAnimating()
+            UIApplication.shared.endIgnoringInteractionEvents()
+        }
+    }
 
 }
 
 extension UIViewController {
     func alert(message: String, title: String = "") {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func alertTrouble(message: String, title: String = "") {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(OKAction)

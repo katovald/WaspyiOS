@@ -47,6 +47,7 @@ class FCmNotifications {
     {
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: message, options: .prettyPrinted)
+            print(message)
         }catch let error{
             print(error.localizedDescription)
         }
@@ -107,10 +108,23 @@ class FCmNotifications {
         }
     }
     
+    public func locationPLS(telefono: String){
+        firebaseManager.init().getMessageToken(phone: telefono) { (token) in
+            let message = [ "to": token,
+                            "content_available":true,
+                            "data": [
+                                "type":"whereAreYou"
+                                ]
+                ]
+                as [String : Any]
+            
+            self.send(message: message)
+        }
+    }
+    
     public func chechIn(address: String){
         let message = [ "to": "/topics/" + userD.string(forKey: "ActualGroup")! + "_alert",
                         "content_available":true,
-                        
                         "data" : [
                             "type" : "check_in",
                             "body" : [
@@ -169,7 +183,7 @@ class FCmNotifications {
     }
     
     func messageReceiver(message: [AnyHashable: Any]){
-        let msgType = message["type"] as! String
+        guard let msgType = message["type"] as? String else {return}
         if msgType == "check_in_request"{
             let msgBody = message["body"] as! String
             let dict = convertToDictionary(text: msgBody)
@@ -203,6 +217,10 @@ class FCmNotifications {
             firebaseManager.init().unsuscribeGroups(code: code,
                                                     phone: self.userD.string(forKey: "OwnerPhone")!,
                                                     kill: false)
+        }
+        if msgType == "whereAreYou"
+        {
+            firebaseManager.init().updateUserLocation()
         }
     }
     

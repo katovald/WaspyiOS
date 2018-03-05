@@ -179,7 +179,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationViewController = segue.destination as? menuDesignViewController {
+        if let destinationViewController = segue.destination as? mainMenuViewController {
             destinationViewController.menuActionDelegate = self
         }
     }

@@ -12,30 +12,14 @@ import ContactsUI
 
 class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMessageComposeViewControllerDelegate {
     
-    // Configures and returns a MFMessageComposeViewController instance
-    func configuredMessageComposeViewController() -> MFMessageComposeViewController {
-        let messageComposeVC = MFMessageComposeViewController()
-        messageComposeVC.messageComposeDelegate = self  //  Make sure to set this property to self, so that the controller can be dismissed!
-        textMessageContact.removeAll()
-        getContacts()
-        messageComposeVC.recipients = textMessageContact
-        if street != nil {
-            messageComposeVC.body =  "Boton de Panico activado por " +
-                self.userD.string(forKey: "OwnerName")! +
-                ", cerca de " + street +
-                "\r Comunicate Pronto."
-        } else {
-            messageComposeVC.body =  "Boton de Panico activado por " +
-                self.userD.string(forKey: "OwnerName")! +
-                "\r Comunicate Pronto."
-        }
-        return messageComposeVC
-    }
-    
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        controller.dismiss(animated: true, completion: nil)
-    }
-    
+    var place:String!
+    var index:Int!
+    var textMessageContact = [String]()
+    var street:String!
+    let reachNet = Reachability()
+    let userD:UserDefaults = UserDefaults.standard
+    var contactos:[String:String]!
+    var count = 0
 
     @IBOutlet weak var Contacto1: UIImageView!
     @IBOutlet weak var Contacto2: UIImageView!
@@ -52,32 +36,57 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
     @IBOutlet weak var panicBtn: Rounded!
     
     @IBAction func setUnsetContact(_ sender: Any) {
-        let cnPicker = CNContactPickerViewController()
-        cnPicker.delegate = self
-        place = "coe_one"
-        self.present(cnPicker, animated: true, completion: nil)
+        getContacts()
+        if contactos["coe_one"] != nil{
+            Contacto1.image = UIImage(named: "panico-avatar1.png")
+            plusLess.image = UIImage(named: "panico-avatar1+.png")
+            nombreC1.text = ""
+            contactos["coe_one"] = nil
+            if (reachNet?.isReachable)! {
+                firebaseManager.init().setEmergencyContacts(contact: ["coe_one": contactos["coe_one"] as Any])
+            }
+        } else {
+            let cnPicker = CNContactPickerViewController()
+            cnPicker.delegate = self
+            place = "coe_one"
+            self.present(cnPicker, animated: true, completion: nil)
+        }
     }
     
-    var place:String!
-    var activeBTN: UIButton? = nil
-    var index:Int!
-    var textMessageContact = [String]()
-    var street:String!
-    let sempahore = DispatchSemaphore(value: 0)
-    let reachNet = Reachability()
-    
     @IBAction func setUnsetContact2(_ sender: Any) {
-        let cnPicker = CNContactPickerViewController()
-        cnPicker.delegate = self
-        place = "coe_two"
-        self.present(cnPicker, animated: true, completion: nil)
+        getContacts()
+        if contactos["coe_two"] != nil {
+            Contacto2.image = UIImage(named: "panico-avatar1.png")
+            plusLess2.image = UIImage(named: "panico-avatar1+.png")
+            contactos["coe_two"] = nil
+            nombreC2.text = ""
+            if (reachNet?.isReachable)! {
+                firebaseManager.init().setEmergencyContacts(contact: ["coe_two": contactos["coe_two"] as Any])
+            }
+        } else {
+            let cnPicker = CNContactPickerViewController()
+            cnPicker.delegate = self
+            place = "coe_two"
+            self.present(cnPicker, animated: true, completion: nil)
+        }
     }
     
     @IBAction func setUnsetContact3(_ sender: Any) {
-        let cnPicker = CNContactPickerViewController()
-        cnPicker.delegate = self
-        place = "coe_three"
-        self.present(cnPicker, animated: true, completion: nil)
+        getContacts()
+        if contactos["coe_three"] != nil {
+            Contacto3.image = UIImage(named: "panico-avatar1.png")
+            plussLes3.image = UIImage(named: "panico-avatar1+.png")
+            contactos["coe_three"] = nil
+            nombreC3.text = ""
+            if (reachNet?.isReachable)! {
+                firebaseManager.init().setEmergencyContacts(contact: ["coe_three": contactos["coe_three"] as Any])
+            }
+        } else {
+            let cnPicker = CNContactPickerViewController()
+            cnPicker.delegate = self
+            place = "coe_three"
+            self.present(cnPicker, animated: true, completion: nil)
+        }
     }
     
     @IBAction func salir(_ sender: Any) {
@@ -89,10 +98,6 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
     @IBAction func panico(_ sender: Any) {
         sendHelpMsg()
     }
-    
-    let userD:UserDefaults = UserDefaults.standard
-    var contactos:[String:String]!
-    var count = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,8 +146,6 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
     }
     
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
-        print(contact)
-        print(contact.givenName)
         let phone = (contact.phoneNumbers.first?.value)?.stringValue ?? ""
         if phone == ""
         {
@@ -158,14 +161,17 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
     func changeIcon(place: String, contactoName: String, contactoPhone: String) {
         if place == "coe_one"{
             self.Contacto1.image = UIImage(named: "panico-avatar2.png")
+            self.plusLess.image = UIImage(named: "panico-avatar2-.png")
             self.nombreC1.text = contactoName + "\r" + contactoPhone
         }
         if place == "coe_two"{
             self.Contacto2.image = UIImage(named: "panico-avatar2.png")
+            self.plusLess2.image = UIImage(named: "panico-avatar2-.png")
             self.nombreC2.text = contactoName + "\r" + contactoPhone
         }
         if place == "coe_three"{
             self.Contacto3.image = UIImage(named: "panico-avatar2.png")
+            self.plussLes3.image = UIImage(named: "panico-avatar2-.png")
             self.nombreC3.text = contactoName + "\r" + contactoPhone
         }
     }
@@ -181,6 +187,30 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
         {
             FCmNotifications.init().panicChechIn(address: street)
         }
+    }
+    
+    // Configures and returns a MFMessageComposeViewController instance
+    func configuredMessageComposeViewController() -> MFMessageComposeViewController {
+        let messageComposeVC = MFMessageComposeViewController()
+        messageComposeVC.messageComposeDelegate = self  //  Make sure to set this property to self, so that the controller can be dismissed!
+        textMessageContact.removeAll()
+        getContacts()
+        messageComposeVC.recipients = textMessageContact
+        if street != nil {
+            messageComposeVC.body =  "Boton de Panico activado por " +
+                self.userD.string(forKey: "OwnerName")! +
+                ", cerca de " + street +
+            "\r Comunicate Pronto."
+        } else {
+            messageComposeVC.body =  "Boton de Panico activado por " +
+                self.userD.string(forKey: "OwnerName")! +
+            "\r Comunicate Pronto."
+        }
+        return messageComposeVC
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 

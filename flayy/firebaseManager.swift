@@ -56,7 +56,6 @@ public class firebaseManager {
     public func clearUserDefaults()
     {
         self.userD.set(nil, forKey: "OwnerName")
-        self.userD.set(nil, forKey: "OwnerPhone")
         self.userD.set(nil, forKey: "OwnerMail")
         self.userD.set(nil, forKey: "OwnerGroups")
         self.userD.set(nil, forKey: "ActualGroup")
@@ -124,16 +123,14 @@ public class firebaseManager {
         self.reference.child("groups/" + code + "/group_info/group_name").setValue(name)
     }
     
-    public func setUserSetting(phone: String, name: String, mail: String){
-        userD.set(name, forKey: "OwnerName")
-        userD.set(phone, forKey: "OwnerPhone")
+    public func setUserSetting( name: String, mail: String){
+        let phone = userD.string(forKey: "OwnerPhone")
         userD.set(mail, forKey: "OwnerMail")
         
-        self.reference.child("accounts/" + phone + "/name").setValue(name)
-        self.reference.child("accounts/" + phone + "/phone").setValue(phone)
-        self.reference.child("accounts/" + phone + "/mail").setValue(mail)
+        self.reference.child("accounts/" + phone! + "/name").setValue(name)
+        self.reference.child("accounts/" + phone! + "/mail").setValue(mail)
        
-        self.reference.child("accounts/" + phone + "/user_groups/").observeSingleEvent(of: .value, with: { (snapshot) in
+        self.reference.child("accounts/" + phone! + "/user_groups/").observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary ?? [:]
             let keys = value.allKeys
             
@@ -143,12 +140,12 @@ public class firebaseManager {
             }
         })
         
-        self.reference.child("accounts/" + phone + "/account_level/").observeSingleEvent(of: .value, with: { (snapshot) in
+        self.reference.child("accounts/" + phone! + "/account_level/").observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? String ?? ""
             
             if value == ""
             {
-                self.reference.child("accounts/" + phone + "/account_level").setValue("freemium")
+                self.reference.child("accounts/" + phone! + "/account_level").setValue("freemium")
                 self.userD.set("freemium", forKey: "OwnerAccountType")
             }else{
                 self.userD.set("freemium", forKey: value)
@@ -159,14 +156,13 @@ public class firebaseManager {
         
     }
     
-    public func setEmergencyContacts(contact: [String:[String:String]]){
+    public func setEmergencyContacts(contact: [String:Any]){
         let telefono = self.userD.string(forKey: "OwnerPhone")!
         let place = contact.first?.key
-        let contactNew = contact.first?.value
+        let contactNew = contact.first?.value as? [String:String] ?? nil
         self.reference.child("accounts/" + telefono + "/contacts_of_emergency/" + place!).setValue(contactNew?.first?.key)
         self.reference.child("accounts/" + telefono + "/contacts_of_emergency/" + place! + "_p").setValue(contactNew?.first?.value)
         var contactos = self.userD.dictionary(forKey: "EmergencyContacts") as? [String:String] ?? [:]
-        
         
         contactos[place!] = contactNew?.first?.key
         contactos[place! + "_p"] = contactNew?.first?.value
@@ -223,7 +219,7 @@ public class firebaseManager {
 
         if phone.count > 0
         {
-            let userInfo = ["name" : userD.string(forKey: "OwnerName")!,
+            let userInfo = ["name" : userD.string(forKey: "OwnerName") ?? "",
                           "phone" : phone,
                           "rol" : "admin",
                           "visibility" : true,
@@ -572,39 +568,25 @@ public class firebaseManager {
         })
     }
     
-    public func updateUserLocationBKG()
+    public func updateUserLocationBKG(coordinades: CLLocationCoordinate2D, speed: CLLocationSpeed)
     {
         guard let phone = self.userD.string(forKey: "OwnerPhone")
             else {return}
-        let name = self.userD.string(forKey: "OwnerName")!
+        guard let name = self.userD.string(forKey: "OwnerName")
+            else {return}
         
         if phone == "" || name == ""
         {
             return
         }
-        
-        LocationServices.init().getAdress(completion: {coordinades, speed, address, error in
-            if let a = address {
-                let kilo = a["FormattedAddressLines"] as! [String]
-                
-                var direccion = ""
-                
-                for index in 0...(kilo.count - 1)
-                {
-                    direccion += kilo[index]
-                    direccion += " "
-                }
-                
-                let ownerGroups = self.userD.array(forKey: "OwnerGroups") as! [[String:String]]
-                for code in ownerGroups{
-                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
-                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/current_place").setValue(direccion)
-                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
-                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
-                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
-                }
+
+        let ownerGroups = self.userD.array(forKey: "OwnerGroups") as! [[String:String]]
+            for code in ownerGroups{
+                self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
+                self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
+                self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
+                self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
             }
-        })
     }
     
     public func updatePlace (code: String, key: String, data: [String:Any])
@@ -746,7 +728,7 @@ public class firebaseManager {
                 }
                 membersGroup.append([key:value[key]!])
             }
-            
+            Messaging.messaging().subscribe(toTopic: code + "_alert")
             
             completion(membersGroup)
         })
@@ -838,5 +820,8 @@ public class firebaseManager {
             }
             self.reference.child("groups/" + code + "/members/" + phone).setValue(nil)
         }
+        Messaging.messaging().unsubscribe(fromTopic: code + "_enter")
+        Messaging.messaging().unsubscribe(fromTopic: code + "_exit")
+        Messaging.messaging().unsubscribe(fromTopic: code + "_alert")
     }
 }

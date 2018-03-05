@@ -23,6 +23,7 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
     public let LogInNotification = NSNotification.Name("CorrectLogIn")
     public let HelpNotification = NSNotification.Name("HelpMe")
     let user = Auth.auth().currentUser!
+    let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
 
     @IBOutlet weak var Salir: UIBarButtonItem!
     @IBOutlet weak var userPhoto: UIImageView!
@@ -31,20 +32,7 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
     @IBOutlet weak var inicioCam: UIButton!
     @IBOutlet weak var userMail: UITextField!
     
-    
-    let workingView = UIActivityIndicatorView()
-    let backView = UIView()
-    
     @IBAction func guarda(_ sender: Any) {
-        backView.frame = view.frame
-        backView.frame.origin = view.frame.origin
-        backView.backgroundColor = UIColor.gray.withAlphaComponent(0.9)
-        workingView.activityIndicatorViewStyle = .whiteLarge
-        workingView.hidesWhenStopped = true
-        workingView.center = backView.center
-        backView.addSubview(workingView)
-        workingView.startAnimating()
-        
         if edit {
             if (self.nameText.text == "" || self.userMail.text == "")
             {
@@ -52,16 +40,14 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
                 return
             }
             else{
-                self.view.addSubview(backView)
+                startLoading()
                 firebaseManager.init().saveUserPhotoFB(photo: userPhoto.image!, phone: phone, completion:{
-                    firebaseManager.init().setUserSetting(phone: self.phone,
-                                                          name: self.nameText.text!,
+                    firebaseManager.init().setUserSetting(name: self.nameText.text!,
                                                           mail: self.userMail.text!)
                     self.edit = false
                     self.editaguarda.tintColor = UIColor.yellow
                     self.editaguarda.title = "Editar"
-                    self.workingView.stopAnimating()
-                    self.backView.removeFromSuperview()
+                    self.stopLoading()
                     self.dismiss(animated: true, completion: nil)
                 })
             }
@@ -113,18 +99,18 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
         
         self.userPhoto.image = firebaseManager.init().getMemberPhoto(phone: self.phone)
         
-        if (self.nameText.text == ""){
+        if (self.nameText.text == "") {
             self.Salir.isEnabled = false
             nameText.isEnabled = true
-            userMail.isEnabled = true
+            userMail.isEnabled = false
             inicioCam.isEnabled = true
             editaguarda.tintColor = UIColor.red
             editaguarda.title = "Guardar"
             edit = true
-        }else{
-            nameText.isEnabled = false
+        } else {
+            nameText.isEnabled = true
             userMail.isEnabled = false
-            inicioCam.isEnabled = false
+            inicioCam.isEnabled = true
         }
     }
     
@@ -144,6 +130,25 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
         }
     }
 
+    func startLoading(){
+        DispatchQueue.main.async { // Correct
+            self.activityIndicator.center = self.view.center
+            self.activityIndicator.hidesWhenStopped = true
+            self.activityIndicator.activityIndicatorViewStyle = .whiteLarge
+            self.activityIndicator.backgroundColor = UIColor.blue
+            self.view.addSubview(self.activityIndicator)
+            
+            self.activityIndicator.startAnimating()
+            UIApplication.shared.beginIgnoringInteractionEvents()
+        }
+    }
+    
+    func stopLoading(){
+        DispatchQueue.main.async { // Correct
+            self.activityIndicator.stopAnimating()
+            UIApplication.shared.endIgnoringInteractionEvents()
+        }
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true) //This will hide the keyboard
