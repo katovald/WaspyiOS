@@ -17,7 +17,6 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
     var data = [String:Any]()
     var key = String()
     let userD: UserDefaults = UserDefaults.standard
-    let notificationCenter = NotificationCenter.default
     
     override func viewDidLoad() {
         let place = userD.dictionary(forKey: "EditingPlace") ?? nil
@@ -54,9 +53,9 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
         
         self.view = mapView
         
-        notificationCenter.addObserver(self, selector: #selector(updateIcon), name: NSNotification.Name("PlaceDataUpdated"), object: nil)
-        notificationCenter.addObserver(self, selector: #selector(finishData), name: NSNotification.Name("GivemePlaceData"), object: nil)
-        notificationCenter.addObserver(self, selector: #selector(setIconView), name: NSNotification.Name("PlaceAddressFind"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(updateIcon), notification: .placesChanges)
+        NotificationCenter.default.add(observer: self, selector: #selector(finishData), notification: .getPlaceData)
+        NotificationCenter.default.add(observer: self, selector: #selector(setIconView), notification: .findAddress)
     }
 
     @objc func updateIcon(){
@@ -76,7 +75,7 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         location.updateMarker(coordinates: position.target, degrees: 0, duration: 0.2)
         self.userD.set([key:location.getData()], forKey: "EditingPlace")
-        notificationCenter.post(name: NSNotification.Name("UpdatePlaceLocation"), object: self)
+        NotificationCenter.default.post(notification: .placesChanges)
     }
     
     @objc func finishData() {
@@ -92,7 +91,7 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
         mapa.animate(to: pos)
         self.view = mapa
         self.userD.set([key:location.getData()], forKey: "EditingPlace")
-        notificationCenter.post(name: NSNotification.Name("UpdatePlaceLocation"), object: self)
+        NotificationCenter.default.post(notification: .placesChanges)
     }
     
 }

@@ -58,6 +58,7 @@ class LocationServices {
         
     }
     
+    
     func getPointAddress(point: CLLocationCoordinate2D, completion: @escaping (_ address: JSONDictionary?, _ error: Error?) -> ()) {
         
         self.locManager.requestWhenInUseAuthorization()
@@ -93,7 +94,6 @@ class LocationServices {
             }
             
         }
-        
     }
     
     func getLocationCoord() -> CLLocationCoordinate2D{

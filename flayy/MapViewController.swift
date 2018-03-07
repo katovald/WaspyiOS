@@ -25,13 +25,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     var userID: String!
     let userD = UserDefaults.standard
     let netReach = Reachability()
-    let notificationObserver = NotificationCenter.default
-    public let CenterRequest = NSNotification.Name("FixCameraPush")
-    public let AlertRequest = NSNotification.Name("Alerts")
-    public let LogInNotification = NSNotification.Name("CorrectLogIn")
-    public let PlaceAlertRequest = NSNotification.Name("PushAlert")
-    public let LogOutConfirm = NSNotification.Name("LogOut")
-    public let TurnOnPush = NSNotification.Name("TryToPush")
     
     var alertas:Bool = false
     var alertBtn:Bool = true
@@ -83,9 +76,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     }
     
     @IBAction func localiza(_ sender: Any) {        //envia coordenadas y las centra en el mapa
-        notificationObserver.post(name: CenterRequest, object: self)
+        NotificationCenter.default.post(notification: .fxCameraMap)
         fixed = true
-        changeIcon()
     }
     
     @IBAction func dronInicio(_ sender: Any) {      //modo dron
@@ -96,7 +88,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
             flechaArriba.isHidden = false
             //searchAddress.isHidden = true
             //lugares.isHidden = true
-            notificationObserver.post(name: AlertRequest, object: self)
+            NotificationCenter.default.post(notification: .alert)
             dron.setImage(UIImage(named: "map.i3a.png"), for: .normal)
             center.setImage(UIImage(named:"map-focus.png"), for: .normal)
             showToast(message: "Saliendo de Modo Navegacion")
@@ -107,7 +99,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
             flechaArriba.isHidden = true
 //            searchAddress.isHidden = false
 //            lugares.isHidden = false
-            notificationObserver.post(name: AlertRequest, object: self)
+            NotificationCenter.default.post(notification: .alert)
             dron.setImage(UIImage(named: "map-a1shadowldpi.png"), for: .normal)
             center.setImage(UIImage(named:"gps-navi-arrow-512.png"), for: .normal)
             showToast(message: "Modo de navegacion activo")
@@ -189,27 +181,27 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     //
     @IBAction func alertaAgres(_ sender: Any) {
         userD.set(1, forKey: "AlertType")
-        notificationObserver.post(name: PlaceAlertRequest, object: self)
+        NotificationCenter.default.post(notification: .pushAlert)
     }
     
     @IBAction func alertaAco(_ sender: Any) {
         userD.set(2, forKey: "AlertType")
-        notificationObserver.post(name: PlaceAlertRequest, object: self)
+        NotificationCenter.default.post(notification: .pushAlert)
     }
     
     @IBAction func alertaAsal(_ sender: Any) {
         userD.set(3, forKey: "AlertType")
-        notificationObserver.post(name: PlaceAlertRequest, object: self)
+        NotificationCenter.default.post(notification: .pushAlert)
     }
     
     @IBAction func alertaMoto(_ sender: Any) {
         userD.set(4, forKey: "AlertType")
-        notificationObserver.post(name: PlaceAlertRequest, object: self)
+        NotificationCenter.default.post(notification: .pushAlert)
     }
     
     @IBAction func alertaRobo(_ sender: Any) {
         userD.set(5, forKey: "AlertType")
-        notificationObserver.post(name: PlaceAlertRequest, object: self)
+        NotificationCenter.default.post(notification: .pushAlert)
     }
     
     ////
@@ -246,8 +238,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
                     if self.userD.string(forKey: "ActualGroup") == nil {
                         firebaseManager.init().getOwnerData(phone: self.phone)
                     }else{
-                        self.notificationObserver.post(name: self.LogInNotification, object: self)
-                        self.notificationObserver.post(name: NSNotification.Name("UserGroupsChanged"), object: self)
+                        NotificationCenter.default.post(notification: .logIn)
+                        NotificationCenter.default.post(notification: .groupsChanges)
                     }
                 }else{
                     self.performSegue(withIdentifier: "datosUsuario", sender: self)
@@ -256,18 +248,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         
         self.titleBar.title = userD.string(forKey: "ActualGroupTitle") ?? ""
         
-        NotificationCenter.default.addObserver(self, selector: #selector(changedGroup), name: NSNotification.Name("UserGroupsChanged"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(changeIcon), name: NSNotification.Name("LoseFocus"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showWT), name: NSNotification.Name("HelpMe"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(presentInvite), name: NSNotification.Name("NewGroupCreated"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(changedGroup), notification: .groupsChanges)
+        NotificationCenter.default.add(observer: self, selector: #selector(showWT), notification: .helpMe)
+        NotificationCenter.default.add(observer: self, selector: #selector(presentInvite), notification: .groupCreated)
     }
 
     @objc func changedGroup(){
         self.titleBar.title = self.userD.string(forKey: "ActualGroupTitle")
-    }
-    
-    @objc func changeIcon(){
-
     }
     
     @objc func showWT() {
@@ -338,7 +325,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
             self.marker.isHidden = false
         })
         
-        NotificationCenter.default.post(name: TurnOnPush, object: self)
+        NotificationCenter.default.post(notification: .turnOnPush)
     }
     
     func animationHide(){
@@ -370,7 +357,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
             self.marker.isHidden = true
         }
         
-        NotificationCenter.default.post(name: TurnOnPush, object: self)
+        NotificationCenter.default.post(notification: .turnOnPush)
     }
 
 }
@@ -390,7 +377,6 @@ extension MapViewController: MenuActionDelegate {
     
     func exitAuth(){
         firebaseManager.init().clearUserDefaults()
-        NotificationCenter.default.post(name: LogOutConfirm, object: self)
         dismiss(animated: true, completion: {
             exit(0)
         })

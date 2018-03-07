@@ -32,8 +32,7 @@ class PlacesViewController: UIViewController {
                 self.userD.set(lugares, forKey: "ActualGroupPlaces")
             })
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateData), name: NSNotification.Name("PlacesUpdated"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(updateData), notification: .placesChanges)
         // Do any additional setup after loading the view.
     }
 
@@ -65,7 +64,7 @@ extension PlacesViewController: UITableViewDataSource{
 extension PlacesViewController: UITableViewDelegate{
     func  tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         userD.set(places[indexPath.row], forKey: "EditingPlace")
-        NotificationCenter.default.post(name: NSNotification.Name("EditingPlace"), object: self)
+        NotificationCenter.default.post(notification: .editPlace)
         performSegue(withIdentifier: "configuracionLugares", sender: nil)
     }
 }

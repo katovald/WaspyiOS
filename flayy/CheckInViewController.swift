@@ -27,7 +27,7 @@ class CheckInViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     @IBAction func triggerCheckIn(_ sender: Any) {
-        FCmNotifications.init().chechIn(address: address)
+        FCmNotifications.init().send(type: .checkIn)
         dismiss(animated: false, completion: nil)
     }
     

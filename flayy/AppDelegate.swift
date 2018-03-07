@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         application.registerForRemoteNotifications()
-
+        
         if (Auth.auth().currentUser == nil || userPhone == nil){
             let aux = UIStoryboard(name: "Main", bundle: nil)
             let view = aux.instantiateViewController(withIdentifier: "inicioWOLogin") as UIViewController
@@ -74,6 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Print full message.
+        
         FCmNotifications.init().messageReceiver(message: userInfo)
         
         completionHandler(UIBackgroundFetchResult.newData)
@@ -175,42 +176,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 @available(iOS 10, *)
 extension AppDelegate : UNUserNotificationCenterDelegate {
     
-    // Receive displayed notifications for iOS 10 devices.
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let userInfo = notification.request.content.userInfo
-        
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
-        // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
-        
-        // Print full message.
-        print(userInfo)
-        
-        //FCmNotifications.init().messageReceiver(message: userInfo)
-        // Change this to your preferred presentation option
-        completionHandler([.alert, .badge, .sound])
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-        // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
-        
-        // Print full message.
-        print(userInfo)
-        
-        //FCmNotifications.init().messageReceiver(message: userInfo)
-        completionHandler()
-    }
+//    // Receive displayed notifications for iOS 10 devices.
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                willPresent notification: UNNotification,
+//                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        let userInfo = notification.request.content.userInfo
+//
+//        // With swizzling disabled you must let Messaging know about the message, for Analytics
+//        // Messaging.messaging().appDidReceiveMessage(userInfo)
+//        // Print message ID.
+//        if let messageID = userInfo[gcmMessageIDKey] {
+//            print("Message ID: \(messageID)")
+//        }
+//
+//        // Print full message.
+//        print(userInfo)
+//
+//        // Change this to your preferred presentation option
+//        completionHandler([.alert, .badge, .sound])
+//    }
+//
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                didReceive response: UNNotificationResponse,
+//                                withCompletionHandler completionHandler: @escaping () -> Void) {
+//        let userInfo = response.notification.request.content.userInfo
+//        // Print message ID.
+//        if let messageID = userInfo[gcmMessageIDKey] {
+//            print("Message ID: \(messageID)")
+//        }
+//
+//        // Print full message.
+//        print(userInfo)
+//
+//        //FCmNotifications.init().messageReceiver(message: userInfo)
+//        completionHandler()
+//    }
 }
 // [END ios_10_message_handling]
 

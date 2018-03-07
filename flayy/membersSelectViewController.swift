@@ -117,9 +117,6 @@ class membersSelectViewController: UIViewController{
     let userD:UserDefaults = UserDefaults.standard
     var checkIn:String = ""
     
-    let notificationObserver = NotificationCenter.default
-    let solicitudUsuarios = Notification.Name("UserAsked")
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         miembros = userD.array(forKey: "MembersActiveGroup") as? [[String:[String:Any]]] ?? []
@@ -186,7 +183,7 @@ extension membersSelectViewController: UITableViewDelegate {
         if visibility{
             self.userD.set(data, forKey: "UserAsked")
             self.dismiss(animated: true, completion: {
-                self.notificationObserver.post(name: self.solicitudUsuarios, object: self)
+                NotificationCenter.default.post(notification: .findUser)
             })
         }else{
             self.dismiss(animated: true, completion: {

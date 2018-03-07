@@ -60,23 +60,23 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         locationManager.distanceFilter = 5.0
         locationManager.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateOwnerMarkerPhoto), name: NSNotification.Name("UserPhotoChanged"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(updateOwnerMarkerPhoto), notification: .userDataChange)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(centerView), name: NSNotification.Name("FixCameraPush"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(centerView), notification: .fxCameraMap)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(changeInfo), name: NSNotification.Name("UserGroupsChanged"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(changeInfo), notification: .groupsChanges)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(locateUser), name: NSNotification.Name("UserAsked"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(locateUser), notification: .findUser)
         
-         NotificationCenter.default.addObserver(self, selector: #selector(updateFences), name: NSNotification.Name("PlacesAdded"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(updateFences), notification: .placesChanges)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(turnAlertsOnOFF), name: NSNotification.Name("Alerts"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(turnAlertsOnOFF), notification: .alert)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(initWaspy), name: NSNotification.Name("CorrectLogIn"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(initWaspy), notification: .logIn)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(presetnDialog), name: NSNotification.Name("PushAlert"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(presetnDialog), notification: .pushAlert)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(turnEdit), name: NSNotification.Name("TryToPush"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(turnEdit), notification: .tryToPush)
         
         NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: .UIApplicationWillResignActive, object: nil)
         
@@ -402,11 +402,11 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        FCmNotifications.init().enterGEO()
+        FCmNotifications.init().send(type: .enterGeo)
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        FCmNotifications.init().exitGEO()
+        FCmNotifications.init().send(type: .exitGeo)
     }
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {

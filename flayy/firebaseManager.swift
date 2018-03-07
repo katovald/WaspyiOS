@@ -30,14 +30,14 @@ public class firebaseManager {
     private var urlDownload:String!
     private let fileMan = FileManager.default
     
-    public var notificationCenter: NotificationCenter = NotificationCenter.default
-    
-    public let DataChangueNotification = NSNotification.Name("UserDataChanged")
-    public let PhotoChangueNotification = NSNotification.Name("UserPhotoChanged")
-    public let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
-    public let PlacesChangedNotification = NSNotification.Name("PlacesUpdated")
-    public let LogInNotification = NSNotification.Name("CorrectLogIn")
-    public let CreatedNotification = NSNotification.Name("NewGroupCreated")
+//    public var notificationCenter: NotificationCenter = NotificationCenter.default
+//
+////    public let DataChangueNotification = NSNotification.Name("UserDataChanged")
+////    public let PhotoChangueNotification = NSNotification.Name("UserPhotoChanged")
+////    public let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
+////    public let PlacesChangedNotification = NSNotification.Name("PlacesUpdated")
+////    public let LogInNotification = NSNotification.Name("CorrectLogIn")
+////    public let CreatedNotification = NSNotification.Name("NewGroupCreated")
 
     ///initiate class
     ///battery monitor and references firebase
@@ -152,7 +152,7 @@ public class firebaseManager {
             }
         })
         
-        self.notificationCenter.post(name: DataChangueNotification, object: self)
+        NotificationCenter.default.post(notification: .userDataChange)
         
     }
     
@@ -267,8 +267,8 @@ public class firebaseManager {
             Messaging.messaging().subscribe(toTopic: groupCode + "_enter")
             Messaging.messaging().subscribe(toTopic: groupCode + "_exit")
             Messaging.messaging().subscribe(toTopic: groupCode + "_alert")
-            self.notificationCenter.post(name: GroupsChangeNotification, object: self)
-            self.notificationCenter.post(name: CreatedNotification, object: self)
+            NotificationCenter.default.post(notification: .groupsChanges)
+            NotificationCenter.default.post(notification: .groupCreated)
         }
     }
     
@@ -316,13 +316,13 @@ public class firebaseManager {
         }
         self.getPlaces(group: code, completion: {(places) in
             self.userD.set(places, forKey: "ActualGroupPlaces")
-            self.notificationCenter.post(name: self.PlacesChangedNotification, object: self)
+            NotificationCenter.default.post(notification: .placesChanges)
         })
         self.userD.set(allGroupMembers, forKey: "MembersActiveGroup")
         Messaging.messaging().subscribe(toTopic: code + "_enter")
         Messaging.messaging().subscribe(toTopic: code + "_exit")
         Messaging.messaging().subscribe(toTopic: code + "_alert")
-        self.notificationCenter.post(name: GroupsChangeNotification, object: self)
+        NotificationCenter.default.post(notification: .groupsChanges)
     }
     
     public func setUserRegToken(){
@@ -511,20 +511,16 @@ public class firebaseManager {
                 }
                
             }
-                                                    self.notificationCenter.post(name: self.PhotoChangueNotification, object: self)
+                                                    NotificationCenter.default.post(notification: .userDataChange)
                                                      completion()
         })
     }
     
     public func saveOwnerPhoto(photo: UIImage, phone: String){
-        
         let imageData: Data = UIImagePNGRepresentation(photo)!
         let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         let imageUrl = docUrl.appendingPathComponent(phone + ".png")
         try! imageData.write(to: imageUrl)
-        let MemPhotoChangueNotification = NSNotification.Name("MemberPhotoChanged")
-        self.notificationCenter.post(name: MemPhotoChangueNotification, object: self)
-    
     }
     
     public func setMyVisibility(code: String, tel: String, visible: Bool)
@@ -638,8 +634,8 @@ public class firebaseManager {
                     self.userD.set(members, forKey: "MembersActiveGroup")
                     self.getPlaces(group: actualgroupc!, completion: {(list) in
                         self.userD.set(list, forKey: "ActualGroupPlaces")
-                        self.notificationCenter.post(name: self.LogInNotification, object: self)
-                        self.notificationCenter.post(name: self.PlacesChangedNotification, object: self)
+                        NotificationCenter.default.post(notification: .logIn)
+                        NotificationCenter.default.post(notification: .placesChanges)
                     })
                 })
             }
@@ -809,7 +805,7 @@ public class firebaseManager {
                 self.userD.set(newGroup?.first?.key, forKey: "ActualGroup")
                 self.userD.set(newGroup?.first?.value, forKey: "ActualGroupTitle")
                 self.userD.set(nil, forKey: "ActualGroupPlaces")
-                self.notificationCenter.post(name: GroupsChangeNotification, object: self)
+                NotificationCenter.default.post(notification: .groupsChanges)
                 self.getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
                     self.userD.set(members, forKey: "MembersActiveGroup")
                     self.setLastGroup(name: (newGroup?.first?.value)! as! String)

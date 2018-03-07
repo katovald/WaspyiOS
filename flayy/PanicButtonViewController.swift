@@ -185,7 +185,7 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
         }
         if (reachNet?.isReachable)!
         {
-            FCmNotifications.init().panicChechIn(address: street)
+            FCmNotifications.init().send(type: .panicChechIn)
         }
     }
     

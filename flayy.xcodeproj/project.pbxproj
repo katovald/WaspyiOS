@@ -40,6 +40,7 @@
 		4129DF5E1F7EF654005EE130 /* geoplace_school.png in Resources */ = {isa = PBXBuildFile; fileRef = 4129DF521F7EF54C005EE130 /* geoplace_school.png */; };
 		4129DF5F1F7EF654005EE130 /* geoplace_super.png in Resources */ = {isa = PBXBuildFile; fileRef = 4129DF4F1F7EF54C005EE130 /* geoplace_super.png */; };
 		4129DF601F7EF654005EE130 /* geoplace_work.png in Resources */ = {isa = PBXBuildFile; fileRef = 4129DF551F7EF54D005EE130 /* geoplace_work.png */; };
+		412F58AD204EE6C000A12412 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412F58AC204EE6C000A12412 /* Notifications.swift */; };
 		413291C21FCCBCBD00880239 /* palomita@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 413291C11FCCBCB700880239 /* palomita@2x.png */; };
 		413349631FE3378F0033CB26 /* SMS.png in Resources */ = {isa = PBXBuildFile; fileRef = 413349621FE3378C0033CB26 /* SMS.png */; };
 		413349671FE339A80033CB26 /* telefono.png in Resources */ = {isa = PBXBuildFile; fileRef = 413349661FE339A50033CB26 /* telefono.png */; };
@@ -391,6 +392,7 @@
 		4129DF551F7EF54D005EE130 /* geoplace_work.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoplace_work.png; sourceTree = "<group>"; };
 		4129DF561F7EF54D005EE130 /* geoplace_house2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoplace_house2.png; sourceTree = "<group>"; };
 		4129DF571F7EF54D005EE130 /* geoplace_gym.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geoplace_gym.png; sourceTree = "<group>"; };
+		412F58AC204EE6C000A12412 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		413291C11FCCBCB700880239 /* palomita@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "palomita@2x.png"; sourceTree = "<group>"; };
 		413349621FE3378C0033CB26 /* SMS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SMS.png; sourceTree = "<group>"; };
 		413349661FE339A50033CB26 /* telefono.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = telefono.png; sourceTree = "<group>"; };
@@ -1015,7 +1017,6 @@
 				417E646F1F16703200DDA8F8 /* MapController.swift */,
 				41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */,
 				41DCA1BA1F743247001B23F4 /* GroupSelectorViewController.swift */,
-				4125596B1F98ED99004B843A /* FCMNotifications.swift */,
 				41FCE9551FBB6AF1007A1A98 /* registerViewController.swift */,
 				413FCCCD1FD607FF008F23E3 /* FAQViewController.swift */,
 			);
@@ -1154,6 +1155,7 @@
 		41E30FBE2048B14400A6A4AB /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
+				4125596B1F98ED99004B843A /* FCMNotifications.swift */,
 				414524721F5EF1A20095C8F2 /* firebaseManager.swift */,
 			);
 			name = Firebase;
@@ -1170,6 +1172,7 @@
 		41E30FC12048B17C00A6A4AB /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
+				412F58AC204EE6C000A12412 /* Notifications.swift */,
 				41E30FAF204710A000A6A4AB /* KeychainPasswordItem.swift */,
 				414524681F575DD60095C8F2 /* utils.swift */,
 			);
@@ -1696,6 +1699,7 @@
 				41D416621F214E7E00BC7BDC /* PicMemberTableViewCell.swift in Sources */,
 				4166EDEC1F843B9C00CB8823 /* waspyAlertMarker.swift in Sources */,
 				4104F4041F1FBC6D00F222B9 /* PlacesViewController.swift in Sources */,
+				412F58AD204EE6C000A12412 /* Notifications.swift in Sources */,
 				410837031F1CFEF800F929F4 /* membersSelectViewController.swift in Sources */,
 				413349691FE33B0F0033CB26 /* ContactActionsViewController.swift in Sources */,
 				4104F40C1F200BC800F222B9 /* PlacesConfigViewController.swift in Sources */,

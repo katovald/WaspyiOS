@@ -67,7 +67,7 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
     
     @IBAction func help(_ sender: Any) {
         self.dismiss(animated: true, completion: {
-            NotificationCenter.default.post(name: self.HelpNotification, object: self)
+            NotificationCenter.default.post(notification: .helpMe)
         })
     }
     

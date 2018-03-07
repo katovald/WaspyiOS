@@ -10,7 +10,6 @@ import UIKit
 
 class gruposSelectViewController: UIViewController {
     
-    let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
     let netReached = Reachability()
     
     let userD:UserDefaults = UserDefaults.standard
@@ -18,8 +17,6 @@ class gruposSelectViewController: UIViewController {
     @IBOutlet weak var create: UIButton!
     
     var grupos = [[String:String]]()
-    
-    var notificationCenter:NotificationCenter = NotificationCenter.default
     
     @IBAction func closeMenu(_ sender: Any) {
         let transition = CATransition()
@@ -73,7 +70,7 @@ class gruposSelectViewController: UIViewController {
     @IBAction func suscribe(_ sender: Any) {
         firebaseManager.init().subscribeUserGroups(code: codetext.text!)
         dismiss(animated: true) {
-            self.notificationCenter.post(name: self.GroupsChangeNotification, object: self)
+            NotificationCenter.default.post(notification: .groupsChanges)
         }
     }
     
@@ -180,7 +177,7 @@ extension gruposSelectViewController: UITableViewDelegate{
             })
         
             self.dismiss(animated: false, completion:{
-                self.notificationCenter.post(name: self.GroupsChangeNotification, object: self)
+                NotificationCenter.default.post(notification: .groupsChanges)
             })
         }else{
             self.dismiss(animated: false, completion:nil)

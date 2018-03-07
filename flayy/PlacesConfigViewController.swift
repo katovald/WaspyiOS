@@ -58,8 +58,7 @@ class PlacesConfigViewController: UIViewController {
         if (reacNet?.isReachable)!{
             firebaseManager.init().deletePlace(code: userD.string(forKey: "ActualGroup")!,
                                                key: (place.first?.key)!)
-            NotificationCenter.default.post(name: NSNotification.Name("PlacesUpdated"),
-                                            object: self)
+            NotificationCenter.default.post(notification: .placesChanges)
             firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
             self.dismiss(animated: true, completion: {
                 self.userD.set(nil, forKey: "EditingPlace")
@@ -72,7 +71,7 @@ class PlacesConfigViewController: UIViewController {
     @IBAction func editSave(_ sender: Any) {
         if edicion {
             if (reacNet?.isReachable)! {
-                NotificationCenter.default.post(name: NSNotification.Name("GivemePlaceData"), object: self)
+                NotificationCenter.default.post(notification: .getPlaceData)
                 place = userD.dictionary(forKey: "EditingPlace") as! [String : [String : Any]]
                 let key = place.first?.key
                 let data = place.first?.value
@@ -85,7 +84,7 @@ class PlacesConfigViewController: UIViewController {
                                                           place_name: texto.text!,
                                                           radio: Int(radio.value))
                 }
-                FCmNotifications.init().placesUpdated()
+                FCmNotifications.init().send(type: .placesUpdated)
                 blockedView()
                 firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
                 self.dismiss(animated: true, completion: {
@@ -106,15 +105,13 @@ class PlacesConfigViewController: UIViewController {
         }
         
         setIcon(icono: icono)
-        NotificationCenter.default.post(name: IconChangedNotification, object: self)
+        NotificationCenter.default.post(notification: .placesChanges)
     }
     
     var icono:Int = 0
     var edicion = false
     var userD:UserDefaults = UserDefaults.standard
     var place = [String:[String:Any]]()
-    let IconChangedNotification = NSNotification.Name("PlaceDataUpdated")
-    let PlaceFinded = NSNotification.Name("PlaceAdressFind")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -175,10 +172,7 @@ class PlacesConfigViewController: UIViewController {
             }
         }
         setIcon(icono: icono)
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(changeAddress),
-                                               name: NSNotification.Name("UpdatePlaceLocation"), object: nil)
+        NotificationCenter.default.add(observer: self, selector: #selector(changeAddress), notification: .placesChanges)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         //Do any additional setup after loading the view.
@@ -325,7 +319,7 @@ extension PlacesConfigViewController: GMSAutocompleteViewControllerDelegate {
             let pointSended = ["lat":place.coordinate.latitude,
                                "long":place.coordinate.longitude]
             self.userD.set(pointSended, forKey: "PointCoordinate")
-            NotificationCenter.default.post(name: NSNotification.Name("PlaceAddressFind"), object: self)
+            NotificationCenter.default.post(notification: .findAddress)
         })
     }
     
