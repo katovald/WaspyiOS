@@ -75,7 +75,7 @@ extension mainMenuViewController: UITableViewDataSource {
         return menu.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")! as! menuTableViewCell
         
         let aux = menu[indexPath.row]

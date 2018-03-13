@@ -52,6 +52,7 @@ class PlacesConfigViewController: UIViewController {
     
     @IBAction func changeRadius(_ sender: Any) {
         self.infoRadius.text = String(Int(radio.value)) + " metros"
+        NotificationCenter.default.post(notification: .placesChanges)
     }
     
     @IBAction func deletePlace(_ sender: Any) {

@@ -42,11 +42,11 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>10</string>
+	<string>11</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>User experience, save its picture</string>
+	<string>Assign the marker image for your account.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Core Functions Of Searching people, can turn off presenting info to others</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -54,7 +54,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We use it to show to the members in your active group to have a real time information, we don&apos;t save routes only your last location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Store user picture</string>
+	<string>Assign the marker image for your account.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

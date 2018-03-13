@@ -16,6 +16,7 @@ class waspyPlaceMarker: GMSMarker {
     var nombre:String!
     var radioGeo:Int!
     var icono:Int!
+    var circ:GMSCircle!
     
     init(name: String, address: String, radio: Int, icon: Int) {
         adress = address
@@ -54,13 +55,19 @@ class waspyPlaceMarker: GMSMarker {
         }else{
             markerSize = CGSize(width: 20, height: 20)
         }
-        
         markerView = UIImageView(image: resizeImage(image: marcador, newSize: markerSize))
         self.iconView = markerView
     }
     
     func setLocation(location: CLLocationCoordinate2D) {
         self.position = location
+        circ = GMSCircle(position: location, radius: Double(self.radioGeo))
+    }
+    
+    func drawcircle(_ view: GMSMapView){
+        self.circ.fillColor = UIColor(hex: 0x3871B4, alpha: 0.2)
+        self.circ.strokeColor = UIColor(hex: 0x3871B4)
+        self.circ.map = view
     }
 }
 
@@ -76,12 +83,12 @@ extension waspyPlaceMarker{
         CATransaction.begin()
         CATransaction.setAnimationDuration(duration)
         self.position = coordinates
-        
         CATransaction.commit()
+        circ.position = coordinates
     }
     
     func updateRadius(radius: Int){
-        radioGeo = radius
+        circ.radius = Double(radius)
     }
     
     func updateMarkerIcon(icono: Int) {

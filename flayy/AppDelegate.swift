@@ -56,6 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }else{
             let aux = UIStoryboard(name: "Main", bundle: nil)
             let view = aux.instantiateViewController(withIdentifier: "inicioWLogin") as UIViewController
+            NotificationCenter.default.post(notification: .logIn)
             window?.rootViewController = view
         }
         
@@ -139,15 +140,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func handleDynamicLink(_ dynamicLink: DynamicLink) {
-//        let matchConfidence: String
-//        if dynamicLink.matchType == .weak {
-//            matchConfidence = "Weak"
-//        } else {
-//            matchConfidence = "Strong"
-//        }
-//        let message = "App URL: \(dynamicLink.url?.absoluteString ?? "")\n" +
-//        "Match Confidence: \(matchConfidence)\nMinimum App Version: \(dynamicLink.minimumAppVersion ?? "")"
-//        showDeepLinkAlertView(withMessage: message)
         if dynamicLink.url?.absoluteString != nil {
             let linkString = dynamicLink.url?.absoluteString
             let splitString = linkString?.components(separatedBy: "?")
@@ -208,7 +200,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
 
-        //FCmNotifications.init().messageReceiver(message: userInfo)
         completionHandler()
     }
 }

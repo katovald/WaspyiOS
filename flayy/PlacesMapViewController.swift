@@ -66,10 +66,12 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
             icon += 1
         }
         location.updateMarkerIcon(icono: icon)
+        
     }
     
     func setIcon(icon:Int){
         location.setIconView(icono: icon)
+        location.drawcircle(self.view as! GMSMapView)
     }
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {

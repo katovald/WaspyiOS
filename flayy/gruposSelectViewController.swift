@@ -97,6 +97,11 @@ class gruposSelectViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidHide, object: nil)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

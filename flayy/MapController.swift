@@ -186,6 +186,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
             placeMarker.setIconView(icono: info!["icon"] as! Int)
             places[key!] = placeMarker
             placeMarker.map = self.view as? GMSMapView
+            placeMarker.drawcircle(self.view as! GMSMapView)
         }
         startGeofences()
     }

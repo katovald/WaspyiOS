@@ -29,15 +29,6 @@ public class firebaseManager {
     private var almacen = Storage.storage()
     private var urlDownload:String!
     private let fileMan = FileManager.default
-    
-//    public var notificationCenter: NotificationCenter = NotificationCenter.default
-//
-////    public let DataChangueNotification = NSNotification.Name("UserDataChanged")
-////    public let PhotoChangueNotification = NSNotification.Name("UserPhotoChanged")
-////    public let GroupsChangeNotification = NSNotification.Name("UserGroupsChanged")
-////    public let PlacesChangedNotification = NSNotification.Name("PlacesUpdated")
-////    public let LogInNotification = NSNotification.Name("CorrectLogIn")
-////    public let CreatedNotification = NSNotification.Name("NewGroupCreated")
 
     ///initiate class
     ///battery monitor and references firebase
