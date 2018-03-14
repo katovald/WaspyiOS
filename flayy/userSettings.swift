@@ -19,9 +19,8 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
     var phone:String!
     let userD:UserDefaults = UserDefaults.standard
     var edit = false
+    var newPhoto:Bool!
     var keyboardHigth:CGFloat = 0.0
-    public let LogInNotification = NSNotification.Name("CorrectLogIn")
-    public let HelpNotification = NSNotification.Name("HelpMe")
     let user = Auth.auth().currentUser!
     let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
 
@@ -33,31 +32,19 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
     @IBOutlet weak var userMail: UITextField!
     
     @IBAction func guarda(_ sender: Any) {
-        if edit {
-            if (self.nameText.text == "" || self.userMail.text == "")
-            {
-                alert(message: "Necesitamos tus datos completos")
-                return
-            }
-            else{
-                startLoading()
-                firebaseManager.init().saveUserPhotoFB(photo: userPhoto.image!, phone: phone, completion:{
-                    firebaseManager.init().setUserSetting(name: self.nameText.text!,
-                                                          mail: self.userMail.text!)
-                    self.edit = false
-                    self.editaguarda.tintColor = UIColor.yellow
-                    self.editaguarda.title = "Editar"
-                    self.stopLoading()
-                    self.dismiss(animated: true, completion: nil)
-                })
+        startLoading()
+        if newPhoto {
+            firebaseManager.init().saveUserPhotoFB(photo: userPhoto.image!, phone: phone) {
+                firebaseManager.init().setUserSetting(name: self.nameText.text!)
+                self.userD.set(self.nameText.text, forKey: "OwnerName")
+                self.stopLoading()
+                self.dismiss(animated: true, completion: nil)
             }
         }else{
-            nameText.isEnabled = true
-            userMail.isEnabled = true
-            inicioCam.isEnabled = true
-            editaguarda.tintColor = UIColor.init(hex: 0xEEC61B)
-            editaguarda.title = "Guardar"
-            edit = true
+            firebaseManager.init().setUserSetting(name: self.nameText.text!)
+            self.userD.set(self.nameText.text, forKey: "OwnerName")
+            self.stopLoading()
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -98,20 +85,20 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
         self.userMail.text = user.email ?? ""
         
         self.userPhoto.image = firebaseManager.init().getMemberPhoto(phone: self.phone)
+        editaguarda.tintColor = UIColor.red
+        editaguarda.title = "Guardar"
         
         if (self.nameText.text == "") {
             self.Salir.isEnabled = false
             nameText.isEnabled = true
             userMail.isEnabled = false
             inicioCam.isEnabled = true
-            editaguarda.tintColor = UIColor.red
-            editaguarda.title = "Guardar"
-            edit = true
         } else {
             nameText.isEnabled = true
             userMail.isEnabled = false
             inicioCam.isEnabled = true
         }
+        newPhoto = false
     }
     
     @IBAction func inicioCamView(_ sender: Any) {
@@ -121,6 +108,8 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
                 // Do something with your image here.
                 if image != nil {
                     self?.userPhoto.image = image
+                    firebaseManager.init().saveOwnerPhoto(photo: image!, phone: (self?.phone)!)
+                    self?.newPhoto = true
                 }
                 self?.dismiss(animated: true, completion: nil)
             }

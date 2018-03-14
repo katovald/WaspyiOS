@@ -203,9 +203,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         alertController.addAction(confirmation)
         alertController.addAction(cancelAction)
         
-        present(alertController, animated: true, completion: {
-            self.draw.updateAlerts(center: self.getCenterCoordinate(), radius: self.getRadius())
-        })
+        present(alertController, animated: true, completion: nil)
     }
     
     func startGeofences(){
@@ -255,7 +253,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         if !alertas{
             let controller = storyboard?.instantiateViewController(withIdentifier: "ConfigPlace") as! PlacesConfigViewController
-            let placeEdited = ["none": ["l": ["0":coordinate.latitude, "1": coordinate.longitude]]]
+            let placeEdited = ["none": ["l": [coordinate.latitude,coordinate.longitude]]]
             userD.set(placeEdited, forKey: "EditingPlace")
             present(controller, animated: true, completion: nil)
         }

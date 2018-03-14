@@ -23,6 +23,10 @@ func batteryLevel()-> Int {
     return Int(UIDevice.current.batteryLevel * 100)
 }
 
+enum dataType{
+    case group
+}
+
 public class firebaseManager {
     private var reference: DatabaseReference!
     private var userD:UserDefaults = UserDefaults.standard
@@ -114,32 +118,32 @@ public class firebaseManager {
         self.reference.child("groups/" + code + "/group_info/group_name").setValue(name)
     }
     
-    public func setUserSetting( name: String, mail: String){
-        let phone = userD.string(forKey: "OwnerPhone")
-        userD.set(mail, forKey: "OwnerMail")
-        
-        self.reference.child("accounts/" + phone! + "/name").setValue(name)
-        self.reference.child("accounts/" + phone! + "/mail").setValue(mail)
-       
-        self.reference.child("accounts/" + phone! + "/user_groups/").observeSingleEvent(of: .value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary ?? [:]
-            let keys = value.allKeys
-            
+    public func setUserSetting( name: String){
+        guard let phone = userD.string(forKey: "OwnerPhone") else {return}
+        self.reference.child("accounts/" + phone + "/name").setValue(name)
+        self.reference.child("accounts/" + phone + "/phone").setValue(phone)
+        self.reference.child("accounts/" + phone + "/user_groups/groups/").observeSingleEvent(of: .value, with: { (snapshot) in
+            let value = snapshot.value as? [String:String] ?? [:]
+            let keys = value.keys
             if keys.count == 0
             {
                 self.createUserGroups(name: "Mi Grupo")
+            }else{
+                for key in keys {
+                    self.reference.child("groups/\(key)/members/\(phone)/name/").setValue(name)
+                }
             }
         })
         
-        self.reference.child("accounts/" + phone! + "/account_level/").observeSingleEvent(of: .value, with: { (snapshot) in
+        self.reference.child("accounts/" + phone + "/account_level/").observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? String ?? ""
             
             if value == ""
             {
-                self.reference.child("accounts/" + phone! + "/account_level").setValue("freemium")
+                self.reference.child("accounts/" + phone + "/account_level").setValue("freemium")
                 self.userD.set("freemium", forKey: "OwnerAccountType")
             }else{
-                self.userD.set("freemium", forKey: value)
+                self.userD.set(value, forKey: "OwnerAccountType")
             }
         })
         
@@ -396,7 +400,7 @@ public class firebaseManager {
                                              "speed":speed.magnitude],
                                 "time":time,
                                 "type":"check_in",
-                                "user":name!] as [String : Any]
+                                "user":name ?? ""] as [String : Any]
                 
                 self.reference.child("groups/" + code! + "/group_check_in/").child(result).setValue(checkIn)
             }
@@ -544,12 +548,16 @@ public class firebaseManager {
                 }
                 
                 let ownerGroups = self.userD.array(forKey: "OwnerGroups") as? [[String:String]] ?? []
-                for code in ownerGroups{
-                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
-                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/current_place").setValue(direccion)
-                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
-                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
-                    self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
+                for code in ownerGroups {
+                    self.dataExistence(search: (code.first?.key)!, type: .group , completion: { (response) in
+                        if response{
+                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
+                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/current_place").setValue(direccion)
+                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
+                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
+                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
+                        }
+                    })
                 }
             }
         })
@@ -569,10 +577,16 @@ public class firebaseManager {
 
         let ownerGroups = self.userD.array(forKey: "OwnerGroups") as! [[String:String]]
             for code in ownerGroups{
-                self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
-                self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
-                self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
-                self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
+                self.dataExistence(search: (code.first?.key)!, type: .group, completion: { (response) in
+                    if response {
+                        self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
+                        self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
+                        self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
+                        self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
+                    }else{
+                        self.unsuscribeGroups(code: (code.first?.key)!, phone: phone, kill: true)
+                    }
+                })
             }
     }
     
@@ -613,24 +627,38 @@ public class firebaseManager {
                 let usergroupsinfo = value["user_groups"] as! NSDictionary
                 let usergroups = usergroupsinfo["groups"] as! [String:String]
                 var gruposAux = [[String:String]]()
-                for key in usergroups.keys{
-                    gruposAux.append([key:usergroups[key]!])
-                }
-                self.userD.set(gruposAux, forKey: "OwnerGroups")
-                let actualgroupc = usergroups.first?.key
-                let actualgroupn = usergroups.first?.value
-                self.userD.set(actualgroupc, forKey: "ActualGroup")
-                self.userD.set(actualgroupn, forKey: "ActualGroupTitle")
-                self.getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: { (members) in
-                    self.userD.set(members, forKey: "MembersActiveGroup")
-                    self.getPlaces(group: actualgroupc!, completion: {(list) in
-                        self.userD.set(list, forKey: "ActualGroupPlaces")
-                        NotificationCenter.default.post(notification: .logIn)
-                        NotificationCenter.default.post(notification: .placesChanges)
+                if usergroups.keys.count == 0 {
+                    self.createUserGroups(name: "Mi Grupo")
+                } else {
+                    for key in usergroups.keys{
+                        gruposAux.append([key:usergroups[key]!])
+                    }
+                    self.userD.set(gruposAux, forKey: "OwnerGroups")
+                    let actualgroupc = usergroups.first?.key
+                    let actualgroupn = usergroups.first?.value
+                    self.userD.set(actualgroupc, forKey: "ActualGroup")
+                    self.userD.set(actualgroupn, forKey: "ActualGroupTitle")
+                    
+                    self.getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: { (members) in
+                        self.userD.set(members, forKey: "MembersActiveGroup")
+                        self.getPlaces(group: actualgroupc!, completion: {(list) in
+                            self.userD.set(list, forKey: "ActualGroupPlaces")
+                            NotificationCenter.default.post(notification: .logIn)
+                            NotificationCenter.default.post(notification: .placesChanges)
+                        })
                     })
-                })
+                }
             }
         })
+    }
+    
+    private func dataExistence(search: String, type: dataType,  completion: @escaping (Bool) -> Void) {
+        switch type {
+        case .group:
+            self.reference.child("groups/\(search)/").observeSingleEvent(of: .value, with: { (data) in
+                completion(((data.value as? NSDictionary) != nil))
+            })
+        }
     }
     
     public func getMessageToken(phone: String, completion: @escaping (String) -> Void){
@@ -641,8 +669,8 @@ public class firebaseManager {
     }
     
     public func getLastCheckIN(completion: @escaping (String, [String:Double]) -> Void){
-        let grupo = self.userD.string(forKey: "ActualGroup")
-        self.reference.child("groups/" + grupo! + "/group_check_in/").queryLimited(toLast: 1).observeSingleEvent(of: .value, with: {(snapshot) in
+        guard let grupo:String = self.userD.string(forKey: "ActualGroup") else {return}
+        self.reference.child("groups/" + grupo + "/group_check_in/").queryLimited(toLast: 1).observeSingleEvent(of: .value, with: {(snapshot) in
             guard let value = snapshot.value as? [String:Any] else {return}
             let keys = value.keys
             let data = value[keys.first!] as! [String:Any]

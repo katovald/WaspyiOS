@@ -228,12 +228,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
                 if inSystem
                 {
                     firebaseManager.init().setUserRegToken()
-                    if self.userD.string(forKey: "ActualGroup") == nil {
-                        firebaseManager.init().getOwnerData(phone: self.phone)
-                    }else{
-                        NotificationCenter.default.post(notification: .logIn)
-                        NotificationCenter.default.post(notification: .groupsChanges)
-                    }
+                    firebaseManager.init().getOwnerData(phone: self.phone)
                 }else{
                     self.performSegue(withIdentifier: "datosUsuario", sender: self)
                 }

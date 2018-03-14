@@ -46,7 +46,10 @@ class PlacesConfigViewController: UIViewController {
     @IBAction func getBack(_ sender: Any) {
         self.dismiss(animated: true, completion: {
             self.userD.set(nil, forKey: "EditingPlace")
-            self.userD.set(nil, forKey: "PlaceAddressFind")
+            firebaseManager.init().getPlaces(group: self.userD.string(forKey: "ActualGroup")!, completion: { (places) in
+                self.userD.set(places, forKey: "ActualGroupPlaces")
+            })
+            NotificationCenter.default.post(notification: .placesChanges)
         })
     }
     
@@ -74,7 +77,7 @@ class PlacesConfigViewController: UIViewController {
                 NotificationCenter.default.post(notification: .getPlaceData)
                 place = userD.dictionary(forKey: "EditingPlace") as! [String : [String : Any]]
                 let key = place.first?.key
-                let data = place.first?.value
+                var data = place.first?.value
                 let location = data!["l"] as! [String:Double]
                 if key! == "none"{
                     firebaseManager.init().saveGroupPlace(code: userD.string(forKey: "ActualGroup")!,
@@ -84,6 +87,7 @@ class PlacesConfigViewController: UIViewController {
                                                           place_name: texto.text!,
                                                           radio: Int(radio.value))
                 }else{
+                    data!["place_name"] = texto.text!
                     firebaseManager.init().updatePlace(code: userD.string(forKey: "ActualGroup")!, key: key!, data: data!)
                 }
                 FCmNotifications.init().send(type: .placesUpdated)
@@ -239,16 +243,10 @@ class PlacesConfigViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        self.userD.set(nil, forKey: "EditingPlace")
-        self.userD.set(nil, forKey: "PlaceAddressFind")
-        NotificationCenter.default.post(notification: .placesChanges)
-    }
-    
     @objc func changeAddress()
     {
-        let data = self.userD.dictionary(forKey: "EditingPlace") as! [String : [String : Any]]
-        let point = data.first?.value["l"] as! [Double]
+        let data = self.userD.dictionary(forKey: "EditingPlace") as? [String : [String : Any]] ?? [:]
+        guard let point = data.first?.value["l"] as? [Double] else {return}
         LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point[0], longitude: point[1]) , completion: {(json, e)  in
             if let a = json {
                 let kilo = a["FormattedAddressLines"] as! [String]
@@ -321,9 +319,9 @@ extension PlacesConfigViewController: GMSAutocompleteViewControllerDelegate {
         
         // Close the autocomplete widget.
         self.dismiss(animated: true, completion: {
-            let pointSended = ["lat":place.coordinate.latitude,
-                               "long":place.coordinate.longitude]
+            let pointSended = [place.coordinate.latitude, place.coordinate.longitude]
             self.userD.set(pointSended, forKey: "PointCoordinate")
+            self.direccion.text = place.addressComponents?.first?.name
             NotificationCenter.default.post(notification: .findAddress)
         })
     }

@@ -76,6 +76,7 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
         location.drawcircle(self.view as! GMSMapView)
     }
     
+    
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         location.updateMarker(coordinates: position.target, degrees: 0, duration: 0.2)
         self.userD.set([key:location.getData()], forKey: "EditingPlace")
@@ -86,8 +87,8 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
     }
     
     @objc func setIconView() {
-        let punto = userD.object(forKey: "PointCoordinate") as! [String:CLLocationDegrees]
-        let coordenadas = CLLocationCoordinate2D(latitude: punto["lat"]!, longitude: punto["long"]!)
+        guard let punto = userD.array(forKey: "PointCoordinate") as? [Double] else { return }
+        let coordenadas = CLLocationCoordinate2D(latitude: punto[0], longitude: punto[1])
         location.updateMarker(coordinates: coordenadas, degrees: 0, duration: 0.2)
         let pos = GMSCameraPosition(target: coordenadas, zoom: 15.0, bearing: -15, viewingAngle: 45)
         self.mapa = self.view as! GMSMapView!

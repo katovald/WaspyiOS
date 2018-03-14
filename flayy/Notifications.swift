@@ -28,6 +28,7 @@ enum notificationType: String {
     case helpMe
     case turnOnPush
     case placeConfig
+    case finishTask
 }
 
 extension NotificationCenter {
