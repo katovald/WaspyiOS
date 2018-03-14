@@ -52,7 +52,6 @@ class PlacesConfigViewController: UIViewController {
     
     @IBAction func changeRadius(_ sender: Any) {
         self.infoRadius.text = String(Int(radio.value)) + " metros"
-        NotificationCenter.default.post(notification: .placesChanges)
     }
     
     @IBAction func deletePlace(_ sender: Any) {
@@ -84,12 +83,15 @@ class PlacesConfigViewController: UIViewController {
                                                           l: location,
                                                           place_name: texto.text!,
                                                           radio: Int(radio.value))
+                }else{
+                    firebaseManager.init().updatePlace(code: userD.string(forKey: "ActualGroup")!, key: key!, data: data!)
                 }
                 FCmNotifications.init().send(type: .placesUpdated)
                 blockedView()
                 firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
                 self.dismiss(animated: true, completion: {
                     self.userD.set(nil, forKey: "EditingPlace")
+                    NotificationCenter.default.post(notification: .editPlace)
                 })
             }else{
                 showToast(message: "Necesitas Internet para poder guardar")
@@ -106,7 +108,7 @@ class PlacesConfigViewController: UIViewController {
         }
         
         setIcon(icono: icono)
-        NotificationCenter.default.post(notification: .placesChanges)
+        NotificationCenter.default.post(notification: .placeConfig)
     }
     
     var icono:Int = 0
@@ -143,7 +145,7 @@ class PlacesConfigViewController: UIViewController {
         }else{
             let key = place.first?.key
             let value = place.first?.value
-            let point = value!["l"] as? [Double] ?? [LocationServices.init().getLocationCoord().latitude,LocationServices.init().getLocationCoord().longitude]
+            let point = value!["l"] as? [Double] ?? [LocationServices.init().getLocationCoord().latitude,  LocationServices.init().getLocationCoord().longitude]
             if key == "none" {
                 LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point[0], longitude: point[1]), completion: { (json, e) in
                     if let a = json {
@@ -169,11 +171,12 @@ class PlacesConfigViewController: UIViewController {
                 self.direccion.text = data!["address"] as? String
                 self.icono = (data!["icon"] as? Int)!
                 self.radio.setValue(Float((data!["radio"] as? Int)!), animated: false)
+                self.infoRadius.text = String(Int(radio.value)) + " metros"
                 blockedView()
             }
         }
         setIcon(icono: icono)
-        NotificationCenter.default.add(observer: self, selector: #selector(changeAddress), notification: .placesChanges)
+        NotificationCenter.default.add(observer: self, selector: #selector(changeAddress), notification: .findAddress)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         //Do any additional setup after loading the view.
@@ -236,16 +239,17 @@ class PlacesConfigViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         self.userD.set(nil, forKey: "EditingPlace")
         self.userD.set(nil, forKey: "PlaceAddressFind")
+        NotificationCenter.default.post(notification: .placesChanges)
     }
     
     @objc func changeAddress()
     {
         let data = self.userD.dictionary(forKey: "EditingPlace") as! [String : [String : Any]]
-        let point = data.first?.value["l"] as! [String:Double]
-        LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point["0"]!, longitude: point["1"]!) , completion: {(json, e)  in
+        let point = data.first?.value["l"] as! [Double]
+        LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point[0], longitude: point[1]) , completion: {(json, e)  in
             if let a = json {
                 let kilo = a["FormattedAddressLines"] as! [String]
             

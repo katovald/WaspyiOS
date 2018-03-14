@@ -134,6 +134,7 @@
 		41678DCB201FAEA200DAD469 /* gps-navi-arrow-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 41678DCA201FAEA100DAD469 /* gps-navi-arrow-512.png */; };
 		417144422045A30100B9D60F /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 417144412045A30100B9D60F /* LocalAuthentication.framework */; };
 		417144442045CF0200B9D60F /* LoginHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417144432045CF0200B9D60F /* LoginHandler.swift */; };
+		4172FDC62058263900F30907 /* paintMarkers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172FDC52058263900F30907 /* paintMarkers.swift */; };
 		41776F0C1F7D44A5001A0E55 /* group-i1.png in Resources */ = {isa = PBXBuildFile; fileRef = 41776F101F7D44A5001A0E55 /* group-i1.png */; };
 		41776F0D1F7D44A5001A0E55 /* group-i1.png in Resources */ = {isa = PBXBuildFile; fileRef = 41776F101F7D44A5001A0E55 /* group-i1.png */; };
 		41776F0E1F7D44A5001A0E55 /* group-i1.png in Resources */ = {isa = PBXBuildFile; fileRef = 41776F101F7D44A5001A0E55 /* group-i1.png */; };
@@ -446,6 +447,7 @@
 		41678DCA201FAEA100DAD469 /* gps-navi-arrow-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps-navi-arrow-512.png"; sourceTree = "<group>"; };
 		417144412045A30100B9D60F /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		417144432045CF0200B9D60F /* LoginHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHandler.swift; sourceTree = "<group>"; };
+		4172FDC52058263900F30907 /* paintMarkers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = paintMarkers.swift; sourceTree = "<group>"; };
 		41776F0F1F7D44A5001A0E55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = "Base.lproj/group-i1.png"; sourceTree = "<group>"; };
 		41776F191F7D44C2001A0E55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = "Base.lproj/group-i1@2x.png"; sourceTree = "<group>"; };
 		41776F1E1F7D44C5001A0E55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = "Base.lproj/group-i1@3x.png"; sourceTree = "<group>"; };
@@ -735,6 +737,13 @@
 			name = placesSelector;
 			sourceTree = "<group>";
 		};
+		413B8F0F20596F9000BF1BC3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		413FCCCF1FD70E0F008F23E3 /* waspy_avatar */ = {
 			isa = PBXGroup;
 			children = (
@@ -790,6 +799,7 @@
 		4172FDC220581C4700F30907 /* Mapa */ = {
 			isa = PBXGroup;
 			children = (
+				4172FDC52058263900F30907 /* paintMarkers.swift */,
 			);
 			name = Mapa;
 			sourceTree = "<group>";
@@ -1003,6 +1013,7 @@
 		41B7195A1F069C9C00A42014 /* flayy */ = {
 			isa = PBXGroup;
 			children = (
+				413B8F0F20596F9000BF1BC3 /* Models */,
 				41776EC91F7D3D94001A0E55 /* Waspy */,
 				417F8A181F28EC4E00C4AE58 /* Design */,
 				4183E4D31F0D5CF700ECBED4 /* Hdlrs */,
@@ -1720,6 +1731,7 @@
 				4101DCDC1F13D56C0096FC84 /* Three.swift in Sources */,
 				410837011F1CFED800F929F4 /* gruposSelectViewController.swift in Sources */,
 				41C2CF331F20F128008F8370 /* PlacesMapViewController.swift in Sources */,
+				4172FDC62058263900F30907 /* paintMarkers.swift in Sources */,
 				41FCE9561FBB6AF1007A1A98 /* registerViewController.swift in Sources */,
 				41F01B28200E8068006D9E05 /* alertMarker.swift in Sources */,
 				41E30FB0204710A000A6A4AB /* KeychainPasswordItem.swift in Sources */,

@@ -132,7 +132,7 @@ class FCmNotifications {
             print(code)
             firebaseManager.init().unsuscribeGroups(code: code,
                                                     phone: self.userD.string(forKey: "OwnerPhone")!,
-                                                    kill: false)
+                                                    kill: true)
         }
         
         if msgType == "whereAreYou"

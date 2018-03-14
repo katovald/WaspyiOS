@@ -24,7 +24,6 @@ class MemberDataTableViewCell: UITableViewCell {
     }
     
     @IBAction func goAway(_ sender: Any) {
-        firebaseManager.init().unsuscribeGroups(code: code, phone: phone.text!, kill: false)
         let aux = UserDefaults.standard.array(forKey: "MiembrosAuxiliares") as! [[String:[String:Any]]]
         var aux2 = [[String:[String:Any]]]()
         for member in aux
@@ -38,6 +37,7 @@ class MemberDataTableViewCell: UITableViewCell {
         UserDefaults.standard.set(aux2, forKey: "MiembrosAuxiliares")
         self.removeFromSuperview()
         superview?.reloadInputViews()
+        NotificationCenter.default.post(notification: .groupsChanges)
     }
     
     func membersInit (pic: UIImage, datos: String, phone: String, ad: Bool, adminGroup: Bool, group: String)

@@ -69,6 +69,10 @@ class waspyPlaceMarker: GMSMarker {
         self.circ.strokeColor = UIColor(hex: 0x3871B4)
         self.circ.map = view
     }
+    
+    func deleteCircle(){
+        self.circ.map = nil
+    }
 }
 
 extension waspyPlaceMarker{

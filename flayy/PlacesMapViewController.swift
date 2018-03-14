@@ -30,8 +30,10 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
         var locValue: CLLocationCoordinate2D!
         
         if data.count > 0{
-            let coordinates = data["l"] as? [Double] ?? [LocationServices.init().getLocationCoord().latitude,LocationServices.init().getLocationCoord().longitude]
-            locValue = CLLocationCoordinate2D(latitude: coordinates[0], longitude: coordinates[1])
+            let coordinates = data["l"] as? [Double] ?? [LocationServices.init().getLocationCoord().latitude,
+                 LocationServices.init().getLocationCoord().longitude]
+            locValue = CLLocationCoordinate2D(latitude: coordinates[0],
+                                              longitude: coordinates[1])
             location = waspyPlaceMarker(name: data["place_name"] as? String ?? "",
                                         address: data["address"] as? String ?? "",
                                         radio: data["radio"] as? Int ?? 100,
@@ -53,7 +55,7 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
         
         self.view = mapView
         
-        NotificationCenter.default.add(observer: self, selector: #selector(updateIcon), notification: .placesChanges)
+        NotificationCenter.default.add(observer: self, selector: #selector(updateIcon), notification: .placeConfig)
         NotificationCenter.default.add(observer: self, selector: #selector(finishData), notification: .getPlaceData)
         NotificationCenter.default.add(observer: self, selector: #selector(setIconView), notification: .findAddress)
     }
@@ -77,7 +79,6 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         location.updateMarker(coordinates: position.target, degrees: 0, duration: 0.2)
         self.userD.set([key:location.getData()], forKey: "EditingPlace")
-        NotificationCenter.default.post(notification: .placesChanges)
     }
     
     @objc func finishData() {
@@ -86,15 +87,13 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
     
     @objc func setIconView() {
         let punto = userD.object(forKey: "PointCoordinate") as! [String:CLLocationDegrees]
-        let coordeadas = CLLocationCoordinate2D(latitude: punto["lat"]!, longitude: punto["long"]!)
-        location.updateMarker(coordinates: coordeadas, degrees: 0, duration: 0.2)
-        let pos = GMSCameraPosition(target: coordeadas, zoom: 15.0, bearing: -15, viewingAngle: 45)
+        let coordenadas = CLLocationCoordinate2D(latitude: punto["lat"]!, longitude: punto["long"]!)
+        location.updateMarker(coordinates: coordenadas, degrees: 0, duration: 0.2)
+        let pos = GMSCameraPosition(target: coordenadas, zoom: 15.0, bearing: -15, viewingAngle: 45)
         self.mapa = self.view as! GMSMapView!
         mapa.animate(to: pos)
         self.view = mapa
         self.userD.set([key:location.getData()], forKey: "EditingPlace")
-        NotificationCenter.default.post(notification: .placesChanges)
     }
-    
 }
 

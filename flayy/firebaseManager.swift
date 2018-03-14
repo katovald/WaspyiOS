@@ -751,7 +751,6 @@ public class firebaseManager {
                 aux["place_name"] = place["place_name"] as! String
                 
                 let location = place["l"]
-
                 aux["l"] = location
                 aux["radio"] = place["radio"]
                 

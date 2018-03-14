@@ -42,7 +42,9 @@ class PlacesViewController: UIViewController {
     }
     
     @objc func updateData(){
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: {
+            NotificationCenter.default.post(notification: .placesChanges)
+        })
     }
 }
 
@@ -64,7 +66,6 @@ extension PlacesViewController: UITableViewDataSource{
 extension PlacesViewController: UITableViewDelegate{
     func  tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         userD.set(places[indexPath.row], forKey: "EditingPlace")
-        NotificationCenter.default.post(notification: .editPlace)
         performSegue(withIdentifier: "configuracionLugares", sender: nil)
     }
 }

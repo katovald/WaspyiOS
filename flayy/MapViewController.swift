@@ -12,6 +12,7 @@ import GeoFire
 import FirebaseMessaging
 import FirebaseAuth
 import BWWalkthrough
+import GoogleMaps
 
 protocol MenuActionDelegate {
     func openSegue(_ segueName: String, sender: AnyObject?)
@@ -31,9 +32,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     var fixed = true
     
-    //@IBOutlet weak var addressText: UITextField!
-    //@IBOutlet weak var searchAddress: Rounded!
-    //@IBOutlet weak var lugares: UIButton!
     @IBOutlet weak var memberList: UIButton!
     @IBOutlet weak var center: UIButton!                //boton para centrar el mapa en tu posicion original
     @IBOutlet weak var dron: Rounded!                  //modalidad de dron
@@ -212,9 +210,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        addressText.isHidden = true
-//        searchAddress.isHidden = true
-//        lugares.isHidden = true
         plusBut.isHidden = true
         self.agression.isHidden = true    //// type 1
         self.agressionlbl.isHidden = true
@@ -229,8 +224,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         animationHide()
         userD.set(true, forKey: "InstaledBefore")
         self.phone = userD.string(forKey: "OwnerPhone")
-        print(self.phone)
-        print(self.userD.string(forKey: "ActualGroup") ?? "")
         firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
                 if inSystem
                 {

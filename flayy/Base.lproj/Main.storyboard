@@ -2203,7 +2203,7 @@
             </objects>
             <point key="canvasLocation" x="652.5" y="-355.98591549295776"/>
         </scene>
-        <!--Map Controller-->
+        <!--Delegate-->
         <scene sceneID="eb7-wT-smU">
             <objects>
                 <viewController id="aFx-FK-3js" customClass="MapController" customModule="flayy" customModuleProvider="target" sceneMemberID="viewController">
@@ -2211,11 +2211,14 @@
                         <viewControllerLayoutGuide type="top" id="sQh-pD-oAY"/>
                         <viewControllerLayoutGuide type="bottom" id="iUs-TP-jkM"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Nxf-6P-W4L">
+                    <view key="view" contentMode="scaleToFill" id="Nxf-6P-W4L" customClass="GMSMapView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
+                        <connections>
+                            <outlet property="delegate" destination="aFx-FK-3js" id="vgs-Db-42C"/>
+                        </connections>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jk8-NC-Zfi" userLabel="First Responder" sceneMemberID="firstResponder"/>
