@@ -32,49 +32,44 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     
     var timer = Timer()
     var timer1 = Timer()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.add(observer: self, selector: #selector(updateOwnerMarkerPhoto), notification: .userDataChange)
+        NotificationCenter.default.add(observer: self, selector: #selector(centerView), notification: .fxCameraMap)
+        NotificationCenter.default.add(observer: self, selector: #selector(changeInfo), notification: .groupsChanges)
+        NotificationCenter.default.add(observer: self, selector: #selector(locateUser), notification: .findUser)
+        NotificationCenter.default.add(observer: self, selector: #selector(updateFences), notification: .placesChanges)
+        NotificationCenter.default.add(observer: self, selector: #selector(turnAlertsOnOFF), notification: .alert)
+        NotificationCenter.default.add(observer: self, selector: #selector(presetnDialog), notification: .pushAlert)
+        NotificationCenter.default.add(observer: self, selector: #selector(turnEdit), notification: .tryToPush)
+        NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: .UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: .UIApplicationDidBecomeActive, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.remove(observer: self, notification: .userDataChange)
+        NotificationCenter.default.remove(observer: self, notification: .fxCameraMap)
+        NotificationCenter.default.remove(observer: self, notification: .groupsChanges)
+        NotificationCenter.default.remove(observer: self, notification: .findUser)
+        NotificationCenter.default.remove(observer: self, notification: .placesChanges)
+        NotificationCenter.default.remove(observer: self, notification: .alert)
+        NotificationCenter.default.remove(observer: self, notification: .pushAlert)
+        NotificationCenter.default.remove(observer: self, notification: .tryToPush)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         ownerPhone = userD.string(forKey: "OwnerPhone")
-        self.onBackground = true
+        self.onBackground = UIApplication.shared.applicationState == .active
         fixed = false
         putAlert = false
         onBackground = true
         
+        handleLocationAuthorizationStatus(status:  CLLocationManager.authorizationStatus())
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
-        if #available(iOS 11.0, *) {
-            locationManager.showsBackgroundLocationIndicator = false
-        } else {
-            // Fallback on earlier versions
-        }
-        locationManager.distanceFilter = 5.0
+        locationManager.distanceFilter = 10.0
         locationManager.delegate = self
-        
-        getLocation()
-        initWaspy()
-        
-        NotificationCenter.default.add(observer: self, selector: #selector(updateOwnerMarkerPhoto), notification: .userDataChange)
-        
-        NotificationCenter.default.add(observer: self, selector: #selector(centerView), notification: .fxCameraMap)
-        
-        NotificationCenter.default.add(observer: self, selector: #selector(changeInfo), notification: .groupsChanges)
-        
-        NotificationCenter.default.add(observer: self, selector: #selector(locateUser), notification: .findUser)
-        
-        NotificationCenter.default.add(observer: self, selector: #selector(updateFences), notification: .placesChanges)
-        
-        NotificationCenter.default.add(observer: self, selector: #selector(turnAlertsOnOFF), notification: .alert)
-        
-        NotificationCenter.default.add(observer: self, selector: #selector(presetnDialog), notification: .pushAlert)
-        
-        NotificationCenter.default.add(observer: self, selector: #selector(turnEdit), notification: .tryToPush)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: .UIApplicationWillResignActive, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: .UIApplicationDidBecomeActive, object: nil)
-
     }
     
     @objc func turnEdit(){
@@ -283,11 +278,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
             draw.updateAlerts(center: self.getCenterCoordinate(), radius: self.getRadius())
         }
     }
-    
-    func getLocation() {
-        let status = CLLocationManager.authorizationStatus()
-        handleLocationAuthorizationStatus(status: status)
-    }
+
     
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -370,7 +361,7 @@ extension MapController : CLLocationManagerDelegate{
             stopMonitoring()
         case .authorizedAlways:
             locationManager.startUpdatingLocation()
-            startMonitoring()
+            initWaspy()
         case .denied:
             statusDeniedAlert()
             stopMonitoring()
@@ -401,6 +392,7 @@ extension MapController {
                 firebaseManager.init().getGroupMembersInfo(code: groupCode, completion: {(members) in
                     self.userD.set(members, forKey: "MembersActiveGroup")
                     self.draw.updateMembers()
+                    self.draw.updateFences()
                 })
             }
         }

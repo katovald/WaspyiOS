@@ -80,7 +80,6 @@ public class firebaseManager {
             }else{
                 completion(true)
             }
-            
         })
     }
     
@@ -118,10 +117,12 @@ public class firebaseManager {
         self.reference.child("groups/" + code + "/group_info/group_name").setValue(name)
     }
     
-    public func setUserSetting( name: String){
+    public func setUserSetting(name: String){
         guard let phone = userD.string(forKey: "OwnerPhone") else {return}
+        guard let mail = userD.string(forKey: "OwnerMail") else {return}
         self.reference.child("accounts/" + phone + "/name").setValue(name)
         self.reference.child("accounts/" + phone + "/phone").setValue(phone)
+        self.reference.child("accounts/" + phone + "/mail").setValue(mail)
         self.reference.child("accounts/" + phone + "/user_groups/groups/").observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? [String:String] ?? [:]
             let keys = value.keys
@@ -218,7 +219,7 @@ public class firebaseManager {
                           "phone" : phone,
                           "rol" : "admin",
                           "visibility" : true,
-                          "photo_url": self.userD.string(forKey: "OwnerDownloadURL")!,
+                          "photo_url": self.userD.string(forKey: "OwnerDownloadURL") ?? "",
                           "geoFence_Notifications": ["geoFence_enter":true,
                                                      "geoFence_exit":true]] as [String : Any]
             
@@ -262,7 +263,6 @@ public class firebaseManager {
             Messaging.messaging().subscribe(toTopic: groupCode + "_enter")
             Messaging.messaging().subscribe(toTopic: groupCode + "_exit")
             Messaging.messaging().subscribe(toTopic: groupCode + "_alert")
-            NotificationCenter.default.post(notification: .groupsChanges)
             NotificationCenter.default.post(notification: .groupCreated)
         }
     }
@@ -481,34 +481,37 @@ public class firebaseManager {
         fileStorage.child(phone + ".png").putData(imageData,
                                                   metadata: metadata,
                                                   completion: { (metadataFB, error) in
-            guard metadataFB != nil else {
-                completion()
-                return
-            }
-            self.reference.child("accounts/" + phone + "/photo_url").setValue(metadataFB?.downloadURL()?.absoluteString)
-            self.userD.set(metadataFB?.downloadURL()?.absoluteString, forKey: "OwnerDownloadURL")
-            
-            var auxMembersInfo = self.userD.array(forKey: "MembersActiveGroup") ?? []
-            if (auxMembersInfo.count == 0)
-            {
+            if metadataFB != nil {
+                self.reference.child("accounts/" + phone + "/photo_url").setValue(metadataFB?.downloadURL()?.absoluteString)
+                self.userD.set(metadataFB?.downloadURL()?.absoluteString, forKey: "OwnerDownloadURL")
                 
-            }else{
-                for key in 0...auxMembersInfo.count - 1
+                var auxMembersInfo = self.userD.array(forKey: "MembersActiveGroup") ?? []
+                if (auxMembersInfo.count == 0)
                 {
-                    let member = auxMembersInfo[key] as! [String:[String:Any]]
-                    if member.first?.key == phone
+                    
+                }else{
+                    for key in 0...auxMembersInfo.count - 1
                     {
-                        var data = member.first?.value
-                        data!["photo_url"] = metadataFB?.downloadURL()?.absoluteString
-                        auxMembersInfo[key] = [phone:data]
-                        self.userD.set(auxMembersInfo, forKey: "MembersActiveGroup")
+                        let member = auxMembersInfo[key] as! [String:[String:Any]]
+                        if member.first?.key == phone
+                        {
+                            var data = member.first?.value
+                            data!["photo_url"] = metadataFB?.downloadURL()?.absoluteString
+                            auxMembersInfo[key] = [phone:data]
+                            self.userD.set(auxMembersInfo, forKey: "MembersActiveGroup")
+                        }
                     }
+                    
                 }
-               
+                NotificationCenter.default.post(notification: .userDataChange)
+                completion()
+            } else {
+                self.reference.child("accounts/" + phone + "/photo_url").setValue("")
+                
+                completion()
             }
-                                                    NotificationCenter.default.post(notification: .userDataChange)
-                                                     completion()
         })
+            
     }
     
     public func saveOwnerPhoto(photo: UIImage, phone: String){
@@ -575,7 +578,7 @@ public class firebaseManager {
             return
         }
 
-        let ownerGroups = self.userD.array(forKey: "OwnerGroups") as! [[String:String]]
+        guard let ownerGroups = self.userD.array(forKey: "OwnerGroups") as? [[String:String]] else {return}
             for code in ownerGroups{
                 self.dataExistence(search: (code.first?.key)!, type: .group, completion: { (response) in
                     if response {
@@ -619,13 +622,13 @@ public class firebaseManager {
             {
                 self.userD.set(value["name"] as! String, forKey: "OwnerName")
                 self.userD.set(value["phone"] as! String, forKey: "OwnerPhone")
-                self.userD.set(value["photo_url"] as! String, forKey: "OwnerDownloadURL")
                 let urlDownload = value["photo_url"] as? String ?? ""
                 if urlDownload != ""{
                     self.getMemberPhotoFB(phone: phone)
+                    self.userD.set(value["photo_url"] as! String, forKey: "OwnerDownloadURL")
                 }
-                let usergroupsinfo = value["user_groups"] as! NSDictionary
-                let usergroups = usergroupsinfo["groups"] as! [String:String]
+                let usergroupsinfo = value["user_groups"] as? NSDictionary ?? [:]
+                let usergroups = usergroupsinfo["groups"] as? [String:String] ?? [:]
                 var gruposAux = [[String:String]]()
                 if usergroups.keys.count == 0 {
                     self.createUserGroups(name: "Mi Grupo")
@@ -633,18 +636,21 @@ public class firebaseManager {
                     for key in usergroups.keys{
                         gruposAux.append([key:usergroups[key]!])
                     }
+                    
                     self.userD.set(gruposAux, forKey: "OwnerGroups")
-                    let actualgroupc = usergroups.first?.key
-                    let actualgroupn = usergroups.first?.value
-                    self.userD.set(actualgroupc, forKey: "ActualGroup")
-                    self.userD.set(actualgroupn, forKey: "ActualGroupTitle")
+                    if self.userD.string(forKey: "ActualGroup") == nil{
+                        let actualgroupc = usergroups.first?.key
+                        let actualgroupn = usergroups.first?.value
+                        self.userD.set(actualgroupc, forKey: "ActualGroup")
+                        self.userD.set(actualgroupn, forKey: "ActualGroupTitle")
+                    }
                     
                     self.getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: { (members) in
                         self.userD.set(members, forKey: "MembersActiveGroup")
-                        self.getPlaces(group: actualgroupc!, completion: {(list) in
+                        self.getPlaces(group: self.userD.string(forKey: "ActualGroup")!, completion: {(list) in
                             self.userD.set(list, forKey: "ActualGroupPlaces")
                             NotificationCenter.default.post(notification: .logIn)
-                            NotificationCenter.default.post(notification: .placesChanges)
+                            NotificationCenter.default.post(notification: .groupsChanges)
                         })
                     })
                 }

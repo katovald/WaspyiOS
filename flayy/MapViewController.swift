@@ -84,8 +84,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
             alertBtn = true
             memberList.isHidden = false
             flechaArriba.isHidden = false
-            //searchAddress.isHidden = true
-            //lugares.isHidden = true
             NotificationCenter.default.post(notification: .alert)
             dron.setImage(UIImage(named: "map.i3a.png"), for: .normal)
             center.setImage(UIImage(named:"map-focus.png"), for: .normal)
@@ -95,8 +93,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         }else{
             memberList.isHidden = true
             flechaArriba.isHidden = true
-//            searchAddress.isHidden = false
-//            lugares.isHidden = false
             NotificationCenter.default.post(notification: .alert)
             dron.setImage(UIImage(named: "map-a1shadowldpi.png"), for: .normal)
             center.setImage(UIImage(named:"gps-navi-arrow-512.png"), for: .normal)
@@ -139,6 +135,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     }
     
     @objc func presentInvite(){
+        NotificationCenter.default.post(notification: .groupsChanges)
         let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyBoard.instantiateViewController(withIdentifier: "InviteView") as! InviteViewController
         vc.modalPresentationStyle = .popover
@@ -206,11 +203,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     /////
     /////
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.add(observer: self, selector: #selector(changedGroup), notification: .groupsChanges)
+        NotificationCenter.default.add(observer: self, selector: #selector(showWT), notification: .helpMe)
+        NotificationCenter.default.add(observer: self, selector: #selector(presentInvite), notification: .groupCreated)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        plusBut.isHidden = true
+        self.plusBut.isHidden = true
+        self.marker.isHidden = true
         self.agression.isHidden = true    //// type 1
         self.agressionlbl.isHidden = true
         self.harassment.isHidden = true  //// type 2
@@ -221,24 +223,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         self.bikerlbl.isHidden = true
         self.robbery.isHidden = true    ////type 5
         self.robberylbl.isHidden = true
-        animationHide()
-        userD.set(true, forKey: "InstaledBefore")
+        
         self.phone = userD.string(forKey: "OwnerPhone")
-        firebaseManager.init().userExist(phone: phone, completion: { (inSystem) in
-                if inSystem
-                {
-                    firebaseManager.init().setUserRegToken()
-                    firebaseManager.init().getOwnerData(phone: self.phone)
-                }else{
-                    self.performSegue(withIdentifier: "datosUsuario", sender: self)
-                }
-            })
         
-        self.titleBar.title = userD.string(forKey: "ActualGroupTitle") ?? ""
-        
-        NotificationCenter.default.add(observer: self, selector: #selector(changedGroup), notification: .groupsChanges)
-        NotificationCenter.default.add(observer: self, selector: #selector(showWT), notification: .helpMe)
-        NotificationCenter.default.add(observer: self, selector: #selector(presentInvite), notification: .groupCreated)
+        if userD.string(forKey: "OwnerName") != nil{
+            firebaseManager.init().setUserRegToken()
+            firebaseManager.init().getOwnerData(phone: self.phone)
+        } else {
+            self.performSegue(withIdentifier: "datosUsuario", sender: self)
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.remove(observer: self, notification: .groupsChanges)
+        NotificationCenter.default.remove(observer: self, notification: .helpMe)
+        NotificationCenter.default.remove(observer: self, notification: .groupCreated)
     }
 
     @objc func changedGroup(){

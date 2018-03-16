@@ -120,6 +120,12 @@ class PlacesConfigViewController: UIViewController {
     var userD:UserDefaults = UserDefaults.standard
     var place = [String:[String:Any]]()
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.add(observer: self, selector: #selector(changeAddress), notification: .findAddress)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -180,9 +186,6 @@ class PlacesConfigViewController: UIViewController {
             }
         }
         setIcon(icono: icono)
-        NotificationCenter.default.add(observer: self, selector: #selector(changeAddress), notification: .findAddress)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         //Do any additional setup after loading the view.
     }
     

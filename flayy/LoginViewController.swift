@@ -104,6 +104,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
                             attempt.registerAttempt(completion: { (success) in
                                 if success {
                                     self.stopLoading()
+                                    self.userD.set(self.ownerPhone, forKey: "OwnerPhone")
+                                    self.userD.set(correo, forKey: "OwnerMail")
                                     self.performSegue(withIdentifier: "InicioApp", sender: self)
                                 }else{
                                     self.stopLoading()

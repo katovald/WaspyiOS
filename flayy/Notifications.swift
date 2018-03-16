@@ -29,6 +29,7 @@ enum notificationType: String {
     case turnOnPush
     case placeConfig
     case finishTask
+    case dataLoaded
 }
 
 extension NotificationCenter {
@@ -42,5 +43,8 @@ extension NotificationCenter {
               object: Any? = nil, userInfo: [AnyHashable: Any]? = nil) {
         post(name: NSNotification.Name(rawValue: notification.rawValue),
              object: object, userInfo: userInfo)
+    }
+    func remove(observer: Any, notification: notificationType, object: Any? = nil){
+        NotificationCenter.default.removeObserver(self, name: Notification.Name(notification.rawValue), object: object)
     }
 }

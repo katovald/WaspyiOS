@@ -23,6 +23,7 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
     var keyboardHigth:CGFloat = 0.0
     let user = Auth.auth().currentUser!
     let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
+    var first:Bool!
 
     @IBOutlet weak var Salir: UIBarButtonItem!
     @IBOutlet weak var userPhoto: UIImageView!
@@ -38,13 +39,23 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
                 firebaseManager.init().setUserSetting(name: self.nameText.text!)
                 self.userD.set(self.nameText.text, forKey: "OwnerName")
                 self.stopLoading()
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: {
+                    NotificationCenter.default.post(notification: .groupsChanges)
+                    if self.first{
+                        NotificationCenter.default.post(notification: .helpMe)
+                    }
+                })
             }
         }else{
             firebaseManager.init().setUserSetting(name: self.nameText.text!)
             self.userD.set(self.nameText.text, forKey: "OwnerName")
             self.stopLoading()
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: {
+                NotificationCenter.default.post(notification: .groupsChanges)
+                if self.first{
+                    NotificationCenter.default.post(notification: .helpMe)
+                }
+            })
         }
     }
     
@@ -83,6 +94,12 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
         self.nameText.text = self.userD.string(forKey: "OwnerName") ?? ""
         self.phone = self.userD.string(forKey: "OwnerPhone")
         self.userMail.text = user.email ?? ""
+        
+        if self.nameText.text == ""{
+            first = true
+        }else{
+            first = false
+        }
         
         self.userPhoto.image = firebaseManager.init().getMemberPhoto(phone: self.phone)
         editaguarda.tintColor = UIColor.red
