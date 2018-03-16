@@ -51,11 +51,19 @@ class GroupSelectorViewController: UIViewController {
     
     var gruposLista: [[String:String]]!
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.add(observer: self, selector: #selector(groupDeleted), notification: .deleted)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         gruposLista = userD.array(forKey: "OwnerGroups") as! [[String:String]]
         titulo.title = userD.string(forKey: "ActualGroupTitle") ?? ""
-        NotificationCenter.default.add(observer: self, selector: #selector(dataChanged), notification: .groupsChanges)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.remove(observer: self, notification: .deleted)
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,7 +71,7 @@ class GroupSelectorViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @objc func dataChanged(){
+    @objc func groupDeleted(){
         self.dismiss(animated: false, completion: nil)
     }
 }

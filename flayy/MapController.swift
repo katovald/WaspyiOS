@@ -42,8 +42,8 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         NotificationCenter.default.add(observer: self, selector: #selector(turnAlertsOnOFF), notification: .alert)
         NotificationCenter.default.add(observer: self, selector: #selector(presetnDialog), notification: .pushAlert)
         NotificationCenter.default.add(observer: self, selector: #selector(turnEdit), notification: .tryToPush)
-        NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: .UIApplicationWillResignActive, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: .UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(inactive), name: .UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(active), name: .UIApplicationDidBecomeActive, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -60,7 +60,6 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         ownerPhone = userD.string(forKey: "OwnerPhone")
-        self.onBackground = UIApplication.shared.applicationState == .active
         fixed = false
         putAlert = false
         onBackground = true
@@ -68,7 +67,6 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         handleLocationAuthorizationStatus(status:  CLLocationManager.authorizationStatus())
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
-        locationManager.distanceFilter = 10.0
         locationManager.delegate = self
     }
     
@@ -306,8 +304,12 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @objc func willResignActive(){
-        onBackground = !onBackground
+    @objc func inactive(){
+        locationManager.distanceFilter = 60
+    }
+    
+    @objc func active(){
+        locationManager.distanceFilter = 5
     }
     
     func startLoading(){
@@ -338,14 +340,11 @@ extension MapController : CLLocationManagerDelegate{
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        updateLocation()
         if let currentLocation = locations.last {
             if fixed && putAlert {
                 mapa.animate(to: GMSCameraPosition(target: currentLocation.coordinate, zoom: 15, bearing: -15, viewingAngle: 45))
             }
-        }
-        
-        if onBackground {
-            updateDataBG(_coordintates: (manager.location?.coordinate)!, _speed: (manager.location?.speed)!)
         }
     }
     
@@ -376,11 +375,10 @@ extension MapController {
     //[INICIO DE SERVICIO]
         func startMonitoring()
         {
-            timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(startTimer), userInfo: nil, repeats: true)
             timer1 = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
         }
-    
-        @objc func startTimer()
+
+        func updateLocation()
         {
             firebaseManager.init().updateUserLocation()
         }

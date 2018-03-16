@@ -278,7 +278,6 @@
 		41F9C8ED1FBDED9200D79411 /* corersRounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F9C8EC1FBDED9200D79411 /* corersRounded.swift */; };
 		41FCE94F1FBB4600007A1A98 /* menu-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 41FCE94E1FBB4600007A1A98 /* menu-bg.png */; };
 		41FCE9501FBB46E9007A1A98 /* menu-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41FCE9521FBB46E9007A1A98 /* menu-bg@2x.png */; };
-		41FCE9561FBB6AF1007A1A98 /* registerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FCE9551FBB6AF1007A1A98 /* registerViewController.swift */; };
 		41FCE9571FBB7329007A1A98 /* gruposistemas-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 415FEF071FBA1A620024C6F2 /* gruposistemas-bg.png */; };
 		41FFDBCD1FCDE1CB001B70BF /* WalkTViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FFDBCC1FCDE1CB001B70BF /* WalkTViewController.swift */; };
 		41FFDBD01FCE0B1C001B70BF /* CheckInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FFDBCF1FCE0B1C001B70BF /* CheckInViewController.swift */; };
@@ -588,7 +587,6 @@
 		41F9C8EC1FBDED9200D79411 /* corersRounded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = corersRounded.swift; sourceTree = "<group>"; };
 		41FCE94E1FBB4600007A1A98 /* menu-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-bg.png"; sourceTree = "<group>"; };
 		41FCE9511FBB46E9007A1A98 /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = "Base.lproj/menu-bg@2x.png"; sourceTree = "<group>"; };
-		41FCE9551FBB6AF1007A1A98 /* registerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerViewController.swift; sourceTree = "<group>"; };
 		41FFDBCC1FCDE1CB001B70BF /* WalkTViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkTViewController.swift; sourceTree = "<group>"; };
 		41FFDBCF1FCE0B1C001B70BF /* CheckInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInViewController.swift; sourceTree = "<group>"; };
 		41FFDBD11FCE0C69001B70BF /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -735,13 +733,6 @@
 				4129DF551F7EF54D005EE130 /* geoplace_work.png */,
 			);
 			name = placesSelector;
-			sourceTree = "<group>";
-		};
-		413B8F0F20596F9000BF1BC3 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Models;
 			sourceTree = "<group>";
 		};
 		413FCCCF1FD70E0F008F23E3 /* waspy_avatar */ = {
@@ -906,6 +897,7 @@
 		4183E4D31F0D5CF700ECBED4 /* Hdlrs */ = {
 			isa = PBXGroup;
 			children = (
+				41ADFE1F205C1C940086DFE0 /* Sharing */,
 				4172FDC220581C4700F30907 /* Mapa */,
 				41E30FC12048B17C00A6A4AB /* Miscellaneous */,
 				41E30FC02048B16A00A6A4AB /* LocationServices */,
@@ -987,6 +979,13 @@
 			name = paniView;
 			sourceTree = "<group>";
 		};
+		41ADFE1F205C1C940086DFE0 /* Sharing */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Sharing;
+			sourceTree = "<group>";
+		};
 		41B7194F1F069C9C00A42014 = {
 			isa = PBXGroup;
 			children = (
@@ -1013,31 +1012,29 @@
 		41B7195A1F069C9C00A42014 /* flayy */ = {
 			isa = PBXGroup;
 			children = (
-				413B8F0F20596F9000BF1BC3 /* Models */,
 				41776EC91F7D3D94001A0E55 /* Waspy */,
 				417F8A181F28EC4E00C4AE58 /* Design */,
 				4183E4D31F0D5CF700ECBED4 /* Hdlrs */,
 				417F78261F0D4AA600844794 /* Menus */,
 				41CCFCF51F0AB55D00F4AC89 /* flayy.entitlements */,
+				41B719671F069C9C00A42014 /* Info.plist */,
 				410B6F8E1FA8CEBE003CB694 /* GoogleService-Info.plist */,
+				41B7195F1F069C9C00A42014 /* Main.storyboard */,
 				41B7195B1F069C9C00A42014 /* AppDelegate.swift */,
 				41B7195D1F069C9C00A42014 /* LoginViewController.swift */,
-				41B7195F1F069C9C00A42014 /* Main.storyboard */,
-				4104F40B1F200BC800F222B9 /* PlacesConfigViewController.swift */,
-				4104F4031F1FBC6D00F222B9 /* PlacesViewController.swift */,
-				4104F4091F1FE66D00F222B9 /* PlacesMapViewController.swift */,
-				410837041F1D141800F929F4 /* helpViewController.swift */,
-				41B719621F069C9C00A42014 /* Assets.xcassets */,
-				41B719641F069C9C00A42014 /* LaunchScreen.storyboard */,
-				41B719671F069C9C00A42014 /* Info.plist */,
 				41CCFCFA1F0BC5A500F4AC89 /* MapViewController.swift */,
-				41937E471F95316600ADF1BB /* PanicButtonViewController.swift */,
-				41CCFD001F0C0D8200F4AC89 /* userSettings.swift */,
 				417E646F1F16703200DDA8F8 /* MapController.swift */,
-				41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */,
+				41CCFD001F0C0D8200F4AC89 /* userSettings.swift */,
 				41DCA1BA1F743247001B23F4 /* GroupSelectorViewController.swift */,
-				41FCE9551FBB6AF1007A1A98 /* registerViewController.swift */,
+				41C51F5E1F1E8586003B53D1 /* GroupSettingsViewController.swift */,
+				4104F4031F1FBC6D00F222B9 /* PlacesViewController.swift */,
+				4104F40B1F200BC800F222B9 /* PlacesConfigViewController.swift */,
+				4104F4091F1FE66D00F222B9 /* PlacesMapViewController.swift */,
+				41937E471F95316600ADF1BB /* PanicButtonViewController.swift */,
+				410837041F1D141800F929F4 /* helpViewController.swift */,
 				413FCCCD1FD607FF008F23E3 /* FAQViewController.swift */,
+				41B719641F069C9C00A42014 /* LaunchScreen.storyboard */,
+				41B719621F069C9C00A42014 /* Assets.xcassets */,
 			);
 			path = flayy;
 			sourceTree = "<group>";
@@ -1732,7 +1729,6 @@
 				410837011F1CFED800F929F4 /* gruposSelectViewController.swift in Sources */,
 				41C2CF331F20F128008F8370 /* PlacesMapViewController.swift in Sources */,
 				4172FDC62058263900F30907 /* paintMarkers.swift in Sources */,
-				41FCE9561FBB6AF1007A1A98 /* registerViewController.swift in Sources */,
 				41F01B28200E8068006D9E05 /* alertMarker.swift in Sources */,
 				41E30FB0204710A000A6A4AB /* KeychainPasswordItem.swift in Sources */,
 				41CCFD011F0C0D8200F4AC89 /* userSettings.swift in Sources */,

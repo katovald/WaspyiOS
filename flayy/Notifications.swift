@@ -30,6 +30,7 @@ enum notificationType: String {
     case placeConfig
     case finishTask
     case dataLoaded
+    case deleted
 }
 
 extension NotificationCenter {

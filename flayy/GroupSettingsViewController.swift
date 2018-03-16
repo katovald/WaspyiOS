@@ -101,7 +101,7 @@ class GroupSettingsViewController: UIViewController {
                                                             kill: false)
                 }
                 self.dismiss(animated: true, completion:{
-                    NotificationCenter.default.post(notification: .groupsChanges)
+                    NotificationCenter.default.post(notification: .deleted)
                     let newGroup = grupos![0] as! [String:String]
                     self.userD.set(newGroup.first?.key, forKey: "ActualGroup")
                     self.userD.set(newGroup.first?.value, forKey: "ActualGroupTitle")
