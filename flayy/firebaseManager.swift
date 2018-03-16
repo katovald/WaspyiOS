@@ -349,7 +349,7 @@ public class firebaseManager {
         }
     }
     
-    public func saveGroupPlace(code: String, address: String, icon: Int, l: [String:Double], place_name:String, radio: Int){
+    public func saveGroupPlace(code: String, address: String, icon: Int, l: [Double], place_name:String, radio: Int){
         var placeData = [String:Any]()
         placeData["address"] = address
         placeData["icon"] = icon
@@ -360,7 +360,11 @@ public class firebaseManager {
         self.reference.child("groups/" + code + "/group_places").childByAutoId().setValue(placeData)
     }
     
-    public func saveCheckIn(){
+    public func saveCheckIn(point: CLLocation?){
+        guard let locat = point else {
+            return
+        }
+        
         let code = self.userD.string(forKey: "ActualGroup")
         let name = self.userD.string(forKey: "OwnerName")
         let date = Date()    /////18-Oct-2017 10:51:47
@@ -382,22 +386,12 @@ public class firebaseManager {
             String(describing: hour ?? 0) + ":" +
             String(describing: min ?? 0) + ":" +
             String(describing: sec ?? 0)
-        LocationServices.init().getAdress { (locat, speed, address, e) in
-             if let a = address {
-                let kilo = a["FormattedAddressLines"] as! [String]
-            
-                var direccion = ""
-            
-                for index in 0...(kilo.count - 1)
-                {
-                    direccion += kilo[index]
-                    direccion += " "
-                }
-                
-                let checkIn =  ["address":direccion,
-                                "location": ["latitude":locat.latitude,
-                                             "longitude":locat.longitude,
-                                             "speed":speed.magnitude],
+        LocationServices.init().getAdress(location: locat) { (address, e) in
+             if e == nil {
+                let checkIn =  ["address":address!,
+                                "location": ["latitude":locat.coordinate.latitude,
+                                             "longitude":locat.coordinate.longitude,
+                                             "speed":locat.speed.magnitude],
                                 "time":time,
                                 "type":"check_in",
                                 "user":name ?? ""] as [String : Any]
@@ -407,7 +401,12 @@ public class firebaseManager {
         }
     }
     
-    public func savePanicCall(){
+    public func savePanicCall(point: CLLocation?){
+
+        guard let locat = point else {
+            return
+        }
+        
         let code = self.userD.string(forKey: "ActualGroup")
         let name = self.userD.string(forKey: "OwnerName")
         let date = Date()    /////18-Oct-2017 10:51:47
@@ -429,27 +428,17 @@ public class firebaseManager {
             String(describing: hour ?? 0) + ":" +
             String(describing: min ?? 0) + ":" +
             String(describing: sec ?? 0)
-        LocationServices.init().getAdress { (locat, speed, address, e) in
-            if let a = address {
-                let kilo = a["FormattedAddressLines"] as! [String]
-                
-                var direccion = ""
-                
-                for index in 0...(kilo.count - 1)
-                {
-                    direccion += kilo[index]
-                    direccion += " "
-                }
-                
-                let checkIn =  ["address":direccion,
-                                "location": ["latitude":locat.latitude,
-                                             "longitude":locat.longitude,
-                                             "speed":speed.magnitude],
+        LocationServices.init().getAdress(location: locat) { (address, e) in
+            if e == nil {
+                let panic =  ["address":address!,
+                                "location": ["latitude":locat.coordinate.latitude,
+                                             "longitude":locat.coordinate.longitude,
+                                             "speed":locat.speed.magnitude],
                                 "time":time,
-                                "type":"panic_button",
-                                "user":name!] as [String : Any]
+                                "type":"check_in",
+                                "user":name ?? ""] as [String : Any]
                 
-                self.reference.child("groups/" + code! + "/group_check_in/").child(result).setValue(checkIn)
+                self.reference.child("groups/" + code! + "/group_check_in/").child(result).setValue(panic)
             }
         }
     }
@@ -527,43 +516,27 @@ public class firebaseManager {
         userD.set(visible, forKey: "VisibleInActualGroup")
     }
     
-    public func updateUserLocation()
+    public func updateUserLocation(location: CLLocation)
     {
         guard let phone = self.userD.string(forKey: "OwnerPhone")
             else {return}
-        let name = self.userD.string(forKey: "OwnerName") ?? ""
+        guard self.userD.string(forKey: "OwnerName") != nil
+            else { return }
         
-        if phone == "" || name == ""
-        {
-            return
-        }
-        
-        LocationServices.init().getAdress(completion: {coordinades, speed, address, error in
-            if let a = address {
-                let kilo = a["FormattedAddressLines"] as! [String]
-                
-                var direccion = ""
-                
-                for index in 0...(kilo.count - 1)
-                {
-                    direccion += kilo[index]
-                    direccion += " "
-                }
-                
+        LocationServices.init().getAdress(location: location, completion: {address, error in
                 let ownerGroups = self.userD.array(forKey: "OwnerGroups") as? [[String:String]] ?? []
                 for code in ownerGroups {
                     self.dataExistence(search: (code.first?.key)!, type: .group , completion: { (response) in
                         if response{
                             self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
-                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/current_place").setValue(direccion)
-                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
-                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
-                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
+                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/current_place").setValue(address)
+                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/latitude").setValue(location.coordinate.latitude)
+                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/longitude").setValue(location.coordinate.longitude)
+                            self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/speed").setValue(location.speed.magnitude)
                         }
                     })
                 }
-            }
-        })
+            })
     }
     
     public func updateUserLocationBKG(coordinades: CLLocationCoordinate2D, speed: CLLocationSpeed)

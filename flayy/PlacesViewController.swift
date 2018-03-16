@@ -22,6 +22,13 @@ class PlacesViewController: UIViewController {
     let netReach = Reachability()
     var places = [[String:[String:Any]]]()
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.add(observer: self, selector: #selector(updateData), notification: .placesChanges)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.remove(observer: self, notification: .placesChanges)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         places = userD.array(forKey: "ActualGroupPlaces") as? [[String:[String:Any]]] ?? []
@@ -32,7 +39,6 @@ class PlacesViewController: UIViewController {
                 self.userD.set(lugares, forKey: "ActualGroupPlaces")
             })
         }
-        NotificationCenter.default.add(observer: self, selector: #selector(updateData), notification: .placesChanges)
         // Do any additional setup after loading the view.
     }
 

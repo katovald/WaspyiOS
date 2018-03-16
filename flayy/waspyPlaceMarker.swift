@@ -142,8 +142,7 @@ extension waspyPlaceMarker{
         var data = [String:Any]()
         data["address"] = self.adress
         data["icon"] = self.icono
-        data["l"] = ["0":self.position.latitude,
-                     "1":self.position.longitude]
+        data["l"] = [self.position.latitude,self.position.longitude]
         data["place_name"] = self.nombre
         data["radio"] = self.radioGeo
         return data

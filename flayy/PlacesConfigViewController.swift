@@ -49,7 +49,6 @@ class PlacesConfigViewController: UIViewController {
             firebaseManager.init().getPlaces(group: self.userD.string(forKey: "ActualGroup")!, completion: { (places) in
                 self.userD.set(places, forKey: "ActualGroupPlaces")
             })
-            NotificationCenter.default.post(notification: .placesChanges)
         })
     }
     
@@ -73,12 +72,16 @@ class PlacesConfigViewController: UIViewController {
     
     @IBAction func editSave(_ sender: Any) {
         if edicion {
+            if direccion.text == "" {
+                self.showToast(message: "Asignale un nombre")
+                return
+            }
             if (reacNet?.isReachable)! {
                 NotificationCenter.default.post(notification: .getPlaceData)
                 place = userD.dictionary(forKey: "EditingPlace") as! [String : [String : Any]]
                 let key = place.first?.key
                 var data = place.first?.value
-                let location = data!["l"] as! [String:Double]
+                let location = data!["l"] as! [Double]
                 if key! == "none"{
                     firebaseManager.init().saveGroupPlace(code: userD.string(forKey: "ActualGroup")!,
                                                           address: direccion.text!,
@@ -90,12 +93,12 @@ class PlacesConfigViewController: UIViewController {
                     data!["place_name"] = texto.text!
                     firebaseManager.init().updatePlace(code: userD.string(forKey: "ActualGroup")!, key: key!, data: data!)
                 }
-                FCmNotifications.init().send(type: .placesUpdated)
+                FCmNotifications.init().send(type: .placesUpdated, point: nil)
                 blockedView()
                 firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
                 self.dismiss(animated: true, completion: {
                     self.userD.set(nil, forKey: "EditingPlace")
-                    NotificationCenter.default.post(notification: .editPlace)
+                    NotificationCenter.default.post(notification: .placesChanges)
                 })
             }else{
                 showToast(message: "Necesitas Internet para poder guardar")
@@ -121,7 +124,7 @@ class PlacesConfigViewController: UIViewController {
     var place = [String:[String:Any]]()
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.add(observer: self, selector: #selector(changeAddress), notification: .findAddress)
+        NotificationCenter.default.add(observer: self, selector: #selector(changeAddress), notification: .dataLoaded)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -133,19 +136,9 @@ class PlacesConfigViewController: UIViewController {
         if place.count == 0{
             editingView()
             eliminar.isHidden = true
-            LocationServices.init().getAdress(completion: { (coordinate, speed, json, e) in
-                if let a = json {
-                    let kilo = a["FormattedAddressLines"] as! [String]
-                    
-                    var direccion = ""
-                    
-                    for index in 0...(kilo.count - 1)
-                    {
-                        direccion += kilo[index]
-                        direccion += " "
-                    }
-                    
-                    self.direccion.text = direccion
+            LocationServices.init().getAdress(location: CLLocationManager.init().location!, completion: { (address, e) in
+                if e == nil {
+                    self.direccion.text = address
                 } else {
                     self.direccion.text = "Obteniendo direccion..."
                 }
@@ -155,21 +148,12 @@ class PlacesConfigViewController: UIViewController {
         }else{
             let key = place.first?.key
             let value = place.first?.value
-            let point = value!["l"] as? [Double] ?? [LocationServices.init().getLocationCoord().latitude,  LocationServices.init().getLocationCoord().longitude]
+            let point = value!["l"] as? [Double] ??
+                [(CLLocationManager.init().location?.coordinate.latitude)!, (CLLocationManager.init().location?.coordinate.longitude)!]
             if key == "none" {
-                LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point[0], longitude: point[1]), completion: { (json, e) in
-                    if let a = json {
-                        let kilo = a["FormattedAddressLines"] as! [String]
-                        
-                        var direccion = ""
-                        
-                        for index in 0...(kilo.count - 1)
-                        {
-                            direccion += kilo[index]
-                            direccion += " "
-                        }
-                        
-                        self.direccion.text = direccion
+                LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point[0], longitude: point[1]), completion: { (address, e) in
+                    if e == nil {
+                        self.direccion.text = address
                     } else {
                         self.direccion.text = "Obteniendo direccion..."
                     }
@@ -250,19 +234,9 @@ class PlacesConfigViewController: UIViewController {
     {
         let data = self.userD.dictionary(forKey: "EditingPlace") as? [String : [String : Any]] ?? [:]
         guard let point = data.first?.value["l"] as? [Double] else {return}
-        LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point[0], longitude: point[1]) , completion: {(json, e)  in
-            if let a = json {
-                let kilo = a["FormattedAddressLines"] as! [String]
-            
-                var direccion = ""
-            
-                for index in 0...(kilo.count - 1)
-                {
-                    direccion += kilo[index]
-                    direccion += " "
-                }
-            
-                self.direccion.text = direccion
+        LocationServices.init().getPointAddress(point: CLLocationCoordinate2D(latitude: point[0], longitude: point[1]) , completion: {(address, e)  in
+            if e == nil {
+                self.direccion.text = address
             } else {
                 self.direccion.text = "Obteniendo direccion..."
             }

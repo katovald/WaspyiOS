@@ -8,6 +8,7 @@
 
 import Foundation
 import UserNotifications
+import MapKit
 
 enum messageType {
     case enterGeo
@@ -61,9 +62,9 @@ class FCmNotifications {
         kickOutGroup = kickOutCode
     }
     
-    public func send(type: messageType)
+    public func send(type: messageType, point: CLLocation?)
     {
-        self.message(type: type) { (data) in
+        self.message(type: type, point: point) { (data) in
             do {
                 self.request.httpBody = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
                 }catch let error{
@@ -134,11 +135,6 @@ class FCmNotifications {
                                                     phone: self.userD.string(forKey: "OwnerPhone")!,
                                                     kill: true)
         }
-        
-        if msgType == "whereAreYou"
-        {
-            firebaseManager.init().updateUserLocation()
-        }
     }
     
     func convertToDictionary(text: String) -> [String: Any]? {
@@ -169,21 +165,12 @@ class FCmNotifications {
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
-    private func message(type: messageType,completion: @escaping ([String:Any]) -> Void){
+    private func message(type: messageType, point: CLLocation?, completion: @escaping ([String:Any]) -> Void){
         switch type {
         case .checkIn:
-            LocationServices.init().getAdress(completion: { (coordinate, speed, json, e) in
-                if let a = json {
-                    let kilo = a["FormattedAddressLines"] as? [String] ?? [""]
-                    
-                    var direccion = ""
-                    
-                    for index in 0...(kilo.count - 1)
-                    {
-                        direccion += kilo[index]
-                        direccion += " "
-                    }
-                    firebaseManager.init().saveCheckIn()
+            LocationServices.init().getAdress(location: point!, completion: { (address, e) in
+                if e == nil {
+                    firebaseManager.init().saveCheckIn(point: point!)
                     completion([ "to": "/topics/\(self.actualGroup)_alert",
                         "content_available":true,
                         "data" : [
@@ -191,7 +178,7 @@ class FCmNotifications {
                             "body" : [
                                 "title" : self.ownerName,
                                 "body" : "Ha hecho un Check In",
-                                "location" : direccion
+                                "location" : address
                             ],
                             "sender": self.ownerPhone
                         ]
@@ -245,18 +232,9 @@ class FCmNotifications {
                     as [String : Any])
             }
         case .panicChechIn:
-            LocationServices.init().getAdress(completion: { (coordinate, speed, json, e) in
-                if let a = json {
-                    let kilo = a["FormattedAddressLines"] as? [String] ?? [""]
-                    
-                    var direccion = ""
-                    
-                    for index in 0...(kilo.count - 1)
-                    {
-                        direccion += kilo[index]
-                        direccion += " "
-                    }
-                    firebaseManager.init().savePanicCall()
+            LocationServices.init().getAdress(location: point!, completion: { (address, e) in
+                if e == nil {
+                    firebaseManager.init().savePanicCall(point: point!)
                     completion([ "to": "/topics/\(self.actualGroup)_alert",
                         "content_available":true,
                         "data" : [
@@ -264,7 +242,7 @@ class FCmNotifications {
                             "body" : [
                                 "title" : self.ownerName,
                                 "body" : "Ha pedido Ayuda",
-                                "location" : direccion
+                                "location" : address
                             ],
                             "sender": self.ownerPhone
                         ]

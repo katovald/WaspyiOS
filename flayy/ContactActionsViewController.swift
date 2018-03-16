@@ -59,7 +59,7 @@ class ContactActionsViewController: UIViewController, MFMessageComposeViewContro
     }
     
     @IBAction func checkIN(_ sender: Any) {
-        FCmNotifications.init(phone: contactPhone, kickOutCode: "").send(type: .doCheckIn)
+        FCmNotifications.init(phone: contactPhone, kickOutCode: "").send(type: .doCheckIn, point: nil)
         self.dismiss(animated: false, completion: nil)
     }
     /*

@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import MapKit
 
 class CheckInViewController: UIViewController {
 
     let userD :UserDefaults = UserDefaults.standard
     var address:String = ""
+    var point:CLLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +29,9 @@ class CheckInViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     @IBAction func triggerCheckIn(_ sender: Any) {
-        FCmNotifications.init().send(type: .checkIn)
+        if point != nil{
+            FCmNotifications.init().send(type: .checkIn, point: point)
+        }
         dismiss(animated: false, completion: nil)
     }
     

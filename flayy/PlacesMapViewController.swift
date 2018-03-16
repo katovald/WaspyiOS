@@ -30,8 +30,7 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
         var locValue: CLLocationCoordinate2D!
         
         if data.count > 0{
-            let coordinates = data["l"] as? [Double] ?? [LocationServices.init().getLocationCoord().latitude,
-                 LocationServices.init().getLocationCoord().longitude]
+            let coordinates = data["l"] as? [Double] ?? [(CLLocationManager.init().location?.coordinate.latitude)!, (CLLocationManager.init().location?.coordinate.longitude)!]
             locValue = CLLocationCoordinate2D(latitude: coordinates[0],
                                               longitude: coordinates[1])
             location = waspyPlaceMarker(name: data["place_name"] as? String ?? "",
@@ -41,7 +40,7 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
             location.setLocation(location: locValue)
             location.setIconView(icono: data["icon"] as? Int ?? 0)
         }else{
-            locValue = LocationServices.init().getLocationCoord()
+            locValue = CLLocationManager.init().location?.coordinate
             location = waspyPlaceMarker(name: "", address: "", radio: 100, icon: icon)
             location.setLocation(location: locValue)
             location.setIconView(icono: icon)
@@ -63,12 +62,11 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
     @objc func updateIcon(){
         if icon == 9
         {
-            icon = 0
+            icon = 1
         }else{
             icon += 1
         }
         location.updateMarkerIcon(icono: icon)
-        
     }
     
     func setIcon(icon:Int){
@@ -80,6 +78,10 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         location.updateMarker(coordinates: position.target, degrees: 0, duration: 0.2)
         self.userD.set([key:location.getData()], forKey: "EditingPlace")
+    }
+    
+    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+        NotificationCenter.default.post(notification: .dataLoaded)
     }
     
     @objc func finishData() {

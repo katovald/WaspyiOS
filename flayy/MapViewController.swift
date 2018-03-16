@@ -104,21 +104,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     
     @IBAction func checkInGroup(_ sender: Any) {
         if (netReach?.isReachable)!{
-            LocationServices.init().getAdress(completion: { (coordinate, speed, json, e) in
-                if let a = json {
-                    let kilo = a["FormattedAddressLines"] as! [String]
-                    
-                    var direccion = ""
-                    
-                    for index in 0...(kilo.count - 1)
-                    {
-                        direccion += kilo[index]
-                        direccion += " "
-                    }
-                    
+            LocationServices.init().getAdress(location: CLLocationManager.init().location!, completion: { (address, e) in
+                if e == nil {
                     let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyboard.instantiateViewController(withIdentifier: "checkInBTN") as! CheckInViewController
-                    vc.address = direccion
+                    vc.address = address!
+                    vc.point = CLLocationManager.init().location!
                     let width = self.view.frame.width/4
                     vc.preferredContentSize = CGSize(width: 3 * width, height: 3 * width)
                     vc.modalPresentationStyle = .popover

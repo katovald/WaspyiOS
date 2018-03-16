@@ -263,11 +263,11 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        FCmNotifications.init().send(type: .enterGeo)
+        FCmNotifications.init().send(type: .enterGeo, point: nil)
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        FCmNotifications.init().send(type: .exitGeo)
+        FCmNotifications.init().send(type: .exitGeo, point: nil)
     }
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
@@ -340,7 +340,7 @@ extension MapController : CLLocationManagerDelegate{
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        updateLocation()
+        firebaseManager.init().updateUserLocation(location: locations.last!)
         if let currentLocation = locations.last {
             if fixed && putAlert {
                 mapa.animate(to: GMSCameraPosition(target: currentLocation.coordinate, zoom: 15, bearing: -15, viewingAngle: 45))
@@ -376,11 +376,6 @@ extension MapController {
         func startMonitoring()
         {
             timer1 = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
-        }
-
-        func updateLocation()
-        {
-            firebaseManager.init().updateUserLocation()
         }
     
         @objc func updateData()

@@ -9,6 +9,7 @@
 import UIKit
 import MessageUI
 import ContactsUI
+import MapKit
 
 class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMessageComposeViewControllerDelegate {
     
@@ -102,22 +103,11 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        LocationServices.init().getAdress { (coord, speed, adreess, e) in
-            if let a = adreess {
-                let kilo = a["FormattedAddressLines"] as! [String]
-                
-                var direccion = ""
-                
-                for index in 0...(kilo.count - 1)
-                {
-                    direccion += kilo[index]
-                    direccion += " "
-                }
-                
-                self.street = direccion
+        LocationServices.init().getAdress(location: CLLocationManager.init().location!) { (adreess, e) in
+            if e == nil {
+                self.street = adreess
             }
         }
-        
         getContacts()
         // Do any additional setup after loading the view.
     }
@@ -185,7 +175,7 @@ class PanicButtonViewController: UIViewController, CNContactPickerDelegate, MFMe
         }
         if (reachNet?.isReachable)!
         {
-            FCmNotifications.init().send(type: .panicChechIn)
+            FCmNotifications.init().send(type: .panicChechIn, point: CLLocationManager.init().location!)
         }
     }
     
