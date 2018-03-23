@@ -48,7 +48,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Assign the marker image for your account.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Core Functions Of Searching people, can turn off presenting info to others</string>
+	<string>La usamos para mantener informados a tus contactos de tu ubicacion real, puedes apagarla en el menu de grupos, seguiremos transmitiendola pero ellos no la veran.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This app purpose is to know the exact location of the people in your groups, we need to constantly update this data to have it at real time</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

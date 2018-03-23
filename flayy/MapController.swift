@@ -97,14 +97,18 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     }
     
     @objc func changeInfo(){
-        self.mapa.clear()
-        self.view = mapa
-        startLoading()
-        draw.deleteMembers()
-        draw.deleteFences()
-        draw.drawMembers()
-        draw.drawFences()
-        stopLoading()
+        if self.mapa != nil {
+            self.mapa.clear()
+            self.view = mapa
+            startLoading()
+            draw.deleteMembers()
+            draw.deleteFences()
+            draw.drawMembers()
+            draw.drawFences()
+            stopLoading()
+        }else{
+            self.mapa = GMSMapView()
+        }
     }
     
     @objc func turnAlertsOnOFF()
@@ -273,10 +277,9 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         if alertas
         {
-            draw.updateAlerts(center: self.getCenterCoordinate(), radius: self.getRadius())
+            draw?.updateAlerts(center: self.getCenterCoordinate(), radius: self.getRadius())
         }
     }
-
     
     func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

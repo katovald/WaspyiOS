@@ -346,7 +346,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/firebaseManager.swift"
-                  timestampString = "542925151.23014"
+                  timestampString = "543511257.644278"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "65"
@@ -361,7 +361,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/firebaseManager.swift"
-                  timestampString = "542925151.232264"
+                  timestampString = "543511257.646287"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "66"
@@ -634,7 +634,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/firebaseManager.swift"
-                  timestampString = "542925151.292176"
+                  timestampString = "543511257.705621"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "477"
@@ -649,7 +649,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/firebaseManager.swift"
-                  timestampString = "542925151.294185"
+                  timestampString = "543511257.707603"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "477"
@@ -794,7 +794,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/FCMNotifications.swift"
-                  timestampString = "542925151.331893"
+                  timestampString = "543511257.738281"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "67"
@@ -809,7 +809,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/FCMNotifications.swift"
-                  timestampString = "542925151.334421"
+                  timestampString = "543511257.74026"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "69"
@@ -954,7 +954,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/FCMNotifications.swift"
-                  timestampString = "542925151.507861"
+                  timestampString = "543511257.7708991"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "74"
@@ -969,7 +969,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/FCMNotifications.swift"
-                  timestampString = "542925151.50984"
+                  timestampString = "543511257.7729011"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "75"
@@ -1002,7 +1002,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/FCMNotifications.swift"
-                  timestampString = "542925151.513965"
+                  timestampString = "543511257.777318"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "74"
@@ -1017,7 +1017,7 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/FCMNotifications.swift"
-                  timestampString = "542925151.515883"
+                  timestampString = "543511257.77932"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "75"
@@ -1338,189 +1338,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "flayy/MapController.swift"
-            timestampString = "542925150.860723"
+            timestampString = "543511257.3080029"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "turnAlertsOnOFF()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/MapController.swift"
-            timestampString = "542925150.861007"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "turnAlertsOnOFF()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/MapController.swift"
-            timestampString = "542925150.861228"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "turnAlertsOnOFF()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/MapController.swift"
-            timestampString = "542925150.861445"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "turnAlertsOnOFF()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/MapController.swift"
-            timestampString = "542925150.86166"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
-            landmarkName = "turnAlertsOnOFF()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/MapController.swift"
-            timestampString = "542925150.861874"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "turnAlertsOnOFF()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/paintMarkers.swift"
-            timestampString = "542925150.86209"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "drawAlerts(center:radius:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/MapViewController.swift"
-            timestampString = "542925150.862136"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "dronInicio(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/MapViewController.swift"
-            timestampString = "542925150.862391"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "dronInicio(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/MapController.swift"
-            timestampString = "542925150.862641"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
-            landmarkName = "presetnDialog()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__ObjC.UIAlertAction) -&gt; () in flayy.MapController.presetnDialog() -&gt; ()"
-                  moduleName = "flayy"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kato/Documents/projects/flayy/flayy/MapController.swift"
-                  timestampString = "542925151.6256469"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "181"
-                  endingLineNumber = "181"
-                  offsetFromSymbolStart = "1224">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "implicit closure #1 : @autoclosure () throws -&gt; Swift.String in closure #1 (__ObjC.UIAlertAction) -&gt; () in flayy.MapController.presetnDialog() -&gt; ()"
-                  moduleName = "flayy"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kato/Documents/projects/flayy/flayy/MapController.swift"
-                  timestampString = "542925151.627719"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "181"
-                  endingLineNumber = "181"
-                  offsetFromSymbolStart = "12">
-               </Location>
-            </Locations>
+            startingLineNumber = "355"
+            endingLineNumber = "355"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

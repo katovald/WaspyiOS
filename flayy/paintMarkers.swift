@@ -161,7 +161,6 @@ class paintMarkers {
     
     public func updateAlerts(center: CLLocationCoordinate2D, radius: CLLocationDistance)
     {
-        deleteAlerts()
         let theGeoFire = GeoFire(firebaseRef: Database.database().reference().child("alerts_geo"))
         let circleQuery = theGeoFire!.query(at: CLLocation(latitude: center.latitude,
                                                            longitude: center.longitude),
