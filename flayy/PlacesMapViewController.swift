@@ -93,7 +93,7 @@ class PlacesMapViewController: UIViewController, GMSMapViewDelegate{
         let coordenadas = CLLocationCoordinate2D(latitude: punto[0], longitude: punto[1])
         location.updateMarker(coordinates: coordenadas, degrees: 0, duration: 0.2)
         let pos = GMSCameraPosition(target: coordenadas, zoom: 15.0, bearing: -15, viewingAngle: 45)
-        self.mapa = self.view as! GMSMapView!
+        self.mapa = self.view as! GMSMapView?
         mapa.animate(to: pos)
         self.view = mapa
         self.userD.set([key:location.getData()], forKey: "EditingPlace")

@@ -11,8 +11,8 @@ import UIKit
 class CustomMenu: UIStoryboardSegue {
     override func perform() {
         // Assign the source and destination views to local variables.
-        let firstVCView = self.source.view as UIView!
-        let secondVCView = self.destination.view as UIView!
+        let firstVCView = self.source.view as UIView?
+        let secondVCView = self.destination.view as UIView?
         
         // Get the screen width and height.
         let screenWidth = UIScreen.main.bounds.size.width

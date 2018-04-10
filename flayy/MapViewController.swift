@@ -67,8 +67,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
             animationHide()
             alertBtn = true
         }
-        
     }
+    
     @IBAction func openMembersTap(_ sender: Any) {
          performSegue(withIdentifier: "miembros", sender: nil)
     }
@@ -195,6 +195,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     /////
     
     override func viewWillAppear(_ animated: Bool) {
+        
         NotificationCenter.default.add(observer: self, selector: #selector(changedGroup), notification: .groupsChanges)
         NotificationCenter.default.add(observer: self, selector: #selector(showWT), notification: .helpMe)
         NotificationCenter.default.add(observer: self, selector: #selector(presentInvite), notification: .groupCreated)
@@ -221,6 +222,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
             firebaseManager.init().setUserRegToken()
             firebaseManager.init().getOwnerData(phone: self.phone)
         } else {
+            firebaseManager.init().setUserSetting()
             self.performSegue(withIdentifier: "datosUsuario", sender: self)
         }
     }

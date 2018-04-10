@@ -108,10 +108,10 @@ PODS:
   - GeoFire (2.0.0):
     - Firebase/Database (~> 4.0)
   - Google-Mobile-Ads-SDK (7.29.0)
-  - GoogleAPIClientForREST (1.3.2):
-    - GoogleAPIClientForREST/Core (= 1.3.2)
+  - GoogleAPIClientForREST (1.3.4):
+    - GoogleAPIClientForREST/Core (= 1.3.4)
     - GTMSessionFetcher (>= 1.1.7)
-  - GoogleAPIClientForREST/Core (1.3.2):
+  - GoogleAPIClientForREST/Core (1.3.4):
     - GTMSessionFetcher (>= 1.1.7)
   - GoogleMaps (2.6.0):
     - GoogleMaps/Maps (= 2.6.0)
@@ -151,11 +151,11 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.3)
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.14):
-    - GTMSessionFetcher/Full (= 1.1.14)
-  - GTMSessionFetcher/Core (1.1.14)
-  - GTMSessionFetcher/Full (1.1.14):
-    - GTMSessionFetcher/Core (= 1.1.14)
+  - GTMSessionFetcher (1.1.15):
+    - GTMSessionFetcher/Full (= 1.1.15)
+  - GTMSessionFetcher/Core (1.1.15)
+  - GTMSessionFetcher/Full (1.1.15):
+    - GTMSessionFetcher/Core (= 1.1.15)
   - leveldb-library (1.20)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
@@ -210,14 +210,14 @@ SPEC CHECKSUMS:
   FirebaseSwizzlingUtilities: f1c49a5a372ac852c853722a5891a0a5e2344a6c
   GeoFire: 40d2bdcbfcf6474f3c32905e263e54f4ad026f7e
   Google-Mobile-Ads-SDK: 375bbb821b3df2106c37b74f6b0a97576ddc5f6b
-  GoogleAPIClientForREST: 4fa84fc61fdeea48dd7088de5c1a864ace18125b
+  GoogleAPIClientForREST: f7951c455df271bc6259b3ddb4073d0026475ccf
   GoogleMaps: 42f91c68b7fa2f84d5c86597b18ceb99f5414c7f
   GooglePlacePicker: e4488625effb006f59de49e14b7a603e463e4261
   GooglePlaces: f6ddf33b75cef69e888907d9947c57198ed845f3
   GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
-  GTMSessionFetcher: 390ea358e5a0d0133153806f744662dad933d06b
+  GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03

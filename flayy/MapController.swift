@@ -63,11 +63,15 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         fixed = false
         putAlert = false
         onBackground = true
-        
         handleLocationAuthorizationStatus(status:  CLLocationManager.authorizationStatus())
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
         locationManager.delegate = self
+        
+        self.mapa = GMSMapView()
+        mapa.delegate = self
+        self.view = mapa
+        draw = paintMarkers(self.view as! GMSMapView)
     }
     
     @objc func turnEdit(){
@@ -80,9 +84,8 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         if locationManager.location != nil{
             let camera = GMSCameraPosition.camera(withLatitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!, zoom: 15.0, bearing: -15, viewingAngle: 45)
             self.mapa = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-        }else{
-            self.mapa = GMSMapView()
         }
+        
         mapa.delegate = self
         self.view = mapa
         
@@ -127,7 +130,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     @objc func centerView(){
         let OwnerLocation = GMSCameraPosition(target: CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!), zoom: 15.0, bearing: -15, viewingAngle: 45)
         
-        self.mapa = self.view as! GMSMapView!
+        self.mapa = self.view as! GMSMapView?
         mapa.animate(to: OwnerLocation)
         mapa.delegate = self
         self.view = mapa
@@ -147,7 +150,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
                                    bearing: -15,
                                    viewingAngle: 45)
         
-        self.mapa = self.view as! GMSMapView!
+        self.mapa = self.view as! GMSMapView?
         mapa.animate(to: userLocation)
         mapa.delegate = self
         self.view = mapa
@@ -359,8 +362,9 @@ extension MapController : CLLocationManagerDelegate{
         case .notDetermined:
             locationManager.requestAlwaysAuthorization()
         case .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
             statusDeniedAlert()
-            stopMonitoring()
+            initWaspy()
         case .authorizedAlways:
             locationManager.startUpdatingLocation()
             initWaspy()

@@ -36,8 +36,8 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
         startLoading()
         if newPhoto {
             firebaseManager.init().saveUserPhotoFB(photo: userPhoto.image!, phone: phone) {
-                firebaseManager.init().setUserSetting(name: self.nameText.text!)
                 self.userD.set(self.nameText.text, forKey: "OwnerName")
+                firebaseManager.init().setUserSetting()
                 self.stopLoading()
                 self.dismiss(animated: true, completion: {
                     NotificationCenter.default.post(notification: .groupsChanges)
@@ -47,8 +47,8 @@ class userSettings: UIViewController, UINavigationControllerDelegate, UITextFiel
                 })
             }
         }else{
-            firebaseManager.init().setUserSetting(name: self.nameText.text!)
             self.userD.set(self.nameText.text, forKey: "OwnerName")
+            firebaseManager.init().setUserSetting()
             self.stopLoading()
             self.dismiss(animated: true, completion: {
                 NotificationCenter.default.post(notification: .groupsChanges)

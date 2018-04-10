@@ -11,13 +11,15 @@ import GoogleMaps
 import GeoFire
 import FirebaseDatabase
 
-class paintMarkers {
+class paintMarkers: NSObject {
     
     private var members:[String:waspyMemberMarker] = [:]
     private var places:[String:waspyPlaceMarker] = [:]
     private var alerts:[String:waspyAlertMarker] = [:]
     private var mapa:GMSMapView!
     private var userD:UserDefaults = UserDefaults.standard
+    let theGeoFire = GeoFire(firebaseRef: Database.database().reference().child("alerts_geo"))
+    var circleQuery:GFCircleQuery?
     
     init(_ view: GMSMapView) {
         mapa = view
@@ -51,23 +53,38 @@ class paintMarkers {
     
     public func drawAlerts(center: CLLocationCoordinate2D, radius: CLLocationDistance)
     {
-        let theGeoFire = GeoFire(firebaseRef: Database.database().reference().child("alerts_geo"))
-        let circleQuery = theGeoFire!.query(at: CLLocation(latitude: center.latitude,
+        if radius/3000 < 23 {
+            circleQuery = theGeoFire!.query(at: CLLocation(latitude: center.latitude,
                                                            longitude: center.longitude),
-                                            withRadius: radius/3000)
-        _ = circleQuery!.observe(.keyEntered, with: { (key, location) in
-            let llave = key
-            firebaseManager.init().getAlertData(key: llave!, completion: { (value) in
-                let marcador = waspyAlertMarker(tipo: value["type"] as? Int ?? 0,
-                                                coment: value["comments"] as? String ?? "",
-                                                title: value["title"] as? String ?? "",
-                                                date: value["date"] as? String ?? "")
-                marcador.setIconView()
-                marcador.setLocation(location: (location?.coordinate)!)
-                marcador.map = self.mapa
-                self.alerts[llave!] = marcador
+                                        withRadius: radius/3000)
+        
+            _ = circleQuery!.observe(.keyEntered, with: { (key, location) in
+                if self.alerts[key!] != nil{
+                    
+                }else{
+                    let llave = key
+                    firebaseManager.init().getAlertData(key: llave!, completion: { (value) in
+                        let marcador = waspyAlertMarker(tipo: value["type"] as? Int ?? 0,
+                                                        coment: value["comments"] as? String ?? "",
+                                                        title: value["title"] as? String ?? "",
+                                                        date: value["date"] as? String ?? "")
+                        marcador.setIconView()
+                        marcador.setLocation(location: (location?.coordinate)!)
+                        marcador.map = self.mapa
+                        self.alerts[llave!] = marcador
+                    })
+                }
             })
-        })
+            
+            _ = circleQuery!.observe(.keyExited, with: { (key, location) in
+                if self.alerts[key!] != nil{
+                    
+                }else{
+                    self.alerts[key!]?.map = nil
+                    self.alerts.removeValue(forKey: key!)
+                }
+            })
+        }
     }
     
     public func drawFences(){
@@ -161,23 +178,8 @@ class paintMarkers {
     
     public func updateAlerts(center: CLLocationCoordinate2D, radius: CLLocationDistance)
     {
-        let theGeoFire = GeoFire(firebaseRef: Database.database().reference().child("alerts_geo"))
-        let circleQuery = theGeoFire!.query(at: CLLocation(latitude: center.latitude,
-                                                           longitude: center.longitude),
-                                            withRadius: radius/3000)
-        _ = circleQuery!.observe(.keyEntered, with: { (key, location) in
-            let llave = key
-            firebaseManager.init().getAlertData(key: llave!, completion: { (value) in
-                let marcador = waspyAlertMarker(tipo: value["type"] as? Int ?? 0,
-                                                coment: value["comments"] as? String ?? "",
-                                                title: value["title"] as? String ?? "",
-                                                date: value["date"] as? String ?? "")
-                marcador.setIconView()
-                marcador.setLocation(location: (location?.coordinate)!)
-                marcador.map = self.mapa
-                self.alerts[llave!] = marcador
-            })
-        })
+        circleQuery?.center = CLLocation(latitude: center.latitude, longitude: center.longitude)
+        circleQuery?.radius = radius.magnitude/3000
     }
     
     public func updateFences(){
@@ -217,6 +219,7 @@ class paintMarkers {
             marker?.map = nil
         }
         alerts.removeAll()
+        circleQuery?.removeAllObservers()
     }
     
     public func deleteFences()
