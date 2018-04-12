@@ -769,6 +769,7 @@ public class firebaseManager {
             completion(places)
         })
     }
+    
     //// delete data functions
     //// Beware whit this
     //// Created by Kato

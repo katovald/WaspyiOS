@@ -29,6 +29,8 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     var putAlert:Bool!
     var onBackground:Bool!
     var draw:paintMarkers!
+    var statusActive:CLAuthorizationStatus?
+    var geoLocation:CLLocationCoordinate2D?
     
     var timer = Timer()
     var timer1 = Timer()
@@ -67,6 +69,8 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
         locationManager.delegate = self
+        
+        startGeofences()
         
         self.mapa = GMSMapView()
         mapa.delegate = self
@@ -121,6 +125,9 @@ class MapController: UIViewController,  GMSMapViewDelegate {
             alertas = false
             fixed = false
         }else{
+            if self.statusActive == .denied {
+                return
+            }
             draw.drawAlerts(center: self.getCenterCoordinate(), radius: self.getRadius())
             alertas = true
             fixed = true
@@ -128,7 +135,13 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     }
     
     @objc func centerView(){
-        let OwnerLocation = GMSCameraPosition(target: CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!), zoom: 15.0, bearing: -15, viewingAngle: 45)
+        if self.statusActive == .denied {
+            return
+        }else{
+            geoLocation = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+        }
+        
+        let OwnerLocation = GMSCameraPosition(target: geoLocation!, zoom: 15.0, bearing: -15, viewingAngle: 45)
         
         self.mapa = self.view as! GMSMapView?
         mapa.animate(to: OwnerLocation)
@@ -207,11 +220,17 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     }
     
     func startGeofences(){
-        stopGeofences()
-        let places = userD.array(forKey: "ActualGroupPlaces") as? [[String:Any]] ?? []
-        for place in places {
-            let region = self.regionMonitor(geo: place)
-            locationManager.startMonitoring(for: region)
+        let groups = self.userD.array(forKey: "OwnerGroups") as? [[String:String]] ?? []
+        for group in groups {
+            firebaseManager.init().getPlaces(group: (group.first?.key)!) { (places) in
+                for place in places {
+                    let regiones = self.locationManager.monitoredRegions
+                    if regiones.count < 20 {
+                        let region = self.regionMonitor(geo: place)
+                        self.locationManager.startMonitoring(for: region)
+                    }
+                }
+            }
         }
     }
     
@@ -296,7 +315,6 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     
     func statusDeniedAlert() {
         let alertController = UIAlertController(title: "Compartir ubicacion esta desabilitado", message: "Esta aplicacion necesita permisos de SIEMPRE usar ubicacion.", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alertController.addAction(UIAlertAction(title: "Abrir Configuracion", style: .default, handler: { action in
             if #available(iOS 10.0, *) {
                 let settingsURL = URL(string: UIApplicationOpenSettingsURLString)!
@@ -311,10 +329,12 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     }
     
     @objc func inactive(){
-        locationManager.distanceFilter = 60
+        locationManager.startMonitoringSignificantLocationChanges()
+        locationManager.distanceFilter = 30
     }
     
     @objc func active(){
+        locationManager.stopMonitoringSignificantLocationChanges()
         locationManager.distanceFilter = 5
     }
     
@@ -358,6 +378,7 @@ extension MapController : CLLocationManagerDelegate{
     }
     
     func handleLocationAuthorizationStatus(status: CLAuthorizationStatus) {
+        self.statusActive = status
         switch status {
         case .notDetermined:
             locationManager.requestAlwaysAuthorization()
@@ -395,11 +416,6 @@ extension MapController {
                     self.draw.updateFences()
                 })
             }
-        }
-    
-        @objc func updateDataBG(_coordintates: CLLocationCoordinate2D, _speed: CLLocationSpeed)
-        {
-            firebaseManager.init().updateUserLocationBKG(coordinades: _coordintates, speed: _speed)
         }
     
         @objc func stopMonitoring()

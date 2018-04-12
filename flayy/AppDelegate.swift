@@ -41,10 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 options: authOptions,
                 completionHandler: {_, _ in })
             // For iOS 10 data message (sent via FCM
-        } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
         }
         
         application.registerForRemoteNotifications()
@@ -60,40 +56,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = view
         }
         
-    return true
-    }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        // If you are receiving a notification message while your app is in the background,
-        // this callback will not be fired till the user taps on the notification launching the application.
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
-        // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
         
-        // Print full message.
-        
-        FCmNotifications.init().messageReceiver(message: userInfo)
-        
-        completionHandler(UIBackgroundFetchResult.newData)
+        return true
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Unable to register for remote notifications: \(error.localizedDescription)")
     }
     
-    func application(received remoteMessage: MessagingRemoteMessage) {
-        print(remoteMessage)
-    }
+//    func application(received remoteMessage: MessagingRemoteMessage) {
+//        print(remoteMessage)
+//    }
     // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
     // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
     // the FCM registration token.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("APNs token retrieved: \(deviceToken)")
-        // With swizzling disabled you must set the APNs token here.
+//        print("APNs token retrieved: \(deviceToken)")
         Messaging.messaging().apnsToken = deviceToken
     }
     
@@ -163,11 +141,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         alertController.addAction(okAction)
         self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
     }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        Messaging.messaging().appDidReceiveMessage(userInfo)
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        
+        FCmNotifications.init().messageReceiver(message: userInfo)
+        
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
 }
 
 @available(iOS 10, *)
 extension AppDelegate : UNUserNotificationCenterDelegate {
-    
+
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
@@ -175,7 +171,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let userInfo = notification.request.content.userInfo
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
+        Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
@@ -188,20 +184,20 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler([.alert, .badge, .sound])
     }
 
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-        // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
-
-        // Print full message.
-        print(userInfo)
-
-        completionHandler()
-    }
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                didReceive response: UNNotificationResponse,
+//                                withCompletionHandler completionHandler: @escaping () -> Void) {
+//        let userInfo = response.notification.request.content.userInfo
+//        // Print message ID.
+//        if let messageID = userInfo[gcmMessageIDKey] {
+//            print("Message ID: \(messageID)")
+//        }
+//
+//        // Print full message.
+//        print(userInfo)
+//        FCmNotifications.init().messageReceiver(message: userInfo)
+//        completionHandler()
+//    }
 }
 // [END ios_10_message_handling]
 

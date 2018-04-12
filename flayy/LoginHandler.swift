@@ -112,6 +112,10 @@ public class LogingAttemps {
         })
     }
     
+    public func restore(mail: String){
+        Auth.auth().sendPasswordReset(withEmail: mail, completion: nil)
+    }
+    
     public func tell() -> String {
         return errorCode!
     }

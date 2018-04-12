@@ -81,13 +81,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
                             })
                             })
                         let cancel = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
-                        
+                        let restore = UIAlertAction(title: "Resetear", style: .default, handler: { (_) in
+                            LogingAttemps.init().restore(mail: mail)
+                        })
                         alertView.addTextField(configurationHandler: { (textfield) in
                             textfield.placeholder = "Contraseña"
                             textfield.isSecureTextEntry = true
                         })
                         
                         alertView.addAction(inicio)
+                        alertView.addAction(restore)
                         alertView.addAction(cancel)
                         
                         self.present(alertView, animated: true, completion: nil)
