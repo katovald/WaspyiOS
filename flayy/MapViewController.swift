@@ -196,18 +196,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
     /////
     
     override func viewWillAppear(_ animated: Bool) {
-        
         NotificationCenter.default.add(observer: self, selector: #selector(changedGroup), notification: .groupsChanges)
         NotificationCenter.default.add(observer: self, selector: #selector(showWT), notification: .helpMe)
         NotificationCenter.default.add(observer: self, selector: #selector(presentInvite), notification: .groupCreated)
-        
-        if userD.string(forKey: "OwnerName") != nil{
-            firebaseManager.init().setUserRegToken()
-            firebaseManager.init().getOwnerData(phone: self.phone)
-        } else {
-            firebaseManager.init().setUserSetting()
-            self.performSegue(withIdentifier: "datosUsuario", sender: self)
-        }
+//        NotificationCenter.default.add(observer: self, selector: #selector(checkData), notification: .logIn)
     }
     
     override func viewDidLoad() {
@@ -226,6 +218,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         self.robberylbl.isHidden = true
         
         self.phone = userD.string(forKey: "OwnerPhone")
+        
+        if userD.string(forKey: "OwnerName") != nil{
+            firebaseManager.init().setUserRegToken()
+            firebaseManager.init().getOwnerData(phone: self.phone)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if userD.string(forKey: "OwnerName") == nil{
+            let story = UIStoryboard(name: "Main", bundle: nil)
+            let set = story.instantiateViewController(withIdentifier: "datosUsuario")
+            self.present(set, animated: true, completion: nil)
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {

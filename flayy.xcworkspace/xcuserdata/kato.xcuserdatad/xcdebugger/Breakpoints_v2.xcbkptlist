@@ -298,12 +298,12 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/paintMarkers.swift"
-                  timestampString = "545678132.555771"
+                  timestampString = "545695889.206943"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "66"
                   endingLineNumber = "66"
-                  offsetFromSymbolStart = "492">
+                  offsetFromSymbolStart = "702">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -313,12 +313,12 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/paintMarkers.swift"
-                  timestampString = "545678132.557616"
+                  timestampString = "545695889.208792"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "67"
                   endingLineNumber = "67"
-                  offsetFromSymbolStart = "48">
+                  offsetFromSymbolStart = "52">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -362,12 +362,12 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/paintMarkers.swift"
-                  timestampString = "545678132.565802"
+                  timestampString = "545695889.2169681"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "436">
+                  offsetFromSymbolStart = "530">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -377,12 +377,12 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/paintMarkers.swift"
-                  timestampString = "545678132.5675319"
+                  timestampString = "545695889.218763"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "62"
                   endingLineNumber = "62"
-                  offsetFromSymbolStart = "44">
+                  offsetFromSymbolStart = "51">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -458,12 +458,12 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/paintMarkers.swift"
-                  timestampString = "545678132.583387"
+                  timestampString = "545695889.2343791"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "61"
                   endingLineNumber = "61"
-                  offsetFromSymbolStart = "436">
+                  offsetFromSymbolStart = "530">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -473,12 +473,12 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/paintMarkers.swift"
-                  timestampString = "545678132.585165"
+                  timestampString = "545695889.236141"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "62"
                   endingLineNumber = "62"
-                  offsetFromSymbolStart = "44">
+                  offsetFromSymbolStart = "51">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -554,7 +554,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "flayy/LoginViewController.swift"
-            timestampString = "545339832.508373"
+            timestampString = "545695888.95655"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
@@ -570,12 +570,12 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/LoginViewController.swift"
-                  timestampString = "545678132.605907"
+                  timestampString = "545695889.2561409"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "65"
                   endingLineNumber = "65"
-                  offsetFromSymbolStart = "36">
+                  offsetFromSymbolStart = "45">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -585,12 +585,12 @@
                   moduleName = "flayy"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/kato/Documents/projects/flayy/flayy/LoginViewController.swift"
-                  timestampString = "545678132.6082259"
+                  timestampString = "545695889.257938"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "66"
                   endingLineNumber = "66"
-                  offsetFromSymbolStart = "32">
+                  offsetFromSymbolStart = "30">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -602,7 +602,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "flayy/LoginViewController.swift"
-            timestampString = "545339832.50842"
+            timestampString = "545695888.956612"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "66"
@@ -618,7 +618,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "flayy/membersSelectViewController.swift"
-            timestampString = "545678132.082091"
+            timestampString = "545695888.95666"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "103"
@@ -634,7 +634,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "flayy/membersSelectViewController.swift"
-            timestampString = "545678132.082137"
+            timestampString = "545695888.956709"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "104"
@@ -649,13 +649,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/AppDelegate.swift"
-            timestampString = "545677517.191618"
+            filePath = "flayy/userSettings.swift"
+            timestampString = "545694744.259971"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "application(_:open:sourceApplication:annotation:)"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -665,13 +665,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/AppDelegate.swift"
-            timestampString = "545677517.191664"
+            filePath = "flayy/userSettings.swift"
+            timestampString = "545694744.260294"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "application(_:open:sourceApplication:annotation:)"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -681,13 +681,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/AppDelegate.swift"
-            timestampString = "545677517.1917059"
+            filePath = "flayy/userSettings.swift"
+            timestampString = "545694744.260518"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "application(_:open:sourceApplication:annotation:)"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -697,13 +697,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/AppDelegate.swift"
-            timestampString = "545677517.191747"
+            filePath = "flayy/userSettings.swift"
+            timestampString = "545694744.2607369"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "application(_:open:options:)"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -713,13 +713,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/AppDelegate.swift"
-            timestampString = "545677517.191788"
+            filePath = "flayy/userSettings.swift"
+            timestampString = "545694744.260959"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "application(_:open:options:)"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -729,141 +729,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "flayy/AppDelegate.swift"
-            timestampString = "545677517.191829"
+            filePath = "flayy/userSettings.swift"
+            timestampString = "545694744.2611769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "application(_:open:options:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/AppDelegate.swift"
-            timestampString = "545677517.191869"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "application(_:open:options:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/AppDelegate.swift"
-            timestampString = "545677517.191909"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "application(_:open:sourceApplication:annotation:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/AppDelegate.swift"
-            timestampString = "545677517.191949"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "application(_:open:sourceApplication:annotation:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/firebaseManager.swift"
-            timestampString = "545680340.006108"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "643"
-            endingLineNumber = "643"
-            landmarkName = "dataExistence(search:type:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/firebaseManager.swift"
-            timestampString = "545680340.934467"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "645"
-            endingLineNumber = "645"
-            landmarkName = "dataExistence(search:type:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/firebaseManager.swift"
-            timestampString = "545680341.744521"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "644"
-            endingLineNumber = "644"
-            landmarkName = "dataExistence(search:type:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/firebaseManager.swift"
-            timestampString = "545680342.682731"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "646"
-            endingLineNumber = "646"
-            landmarkName = "dataExistence(search:type:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "flayy/firebaseManager.swift"
-            timestampString = "545680347.65786"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "641"
-            endingLineNumber = "641"
-            landmarkName = "dataExistence(search:type:completion:)"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

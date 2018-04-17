@@ -935,7 +935,7 @@
                         <outlet property="thief" destination="y7z-j1-BeM" id="SBv-dg-KU2"/>
                         <outlet property="thieflbl" destination="mXi-ak-bwi" id="Vi0-Gb-b9P"/>
                         <outlet property="titleBar" destination="aSP-iD-N1o" id="1x4-KK-mgG"/>
-                        <segue destination="gdj-nw-yI9" kind="show" identifier="datosUsuario" id="VWM-hv-SeD"/>
+                        <segue destination="gdj-nw-yI9" kind="show" identifier="datosSegue" id="VWM-hv-SeD"/>
                         <segue destination="TEZ-CE-atD" kind="presentation" identifier="menu" customClass="CustomMenu" customModule="flayy" customModuleProvider="target" modalPresentationStyle="overFullScreen" id="FWx-N6-FK5"/>
                         <segue destination="kmu-BP-PYz" kind="presentation" identifier="grupos" customClass="GroupsMenu" customModule="flayy" customModuleProvider="target" modalPresentationStyle="overFullScreen" id="dIb-wS-Kgu"/>
                         <segue destination="8vX-FJ-vdG" kind="presentation" identifier="miembros" modalPresentationStyle="overCurrentContext" modalTransitionStyle="coverVertical" id="e3P-gt-gM5"/>

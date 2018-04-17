@@ -165,8 +165,8 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         
         self.mapa = self.view as! GMSMapView?
         mapa.animate(to: userLocation)
-        mapa.delegate = self
-        self.view = mapa
+        mapa?.delegate = self
+        self.view? = mapa
         self.userD.set(nil, forKey: "UserAsked")
         if fixed && alertas {
             self.fixed = false

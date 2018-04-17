@@ -125,7 +125,7 @@ public class firebaseManager {
     public func setUserSetting(){
         guard let phone = userD.string(forKey: "OwnerPhone") else {return}
         guard let mail = userD.string(forKey: "OwnerMail") else {return}
-        let name = userD.string(forKey: "OwnerName") ?? "Nombre"
+        let name = userD.string(forKey: "OwnerName") ?? ""
         self.reference.child("accounts/" + phone + "/name").setValue(name)
         self.reference.child("accounts/" + phone + "/phone").setValue(phone)
         self.reference.child("accounts/" + phone + "/mail").setValue(mail)
