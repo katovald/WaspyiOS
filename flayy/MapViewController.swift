@@ -11,6 +11,7 @@ import CoreLocation
 import GeoFire
 import FirebaseMessaging
 import FirebaseAuth
+import FirebaseDynamicLinks
 import BWWalkthrough
 import GoogleMaps
 
@@ -199,6 +200,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         NotificationCenter.default.add(observer: self, selector: #selector(changedGroup), notification: .groupsChanges)
         NotificationCenter.default.add(observer: self, selector: #selector(showWT), notification: .helpMe)
         NotificationCenter.default.add(observer: self, selector: #selector(presentInvite), notification: .groupCreated)
+        
+        if userD.string(forKey: "OwnerName") != nil{
+            firebaseManager.init().setUserRegToken()
+            firebaseManager.init().getOwnerData(phone: self.phone)
+        } else {
+            firebaseManager.init().setUserSetting()
+            self.performSegue(withIdentifier: "datosUsuario", sender: self)
+        }
     }
     
     override func viewDidLoad() {
@@ -217,14 +226,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UIPopoverP
         self.robberylbl.isHidden = true
         
         self.phone = userD.string(forKey: "OwnerPhone")
-        
-        if userD.string(forKey: "OwnerName") != nil{
-            firebaseManager.init().setUserRegToken()
-            firebaseManager.init().getOwnerData(phone: self.phone)
-        } else {
-            firebaseManager.init().setUserSetting()
-            self.performSegue(withIdentifier: "datosUsuario", sender: self)
-        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -365,19 +366,39 @@ extension MapViewController: MenuActionDelegate {
     func shareAPP(){
         dismiss(animated: false, completion: {
             //https://s2ek9.app.goo.gl/
+            let domain = "s2ek9.app.goo.gl"
+            let bundleID = "com.camsa.waspy"
+            let minVersion = "1.0"
+            guard let deepLink = URL(string: "https://waspy.com.mx/") else { return }
             
-            // TODO: Handle shortURL.
-            let textMSG = "Descarga Waspy y cuida de tus seres queridos\n"
-            let textMSG1 = "\nWaspy v1.0 \nCAMSA development"
-            let shortURL = URL(string: "https://s2ek9.app.goo.gl/ZTCU")
-            let obj2Share = [textMSG, shortURL!, textMSG1] as [Any]
-            let activity = UIActivityViewController(activityItems: obj2Share, applicationActivities: nil)
-            activity.completionWithItemsHandler = { activity, success, items, error in
-                if error == nil {
-                    super.dismiss(animated: true, completion: nil)
+            let components = DynamicLinkComponents(link: deepLink, domain: domain)
+            
+            let androidPKG = "com.dev.camsa.waspy"
+            
+            let iOSParams = DynamicLinkIOSParameters(bundleID: bundleID)
+            iOSParams.minimumAppVersion = minVersion
+            iOSParams.appStoreID = "1291916724"
+            components.iOSParameters = iOSParams
+            
+            let androidParams = DynamicLinkAndroidParameters(packageName: androidPKG)
+            androidParams.minimumVersion = 1
+            components.androidParameters = androidParams
+            
+            // Or create a shortened dynamic link
+            components.shorten { (shortURL, warnings, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
                 }
+                // TODO: Handle shortURL.
+                let textMSG = "Descarga Waspy y cuida de tus seres queridos\n"
+                let textMSG1 = "\nWaspy v1.0 \nCAMSA development"
+                let obj2Share = [textMSG, shortURL!, textMSG1] as [Any]
+                let activity = UIActivityViewController(activityItems: obj2Share, applicationActivities: nil)
+                activity.completionWithItemsHandler = { activity, success, items, error in
+                }
+                self.present(activity, animated: true, completion: nil)
             }
-            self.present(activity, animated: true, completion: nil)
         })
     }
 }

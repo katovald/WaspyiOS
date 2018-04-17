@@ -77,8 +77,6 @@ class membersSelectViewController: UIViewController{
         let bundleID = "com.camsa.waspy"
         let minVersion = "1.0"
         guard let deepLink = URL(string: "https://waspy.com/?groupID=" + code) else { return }
-
-        print(deepLink)
         
         let components = DynamicLinkComponents(link: deepLink, domain: domain)
         
@@ -86,6 +84,7 @@ class membersSelectViewController: UIViewController{
         
         let iOSParams = DynamicLinkIOSParameters(bundleID: bundleID)
         iOSParams.minimumAppVersion = minVersion
+        iOSParams.appStoreID = "1291916724"
         components.iOSParameters = iOSParams
         
         let androidParams = DynamicLinkAndroidParameters(packageName: androidPKG)

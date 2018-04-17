@@ -130,7 +130,6 @@ class FCmNotifications {
             let group = message["body"] as! String
             let dic = convertToDictionary(text: group)
             let code = dic!["kickout"] as! String
-            print(code)
             firebaseManager.init().unsuscribeGroups(code: code,
                                                     phone: self.userD.string(forKey: "OwnerPhone")!,
                                                     kill: true)
@@ -202,6 +201,10 @@ class FCmNotifications {
                         "content_available": true,
                         "priority": "high",
                         "time_to_live": 60,
+                        "notification":[
+                            "title" : "Waspy",
+                            "body" : "\(ownerName) ha llegado"
+                        ],
                         "data" : [
                             "type" : "geofence",
                             "title" : "Waspy",
@@ -214,10 +217,14 @@ class FCmNotifications {
                          "content_available": true,
                          "priority": "high",
                          "time_to_live": 60,
+                         "notification":[
+                            "title" : "Waspy",
+                            "body" : "\(ownerName) ha llegado"
+                         ],
                          "data" : [
                             "type" : "geofence",
                             "title" : "Waspy",
-                            "body" : "\(ownerName) ha llegado",
+                            "body" : "\(ownerName) ha salido",
                             "sender" : ownerPhone
                 ]
                 ] as [String : Any])

@@ -41,6 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 options: authOptions,
                 completionHandler: {_, _ in })
             // For iOS 10 data message (sent via FCM
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
         }
         
         application.registerForRemoteNotifications()
@@ -159,6 +163,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         completionHandler(UIBackgroundFetchResult.newData)
     }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // TODO: Handle data of notification
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        FCmNotifications.init().messageReceiver(message: userInfo)
+    }
+    
 }
 
 @available(iOS 10, *)
@@ -171,7 +193,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let userInfo = notification.request.content.userInfo
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
-        Messaging.messaging().appDidReceiveMessage(userInfo)
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
@@ -184,20 +206,20 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler([.alert, .badge, .sound])
     }
 
-//    func userNotificationCenter(_ center: UNUserNotificationCenter,
-//                                didReceive response: UNNotificationResponse,
-//                                withCompletionHandler completionHandler: @escaping () -> Void) {
-//        let userInfo = response.notification.request.content.userInfo
-//        // Print message ID.
-//        if let messageID = userInfo[gcmMessageIDKey] {
-//            print("Message ID: \(messageID)")
-//        }
-//
-//        // Print full message.
-//        print(userInfo)
-//        FCmNotifications.init().messageReceiver(message: userInfo)
-//        completionHandler()
-//    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+
+        // Print full message.
+        print(userInfo)
+        
+        completionHandler()
+    }
 }
 // [END ios_10_message_handling]
 
@@ -211,6 +233,9 @@ extension AppDelegate : MessagingDelegate {
     // [START ios_10_data_message]
     // Receive data messages on iOS 10+ directly from FCM (bypassing APNs) when the app is in the foreground.
     // To enable direct data messages, you can set Messaging.messaging().shouldEstablishDirectChannel to true.
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        print("Received data message: \(remoteMessage.appData)")
+    }
     
     // [END ios_10_data_message]
 }

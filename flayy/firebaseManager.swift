@@ -23,8 +23,9 @@ func batteryLevel()-> Int {
     return Int(UIDevice.current.batteryLevel * 100)
 }
 
-enum dataType{
+enum dataType {
     case group
+    case user
 }
 
 public class firebaseManager {
@@ -86,6 +87,7 @@ public class firebaseManager {
     public func isGroupExists(code: String, completion: @escaping (Bool, String) -> Void) {
         self.reference.child("groups/" + code).observeSingleEvent(of: .value) { (snap) in
             let value = snap.value as? NSDictionary ?? nil
+            let group_info = value!["group_info"] as! NSDictionary
             let childexist:Bool = (value != nil)
             var owner:String = ""
             if childexist {
@@ -95,6 +97,9 @@ public class firebaseManager {
                 let ownerPhone = self.userD.string(forKey: "OwnerPhone")!
                 for member in memberNumbers {
                     if member == ownerPhone{
+                        let reference = [code:group_info["group_name"] as! String]
+                        self.reference.child("accounts/\(ownerPhone)/user_groups/groups/").updateChildValues(reference)
+                        self.getOwnerData(phone: ownerPhone)
                         completion(false, "")
                         return
                     }
@@ -149,8 +154,9 @@ public class firebaseManager {
             }
         })
         
-        NotificationCenter.default.post(notification: .userDataChange)
-        
+        if userD.string(forKey: "OwnerName") != nil{
+            NotificationCenter.default.post(notification: .userDataChange)
+        }
     }
     
     public func setEmergencyContacts(contact: [String:Any]){
@@ -212,7 +218,8 @@ public class firebaseManager {
         
         var groupCode = randomAlphaNumericString(length: 6)
         
-        let phone = userD.string(forKey: "OwnerPhone")!
+        guard let phone = userD.string(forKey: "OwnerPhone")
+            else { return }
 
         if phone.count > 0
         {
@@ -275,11 +282,11 @@ public class firebaseManager {
         userD.set(nil, forKey: "ActualGroupPlaces")
         if phone.count > 0
         {
-            let userInfo = ["name" : userD.string(forKey: "OwnerName")!,
+            let userInfo = ["name" : userD.string(forKey: "OwnerName") ?? "",
                             "phone" : phone,
                             "rol" : "guest",
                             "visibility" : true,
-                            "photo_url": self.userD.string(forKey: "OwnerDownloadURL")!] as [String : Any]
+                            "photo_url": self.userD.string(forKey: "OwnerDownloadURL") ?? ""] as [String : Any]
             
             self.reference.child("groups/" + code).observeSingleEvent(of: .value, with: {(snapshot) in
                 guard let value = snapshot.value as? NSDictionary else {return}
@@ -540,33 +547,6 @@ public class firebaseManager {
             })
     }
     
-    public func updateUserLocationBKG(coordinades: CLLocationCoordinate2D, speed: CLLocationSpeed)
-    {
-        guard let phone = self.userD.string(forKey: "OwnerPhone")
-            else {return}
-        guard let name = self.userD.string(forKey: "OwnerName")
-            else {return}
-        
-        if phone == "" || name == ""
-        {
-            return
-        }
-
-        guard let ownerGroups = self.userD.array(forKey: "OwnerGroups") as? [[String:String]] else {return}
-            for code in ownerGroups{
-                self.dataExistence(search: (code.first?.key)!, type: .group, completion: { (response) in
-                    if response {
-                        self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/battery_level").setValue(batteryLevel())
-                        self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/latitude").setValue(coordinades.latitude)
-                        self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/longitude").setValue(coordinades.longitude)
-                        self.reference.child("groups/" + (code.first?.key)! + "/members/" + phone + "/location/speed").setValue(speed.magnitude)
-                    }else{
-                        self.unsuscribeGroups(code: (code.first?.key)!, phone: phone, kill: true)
-                    }
-                })
-            }
-    }
-    
     public func updatePlace (code: String, key: String, data: [String:Any])
     {
         self.reference.child("groups/" + code + "/group_places/" + key).setValue(data)
@@ -636,6 +616,10 @@ public class firebaseManager {
         switch type {
         case .group:
             self.reference.child("groups/\(search)/").observeSingleEvent(of: .value, with: { (data) in
+                completion(((data.value as? NSDictionary) != nil))
+            })
+        case .user:
+            self.reference.child("acoounts/\(search)/").observeSingleEvent(of: .value, with: { (data) in
                 completion(((data.value as? NSDictionary) != nil))
             })
         }

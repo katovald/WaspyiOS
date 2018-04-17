@@ -91,6 +91,8 @@ class PlacesConfigViewController: UIViewController {
                                                           radio: Int(radio.value))
                 }else{
                     data!["place_name"] = texto.text!
+                    data!["radio"] = Int(radio.value)
+                    //
                     firebaseManager.init().updatePlace(code: userD.string(forKey: "ActualGroup")!, key: key!, data: data!)
                 }
                 FCmNotifications.init().send(type: .placesUpdated, point: nil)
