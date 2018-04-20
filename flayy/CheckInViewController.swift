@@ -30,7 +30,7 @@ class CheckInViewController: UIViewController {
     }
     @IBAction func triggerCheckIn(_ sender: Any) {
         if point != nil{
-            FCmNotifications.init().send(type: .checkIn, point: point)
+            FCmNotifications.init().send(type: .checkIn, point: point, name: nil)
         }
         dismiss(animated: false, completion: nil)
     }

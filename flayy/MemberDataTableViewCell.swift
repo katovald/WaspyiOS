@@ -33,7 +33,7 @@ class MemberDataTableViewCell: UITableViewCell {
                 aux2.append(member)
             }
         }
-        FCmNotifications.init(phone: phone.text!, kickOutCode: UserDefaults.standard.string(forKey: "CodigoGrupoAuxiliar")!).send(type: .unsuscribePLS, point: nil)
+        FCmNotifications.init(phone: phone.text!, kickOutCode: UserDefaults.standard.string(forKey: "CodigoGrupoAuxiliar")!).send(type: .unsuscribePLS, point: nil, name: nil)
         UserDefaults.standard.set(aux2, forKey: "MiembrosAuxiliares")
         self.removeFromSuperview()
         superview?.reloadInputViews()

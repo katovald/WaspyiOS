@@ -115,6 +115,7 @@ public class Reachability {
 
 public extension Reachability {
     func startNotifier() throws {
+        
         guard let reachabilityRef = reachabilityRef, !notifierRunning else { return }
         
         var context = SCNetworkReachabilityContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)

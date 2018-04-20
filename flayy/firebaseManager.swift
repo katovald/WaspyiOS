@@ -668,13 +668,25 @@ public class firebaseManager {
     public func getMemberPhotoFB(phone: String) {
         let userPictureLocation = almacen.reference(forURL: "gs://camasacontigo.appspot.com/Waspy/")
         let userPicture = userPictureLocation.child(phone + ".png")
-        userPicture.getData(maxSize: 1 * 1024 * 1024) { (data, error) -> Void in
-            if (error == nil) {
-                let photo = UIImage(data: data!)
-                let imageData: Data = UIImagePNGRepresentation(photo!)!
-                let docUrl = try! self.fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-                let imageUrl = docUrl.appendingPathComponent(phone + ".png")
-                try! imageData.write(to: imageUrl)
+        
+        let docUrl = try! fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        let photoURl = docUrl.appendingPathComponent(phone + ".png")
+        
+        let atrib = try? fileMan.attributesOfFileSystem(forPath: photoURl.path)
+        
+        print(atrib ?? "none")
+        
+        userPicture.getMetadata { (metadata, error) in
+            if error == nil || atrib == nil {
+                userPicture.getData(maxSize: 1 * 1024 * 1024) { (data, error) -> Void in
+                    if (error == nil) {
+                        let photo = UIImage(data: data!)
+                        let imageData: Data = UIImagePNGRepresentation(photo!)!
+                        let docUrl = try! self.fileMan.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                        let imageUrl = docUrl.appendingPathComponent(phone + ".png")
+                        try! imageData.write(to: imageUrl)
+                    }
+                }
             }
         }
     }
@@ -692,21 +704,20 @@ public class firebaseManager {
         
         self.reference.child("groups/" + id + "/members").observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? [String:[String:Any]] ?? [:]
-            let keys = value.keys
             
-            for key in keys
+            for key in value.keys
             {
                 if self.userD.string(forKey: "OwnerPhone") ?? "" == key
                 {
-                    let datos = value[key]
                     var banderas = [String:[String:Bool]]()
-                    banderas["geoFence_Notifications"] = datos?["geoFence_Notifications"] as? [String : Bool]
+                    banderas["geoFence_Notifications"] = value[key]?["geoFence_Notifications"] as? [String : Bool]
                     self.userD.set(banderas, forKey: "NotificationFlags")
                 }else{
                     self.getMemberPhotoFB(phone: key)
                 }
                 membersGroup.append([key:value[key]!])
             }
+            
             Messaging.messaging().subscribe(toTopic: code + "_alert")
             
             completion(membersGroup)

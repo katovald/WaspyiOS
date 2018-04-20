@@ -44,6 +44,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     
     var window: UIWindow?
     
+    private var reahcNet:Reachability!
+    
     //variables necesarias
     var player: AVPlayer!
     var playerLayer: AVPlayerLayer!
@@ -57,6 +59,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     //acciones de los componentes
     
     @IBAction func loginAttemp(_ sender: Any) {
+        if reahcNet.currentReachabilityStatus == .notReachable {
+            alert(message: "Es posible que los servicios se encuentren fuera de linea o no cuentes con datos")
+        }
+        
         if (phone.text?.count == 10) {
             self.ownerPhone = phoneAreaCode(phone: phone.text!, areacode: areaCode)
             firebaseManager.init().userExist(phone: self.ownerPhone, completion: { (exist) in
@@ -207,12 +213,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AuthUIDelegate
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        reahcNet = Reachability(hostname: "https://waspy.com.mx")
         super .viewWillAppear(animated)
         player.play()
         pausa = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        reahcNet.stopNotifier()
         super.viewWillAppear(animated)
         player.pause()
         pausa = true

@@ -95,7 +95,7 @@ class PlacesConfigViewController: UIViewController {
                     //
                     firebaseManager.init().updatePlace(code: userD.string(forKey: "ActualGroup")!, key: key!, data: data!)
                 }
-                FCmNotifications.init().send(type: .placesUpdated, point: nil)
+                FCmNotifications.init().send(type: .placesUpdated, point: nil, name: nil)
                 blockedView()
                 firebaseManager.init().getOwnerData(phone: self.userD.string(forKey: "OwnerPhone")!)
                 self.dismiss(animated: true, completion: {

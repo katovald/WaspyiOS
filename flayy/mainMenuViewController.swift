@@ -99,7 +99,7 @@ extension mainMenuViewController : UITableViewDelegate {
         case 3:
             menuActionDelegate?.trigger()
         case 4:
-            menuActionDelegate?.openSegue("datosUsuario", sender: nil)
+            menuActionDelegate?.openSegue("datosSegue", sender: nil)
         case 5:
             menuActionDelegate?.openSegue("FAQsegue", sender: nil)
         case 6:

@@ -31,6 +31,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     var draw:paintMarkers!
     var statusActive:CLAuthorizationStatus?
     var geoLocation:CLLocationCoordinate2D?
+    private var reachNet:Reachability!
     
     var timer = Timer()
     var timer1 = Timer()
@@ -46,6 +47,7 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         NotificationCenter.default.add(observer: self, selector: #selector(turnEdit), notification: .tryToPush)
         NotificationCenter.default.addObserver(self, selector: #selector(inactive), name: .UIApplicationWillResignActive, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(active), name: .UIApplicationDidBecomeActive, object: nil)
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -174,7 +176,6 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     }
     
     @objc func updateFences(){
-        stopGeofences()
         draw.updateFences()
         startGeofences()
     }
@@ -234,15 +235,6 @@ class MapController: UIViewController,  GMSMapViewDelegate {
         }
     }
     
-    func stopGeofences(){
-        if(locationManager.monitoredRegions.count > 0){
-            let regiones = locationManager.monitoredRegions
-            for region in regiones{
-                locationManager.stopMonitoring(for: region)
-            }
-        }
-    }
-    
     func getCenterCoordinate() -> CLLocationCoordinate2D {
         let centerPoint = self.mapa.center
         let centerCoordinate = self.mapa.projection.coordinate(for: centerPoint)
@@ -289,11 +281,11 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        FCmNotifications.init().send(type: .enterGeo, point: nil)
+        FCmNotifications.init().send(type: .enterGeo, point: nil, name: region.identifier)
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        FCmNotifications.init().send(type: .exitGeo, point: nil)
+        FCmNotifications.init().send(type: .exitGeo, point: nil, name: region.identifier)
     }
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
@@ -330,12 +322,14 @@ class MapController: UIViewController,  GMSMapViewDelegate {
     
     @objc func inactive(){
         locationManager.startMonitoringSignificantLocationChanges()
-        locationManager.distanceFilter = 30
+        locationManager.distanceFilter = 40
+        stopMonitoring()
     }
     
     @objc func active(){
         locationManager.stopMonitoringSignificantLocationChanges()
-        locationManager.distanceFilter = 5
+        locationManager.distanceFilter = 10
+        startMonitoring()
     }
     
     func startLoading(){
@@ -374,14 +368,12 @@ extension MapController : CLLocationManagerDelegate{
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    }
-    
     func handleLocationAuthorizationStatus(status: CLAuthorizationStatus) {
         self.statusActive = status
         switch status {
         case .notDetermined:
             locationManager.requestAlwaysAuthorization()
+            stopMonitoring()
         case .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
             statusDeniedAlert()
@@ -403,13 +395,13 @@ extension MapController {
     //[INICIO DE SERVICIO]
         func startMonitoring()
         {
-            timer1 = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
+            timer1 = Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(updateData), userInfo: nil, repeats: true)
         }
     
         @objc func updateData()
         {
             let groupCode = self.userD.string(forKey: "ActualGroup") ?? ""
-            if groupCode != ""{
+            if groupCode != "" {
                 firebaseManager.init().getGroupMembersInfo(code: groupCode, completion: {(members) in
                     self.userD.set(members, forKey: "MembersActiveGroup")
                     self.draw.updateMembers()
@@ -420,7 +412,6 @@ extension MapController {
     
         @objc func stopMonitoring()
         {
-            timer.invalidate()
             timer1.invalidate()
         }
 }

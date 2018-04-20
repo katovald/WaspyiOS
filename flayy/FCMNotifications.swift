@@ -62,9 +62,9 @@ class FCmNotifications {
         kickOutGroup = kickOutCode
     }
     
-    public func send(type: messageType, point: CLLocation?)
+    public func send(type: messageType, point: CLLocation?, name: String?)
     {
-        self.message(type: type, point: point) { (data) in
+        self.message(type: type, point: point, name: name) { (data) in
             do {
                 self.request.httpBody = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
                 }catch let error{
@@ -98,9 +98,9 @@ class FCmNotifications {
     
     public func messageReceiver(message: [AnyHashable: Any]){
         
-        guard let msgType = message["type"] as? String else {return}
+        guard let msgType = message["type"] as? String else { return }
         
-        if msgType == "check_in_request"{
+        if msgType == "check_in_request" {
             let msgBody = message["body"] as? String ?? ""
             let dict = convertToDictionary(text: msgBody)
             notify(msg: dict!["body"]! as! String, titulo: dict!["title"]! as! String)
@@ -111,7 +111,7 @@ class FCmNotifications {
             let title = message["title"] as! String
             let name = message["sender"] as! String
             
-            if name != userD.string(forKey: "OwnerName"){
+            if name != userD.string(forKey: "OwnerPhone"){
                 notify(msg: msg, titulo: title)
             }
         }
@@ -164,7 +164,7 @@ class FCmNotifications {
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
-    private func message(type: messageType, point: CLLocation?, completion: @escaping ([String:Any]) -> Void){
+    private func message(type: messageType, point: CLLocation?, name: String?, completion: @escaping ([String:Any]) -> Void){
         switch type {
         case .checkIn:
             LocationServices.init().getAdress(location: point!, completion: { (address, e) in
@@ -201,14 +201,10 @@ class FCmNotifications {
                         "content_available": true,
                         "priority": "high",
                         "time_to_live": 60,
-                        "notification":[
-                            "title" : "Waspy",
-                            "body" : "\(ownerName) ha llegado"
-                        ],
                         "data" : [
                             "type" : "geofence",
                             "title" : "Waspy",
-                            "body" : "\(ownerName) ha llegado",
+                            "body" : "\(ownerName) ha llegado a \(name ?? "una geocerca")",
                             "sender" : ownerPhone
                         ]
                     ] as [String : Any])
@@ -217,14 +213,10 @@ class FCmNotifications {
                          "content_available": true,
                          "priority": "high",
                          "time_to_live": 60,
-                         "notification":[
-                            "title" : "Waspy",
-                            "body" : "\(ownerName) ha llegado"
-                         ],
                          "data" : [
                             "type" : "geofence",
                             "title" : "Waspy",
-                            "body" : "\(ownerName) ha salido",
+                            "body" : "\(ownerName) ha salido de \(name ?? "una geocerca")",
                             "sender" : ownerPhone
                 ]
                 ] as [String : Any])

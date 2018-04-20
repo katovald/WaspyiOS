@@ -31,23 +31,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Messaging.messaging().delegate = self
         
-        let userPhone = userD.string(forKey: "OwnerPhone")
+        UNUserNotificationCenter.current().delegate = self
         
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: {_, _ in })
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in}
             // For iOS 10 data message (sent via FCM
         } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
+            application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil))
         }
         
         application.registerForRemoteNotifications()
+        
+        let userPhone = userD.string(forKey: "OwnerPhone")
         
         if (Auth.auth().currentUser == nil || userPhone == nil){
             let aux = UIStoryboard(name: "Main", bundle: nil)
@@ -60,22 +56,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = view
         }
         
-        
         return true
     }
-    
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Unable to register for remote notifications: \(error.localizedDescription)")
-    }
-    
-//    func application(received remoteMessage: MessagingRemoteMessage) {
-//        print(remoteMessage)
-//    }
     // This function is added here only for debugging purposes, and can be removed if swizzling is enabled.
     // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
     // the FCM registration token.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-//        print("APNs token retrieved: \(deviceToken)")
         Messaging.messaging().apnsToken = deviceToken
     }
     
@@ -88,10 +74,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         if let dynamicLink = DynamicLinks.dynamicLinks()?.dynamicLink(fromCustomSchemeURL: url) {
-            // Handle the deep link. For example, show the deep-linked content or
-            // apply a promotional offer to the user's account.
-            // ...
-            
             handleDynamicLink(dynamicLink)
             return true
         }
@@ -114,8 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         if !handled {
             // Show the deep link URL from userActivity.
-            let message = "continueUserActivity webPageURL:\n\(userActivity.webpageURL?.absoluteString ?? "")"
-            showDeepLinkAlertView(withMessage: message)
+            showDeepLinkAlertView(withMessage: "continueUserActivity webPageURL:\n\(userActivity.webpageURL?.absoluteString ?? "")")
         }
         
         return handled
@@ -145,24 +126,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         alertController.addAction(okAction)
         self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
     }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        // If you are receiving a notification message while your app is in the background,
-        // this callback will not be fired till the user taps on the notification launching the application.
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        Messaging.messaging().appDidReceiveMessage(userInfo)
-        // Print message ID.
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
-        
-        // Print full message.
-        
-        FCmNotifications.init().messageReceiver(message: userInfo)
-        
-        completionHandler(UIBackgroundFetchResult.newData)
-    }
+}
+
+@available(iOS 10, *)
+extension AppDelegate : UNUserNotificationCenterDelegate {
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         // If you are receiving a notification message while your app is in the background,
@@ -177,14 +144,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print full message.
         print(userInfo)
-        
-        FCmNotifications.init().messageReceiver(message: userInfo)
     }
     
-}
-
-@available(iOS 10, *)
-extension AppDelegate : UNUserNotificationCenterDelegate {
+    //appForeground
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        //Messaging.messaging().appDidReceiveMessage(userInfo)
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
 
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
