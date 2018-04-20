@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseMessaging
 
 class gruposSelectViewController: UIViewController {
     
@@ -174,6 +175,7 @@ extension gruposSelectViewController: UITableViewDelegate{
             self.userD.set(grupoElegido.first?.value, forKey: "ActualGroupTitle")
             self.userD.set(nil, forKey: "ActualGroupPlaces")
             firebaseManager.init().getGroupMembersInfo(code: self.userD.string(forKey: "ActualGroup")!, completion: {(members) in
+                Messaging.messaging().subscribe(toTopic: (grupoElegido.first?.key)! + "_alert")
                 self.userD.set(members, forKey: "MembersActiveGroup")
                 firebaseManager.init().setLastGroup(name: (grupoElegido.first?.value)!)
             })
